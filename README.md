@@ -1,6 +1,6 @@
 # Generalized Reinforcement Learning (GRL)
 
 ### Introduction
-Control policy learning that involves time-varying and evolving system dynamics often poses a great challenge to standard reinforcement learning (RL). This repository will focus on building a GRL framework that periodically fulfill three interleaving processes: policy learning, self-organization on the working memory (aka particle reinforcement), and decision concept learning to realize an adaptive, concept-driven RL system. 
+Learning a control policy that involves time-varying and evolving system dynamics often poses a great challenge to standard reinforcement learning (RL). This repository will focus on building a GRL framework, an adaptive, concept-driven RL system, and crearting instances of GRL agent under such framework. On the high level, a GRL agent continously and periodically fulfills three interleaving processes -- policy learning, reinforcing the reinforcement field via "particle reinforcement" (what? see the paper), and decision concept learning ... (to be continued)
 
 
