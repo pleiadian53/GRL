@@ -1,1 +1,1 @@
-The `demo` directory contains a collection of related modules, tutorial notebooks, helpful for supporting or implementing the GRL system. 
+The `demo` directory contains a collection of related modules, notebooks, helpful for supporting or implementing the GRL system. 
