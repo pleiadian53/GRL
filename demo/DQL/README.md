@@ -1,1 +1,1 @@
-My solution to the DQL assignment (week 3, course "Unsupervised Learning, Recommenders, Reinforcement Learning" in ML specialization @ Deeplearning.AI). 
+My solution to the DQN programming exercise (week 3, ["Unsupervised Learning, Recommenders, Reinforcement Learning"](https://www.coursera.org/learn/unsupervised-learning-recommenders-reinforcement-learning/home/week/3) of ML specialization from Deeplearning.AI). 
