@@ -13,19 +13,24 @@
 **Generalized Reinforcement Learning (GRL)** redefines the concept of "action" in reinforcement learning. Instead of treating actions as discrete indices or fixed-dimensional vectors, GRL models actions as **parametric operators** that transform the state space.
 
 ```mermaid
-graph LR
-    subgraph Traditional["🔵 Traditional RL"]
-        S1["State<br/>s"] --> P1["Policy<br/>π"]
-        P1 --> A1["Action<br/>a ∈ A"]
-        A1 --> S2["Next State<br/>s'"]
-    end
+flowchart LR
+    T1["🔵 <b>Traditional RL</b>"] -.-> S1
+    S1["State<br/><b>s</b>"] --> P1["Policy<br/><b>π</b>"]
+    P1 --> A1["Action<br/><b>a ∈ A</b>"]
+    A1 --> S2["Next State<br/><b>s'</b>"]
     
-    subgraph GRL["✨ GRL"]
-        S3["State<br/>s"] --> P2["Policy<br/>π"]
-        P2 --> O1["Parameters<br/>θ"]
-        O1 --> O2["Operator<br/>Ôθ"]
-        O2 --> S4["Transformation<br/>s' = Ôθ(s)"]
-    end
+    S2 -.-> G1
+    G1["<br/>"] -.-> S3
+    
+    T2["✨ <b>GRL</b>"] -.-> S3
+    S3["State<br/><b>s</b>"] --> P2["Policy<br/><b>π</b>"]
+    P2 --> O1["Parameters<br/><b>θ</b>"]
+    O1 --> O2["Operator<br/><b>Ô<sub>θ</sub></b>"]
+    O2 --> S4["Transformation<br/><b>s' = Ô<sub>θ</sub>(s)</b>"]
+    
+    style T1 fill:#ffffff,stroke:#ffffff,color:#1976d2
+    style T2 fill:#ffffff,stroke:#ffffff,color:#f57c00
+    style G1 fill:#ffffff,stroke:#ffffff,color:#ffffff
     
     style S1 fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
     style S2 fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
@@ -37,9 +42,6 @@ graph LR
     style O1 fill:#fff59d,stroke:#fbc02d,stroke-width:3px,color:#000
     style O2 fill:#ffcc80,stroke:#f57c00,stroke-width:3px,color:#000
     style P2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#000
-    
-    style Traditional fill:#f5f5f5,stroke:#666,stroke-width:2px
-    style GRL fill:#f5f5f5,stroke:#666,stroke-width:2px
 ```
 
 This formulation, inspired by the **least-action principle** in physics, leads to policies that are not only optimal but also physically grounded—preferring smooth, efficient transformations over abrupt changes.
@@ -183,15 +185,15 @@ Understanding and reimplementing the original GRL framework with:
 ## 📊 How GRL Works: Particle-Based Learning
 
 ```mermaid
-graph LR
-    A["🌍 State<br/>s"] --> B["💾 Query<br/>Memory Ω"]
-    B --> C["📊 Compute<br/>Field Q⁺"]
-    C --> D["🎯 Infer<br/>Action θ"]
-    D --> E["⚡ Execute<br/>Operator"]
-    E --> F["👁️ Observe<br/>s', r"]
-    F --> G["✨ Create<br/>Particle"]
-    G --> H["🔄 Memory<br/>Update"]
-    H --> B
+flowchart LR
+    A["🌍 <b>State</b><br/>s"] --> B["💾 <b>Query</b><br/>Memory Ω"]
+    B --> C["📊 <b>Compute</b><br/>Field Q⁺"]
+    C --> D["🎯 <b>Infer</b><br/>Action θ"]
+    D --> E["⚡ <b>Execute</b><br/>Operator"]
+    E --> F["👁️ <b>Observe</b><br/>s', r"]
+    F --> G["✨ <b>Create</b><br/>Particle"]
+    G --> H["🔄 <b>Update</b><br/>Memory"]
+    H -->|Loop| B
     
     style A fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
     style B fill:#fff9c4,stroke:#f57c00,stroke-width:3px,color:#000
