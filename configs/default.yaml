@@ -1,0 +1,40 @@
+# Default configuration for GRL training
+
+# Environment
+env:
+  name: field_navigation
+  arena_size: 10.0
+  goal_radius: 0.5
+  max_steps: 200
+
+# Policy
+policy:
+  operator_class: field  # field, affine, kernel
+  hidden_dims: [256, 256]
+  exploration_noise: 0.1
+  
+# Operator
+operator:
+  field_hidden_dims: [64, 64]
+  field_scale: 1.0
+
+# Training
+training:
+  num_episodes: 1000
+  batch_size: 256
+  gamma: 0.99
+  tau: 0.005
+  lr_policy: 0.0003
+  lr_value: 0.0003
+  least_action_weight: 0.01
+
+# Logging
+logging:
+  log_interval: 10
+  save_interval: 100
+  wandb:
+    enabled: false
+    project: grl
+    
+# Reproducibility
+seed: 42
