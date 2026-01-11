@@ -12,9 +12,31 @@
 
 **Generalized Reinforcement Learning (GRL)** redefines the concept of "action" in reinforcement learning. Instead of treating actions as discrete indices or fixed-dimensional vectors, GRL models actions as **parametric operators** that transform the state space.
 
-```
-Traditional RL:  State → Policy → Action Symbol → Next State
-GRL:             State → Policy → Operator Parameters → State Transformation
+```mermaid
+graph LR
+    subgraph Traditional RL
+        S1[State s] --> P1[Policy π]
+        P1 --> A1[Action a ∈ A]
+        A1 --> S2[Next State s']
+    end
+    
+    subgraph GRL
+        S3[State s] --> P2[Policy π]
+        P2 --> O1[Operator Parameters θ]
+        O1 --> O2[Operator Ô<sub>θ</sub>]
+        O2 --> S4[State Transformation]
+    end
+    
+    style S1 fill:#e1f5ff,stroke:#01579b
+    style S2 fill:#e1f5ff,stroke:#01579b
+    style A1 fill:#fff3e0,stroke:#e65100
+    style P1 fill:#f3e5f5,stroke:#4a148c
+    
+    style S3 fill:#e1f5ff,stroke:#01579b
+    style S4 fill:#e8f5e9,stroke:#1b5e20
+    style O1 fill:#fff9c4,stroke:#f57f17
+    style O2 fill:#ffe0b2,stroke:#e65100
+    style P2 fill:#f3e5f5,stroke:#4a148c
 ```
 
 This formulation, inspired by the **least-action principle** in physics, leads to policies that are not only optimal but also physically grounded—preferring smooth, efficient transformations over abrupt changes.
@@ -155,7 +177,32 @@ Understanding and reimplementing the original GRL framework with:
 
 ---
 
-## 📊 Example: Particle-Based Learning
+## 📊 How GRL Works: Particle-Based Learning
+
+```mermaid
+graph TD
+    A[Environment State s] --> B[Query Particle Memory Ω]
+    B --> C[Compute Reinforcement Field<br/>Q⁺<sub>z</sub> = Σ w<sub>i</sub> k<sub>z, z<sub>i</sub></sub>]
+    C --> D[Infer Action Parameters θ<br/>via Energy Minimization]
+    D --> E[Execute Operator Ô<sub>θ</sub>]
+    E --> F[Observe s', r]
+    F --> G[Create/Update Particle<br/>z = <sub>s, θ</sub> with weight w]
+    G --> H{MemoryUpdate}
+    H -->|Kernel Association| I[Merge or Add Particle]
+    I --> B
+    
+    style A fill:#e1f5ff,stroke:#01579b,stroke-width:2px
+    style B fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    style C fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    style D fill:#fff9c4,stroke:#f57f17,stroke-width:2px
+    style E fill:#ffe0b2,stroke:#e65100,stroke-width:2px
+    style F fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    style G fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    style H fill:#e0f2f1,stroke:#004d40,stroke-width:3px
+    style I fill:#fff3e0,stroke:#e65100,stroke-width:2px
+```
+
+### Code Example
 
 ```python
 from grl.core import ParticleMemory
