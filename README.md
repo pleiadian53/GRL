@@ -106,7 +106,9 @@ GRL/
 │       ├── paper/              # Paper-ready sections
 │       └── implementation/     # Implementation specs
 ├── notebooks/                  # Jupyter notebooks
+│   └── GRL-basics.ipynb       # Original notebook (preserved)
 ├── examples/                   # Runnable examples
+├── demo/                       # Demo folder (preserved from original repo)
 ├── scripts/                    # Utility scripts
 ├── tests/                      # Unit tests
 └── configs/                    # Configuration files
@@ -128,6 +130,7 @@ The comprehensive guide to understanding GRL:
 
 - **[Installation Guide](INSTALL.md)** — Detailed setup instructions
 - **[Theory](docs/theory/)** — Mathematical foundations
+- **[GRL2 Paper](GRL2-paper.pdf)** — Original paper (preserved)
 
 ---
 
