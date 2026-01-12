@@ -24,6 +24,21 @@ These extensions are **novel to mainstream machine learning** and represent pote
 
 ---
 
+### 1a. [Wavefunction Interpretation: What Does It Mean?](01a-wavefunction-interpretation.md) ⭐ **New**
+
+**Topics:**
+- State vector vs. wavefunction (coordinate representation)
+- Probability amplitudes vs. direct probabilities
+- One state, many representations
+- Mapping to GRL: $Q^+$ as state, $Q^+(z)$ as wavefunction
+- Implications for concept discovery
+
+**Key Insight:** The reinforcement field $Q^+ \in \mathcal{H}_k$ is a state vector whose projections yield wavefunction-like amplitude fields.
+
+**Clarifies:** What we mean when we say "the reinforcement field is a wavefunction."
+
+---
+
 ### 2. [Complex-Valued RKHS and Interference Effects](02-complex-rkhs.md)
 
 **Topics:**
@@ -61,6 +76,16 @@ GRL (quantum-inspired) uses **probability amplitudes**: $\langle \psi | \phi \ra
 
 ---
 
+## Reading Order
+
+**Recommended sequence:**
+
+1. Start with [01-rkhs-quantum-parallel.md](01-rkhs-quantum-parallel.md) for the high-level structural parallel
+2. Read [01a-wavefunction-interpretation.md](01a-wavefunction-interpretation.md) for precise conceptual grounding
+3. Explore [02-complex-rkhs.md](02-complex-rkhs.md) for complex-valued extensions
+
+---
+
 ## Implementation Notes
 
 **Current Status:** Theoretical foundations established
@@ -93,6 +118,10 @@ Before reading these documents, you should understand:
 **Complex-Valued Neural Networks:**
 - Trabelsi et al. (2018). Deep complex networks. *ICLR*.
 - Hirose (2012). Complex-valued neural networks: Advances and applications. *Wiley*.
+
+**Quantum Mechanics Foundations:**
+- Dirac, P. A. M. (1930). *The Principles of Quantum Mechanics*. Oxford.
+- Ballentine, L. E. (1998). *Quantum Mechanics: A Modern Development*. World Scientific.
 
 ---
 

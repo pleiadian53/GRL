@@ -404,7 +404,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Wave function analogy** — The reinforcement field as a superposition of particle basis states
 - This formulation is **novel to mainstream ML** and opens new directions for probabilistic reasoning
 
-See: [Quantum-Inspired Extensions](docs/GRL0/quantum-inspired/) for technical details (forthcoming).
+See: [Quantum-Inspired Extensions](docs/GRL0/quantum_inspired/) for technical details.
 
 ### Conceptual Connections
 - **Energy-based models** (EBMs) — Control as energy landscape navigation
