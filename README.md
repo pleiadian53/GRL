@@ -13,35 +13,35 @@
 **Generalized Reinforcement Learning (GRL)** redefines the concept of "action" in reinforcement learning. Instead of treating actions as discrete indices or fixed-dimensional vectors, GRL models actions as **parametric operators** that transform the state space.
 
 ```mermaid
-flowchart LR
-    T1["🔵 <b>Traditional RL</b>"] -.-> S1
-    S1["State<br/><b>s</b>"] --> P1["Policy<br/><b>π</b>"]
-    P1 --> A1["Action<br/><b>a ∈ A</b>"]
-    A1 --> S2["Next State<br/><b>s'</b>"]
+flowchart TB
+    subgraph TRL["🔵 Traditional RL"]
+        direction LR
+        S1["<b>State</b><br/>s"] --> P1["<b>Policy</b><br/>π"]
+        P1 --> A1["<b>Action Symbol</b><br/>a ∈ A"]
+        A1 --> NS1["<b>Next State</b><br/>s'"]
+    end
     
-    S2 -.-> G1
-    G1["<br/>"] -.-> S3
-    
-    T2["✨ <b>GRL</b>"] -.-> S3
-    S3["State<br/><b>s</b>"] --> P2["Policy<br/><b>π</b>"]
-    P2 --> O1["Parameters<br/><b>θ</b>"]
-    O1 --> O2["Operator<br/><b>Ô<sub>θ</sub></b>"]
-    O2 --> S4["Transformation<br/><b>s' = Ô<sub>θ</sub>(s)</b>"]
-    
-    style T1 fill:#ffffff,stroke:#ffffff,color:#1976d2
-    style T2 fill:#ffffff,stroke:#ffffff,color:#f57c00
-    style G1 fill:#ffffff,stroke:#ffffff,color:#ffffff
+    subgraph GRL["✨ Generalized RL"]
+        direction LR
+        S2["<b>State</b><br/>s"] --> P2["<b>Policy</b><br/>π"]
+        P2 --> AP["<b>Operator Params</b><br/>θ"]
+        AP --> OP["<b>Operator</b><br/>Ô<sub>θ</sub>"]
+        OP --> ST["<b>State Transform</b><br/>s' = Ô<sub>θ</sub>(s)"]
+    end
     
     style S1 fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
-    style S2 fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
+    style NS1 fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
     style A1 fill:#fff9c4,stroke:#f57c00,stroke-width:3px,color:#000
     style P1 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#000
     
-    style S3 fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
-    style S4 fill:#c8e6c9,stroke:#388e3c,stroke-width:3px,color:#000
-    style O1 fill:#fff59d,stroke:#fbc02d,stroke-width:3px,color:#000
-    style O2 fill:#ffcc80,stroke:#f57c00,stroke-width:3px,color:#000
+    style S2 fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
+    style ST fill:#c8e6c9,stroke:#388e3c,stroke-width:3px,color:#000
+    style AP fill:#fff59d,stroke:#fbc02d,stroke-width:3px,color:#000
+    style OP fill:#ffcc80,stroke:#f57c00,stroke-width:3px,color:#000
     style P2 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#000
+    
+    style TRL fill:#fafafa,stroke:#666,stroke-width:2px
+    style GRL fill:#fafafa,stroke:#666,stroke-width:2px
 ```
 
 This formulation, inspired by the **least-action principle** in physics, leads to policies that are not only optimal but also physically grounded—preferring smooth, efficient transformations over abrupt changes.
