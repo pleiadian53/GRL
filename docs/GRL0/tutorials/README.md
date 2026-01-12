@@ -28,6 +28,7 @@ These chapters form the core of the GRL tutorial paper. Each chapter builds on p
 | # | Title | Key Concepts | Status |
 |---|-------|--------------|--------|
 | 04 | [Reinforcement Field](04-reinforcement-field.md) | Functional field, RKHS gradient | ✅ Complete |
+| 04a | [Riesz Representer](04a-riesz-representer.md) (supplement) | Gradients in function space, examples | ✅ Complete |
 | 05 | [Particle Memory](05-particle-memory.md) | Particles as basis, memory as belief | ✅ Complete |
 
 ### Part III: Algorithms

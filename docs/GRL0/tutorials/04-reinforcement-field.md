@@ -92,6 +92,8 @@ More precisely:
 - Its gradient $\nabla Q^+$ is defined via the RKHS inner product
 - This gradient is the **Riesz representer** of a functional derivative
 
+**(See [Chapter 4a: Riesz Representer](04a-riesz-representer.md) for a detailed explanation of what this means and why it matters.)**
+
 ### The Strengthened Definition
 
 > **Definition (Reinforcement Field).**
