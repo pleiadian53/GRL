@@ -69,7 +69,9 @@ The parallel is exact:
 - Basis vectors: $k(z_i, \cdot) \leftrightarrow |i\rangle$
 - The system state is **the superposition itself**
 
-**Interpretation:** The reinforcement field *is* a wavefunction over augmented state-action space.
+**Interpretation:** The reinforcement field is a wavefunction over augmented state-action space. More specifically, the reinforcement field is a **state vector in RKHS**, whose projections onto kernel-induced bases yield **wavefunction-like amplitude fields** over augmented state-action space.
+
+(See [01a-wavefunction-interpretation.md](01a-wavefunction-interpretation.md) for detailed clarification of this distinction.)
 
 ---
 
