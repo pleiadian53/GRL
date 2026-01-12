@@ -21,6 +21,8 @@ flowchart TB
         A1 --> NS1["<b>Next State</b><br/>s'"]
     end
     
+    TRL --> GRL
+    
     subgraph GRL["✨ Generalized RL"]
         direction LR
         S2["<b>State</b><br/>s"] --> P2["<b>Policy</b><br/>π"]
@@ -42,6 +44,8 @@ flowchart TB
     
     style TRL fill:#fafafa,stroke:#666,stroke-width:2px
     style GRL fill:#fafafa,stroke:#666,stroke-width:2px
+    
+    linkStyle 4 stroke:#666,stroke-width:2px
 ```
 
 This formulation, inspired by the **least-action principle** in physics, leads to policies that are not only optimal but also physically grounded—preferring smooth, efficient transformations over abrupt changes.
