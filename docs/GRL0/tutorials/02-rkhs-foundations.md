@@ -168,9 +168,24 @@ This is **epistemic, not just geometric**. The kernel defines what counts as rel
 
 ## 5. Connection to Gaussian Processes
 
+### RKHS is the Foundation, Not GPs
+
+**Important Distinction:**
+
+- **RKHS** is the mathematical framework that makes GRL work
+- **Gaussian Processes** are ONE tool for building functions in RKHS
+- **GRL does not require GPs** — any method that constructs kernel superpositions works
+
+GRL is fundamentally about:
+1. Representing belief states as particles in augmented space
+2. Defining value functions as elements of an RKHS
+3. Policy inference from functional gradients
+
+GPs happen to be a natural fit because they also live in RKHS, but they are not essential to the framework.
+
 ### GPs and RKHS Share Structure
 
-Gaussian Processes are closely related to RKHS. For a GP with covariance function $k$:
+That said, Gaussian Processes are closely related to RKHS. For a GP with covariance function $k$:
 
 | GP Object | RKHS Object |
 |-----------|-------------|
@@ -188,7 +203,7 @@ $$
 
 This is exactly a finite linear combination of kernel sections — by definition, an element of the RKHS.
 
-**For GRL**: The value function $Q^+$ is constructed as a kernel superposition, which means it is guaranteed to be in the RKHS. All the nice mathematical properties apply.
+**For GRL**: The value function $Q^+$ can be constructed as a kernel superposition (whether via GP regression, kernel ridge regression, or direct weighted sum), which means it is guaranteed to be in the RKHS. All the nice mathematical properties apply.
 
 ### Sample Paths: A Subtlety
 
@@ -200,7 +215,7 @@ Individual random draws from a GP may or may not belong to the RKHS, depending o
 | Matérn ($\nu \geq 3/2$) | Yes |
 | Brownian motion | No |
 
-**For GRL**: We use posterior means, not random samples, so this subtlety doesn't affect us.
+**For GRL**: We use posterior means (or direct kernel superpositions), not random samples, so this subtlety doesn't affect us.
 
 ---
 
@@ -246,6 +261,28 @@ $$
 $$
 
 In both cases, probability is a derived quantity, not a primitive input.
+
+### A Novel Probability Formulation for ML
+
+**This amplitude-based formulation is not yet mainstream in machine learning:**
+
+| Traditional ML | GRL (Quantum-Inspired) |
+|----------------|------------------------|
+| Direct probabilities $p(x)$ | Amplitudes $\langle \psi \| \phi \rangle$ |
+| Single-valued distributions | Superposition of states |
+| Real-valued only | Complex-valued RKHS possible |
+| No interference | Constructive/destructive interference |
+
+**Potential Impact:**
+
+1. **Interference effects**: Complex-valued RKHS enables new dynamics
+2. **Phase semantics**: Complex phases encode temporal, contextual, or directional information
+3. **Richer uncertainty**: Multi-modal distributions via superposition
+4. **Novel algorithms**: Amplitude-based reasoning opens new learning mechanisms
+
+**GRL introduces this formulation to reinforcement learning**—potentially opening entirely new directions for probabilistic ML.
+
+See Part II (Emergent Structure & Spectral Abstraction) for spectral methods and concept discovery that leverage this framework.
 
 ---
 

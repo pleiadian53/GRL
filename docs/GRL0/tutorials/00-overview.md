@@ -199,6 +199,33 @@ By the end, you'll understand:
 
 ---
 
+## Beyond This Tutorial: Quantum-Inspired Extensions
+
+One of GRL's most distinctive theoretical contributions is its connection to **quantum mechanical formalism**—not in physics, but in the mathematical structure of probability.
+
+### Probability Amplitudes in ML
+
+Traditional ML uses probabilities directly: $p(x)$. GRL, through its RKHS formulation, naturally introduces:
+
+- **Probability amplitudes**: Inner products $\langle \psi | \phi \rangle$ that must be squared to get probabilities
+- **Superposition**: Particle ensembles as weighted sums of basis states
+- **Interference**: Complex-valued RKHS enabling constructive/destructive interference
+- **Phase semantics**: Complex phases encoding temporal, contextual, or directional information
+
+**This formulation is novel to mainstream ML** and opens new directions for probabilistic reasoning, uncertainty representation, and multi-modal learning.
+
+**See:** Section V of the [original paper](https://arxiv.org/abs/2208.04822) for concept-driven learning and spectral methods.
+
+---
+
+## References
+
+This tutorial series is based on:
+
+**Chiu, P.-H., & Huber, M. (2022).** *Generalized Reinforcement Learning: Experience Particles, Action Operator, Reinforcement Field, Memory Association, and Decision Concepts.* arXiv:2208.04822. [https://arxiv.org/abs/2208.04822](https://arxiv.org/abs/2208.04822)
+
+---
+
 ## Next Steps
 
 In **Chapter 1: Core Concepts**, we'll dive deeper into:
@@ -208,4 +235,4 @@ In **Chapter 1: Core Concepts**, we'll dive deeper into:
 
 ---
 
-**Last Updated**: January 11, 2026
+**Last Updated**: January 12, 2026

@@ -1,122 +1,148 @@
-# Generalized Reinforcement Learning: A Tutorial
+# Tutorial Papers: Reinforcement Fields
 
-**Format**: Tutorial Paper  
-**Status**: In progress  
-**Goal**: Comprehensive, accessible introduction to GRL-v0
+**Format**: Two-Part Tutorial Series  
+**Status**: Part I in progress (6/10 chapters complete)  
+**Goal**: Comprehensive, accessible introduction to particle-based functional reinforcement learning
 
----
-
-## Overview
-
-This documentation presents **Generalized Reinforcement Learning (GRL)** as a tutorial paper — a comprehensive, self-contained guide that allows readers to understand GRL at their own pace, focusing on the chapters most relevant to their interests.
-
-### Why a Tutorial Paper?
-
-GRL introduces concepts that are **ahead of their time** and require careful exposition. A tutorial format allows:
-
-- **Thorough explanation** without length constraints
-- **Modular chapters** for selective reading
-- **Educational narrative** that builds understanding
-- **Self-contained** coverage without chasing references
-- **Practical guidance** for implementation
+**Based on:** [Chiu & Huber (2022). *Generalized Reinforcement Learning: Experience Particles, Action Operator, Reinforcement Field, Memory Association, and Decision Concepts.* arXiv:2208.04822](https://arxiv.org/abs/2208.04822)
 
 ---
 
-## Tutorial Paper Structure
+## Part I: Particle-Based Learning
 
-### Part I: Foundations
+**Core Topics:**
+- Functional fields over augmented state-action space
+- Particle memory as belief state in RKHS
+- MemoryUpdate and RF-SARSA algorithms
+- Emergent soft state transitions and POMDP interpretation
 
-| Chapter | Title | Description |
-|---------|-------|-------------|
-| 1 | Introduction | What is GRL and why it matters |
-| 2 | Core Concepts | Augmented state space, parametric actions |
-| 3 | Mathematical Foundations | RKHS, kernels, functional spaces |
-| 4 | Energy Landscapes | From fitness to energy, sign conventions |
+### Tutorial Chapters
 
-### Part II: The Reinforcement Field
+| Section | Chapters | Status | Topics |
+|---------|----------|--------|--------|
+| **Foundations** | [0](tutorials/00-overview.md), [1](tutorials/01-core-concepts.md), [2](tutorials/02-rkhs-foundations.md), [3](tutorials/03-energy-and-fitness.md) | ✅ Complete | Augmented space, particles, RKHS, energy |
+| **Field & Memory** | [4](tutorials/04-reinforcement-field.md), [5](tutorials/05-particle-memory.md) | ✅ Complete | Functional fields, belief representation |
+| **Algorithms** | 6, 7 | 📋 Planned | MemoryUpdate, RF-SARSA |
+| **Interpretation** | 8, 9, 10 | 📋 Planned | Soft transitions, POMDP, synthesis |
 
-| Chapter | Title | Description |
-|---------|-------|-------------|
-| 5 | Reinforcement Field | Functional field in RKHS |
-| 6 | Particle Memory | Experience as weighted particles |
-| 7 | Energy Representation | Nonparametric value landscapes |
+**[Start Here: Chapter 0 →](tutorials/00-overview.md)**
 
-### Part III: Algorithms
+---
 
-| Chapter | Title | Description |
-|---------|-------|-------------|
-| 8 | MemoryUpdate | Belief-state transition operator |
-| 9 | RF-SARSA | Two-layer reinforcement system |
-| 10 | Policy Inference | Action selection from energy field |
+## Key Theoretical Innovations
 
-### Part IV: Theory and Interpretation
+### 1. Quantum-Inspired Probability Formulation
 
-| Chapter | Title | Description |
-|---------|-------|-------------|
-| 11 | Soft State Transitions | Emergent uncertainty |
-| 12 | POMDP Interpretation | Belief-based control |
-| 13 | Energy-Based Models | Connection to modern EBMs |
+**Novel to mainstream ML:** GRL introduces **probability amplitudes** rather than direct probabilities:
 
-### Part V: Implementation
+- **RKHS inner products as amplitudes**: $\langle \psi | \phi \rangle$ → probabilities via $|\langle \psi | \phi \rangle|^2$
+- **Complex-valued RKHS**: Enables interference effects and phase semantics
+- **Superposition of particle states**: Multi-modal distributions as weighted sums
+- **Emergent probabilities**: Policy derived from field values, not optimized directly
 
-| Chapter | Title | Description |
-|---------|-------|-------------|
-| 14 | Architecture | Three-layer system design |
-| 15 | Implementation Guide | From theory to code |
-| 16 | Experiments | Standard benchmarks and validation |
+This formulation—common in quantum mechanics but rare in ML—opens new directions for:
+- Interference-based learning dynamics
+- Phase-encoded contextual information
+- Richer uncertainty representations
+- Novel spectral methods (Part II)
 
-### Appendices
+### 2. Functional Representation of Experience
 
-| Appendix | Title | Description |
-|----------|-------|-------------|
-| A | Mathematical Details | Proofs and derivations |
-| B | Algorithm Specifications | Complete pseudocode |
-| C | Code Examples | Reference implementation |
+Experience is not discrete transitions but a **continuous field** in RKHS:
+
+- Particles are basis states in functional space
+- Value functions are kernel superpositions (not neural network outputs)
+- Policy inference from energy landscape navigation (not gradient-based optimization)
+
+---
+
+## Part II: Emergent Structure & Spectral Abstraction
+
+**Status:** 📋 Planned (begins after Part I)
+
+**Core Topics:**
+- Functional clustering (clustering functions, not points)
+- Spectral methods on kernel matrices
+- Concepts as coherent subspaces of the reinforcement field
+- Hierarchical policy organization
+
+### Planned Topics
+
+| Section | Chapters | Topics |
+|---------|----------|--------|
+| **Functional Clustering** | 11 | Clustering in RKHS function space |
+| **Spectral Discovery** | 12 | Spectral methods, eigenspaces |
+| **Hierarchical Concepts** | 13 | Multi-level abstractions |
+| **Structured Control** | 14 | Concept-driven policies |
+
+**Based on:** Section V of the [original paper](https://arxiv.org/abs/2208.04822) (Chiu & Huber, 2022)
+
+---
+
+## Additional Resources
+
+### [Implementation](implementation/)
+
+Technical specifications and roadmap for the codebase:
+- System architecture
+- Module specifications
+- Implementation priorities
+- Validation plan
+
+### [Paper Revisions](paper/)
+
+Suggested edits and improvements for the original GRL-v0 paper.
 
 ---
 
 ## Reading Paths
 
-### Quick Overview (Chapters 1-2, 5, 10)
+### Quick Start (2 hours)
+Start here if you want a high-level overview:
+- [Ch. 0: Overview](tutorials/00-overview.md)
+- [Ch. 1: Core Concepts](tutorials/01-core-concepts.md)
 
-For a high-level understanding of what GRL is and how it works.
+### Part I Complete (8 hours)
+For full understanding of particle-based learning:
+- Chapters 0-10 (sequential reading)
 
-### Theoretical Focus (Parts I-II, IV)
+### Part II Complete (4 hours, when available)
+For hierarchical structure and abstraction:
+- Chapters 11-14 (sequential reading)
 
-For understanding the mathematical foundations and theoretical interpretation.
+### Implementation Focus
+If you want to build GRL systems:
+- [Implementation roadmap](implementation/)
+- Chapters 5-7 (algorithms)
+- Chapters 11-12 (concept discovery)
 
-### Implementation Focus (Parts III, V)
-
-For implementing GRL in practice.
-
-### Complete Understanding (All Parts)
-
-Read sequentially for comprehensive understanding.
+### Theory Deep-Dive
+If you want mathematical depth:
+- Chapters 2-3 (RKHS foundations)
+- Chapters 4-5 (field theory)
+- Chapters 11-12 (spectral methods)
 
 ---
 
-## Current Status
+## Why Two Parts?
 
-| Part | Status |
-|------|--------|
-| Part I: Foundations | ⏳ In progress |
-| Part II: Reinforcement Field | ⏳ Planned |
-| Part III: Algorithms | ⏳ Planned |
-| Part IV: Theory | ⏳ Planned |
-| Part V: Implementation | ⏳ Planned |
+The original GRL paper introduced **two major innovations**:
+
+1. **Reinforcement Fields (Part I)**: Replacing discrete experience replay with a continuous particle-based belief state in RKHS
+2. **Concept-Driven Learning (Part II)**: Discovering abstract structure through spectral clustering in function space
+
+Each innovation is substantial enough for its own comprehensive treatment, yet they build on shared foundations (RKHS, particles, functional reasoning).
 
 ---
 
 ## What Makes GRL Different
 
-| Traditional RL | GRL |
-|----------------|-----|
-| Actions are symbols or vectors | Actions are **parametric operators** |
-| Discrete or continuous action space | **Functional manifold** of operators |
-| Policy maps states to actions | Policy maps states to **operator parameters** |
-| Value function over states | **Reinforcement field** over augmented space |
-| Replay buffer stores transitions | **Particle memory** represents belief |
-| Policy optimization | **Policy inference** from energy landscape |
+| Traditional RL | Reinforcement Fields (Part I) | + Spectral Abstraction (Part II) |
+|----------------|-------------------------------|----------------------------------|
+| Experience replay buffer | Particle-based belief state | + Functional clustering |
+| Discrete transitions | Continuous energy landscape | + Spectral concept discovery |
+| Policy optimization | Policy inference from field | + Hierarchical abstractions |
+| Fixed representation | Kernel-induced functional space | + Emergent structure |
 
 ---
 
@@ -124,12 +150,14 @@ Read sequentially for comprehensive understanding.
 
 | Term | Meaning |
 |------|---------|
-| **Augmented Space** | Joint state-action parameter space $(s, \theta)$ |
+| **Augmented Space** | Joint state-action parameter space $z = (s, \theta)$ |
 | **Particle** | Experience point $(z_i, w_i)$ with location and weight |
-| **Reinforcement Field** | Value function over augmented space |
-| **Energy** | Negative value: $E(z) = -Q^+(z)$ |
+| **Reinforcement Field** | Functional gradient field induced by scalar energy in RKHS |
+| **Energy Functional** | Scalar field $E: \mathcal{Z} \to \mathbb{R}$ over augmented space |
 | **MemoryUpdate** | Belief-state transition operator |
-| **RF-SARSA** | Two-layer TD learning system |
+| **RF-SARSA** | Two-layer TD learning (primitive + GP field) |
+| **Functional Clustering** | Clustering in RKHS based on behavior similarity |
+| **Spectral Concepts** | Coherent subspaces discovered via eigendecomposition |
 
 ---
 
@@ -138,15 +166,18 @@ Read sequentially for comprehensive understanding.
 ```
 docs/GRL0/
 ├── README.md                 # This file
-├── tutorials/                # Tutorial chapters
+├── tutorials/                # Tutorial chapters (Parts I & II)
 │   ├── README.md
-│   └── [chapters]
-├── paper/                    # Paper-ready sections
+│   ├── 00-overview.md
+│   ├── 01-core-concepts.md
+│   ├── ...
+│   └── [future chapters 11-14]
+├── paper/                    # Paper-ready sections and revisions
 │   ├── README.md
-│   └── [sections]
-└── implementation/           # Implementation guides
+│   └── [section drafts]
+└── implementation/           # Implementation specifications
     ├── README.md
-    └── [specs]
+    └── [technical specs]
 ```
 
 ---
@@ -155,12 +186,35 @@ docs/GRL0/
 
 When adding content:
 
-1. Follow the tutorial paper narrative style
-2. Make chapters self-contained where possible
-3. Use consistent notation throughout
-4. Include examples and intuition
-5. Connect theory to implementation
+1. **Follow the tutorial narrative style** — Build intuition, then formalism
+2. **Make chapters self-contained** — Readers may skip around
+3. **Use consistent notation** — See Ch. 0 for conventions
+4. **Connect to implementation** — Theory serves practice
+5. **Distinguish Part I vs II** — Part I = particle dynamics, Part II = emergent structure
 
 ---
 
-**Last Updated**: January 11, 2026
+---
+
+## Original Publication
+
+This tutorial series provides enhanced exposition of the work originally published as:
+
+**Chiu, P.-H., & Huber, M. (2022).** *Generalized Reinforcement Learning: Experience Particles, Action Operator, Reinforcement Field, Memory Association, and Decision Concepts.* arXiv preprint arXiv:2208.04822.
+
+**[Read on arXiv →](https://arxiv.org/abs/2208.04822)** (37 pages, 15 figures)
+
+```bibtex
+@article{chiu2022generalized,
+  title={Generalized Reinforcement Learning: Experience Particles, Action Operator, 
+         Reinforcement Field, Memory Association, and Decision Concepts},
+  author={Chiu, Po-Hsiang and Huber, Manfred},
+  journal={arXiv preprint arXiv:2208.04822},
+  year={2022}
+}
+```
+
+---
+
+**Last Updated**: January 12, 2026  
+**Next**: Chapter 6 (MemoryUpdate Algorithm)
