@@ -56,7 +56,7 @@ This formulation, inspired by the **least-action principle** in physics, leads t
 
 ### Part I: Reinforcement Fields — Particle-Based Learning
 
-**Status:** 🔄 In progress (8/10 chapters complete)
+**Status:** 🔄 In progress (9/10 chapters complete)
 
 Particle-based belief representation, energy landscapes, and functional learning over augmented state-action space.
 
@@ -65,7 +65,7 @@ Particle-based belief representation, energy landscapes, and functional learning
 | Section | Chapters | Topics |
 |---------|----------|--------|
 | **Foundations** | [0](docs/GRL0/tutorials/00-overview.md), [1](docs/GRL0/tutorials/01-core-concepts.md), [2](docs/GRL0/tutorials/02-rkhs-foundations.md), [3](docs/GRL0/tutorials/03-energy-and-fitness.md) | Augmented space, particles, RKHS, energy |
-| **Field & Memory** | [4](docs/GRL0/tutorials/04-reinforcement-field.md), [4a](docs/GRL0/tutorials/04a-riesz-representer.md), [5](docs/GRL0/tutorials/05-particle-memory.md), [6](docs/GRL0/tutorials/06-memory-update.md) | Functional fields, Riesz theorem, belief states, MemoryUpdate |
+| **Field & Memory** | [4](docs/GRL0/tutorials/04-reinforcement-field.md), [4a](docs/GRL0/tutorials/04a-riesz-representer.md), [5](docs/GRL0/tutorials/05-particle-memory.md), [6](docs/GRL0/tutorials/06-memory-update.md), [6a](docs/GRL0/tutorials/06a-advanced-memory-dynamics.md) | Functional fields, Riesz theorem, belief states, MemoryUpdate, advanced memory |
 | **Algorithms** | 7 | RF-SARSA (next) |
 | **Interpretation** | 8-10 | Soft transitions, POMDP, synthesis |
 

@@ -36,6 +36,7 @@ These chapters form the core of the GRL tutorial paper. Each chapter builds on p
 | # | Title | Key Concepts | Status |
 |---|-------|--------------|--------|
 | 06 | [MemoryUpdate](06-memory-update.md) | Belief transition, Algorithm 1, particle evolution | ✅ Complete |
+| 06a | [Advanced Memory Dynamics](06a-advanced-memory-dynamics.md) (supplement) | Top-k neighbors, surprise-gating, practical improvements | ✅ Complete |
 | 07 | RF-SARSA | Two-layer TD, Algorithm 2 | ⏳ Planned |
 
 ### Part IV: Interpretation
@@ -85,7 +86,9 @@ Read Chapters 00, 01, and 04 for the essential concepts.
     ↓
 05-Particle Memory
     ↓
-06-MemoryUpdate  ← We are here
+06-MemoryUpdate
+    ↓
+06a-Advanced Memory Dynamics (supplement) ← We are here
     ↓
 07-RF-SARSA (planned)
     ↓

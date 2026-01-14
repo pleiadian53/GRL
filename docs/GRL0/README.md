@@ -23,7 +23,7 @@
 | Section | Chapters | Status | Topics |
 |---------|----------|--------|--------|
 | **Foundations** | [0](tutorials/00-overview.md), [1](tutorials/01-core-concepts.md), [2](tutorials/02-rkhs-foundations.md), [3](tutorials/03-energy-and-fitness.md) | ✅ Complete | Augmented space, particles, RKHS, energy |
-| **Field & Memory** | [4](tutorials/04-reinforcement-field.md), [4a](tutorials/04a-riesz-representer.md), [5](tutorials/05-particle-memory.md), [6](tutorials/06-memory-update.md) | ✅ Complete | Functional fields, Riesz theorem, belief representation, MemoryUpdate |
+| **Field & Memory** | [4](tutorials/04-reinforcement-field.md), [4a](tutorials/04a-riesz-representer.md), [5](tutorials/05-particle-memory.md), [6](tutorials/06-memory-update.md), [6a](tutorials/06a-advanced-memory-dynamics.md) | ✅ Complete | Functional fields, Riesz theorem, belief representation, MemoryUpdate, advanced memory |
 | **Algorithms** | 7 | ⏳ Next | RF-SARSA |
 | **Interpretation** | 8, 9, 10 | 📋 Planned | Soft transitions, POMDP, synthesis |
 

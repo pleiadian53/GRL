@@ -887,9 +887,26 @@ This is how GRL learns without explicit value function approximation or policy g
 
 ### Next Chapters
 
+- **[Chapter 6a](06a-advanced-memory-dynamics.md)**: Advanced Memory Dynamics (supplement) — Practical improvements beyond hard thresholds
 - **Chapter 7**: RF-SARSA (next) — Temporal-difference learning in RKHS
 - **Chapter 8**: Soft State Transitions — Emergent uncertainty from kernel geometry
 - **Chapter 9**: POMDP Interpretation — Belief-based view of GRL
+
+### Advanced Topics
+
+For principled alternatives to hard threshold $\tau$:
+
+**[Chapter 06a: Advanced Memory Dynamics →](06a-advanced-memory-dynamics.md)**
+
+Practical improvements:
+- **Top-k Adaptive Neighbors** — Density-aware, no global threshold
+- **Surprise-Gated Consolidation** — Data-driven, bounded memory growth
+- **Hybrid Approach** — Combines both methods
+- Code examples and decision guides
+
+For full theoretical treatment:
+- **[Chapter 07: Learning Beyond GP](../quantum_inspired/07-learning-the-field-beyond-gp.md)** — Alternative learning mechanisms
+- **[Chapter 08: Memory Dynamics](../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md)** — Formation, consolidation, retrieval operators
 
 ### Original Paper
 
