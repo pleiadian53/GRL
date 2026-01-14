@@ -85,7 +85,7 @@ Read Chapters 00, 01, and 04 for the essential concepts.
     ↓
 05-Particle Memory
     ↓
-06-MemoryUpdate  ← You are here
+06-MemoryUpdate  ← We are here
     ↓
 07-RF-SARSA (planned)
     ↓

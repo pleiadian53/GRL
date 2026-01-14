@@ -21,21 +21,163 @@ In standard (non-relativistic) quantum mechanics, the wavefunction $\psi(x,t)$ i
 
 **A complete mathematical representation of the physical state of a system, expressed in a particular basis (the position basis).**
 
-More formally:
+### Simple Analogy First: 3D Vectors and Coordinates
 
-- The **state** of a quantum system is a vector $|\psi\rangle$ in a complex Hilbert space $\mathcal{H}$
-- The **wavefunction** $\psi(x)$ is *not the state itself*, but the **coordinate representation** of that vector in the position basis $\{|x\rangle\}$:
+Before the formal definition, let's build intuition with a familiar example.
+
+Consider a vector in 3D space, like a velocity: $\mathbf{v}$.
+
+**The vector itself** is a geometric object—an arrow with direction and magnitude. This exists independent of any coordinate system.
+
+But to work with it numerically, we express it in coordinates:
+
+**In Cartesian coordinates** $(x, y, z)$:
+
+$$\mathbf{v} = \begin{bmatrix} 3 \\ 4 \\ 0 \end{bmatrix}$$
+
+This means: "3 units in the $x$ direction, 4 in $y$, 0 in $z$."
+
+**In polar coordinates** $(r, \theta, z)$:
+
+$$\mathbf{v} = \begin{bmatrix} 5 \\ 53.1° \\ 0 \end{bmatrix}$$
+
+**Key insight:** The **vector $\mathbf{v}$ is the same geometric object** in both cases. Only its **coordinate representation** changed.
+
+---
+
+### The Quantum Version: State Vector vs. Wavefunction
+
+The same idea applies in quantum mechanics:
+
+**Formal definition:**
+
+- The **state** of a quantum system is a vector $|\psi\rangle$ in a complex Hilbert space $\mathcal{H}$ (like the geometric vector $\mathbf{v}$)
+- The **wavefunction** $\psi(x)$ is the **coordinate representation** of that vector in the position basis $\{|x\rangle\}$
+
+The relationship is given by an inner product (projection):
 
 $$\psi(x) = \langle x | \psi \rangle$$
 
-**This distinction matters enormously.**
+**What this means in plain English:**
 
-### Key Distinction
+> The wavefunction $\psi(x)$ tells you "how much" of the state $|\psi\rangle$ "points in the direction" of position $x$.
 
-> **State** = abstract vector $|\psi\rangle \in \mathcal{H}$  
-> **Wavefunction** = representation of that vector in a chosen basis
+It's exactly like asking: "What is the $x$-component of velocity $\mathbf{v}$?" Answer: 3.
 
-This maps cleanly onto RKHS language, as we'll see.
+---
+
+### Concrete Example: Two-Level System (Qubit)
+
+Let's work through this with actual numbers.
+
+**Setup:** A qubit has a 2-dimensional Hilbert space with basis:
+
+$$|0\rangle = \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \quad |1\rangle = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$$
+
+**State vector:**
+
+$$|\psi\rangle = \frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix}$$
+
+This is the **abstract state**—the quantum system itself.
+
+---
+
+**Question:** What are the "wavefunction values" in the $\{|0\rangle, |1\rangle\}$ basis?
+
+**Answer:** Compute the inner products!
+
+$$\psi_0 = \langle 0 | \psi \rangle = \begin{bmatrix} 1 & 0 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{2}}$$
+
+$$\psi_1 = \langle 1 | \psi \rangle = \begin{bmatrix} 0 & 1 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{2}}$$
+
+**Result:** The wavefunction in this basis is $\left[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right]$.
+
+**Interpretation:**
+- "How much of $|\psi\rangle$ is in state $|0\rangle$?" → $\frac{1}{\sqrt{2}}$
+- "How much of $|\psi\rangle$ is in state $|1\rangle$?" → $\frac{1}{\sqrt{2}}$
+
+---
+
+**Now in a different basis:**
+
+Define the Hadamard basis:
+
+$$|+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix}$$
+
+$$|-\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle) = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ -1 \end{bmatrix}$$
+
+**Question:** What is the wavefunction in this new basis?
+
+**Compute:**
+
+$$\psi_+ = \langle + | \psi \rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{2}(1 + 1) = 1$$
+
+$$\psi_- = \langle - | \psi \rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & -1 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{2}(1 - 1) = 0$$
+
+**Result:** In the Hadamard basis, the wavefunction is $[1, 0]$.
+
+---
+
+**The key insight:**
+
+The **state** $|\psi\rangle$ is the same in both cases—it's the same quantum system!
+
+But its **wavefunction** (coordinate representation) is different:
+
+| Basis | Wavefunction |
+|-------|--------------|
+| $\{|0\rangle, |1\rangle\}$ | $\left[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right]$ |
+| $\{|+\rangle, |-\rangle\}$ | $[1, 0]$ |
+
+**Analogy:** Same vector $\mathbf{v} = [3, 4, 0]$, but in polar coordinates it's $[5, 53.1°, 0]$. Same object, different numbers.
+
+---
+
+### Infinite-Dimensional Case: Position Basis
+
+In standard quantum mechanics, position can be any real number, so the Hilbert space is **infinite-dimensional**.
+
+**State:** $|\psi\rangle$ (abstract vector)
+
+**Position basis:** $\{|x\rangle : x \in \mathbb{R}\}$ (one basis vector for each position)
+
+**Wavefunction:** For each position $x$, compute:
+
+$$\psi(x) = \langle x | \psi \rangle$$
+
+This gives a **function** $\psi: \mathbb{R} \to \mathbb{C}$ that tells you the "component" at each position.
+
+**Example: Gaussian wavepacket**
+
+$$\psi(x) = \frac{1}{(\pi \sigma^2)^{1/4}} \exp\left(-\frac{x^2}{2\sigma^2}\right)$$
+
+**Interpretation:**
+- At $x = 0$: Component is maximum (state is "mostly here")
+- At $x = \pm 3\sigma$: Component is nearly zero (state has very little "here")
+- $|\psi(x)|^2$ gives probability density of finding particle at $x$
+
+---
+
+### Key Distinction (Now Clear!)
+
+> **State** $|\psi\rangle$ = The quantum system itself (basis-independent)  
+> **Wavefunction** $\psi(x)$ = Coordinate representation in position basis
+
+### Summary Table
+
+| Concept | What It Is | Analogy |
+|---------|------------|---------|
+| **State vector** $\|\psi\rangle$ | The quantum system (abstract) | The geometric vector $\mathbf{v}$ |
+| **Wavefunction** $\psi(x)$ | Coordinate representation | Cartesian coordinates $[3, 4, 0]$ |
+| **Inner product** $\langle x \| \psi \rangle$ | "Component" in direction $\|x\rangle$ | "How much of $\mathbf{v}$ is in $x$-direction?" |
+| **Different basis** | Different coordinate system | Cartesian vs. polar |
+| **Same state, different wavefunction** | Same $\|\psi\rangle$, different basis | Same $\mathbf{v}$, different coordinates |
+
+**Why this matters for GRL:**
+
+In GRL, the reinforcement field $Q^+(z)$ is like a wavefunction—it's the **coordinate representation** of a state vector in RKHS, expressed in the kernel-induced basis $\{k(z_i, \cdot)\}$.
+
+This maps cleanly onto RKHS language, as we'll see in Section 5.
 
 ---
 
@@ -75,35 +217,42 @@ This alone justifies:
 
 ---
 
-## 3. Why "One" Wavefunction?
+## 3. Why "One State, Many Wavefunctions"?
 
-In quantum mechanics, we usually speak of **a single wavefunction** because:
+From the examples above, you've seen that **one state** $|\psi\rangle$ can have **different coordinate representations** depending on the basis.
 
-- The system has **one state vector** $|\psi\rangle$
-- Different wavefunctions correspond to **different representations of the same vector**
+This is why physicists sometimes say "the wavefunction" (singular) and sometimes "wavefunctions" (plural):
 
-### Examples of Different Representations
+### Singular: "The Wavefunction"
 
-**Position wavefunction:**
-$$\psi(x) = \langle x | \psi \rangle$$
+When we say "**the** wavefunction," we usually mean:
 
-**Momentum wavefunction:**
-$$\tilde{\psi}(p) = \langle p | \psi \rangle$$
+> The position-basis representation $\psi(x) = \langle x | \psi \rangle$
+
+This is the most common choice because position is directly measurable.
+
+### Plural: "Different Wavefunctions"
+
+When we say "**different** wavefunctions," we mean different basis representations of the same state:
+
+**Position basis:**
+$$\psi(x) = \langle x | \psi \rangle \quad \text{(position wavefunction)}$$
+
+**Momentum basis:**
+$$\tilde{\psi}(p) = \langle p | \psi \rangle \quad \text{(momentum wavefunction)}$$
 
 **Energy basis:**
-$$c_n = \langle E_n | \psi \rangle$$
+$$c_n = \langle E_n | \psi \rangle \quad \text{(energy amplitudes)}$$
 
-These are not multiple states—they are **multiple coordinate charts on the same object**.
+These are **not different physical states**—they are **different coordinate charts on the same object**, like Cartesian vs. polar coordinates for the same vector.
 
-### When "Multiple Wavefunctions" Makes Sense
+### Connection to GRL
 
-"Plural wavefunctions" only makes sense when referring to:
-- Different bases (position vs. momentum)
-- Different decompositions (energy eigenstates)
-- Different marginalizations (subsystems)
-- Different observables
+In GRL, when we talk about "wavefunction-like amplitude fields," we mean:
 
-**Not** different physical states.
+The reinforcement field $Q^+(z)$ is **one representation** of the state in RKHS, specifically the representation in the kernel-induced basis $\{k(z_i, \cdot)\}$.
+
+We could also express the same state in different bases (e.g., Fourier basis, wavelet basis), just like quantum states have position and momentum representations.
 
 ---
 
