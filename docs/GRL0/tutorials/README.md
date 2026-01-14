@@ -39,6 +39,7 @@ These chapters form the core of the GRL tutorial paper. Each chapter builds on p
 | 06 | [MemoryUpdate](06-memory-update.md) | Belief transition, Algorithm 1, particle evolution | ✅ Complete |
 | 06a | [Advanced Memory Dynamics](06a-advanced-memory-dynamics.md) (supplement) | Top-k neighbors, surprise-gating, practical improvements | ✅ Complete |
 | 07 | [RF-SARSA](07-rf-sarsa.md) | Functional TD learning, two-layer architecture, Algorithm 2 | ✅ Complete |
+| 07a | [Continuous Policy Inference](07a-continuous-policy-inference.md) (supplement) | Beyond discrete actions, Langevin sampling, actor-critic in RKHS | ✅ Complete |
 
 ### Part IV: Interpretation
 
@@ -93,7 +94,9 @@ Read Chapters 00, 01, and 04 for the essential concepts.
     ↓
 06a-Advanced Memory Dynamics (supplement)
     ↓
-07-RF-SARSA ← We are here
+07-RF-SARSA
+    ↓
+07a-Continuous Policy Inference (supplement) ← We are here
     ↓
 08-Soft State Transitions (planned)
     ↓
