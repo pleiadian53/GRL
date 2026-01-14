@@ -18,9 +18,9 @@ This creates two problems:
 2. **Scalability**: For high-dimensional action parameters $\theta \in \mathbb{R}^{d_a}$, enumerating all actions is intractable
 
 **Example**: In the 2D navigation domain (original GRL paper):
-- Primitive actions: move in 8 compass directions
+- Primitive actions: move in 12 directions (like a clock: 0°, 30°, 60°, ..., 330°)
 - Manual mapping: each direction → angle $\theta \in [0, 2\pi)$
-- **Limitation**: What if optimal action is at angle $\pi/7$ (not in the discrete set)?
+- **Limitation**: What if optimal action is at angle $\pi/7 \approx 25.7°$ (not in the discrete set)?
 
 **This chapter explores solutions** that eliminate discrete actions entirely, enabling **fully continuous** policy inference in parametric action spaces.
 
