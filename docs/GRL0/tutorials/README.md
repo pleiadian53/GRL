@@ -35,7 +35,7 @@ These chapters form the core of the GRL tutorial paper. Each chapter builds on p
 
 | # | Title | Key Concepts | Status |
 |---|-------|--------------|--------|
-| 06 | MemoryUpdate | Belief transition, Algorithm 1 | ⏳ Planned |
+| 06 | [MemoryUpdate](06-memory-update.md) | Belief transition, Algorithm 1, particle evolution | ✅ Complete |
 | 07 | RF-SARSA | Two-layer TD, Algorithm 2 | ⏳ Planned |
 
 ### Part IV: Interpretation
@@ -79,11 +79,15 @@ Read Chapters 00, 01, and 04 for the essential concepts.
     ↓
 03-Energy and Fitness
     ↓
-04-Reinforcement Field  ← You are here
+04-Reinforcement Field
     ↓
-05-Particle Memory (planned)
+04a-Riesz Representer (supplement)
     ↓
-06-MemoryUpdate (planned)
+05-Particle Memory
+    ↓
+06-MemoryUpdate  ← You are here
+    ↓
+07-RF-SARSA (planned)
     ↓
 ...
 ```
