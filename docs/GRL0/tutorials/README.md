@@ -22,6 +22,7 @@ These chapters form the core of the GRL tutorial paper. Each chapter builds on p
 | 01 | [Core Concepts](01-core-concepts.md) | Augmented space, parametric actions | ✅ Complete |
 | 02 | [RKHS Foundations](02-rkhs-foundations.md) | Kernels, inner products, function spaces | ✅ Complete |
 | 03 | [Energy and Fitness](03-energy-and-fitness.md) | Sign conventions, EBM connection | ✅ Complete |
+| 03a | [Least Action Principle](03a-least-action-principle.md) (supplement) | Path integrals, Boltzmann policy, action discovery | ✅ Complete |
 
 ### Part II: Reinforcement Field
 
@@ -80,6 +81,8 @@ Read Chapters 00, 01, and 04 for the essential concepts.
     ↓
 03-Energy and Fitness
     ↓
+03a-Least Action Principle (supplement) ← New!
+    ↓
 04-Reinforcement Field
     ↓
 04a-Riesz Representer (supplement)
@@ -88,9 +91,9 @@ Read Chapters 00, 01, and 04 for the essential concepts.
     ↓
 06-MemoryUpdate
     ↓
-06a-Advanced Memory Dynamics (supplement) ← We are here
+06a-Advanced Memory Dynamics (supplement)
     ↓
-07-RF-SARSA (planned)
+07-RF-SARSA (next) ← We are here
     ↓
 ...
 ```

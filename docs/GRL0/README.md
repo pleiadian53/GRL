@@ -22,7 +22,7 @@
 
 | Section | Chapters | Status | Topics |
 |---------|----------|--------|--------|
-| **Foundations** | [0](tutorials/00-overview.md), [1](tutorials/01-core-concepts.md), [2](tutorials/02-rkhs-foundations.md), [3](tutorials/03-energy-and-fitness.md) | ✅ Complete | Augmented space, particles, RKHS, energy |
+| **Foundations** | [0](tutorials/00-overview.md), [1](tutorials/01-core-concepts.md), [2](tutorials/02-rkhs-foundations.md), [3](tutorials/03-energy-and-fitness.md), [3a](tutorials/03a-least-action-principle.md) | ✅ Complete | Augmented space, particles, RKHS, energy, least action principle |
 | **Field & Memory** | [4](tutorials/04-reinforcement-field.md), [4a](tutorials/04a-riesz-representer.md), [5](tutorials/05-particle-memory.md), [6](tutorials/06-memory-update.md), [6a](tutorials/06a-advanced-memory-dynamics.md) | ✅ Complete | Functional fields, Riesz theorem, belief representation, MemoryUpdate, advanced memory |
 | **Algorithms** | 7 | ⏳ Next | RF-SARSA |
 | **Interpretation** | 8, 9, 10 | 📋 Planned | Soft transitions, POMDP, synthesis |
@@ -93,7 +93,7 @@ Experience is not discrete transitions but a **continuous field** in RKHS:
 | Theme | Chapters | Topics |
 |-------|----------|--------|
 | **Foundations** | [01](quantum_inspired/01-rkhs-quantum-parallel.md), [01a](quantum_inspired/01a-wavefunction-interpretation.md), [02](quantum_inspired/02-rkhs-basis-and-amplitudes.md) | RKHS-QM structural parallel, state vs. wavefunction, amplitude interpretation |
-| **Complex RKHS** | [03](quantum_inspired/03-complex-rkhs.md) | Complex-valued kernels, interference effects, phase semantics |
+| **Complex RKHS** | [03](quantum_inspired/03-complex-rkhs.md), [09](quantum_inspired/09-path-integrals-and-action-principles.md) | Complex-valued kernels, interference effects, Feynman path integrals |
 | **Projections** | [04](quantum_inspired/04-action-and-state-fields.md), [05](quantum_inspired/05-concept-projections-and-measurements.md), [06](quantum_inspired/06-agent-state-and-belief-evolution.md) | Action/state fields, concept subspaces (foundation for Part II), belief dynamics |
 | **Learning & Memory** | [07](quantum_inspired/07-learning-the-field-beyond-gp.md), [08](quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md) | Alternative learning mechanisms, principled memory consolidation |
 

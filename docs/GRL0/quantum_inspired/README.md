@@ -139,7 +139,24 @@ These extensions are **novel to mainstream machine learning** and represent pote
 
 ---
 
-### 9. [Complex-Valued RKHS and Interference Effects](03-complex-rkhs.md)
+### 9. [Path Integrals and Action Principles](09-path-integrals-and-action-principles.md) ⭐ **New**
+
+**Topics:**
+- Feynman's path integral formulation
+- Stochastic control as imaginary time QM
+- GRL's action functional and Boltzmann policy
+- Complex-valued GRL: enabling true interference
+- Path integral sampling algorithms (PI², Langevin)
+- Connection to quantum measurement (Chapter 05)
+- Feynman diagrams and instanton calculus
+
+**Key Insight:** GRL's Boltzmann policy emerges from the principle of least action via path integrals—not an analogy, a mathematical equivalence. Complex extensions enable quantum interference effects.
+
+**Enables:** Physics-grounded policy optimization, complex-valued fields, tunneling-like exploration, principled action discovery.
+
+---
+
+### 10. [Complex-Valued RKHS and Interference Effects](03-complex-rkhs.md)
 
 **Topics:**
 - Complex-valued kernels and feature maps
@@ -194,8 +211,9 @@ GRL (quantum-inspired) uses **probability amplitudes**: $\langle \psi | \phi \ra
 7. **New:** Read [07-learning-the-field-beyond-gp.md](07-learning-the-field-beyond-gp.md) for learning mechanisms beyond GP—scalability, amplitude-based learning, mixture of experts
 8. **New:** Read [08-memory-dynamics-formation-consolidation-retrieval.md](08-memory-dynamics-formation-consolidation-retrieval.md) for principled memory dynamics—what to retain/forget, preventing agent drift
 
-**Advanced (Chapter 9):**
-9. Explore [03-complex-rkhs.md](03-complex-rkhs.md) for complex-valued extensions (interference, phase semantics)
+**Advanced (Chapters 9-10):**
+9. **New:** Read [09-path-integrals-and-action-principles.md](09-path-integrals-and-action-principles.md) for Feynman path integrals, imaginary time QM, complex-valued GRL, and connection to Tutorial Chapter 03a
+10. Explore [03-complex-rkhs.md](03-complex-rkhs.md) for complex-valued extensions (interference, phase semantics)
 
 ---
 

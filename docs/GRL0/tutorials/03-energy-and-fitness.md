@@ -348,6 +348,26 @@ Whether called fitness or energy, this field-based perspective is the foundation
 
 ---
 
+## Further Reading: Why Energy? The Physics Connection
+
+**The energy formulation is not arbitrary!**
+
+The energy function $E(z) = -Q^+(z)$ connects to one of the most fundamental principles in physics: the **principle of least action**. This principle states that systems evolve along trajectories that minimize an "action" functional, which naturally leads to energy-based formulations and Boltzmann distributions.
+
+**📖 See Supplement: [Chapter 03a - The Principle of Least Action](03a-least-action-principle.md)**
+
+This supplement explores:
+- Classical mechanics and the action principle
+- Path integral control theory
+- Why GRL's Boltzmann policy emerges from action minimization
+- How agents can **discover** smooth, optimal actions (not just select from fixed sets)
+- Connection to neural network policy optimization
+
+**For the quantum mechanical perspective:**
+- **[Quantum-Inspired Chapter 09 - Path Integrals and Action Principles](../quantum_inspired/09-path-integrals-and-action-principles.md)**
+
+---
+
 ## Next Steps
 
 In **Chapter 4: The Reinforcement Field**, we'll explore:
@@ -358,8 +378,8 @@ In **Chapter 4: The Reinforcement Field**, we'll explore:
 
 ---
 
-**Related**: [Chapter 2: RKHS Foundations](02-rkhs-foundations.md), [Chapter 4: Reinforcement Field](04-reinforcement-field.md)
+**Related**: [Chapter 2: RKHS Foundations](02-rkhs-foundations.md), [Chapter 4: Reinforcement Field](04-reinforcement-field.md), [Supplement 03a: Least Action Principle](03a-least-action-principle.md)
 
 ---
 
-**Last Updated**: January 11, 2026
+**Last Updated**: January 14, 2026
