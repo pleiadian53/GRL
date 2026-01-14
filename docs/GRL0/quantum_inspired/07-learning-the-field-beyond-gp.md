@@ -454,7 +454,7 @@ $$\pi(a|s) \propto |Q^+(s, a)|^2$$
 - **Interference** between action options
 - **Coherence** measures correlation strength
 
-**This is your complex RKHS extension (Chapter 3)!**
+**This approach is explored in detail in [Chapter 3: Complex-Valued RKHS](03-complex-rkhs.md).**
 
 ---
 

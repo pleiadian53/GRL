@@ -111,11 +111,11 @@ These extensions are **novel to mainstream machine learning** and represent pote
 
 **Key Insight:** The state-as-field formalism is agnostic to the learning mechanism—you can swap the inference engine while preserving GRL's structure.
 
-**Addresses Your Questions:**
-1. ✅ Yes, QM math/probability amplitude CAN be used for ML/optimization
-2. ✅ Multiple alternatives to GPR exist (online SGD, sparse, MoE, deep nets)
+**Key Findings:**
+1. ✅ QM math and probability amplitudes can be applied to ML/optimization
+2. ✅ Multiple alternatives to GPR exist: online SGD, sparse methods, mixture of experts, deep neural networks
 
-**Enables:** Scalable GRL, hybrid approaches, novel probability formulations.
+**Enables:** Scalable GRL implementations, hybrid approaches, novel probability formulations.
 
 ---
 
@@ -131,9 +131,9 @@ These extensions are **novel to mainstream machine learning** and represent pote
 
 **Key Insight:** Memory dynamics are operators with learnable criteria—formation, consolidation, retrieval form a complete system.
 
-**Addresses Your Questions:**
-1. ✅ More principled memory update: soft association, top-k adaptive, MDL consolidation, surprise-gating
-2. ✅ What to retain/forget: based on surprise, novelty, memory type, and compression objectives
+**Key Results:**
+1. ✅ Principled memory update mechanisms: soft association, top-k adaptive neighbors, MDL consolidation, surprise-gating
+2. ✅ Data-driven retention criteria: based on surprise, novelty, memory type, and compression objectives
 
 **Enables:** Lifelong learning, bounded memory, adaptive forgetting, preventing agent drift.
 

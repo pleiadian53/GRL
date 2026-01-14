@@ -438,9 +438,7 @@ $$Q^+_{t+1} = \sum_{j=1}^{N_{t+1}} w_j^{(t+1)} k(z_j^{(t+1)}, \cdot)$$
 
 Section IV-A describes "experience association"—new experience affects nearby particles through kernel overlap.
 
-**Your question:** "I am hoping to formalize better."
-
-**Here's the formalization:**
+**Formalizing experience association:**
 
 ---
 

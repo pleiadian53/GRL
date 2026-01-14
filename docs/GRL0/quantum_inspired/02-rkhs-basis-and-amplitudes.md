@@ -303,9 +303,9 @@ This keeps the framework mathematically clean **and** modern.
 
 ## 6. Could We Define Probabilities? (Optional Extension)
 
-**Your question:** "I think kernel functions have a similar property, but to construct valid probability, the square of kernel needs to be normalized."
+**Natural question:** Since kernels have inner product structure like QM, can we define probabilities from them?
 
-**Answer:** Yes! You **could** define probabilities in RKHS. There are multiple options:
+**Answer:** Yes! Probabilities **could** be defined in RKHS. There are multiple options:
 
 ### Option 1: Born Rule on Kernel Amplitudes
 

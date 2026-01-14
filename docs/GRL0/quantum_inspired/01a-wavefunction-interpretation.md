@@ -341,9 +341,9 @@ The wavefunction $\psi(x)$ tells you how much of $|\psi\rangle$ "points in the d
 
 ### Clarification: $|\psi\rangle$ vs. $|x\rangle$ - Which Is the Basis?
 
-**Your question:** "Are both $|\psi\rangle$ and $|x\rangle$ basis vectors?"
+**Common confusion:** "Are both $|\psi\rangle$ and $|x\rangle$ basis vectors?"
 
-**Answer:** **NO!** This is the key confusion. Let me be very clear:
+**Answer:** **NO!** This is a critical distinction:
 
 | Symbol | What It Is | Role |
 |--------|------------|------|
@@ -424,13 +424,13 @@ where $\psi(x) = \langle x | \psi \rangle$ are the coordinates (wavefunction).
 
 ---
 
-### Answering Your Original Question
+### Classical vs. Quantum Interpretation
 
-**You asked:** "So an arbitrary position x should be able to be expressed in terms of a chosen basis vector?"
+**Common expectation:** "An arbitrary position x should be expressible in terms of chosen basis vectors."
 
-**Classical answer (YES):** Position $\mathbf{r}$ is expressed as $\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z$.
+**Classical mechanics (YES):** Position $\mathbf{r}$ is expressed as $\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z$.
 
-**Quantum answer (DIFFERENT!):** We're not expressing positions—we're expressing **states**!
+**Quantum mechanics (DIFFERENT!):** We're not expressing positions—we're expressing **states**!
 
 The state $|\psi\rangle$ is expressed in the position basis as:
 $$|\psi\rangle = \int \psi(x) |x\rangle dx$$

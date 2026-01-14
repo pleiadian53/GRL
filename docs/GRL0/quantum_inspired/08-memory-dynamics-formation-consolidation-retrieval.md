@@ -445,7 +445,7 @@ $$\mathcal{N}(z) = \{i : k(z_i, z) > \epsilon\}$$
 | **Concept** | Coarse | $P_{\mathcal{C}_m} Q^+$ |
 | **Global** | Abstract | $Q^+$ itself (full field) |
 
-**This addresses the survey's point:** "Memory systems differ by retrieval protocols."
+**Key insight:** Different retrieval protocols serve different purposes — fine-grained control uses particles, abstract reasoning uses concepts.
 
 ---
 
@@ -699,33 +699,29 @@ $$\text{store-distinct if} \quad |Q^+(z_t) - y_t| > \tau_{\text{surprise}}$$
 
 ---
 
-### Answers to Your Questions
+### Principled Memory Management
 
-**1. Can we discover more principled memory update?**
+**Key Principles for Memory Update:**
 
-**Yes!** Replace hard threshold $\tau$ with:
-- Soft association (temperature-controlled)
-- Top-k adaptive neighbors
-- MDL-based consolidation (optimization)
-- Surprise-gating (psychologically plausible)
+Replace hard threshold $\tau$ with adaptive criteria:
+- **Soft association**: Temperature-controlled ($\gamma$)
+- **Top-k adaptive neighbors**: Density-aware
+- **MDL-based consolidation**: Optimization-driven
+- **Surprise-gating**: Psychologically plausible
 
----
+**Retention Strategy:**
 
-**2. What should be retained vs. forgotten?**
+**What to Retain:**
+- High surprise (large TD-error) — valuable for learning
+- High novelty (far from existing particles) — new information
+- Factual constraints (tagged) — critical knowledge
 
-**Criteria:**
+**What to Forget (merge/prune):**
+- Low surprise (predictable) — redundant information
+- Redundant (close to neighbors) — can be compressed
+- Working memory (after episode) — task-specific, temporary
 
-**Retain:**
-- High surprise (large TD-error)
-- High novelty (far from existing particles)
-- Factual constraints (tagged)
-
-**Forget (merge/prune):**
-- Low surprise (predictable)
-- Redundant (close to neighbors)
-- Working memory (after episode)
-
-**Mechanism:** MDL or surprise-gated consolidation
+**Implementation:** MDL consolidation or surprise-gated formation provide principled, data-driven criteria rather than fixed hyperparameters.
 
 ---
 
