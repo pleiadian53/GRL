@@ -24,8 +24,8 @@
 |---------|----------|--------|--------|
 | **Foundations** | [0](tutorials/00-overview.md), [1](tutorials/01-core-concepts.md), [2](tutorials/02-rkhs-foundations.md), [3](tutorials/03-energy-and-fitness.md), [3a](tutorials/03a-least-action-principle.md) | ✅ Complete | Augmented space, particles, RKHS, energy, least action principle |
 | **Field & Memory** | [4](tutorials/04-reinforcement-field.md), [4a](tutorials/04a-riesz-representer.md), [5](tutorials/05-particle-memory.md), [6](tutorials/06-memory-update.md), [6a](tutorials/06a-advanced-memory-dynamics.md) | ✅ Complete | Functional fields, Riesz theorem, belief representation, MemoryUpdate, advanced memory |
-| **Algorithms** | 7 | ⏳ Next | RF-SARSA |
-| **Interpretation** | 8, 9, 10 | 📋 Planned | Soft transitions, POMDP, synthesis |
+| **Algorithms** | [7](tutorials/07-rf-sarsa.md) | ✅ Complete | RF-SARSA, functional TD, two-layer learning |
+| **Interpretation** | 8, 9, 10 | ⏳ Next | Soft transitions, POMDP, synthesis |
 
 **[Start Here: Chapter 0 →](tutorials/00-overview.md)**
 
