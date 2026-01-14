@@ -1,10 +1,12 @@
 # Tutorial Papers: Reinforcement Fields
 
-**Format**: Two-Part Tutorial Series  
-**Status**: Part I in progress (6/10 chapters complete)  
+**Format**: Two-Part Tutorial Series + Quantum-Inspired Extensions  
+**Status**: Part I in progress (8/10 chapters), Extensions (9 chapters complete)  
 **Goal**: Comprehensive, accessible introduction to particle-based functional reinforcement learning
 
 **Based on:** [Chiu & Huber (2022). *Generalized Reinforcement Learning: Experience Particles, Action Operator, Reinforcement Field, Memory Association, and Decision Concepts.* arXiv:2208.04822](https://arxiv.org/abs/2208.04822)
+
+**See also:** [Research Roadmap](../ROADMAP.md) | [Quantum-Inspired Extensions](quantum_inspired/)
 
 ---
 
@@ -21,8 +23,8 @@
 | Section | Chapters | Status | Topics |
 |---------|----------|--------|--------|
 | **Foundations** | [0](tutorials/00-overview.md), [1](tutorials/01-core-concepts.md), [2](tutorials/02-rkhs-foundations.md), [3](tutorials/03-energy-and-fitness.md) | ✅ Complete | Augmented space, particles, RKHS, energy |
-| **Field & Memory** | [4](tutorials/04-reinforcement-field.md), [5](tutorials/05-particle-memory.md) | ✅ Complete | Functional fields, belief representation |
-| **Algorithms** | 6, 7 | 📋 Planned | MemoryUpdate, RF-SARSA |
+| **Field & Memory** | [4](tutorials/04-reinforcement-field.md), [4a](tutorials/04a-riesz-representer.md), [5](tutorials/05-particle-memory.md), [6](tutorials/06-memory-update.md) | ✅ Complete | Functional fields, Riesz theorem, belief representation, MemoryUpdate |
+| **Algorithms** | 7 | ⏳ Next | RF-SARSA |
 | **Interpretation** | 8, 9, 10 | 📋 Planned | Soft transitions, POMDP, synthesis |
 
 **[Start Here: Chapter 0 →](tutorials/00-overview.md)**
@@ -79,6 +81,41 @@ Experience is not discrete transitions but a **continuous field** in RKHS:
 
 ---
 
+## Quantum-Inspired Extensions
+
+**Status:** 🔬 Advanced topics (9 chapters complete)  
+**Goal:** Explore mathematical connections to quantum mechanics and novel probability formulations
+
+**[Explore Extensions →](quantum_inspired/)**
+
+### Completed Chapters
+
+| Theme | Chapters | Topics |
+|-------|----------|--------|
+| **Foundations** | [01](quantum_inspired/01-rkhs-quantum-parallel.md), [01a](quantum_inspired/01a-wavefunction-interpretation.md), [02](quantum_inspired/02-rkhs-basis-and-amplitudes.md) | RKHS-QM structural parallel, state vs. wavefunction, amplitude interpretation |
+| **Complex RKHS** | [03](quantum_inspired/03-complex-rkhs.md) | Complex-valued kernels, interference effects, phase semantics |
+| **Projections** | [04](quantum_inspired/04-action-and-state-fields.md), [05](quantum_inspired/05-concept-projections-and-measurements.md), [06](quantum_inspired/06-agent-state-and-belief-evolution.md) | Action/state fields, concept subspaces (foundation for Part II), belief dynamics |
+| **Learning & Memory** | [07](quantum_inspired/07-learning-the-field-beyond-gp.md), [08](quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md) | Alternative learning mechanisms, principled memory consolidation |
+
+### Key Novel Contributions
+
+**1. Amplitude-Based Reinforcement Learning**
+- Complex-valued value functions with Born rule policies
+- Phase semantics for temporal/contextual information
+- Novel to mainstream ML, potential standalone paper
+
+**2. Information-Theoretic Memory Consolidation**
+- MDL framework replacing hard threshold $\tau$
+- Surprise-gated formation and consolidation
+- Principled criteria for what to retain/forget
+
+**3. Concept-Based Mixture of Experts**
+- Hierarchical RL via concept subspace projections
+- Gating by concept activation
+- Multi-scale representation and transfer learning
+
+---
+
 ## Additional Resources
 
 ### [Implementation](implementation/)
@@ -110,17 +147,23 @@ For full understanding of particle-based learning:
 For hierarchical structure and abstraction:
 - Chapters 11-14 (sequential reading)
 
+### Quantum-Inspired Extensions (6 hours)
+For advanced mathematical connections:
+- [Quantum-inspired series](quantum_inspired/) (Chapters 01-08)
+- Requires: Part I Chapters 2, 4, 5
+
 ### Implementation Focus
 If you want to build GRL systems:
 - [Implementation roadmap](implementation/)
 - Chapters 5-7 (algorithms)
-- Chapters 11-12 (concept discovery)
+- Quantum-inspired Chapters 07-08 (learning & memory)
 
 ### Theory Deep-Dive
 If you want mathematical depth:
 - Chapters 2-3 (RKHS foundations)
 - Chapters 4-5 (field theory)
-- Chapters 11-12 (spectral methods)
+- Quantum-inspired Chapters 01-03 (QM connections)
+- Chapters 11-12 (spectral methods, when available)
 
 ---
 
@@ -216,5 +259,6 @@ This tutorial series provides enhanced exposition of the work originally publish
 
 ---
 
-**Last Updated**: January 12, 2026  
-**Next**: Chapter 6 (MemoryUpdate Algorithm)
+**Last Updated**: January 14, 2026  
+**Next**: Chapter 7 (RF-SARSA Algorithm)  
+**See also**: [Research Roadmap](../ROADMAP.md) for comprehensive plan and timeline

@@ -141,4 +141,22 @@ $$\pi(\theta | s) \propto \exp(\beta \, Q^+(s, \theta))$$
 
 ---
 
-**Last Updated**: January 11, 2026
+---
+
+## Beyond Part I
+
+### Quantum-Inspired Extensions
+
+**[Advanced Topics →](../quantum_inspired/)** (9 chapters complete)
+
+Mathematical connections to quantum mechanics, amplitude-based learning, and novel memory dynamics.
+
+### Research Roadmap
+
+**[Full Roadmap →](../../ROADMAP.md)**
+
+Comprehensive plan for GRL v0, extensions, and future papers (A, B, C).
+
+---
+
+**Last Updated**: January 14, 2026

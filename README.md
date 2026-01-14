@@ -56,17 +56,17 @@ This formulation, inspired by the **least-action principle** in physics, leads t
 
 ### Part I: Reinforcement Fields — Particle-Based Learning
 
-**Status:** 🔄 In progress (6/10 chapters complete)
+**Status:** 🔄 In progress (8/10 chapters complete)
 
 Particle-based belief representation, energy landscapes, and functional learning over augmented state-action space.
 
-**[Start Learning →](docs/GRL0/tutorials/00-overview.md)**
+**[Start Learning →](docs/GRL0/tutorials/00-overview.md)** | **[Research Roadmap →](docs/ROADMAP.md)**
 
 | Section | Chapters | Topics |
 |---------|----------|--------|
 | **Foundations** | [0](docs/GRL0/tutorials/00-overview.md), [1](docs/GRL0/tutorials/01-core-concepts.md), [2](docs/GRL0/tutorials/02-rkhs-foundations.md), [3](docs/GRL0/tutorials/03-energy-and-fitness.md) | Augmented space, particles, RKHS, energy |
-| **Field & Memory** | [4](docs/GRL0/tutorials/04-reinforcement-field.md), [5](docs/GRL0/tutorials/05-particle-memory.md) | Functional fields, belief states |
-| **Algorithms** | 6-7 | MemoryUpdate, RF-SARSA |
+| **Field & Memory** | [4](docs/GRL0/tutorials/04-reinforcement-field.md), [4a](docs/GRL0/tutorials/04a-riesz-representer.md), [5](docs/GRL0/tutorials/05-particle-memory.md), [6](docs/GRL0/tutorials/06-memory-update.md) | Functional fields, Riesz theorem, belief states, MemoryUpdate |
+| **Algorithms** | 7 | RF-SARSA (next) |
 | **Interpretation** | 8-10 | Soft transitions, POMDP, synthesis |
 
 ---
@@ -89,6 +89,28 @@ Spectral discovery of hierarchical concepts through functional clustering in RKH
 
 ---
 
+### Quantum-Inspired Extensions
+
+**Status:** 🔬 Advanced topics (9 chapters complete)
+
+Mathematical connections to quantum mechanics and novel probability formulations for ML.
+
+**[Explore Advanced Topics →](docs/GRL0/quantum_inspired/)**
+
+| Theme | Chapters | Topics |
+|-------|----------|--------|
+| **Foundations** | [01](docs/GRL0/quantum_inspired/01-rkhs-quantum-parallel.md), [01a](docs/GRL0/quantum_inspired/01a-wavefunction-interpretation.md), [02](docs/GRL0/quantum_inspired/02-rkhs-basis-and-amplitudes.md) | RKHS-QM parallel, state vs. wavefunction, amplitude interpretation |
+| **Complex RKHS** | [03](docs/GRL0/quantum_inspired/03-complex-rkhs.md) | Complex-valued kernels, interference, phase semantics |
+| **Projections** | [04](docs/GRL0/quantum_inspired/04-action-and-state-fields.md), [05](docs/GRL0/quantum_inspired/05-concept-projections-and-measurements.md), [06](docs/GRL0/quantum_inspired/06-agent-state-and-belief-evolution.md) | Action/state fields, concept subspaces, belief dynamics |
+| **Learning & Memory** | [07](docs/GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md), [08](docs/GRL0/quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md) | Beyond GP, memory dynamics, principled consolidation |
+
+**Novel Contributions:**
+- **Amplitude-based RL:** Complex-valued value functions with phase semantics
+- **MDL consolidation:** Information-theoretic memory management
+- **Concept-based MoE:** Hierarchical RL via subspace projections
+
+---
+
 ## 🔑 Key Innovations
 
 | Aspect | Classical RL | GRL |
@@ -100,13 +122,27 @@ Spectral discovery of hierarchical concepts through functional clustering in RKH
 | **Policy** | Learned function | Inferred from energy landscape |
 | **Uncertainty** | External (dropout, ensembles) | Emergent from particle sparsity |
 
+### GRL as a Unifying Framework
+
+**Key Insight**: Traditional RL algorithms (Q-learning, DQN, PPO, SAC, **RLHF for LLMs**) are **special cases** of GRL!
+
+When you:
+- **Discretize actions** → GRL recovers Q-learning
+- **Use neural networks** → GRL recovers DQN
+- **Apply Boltzmann policies** → GRL recovers REINFORCE/Actor-Critic
+- **Fine-tune LLMs** → GRL generalizes RLHF
+
+**[See: Recovering Classical RL from GRL →](docs/GRL0/recovering_classical_rl.md)**
+
 ### Why GRL?
 
-- **Continuous action generation**: No discretization, full precision
-- **Smooth generalization**: Nearby parameters → similar behavior  
-- **Compositional actions**: Operators can be composed
-- **Physical interpretability**: Parameters have meaning (forces, torques)
-- **Uncertainty quantification**: Sparse particles = high uncertainty
+- **Generalization**: Subsumes existing methods as special cases
+- **Continuous actions**: No discretization, full precision
+- **Smooth interpolation**: Nearby parameters → similar behavior  
+- **Compositional**: Operators can be composed (operator algebra)
+- **Uncertainty**: Sparse particles = high uncertainty (no ensembles needed)
+- **Interpretability**: Energy landscapes, particle inspection
+- **Modern applications**: Applies to RLHF, prompt optimization, neural architecture search
 
 ---
 
@@ -221,16 +257,21 @@ The foundational work introducing particle-based belief states, reinforcement fi
 
 ### Planned Extensions
 
-| Paper | Title | Status |
-|-------|-------|--------|
-| **Paper A** | **Generalized Reinforcement Learning — Actions as Operators** | 📋 Drafting |
-| | *Operator algebra, generalized Bellman equation, energy regularization* | |
-| **Paper B** | **Operator Policies — Learning State-Space Operators with Neural Operator Networks** *(tentative)* | 📋 Planned |
-| | *Neural operators, scalable training, operator-actor-critic* | |
-| **Paper C** | **Applications of GRL to Physics, Robotics, and Differentiable Control** *(tentative)* | 📋 Planned |
-| | *Physics-based control, compositional behaviors, transfer learning* | |
+| Paper | Title | Status | Progress |
+|-------|-------|--------|----------|
+| **Paper A** | **Generalized Reinforcement Learning — Actions as Operators** | 🟢 Draft Complete | **~70%** |
+| | *Operator algebra, generalized Bellman equation, energy regularization* | | Complete draft, 3/7 figures, proofs outlined |
+| **Paper B** | **Operator Policies — Learning State-Space Operators with Neural Operator Networks** *(tentative)* | ⏳ Planned | **~0%** |
+| | *Neural operators, scalable training, operator-actor-critic* | | After Paper A |
+| **Paper C** | **Applications of GRL to Physics, Robotics, and Differentiable Control** *(tentative)* | ⏳ Planned | **~0%** |
+| | *Physics-based control, compositional behaviors, transfer learning* | | After Paper B |
 
-**Timeline**: Papers A-C will be developed after the Reinforcement Field baseline is complete.
+**Timeline:**
+- **Paper A:** Target submission April 2026 (NeurIPS/ICML)
+- **Paper B:** Target submission June 2026 (ICML/NeurIPS)
+- **Paper C:** Target submission July 2026 (CoRL)
+
+**See:** [Research Roadmap](docs/ROADMAP.md) for detailed timeline and additional research directions.
 
 ---
 

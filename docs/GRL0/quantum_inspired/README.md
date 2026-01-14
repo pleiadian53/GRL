@@ -39,7 +39,107 @@ These extensions are **novel to mainstream machine learning** and represent pote
 
 ---
 
-### 2. [Complex-Valued RKHS and Interference Effects](02-complex-rkhs.md)
+### 2. [RKHS Basis, Kernel Amplitudes, and Energy-Based Inference](02-rkhs-basis-and-amplitudes.md) ⭐ **New**
+
+**Topics:**
+- What is the "basis" in RKHS? (Kernel sections as frame elements)
+- How choosing $z$ selects a basis element
+- Kernel amplitudes vs. quantum amplitudes
+- Why GRL doesn't need normalization (EBM perspective)
+- Three interpretations: Hilbert state, amplitude field, energy score
+
+**Key Insight:** GRL combines QM's amplitude geometry with EBM's unnormalized inference—no partition function needed!
+
+**Clarifies:** Why $Q^+(z)$ acts like an amplitude but doesn't require Born rule normalization.
+
+---
+
+### 4. [Slicing the Reinforcement Field: Action and State Projections](04-action-and-state-fields.md) ⭐ **New**
+
+**Topics:**
+- Action wavefunction $\psi_s(a) = Q^+(s, a)$: landscape of actions at a state
+- State wavefunction $\phi_a(s) = Q^+(s, a)$: applicability of action across states
+- Concept subspace projections: hierarchical abstractions
+- Action-state duality in augmented space
+- From projections to operators
+
+**Key Insight:** One state $Q^+$, multiple projections—action fields, state fields, and concept activations all emerge from the same underlying structure.
+
+**Enables:** Continuous control, implicit precondition learning, affordance maps, hierarchical RL, and natural skill discovery.
+
+---
+
+### 5. [Concept Subspaces, Projections, and Measurement Theory](05-concept-projections-and-measurements.md) ⭐ **New**
+
+**Topics:**
+- Concepts as invariant subspaces (not clusters)
+- Projection operators and their properties
+- Concept activation observables $A_k = \|P_k Q^+\|^2$
+- Hierarchical composition via nested subspaces
+- Spectral discovery algorithms
+- Connection to quantum measurement theory
+
+**Key Insight:** Concepts are multi-dimensional subspaces with smooth, compositional activations—provides mathematical foundation for Part II (Section V).
+
+**Enables:** Hierarchical RL, concept-conditioned policies, interpretable learning curves, transfer via concept basis.
+
+---
+
+### 6. [The Agent's State and Belief Evolution](06-agent-state-and-belief-evolution.md) ⭐ **New**
+
+**Topics:**
+- What is "the state" in GRL? (Answer: $Q^+$ = particle memory)
+- Three distinct operations: fix state, query state, evolve state
+- Two time scales: learning (MemoryUpdate) vs. inference (queries)
+- Role of weights: implicit GP-derived coefficients
+- Experience association as weight propagation operator
+- Connection to quantum measurement theory
+
+**Key Insight:** The agent's state is the entire field $Q^+ \in \mathcal{H}_k$, equivalently the particle memory $\Omega$. MemoryUpdate is a belief transition operator; queries are projections of a fixed state.
+
+**Clarifies:** What changes when the agent learns vs. what stays fixed during inference—critical for understanding GRL's structure.
+
+---
+
+### 7. [Learning the Reinforcement Field — Beyond Gaussian Processes](07-learning-the-field-beyond-gp.md) ⭐ **New**
+
+**Topics:**
+- Why GP is one choice among many for learning $Q^+$
+- Alternative learning mechanisms: kernel ridge, online optimization, sparse methods, deep nets, mixture of experts
+- Amplitude-based learning from quantum-inspired probability
+- When to use which approach (trade-offs)
+
+**Key Insight:** The state-as-field formalism is agnostic to the learning mechanism—you can swap the inference engine while preserving GRL's structure.
+
+**Addresses Your Questions:**
+1. ✅ Yes, QM math/probability amplitude CAN be used for ML/optimization
+2. ✅ Multiple alternatives to GPR exist (online SGD, sparse, MoE, deep nets)
+
+**Enables:** Scalable GRL, hybrid approaches, novel probability formulations.
+
+---
+
+### 8. [Memory Dynamics: Formation, Consolidation, and Retrieval](08-memory-dynamics-formation-consolidation-retrieval.md) ⭐ **New**
+
+**Topics:**
+- Three memory functions: factual, experiential, working
+- Formation operator $\mathcal{E}$ (how to write memory)
+- Consolidation operator $\mathcal{C}$ (what to retain/forget)
+- Retrieval operator $\mathcal{R}$ (how to access memory)
+- Replacing hard threshold $\tau$ with principled criteria
+- Preventing agent drift
+
+**Key Insight:** Memory dynamics are operators with learnable criteria—formation, consolidation, retrieval form a complete system.
+
+**Addresses Your Questions:**
+1. ✅ More principled memory update: soft association, top-k adaptive, MDL consolidation, surprise-gating
+2. ✅ What to retain/forget: based on surprise, novelty, memory type, and compression objectives
+
+**Enables:** Lifelong learning, bounded memory, adaptive forgetting, preventing agent drift.
+
+---
+
+### 9. [Complex-Valued RKHS and Interference Effects](03-complex-rkhs.md)
 
 **Topics:**
 - Complex-valued kernels and feature maps
@@ -80,9 +180,42 @@ GRL (quantum-inspired) uses **probability amplitudes**: $\langle \psi | \phi \ra
 
 **Recommended sequence:**
 
+**Foundation (Chapters 1-2):**
 1. Start with [01-rkhs-quantum-parallel.md](01-rkhs-quantum-parallel.md) for the high-level structural parallel
-2. Read [01a-wavefunction-interpretation.md](01a-wavefunction-interpretation.md) for precise conceptual grounding
-3. Explore [02-complex-rkhs.md](02-complex-rkhs.md) for complex-valued extensions
+2. Read [01a-wavefunction-interpretation.md](01a-wavefunction-interpretation.md) for precise conceptual grounding (state vs. wavefunction)
+3. Continue with [02-rkhs-basis-and-amplitudes.md](02-rkhs-basis-and-amplitudes.md) to understand RKHS basis and why normalization isn't needed
+
+**Applications (Chapters 4-6):**
+4. **New:** Read [04-action-and-state-fields.md](04-action-and-state-fields.md) to see how one field $Q^+$ gives multiple projections (action/state/concept)
+5. **New:** Read [05-concept-projections-and-measurements.md](05-concept-projections-and-measurements.md) for rigorous formalism of concepts as subspaces (foundation for Part II)
+6. **New:** Read [06-agent-state-and-belief-evolution.md](06-agent-state-and-belief-evolution.md) to understand what "the state" is and how it evolves via MemoryUpdate
+
+**Learning & Memory (Chapters 7-8):**
+7. **New:** Read [07-learning-the-field-beyond-gp.md](07-learning-the-field-beyond-gp.md) for learning mechanisms beyond GP—scalability, amplitude-based learning, mixture of experts
+8. **New:** Read [08-memory-dynamics-formation-consolidation-retrieval.md](08-memory-dynamics-formation-consolidation-retrieval.md) for principled memory dynamics—what to retain/forget, preventing agent drift
+
+**Advanced (Chapter 9):**
+9. Explore [03-complex-rkhs.md](03-complex-rkhs.md) for complex-valued extensions (interference, phase semantics)
+
+---
+
+## Connection to Tutorial Paper
+
+**Part I (Particle-Based Learning):**
+- Chapters 1-2 provide mathematical grounding
+- Show RKHS-QM structural parallel
+- Justify amplitude interpretation
+
+**Part II (Emergent Structure & Spectral Abstraction):**
+- **Chapter 5 provides the formal foundation** for Section V
+- Concepts as subspaces (not clusters)
+- Projection operators and observables
+- Hierarchical composition framework
+
+**Extensions (Papers A/B/C):**
+- Chapter 4 (action/state fields) enables novel algorithms
+- Chapter 5 (concept projections) enables transfer learning
+- Chapter 6 (complex RKHS) enables interference-based dynamics
 
 ---
 
@@ -90,11 +223,17 @@ GRL (quantum-inspired) uses **probability amplitudes**: $\langle \psi | \phi \ra
 
 **Current Status:** Theoretical foundations established
 
-**Future Work:**
-- Implement complex-valued kernels in PyTorch
-- Develop complex RF-SARSA variant
-- Test interference effects on multi-modal problems
-- Apply complex spectral clustering to concept discovery
+**Implemented:**
+- RKHS framework (standard kernels)
+- Particle-based field representation
+- Spectral clustering for concept discovery
+
+**To Implement:**
+- Projection operators for concept activation
+- Concept-conditioned policies
+- Hierarchical composition algorithms
+- Complex-valued kernels (Chapter 6)
+- Interference-based updates
 
 ---
 
@@ -125,4 +264,4 @@ Before reading these documents, you should understand:
 
 ---
 
-**Last Updated:** January 12, 2026
+**Last Updated:** January 14, 2026

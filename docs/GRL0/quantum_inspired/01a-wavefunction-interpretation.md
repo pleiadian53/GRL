@@ -70,66 +70,186 @@ It's exactly like asking: "What is the $x$-component of velocity $\mathbf{v}$?" 
 
 Let's work through this with actual numbers.
 
-**Setup:** A qubit has a 2-dimensional Hilbert space with basis:
+**Setup:** A qubit has a 2-dimensional Hilbert space with **computational basis**:
 
 $$|0\rangle = \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \quad |1\rangle = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$$
 
-**State vector:**
+These are **basis vectors**, analogous to $\mathbf{e}_x = [1, 0]$ and $\mathbf{e}_y = [0, 1]$ in 2D Cartesian coordinates.
+
+**State vector (the quantum system itself):**
 
 $$|\psi\rangle = \frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix}$$
 
-This is the **abstract state**—the quantum system itself.
+**Analogy:** Just like $\mathbf{v} = 3\mathbf{e}_x + 4\mathbf{e}_y = [3, 4]$, here $|\psi\rangle$ is a linear combination of basis vectors $|0\rangle$ and $|1\rangle$.
 
 ---
 
-**Question:** What are the "wavefunction values" in the $\{|0\rangle, |1\rangle\}$ basis?
+**Question:** What are the "wavefunction values" (coordinates) in the $\{|0\rangle, |1\rangle\}$ basis?
 
-**Answer:** Compute the inner products!
+**Answer:** Compute the inner products (projections)!
 
 $$\psi_0 = \langle 0 | \psi \rangle = \begin{bmatrix} 1 & 0 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{2}}$$
 
 $$\psi_1 = \langle 1 | \psi \rangle = \begin{bmatrix} 0 & 1 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{2}}$$
 
+**What we computed:** Project the state $|\psi\rangle$ onto each basis vector.
+
 **Result:** The wavefunction in this basis is $\left[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right]$.
 
 **Interpretation:**
-- "How much of $|\psi\rangle$ is in state $|0\rangle$?" → $\frac{1}{\sqrt{2}}$
-- "How much of $|\psi\rangle$ is in state $|1\rangle$?" → $\frac{1}{\sqrt{2}}$
+- "How much of $|\psi\rangle$ points in the $|0\rangle$ direction?" → $\frac{1}{\sqrt{2}}$
+- "How much of $|\psi\rangle$ points in the $|1\rangle$ direction?" → $\frac{1}{\sqrt{2}}$
+
+**Analogy:** If $\mathbf{v} = [3, 4]$, the "$x$-coordinate" is 3 (how much of $\mathbf{v}$ is in the $\mathbf{e}_x$ direction).
 
 ---
 
-**Now in a different basis:**
+**Now let's use a DIFFERENT coordinate system:**
 
-Define the Hadamard basis:
+So far, we've been working in the **computational basis** $\{|0\rangle, |1\rangle\}$—think of this as our "Cartesian coordinates."
+
+Now let's define a **second coordinate system**, the **Hadamard basis**:
 
 $$|+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix}$$
 
 $$|-\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle) = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ -1 \end{bmatrix}$$
 
-**Question:** What is the wavefunction in this new basis?
+**Important:** These coordinates $[1/\sqrt{2}, 1/\sqrt{2}]$ are expressed **in the computational basis**. We're defining new basis vectors by specifying their coordinates in the old basis.
 
-**Compute:**
+**Analogy:** Like defining polar coordinates by saying: $\hat{r} = \cos\theta \, \mathbf{e}_x + \sin\theta \, \mathbf{e}_y$ (new basis vectors in terms of old).
+
+---
+
+**Key observation:** Our state $|\psi\rangle$ and the basis vector $|+\rangle$ have the **same coordinates** in the computational basis:
+
+$$|\psi\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = |+\rangle$$
+
+**Wait, so they're equal?** Yes! As vectors, $|\psi\rangle = |+\rangle$. But they play **different roles** in our current discussion:
+
+| Symbol | Role in This Example |
+|--------|---------------------|
+| $\|\psi\rangle$ | The state we're analyzing (the "subject") |
+| $\|+\rangle$ | A basis vector in the Hadamard coordinate system (the "axis") |
+
+**Analogy:** The vector $[1, 0]$ could be:
+- "The velocity we're analyzing" ← role: subject
+- "The x-axis of our coordinate system" ← role: reference axis
+
+Same vector, different roles!
+
+---
+
+**Now the question:** What is the wavefunction of $|\psi\rangle$ in the **Hadamard basis** $\{|+\rangle, |-\rangle\}$?
+
+**What we're computing:** Express our state $|\psi\rangle$ using the Hadamard basis vectors $|+\rangle$ and $|-\rangle$ as coordinates.
+
+**Component in the $|+\rangle$ direction:**
 
 $$\psi_+ = \langle + | \psi \rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & 1 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{2}(1 + 1) = 1$$
 
+**Why is this 1?** Because $|\psi\rangle = |+\rangle$! The state is **perfectly aligned** with the $|+\rangle$ basis vector. It's like asking: "How much of $\mathbf{e}_x$ is in the $\mathbf{e}_x$ direction?" Answer: 1 (all of it).
+
+---
+
+**Component in the $|-\rangle$ direction:**
+
 $$\psi_- = \langle - | \psi \rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & -1 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{2}(1 - 1) = 0$$
 
+**Why is this 0?** Because $|\psi\rangle$ is **orthogonal** to $|-\rangle$. It has zero component in that direction.
+
+---
+
 **Result:** In the Hadamard basis, the wavefunction is $[1, 0]$.
+
+**What this means:**
+
+| Basis Used | Coordinates of $\|\psi\rangle$ | Interpretation |
+|------------|-------------------------------|----------------|
+| Computational $\{\|0\rangle, \|1\rangle\}$ | $[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}]$ | Equal mix of both directions |
+| Hadamard $\{\|+\rangle, \|-\rangle\}$ | $[1, 0]$ | Fully in $\|+\rangle$ direction, nothing in $\|-\rangle$ |
+
+**Same state, different coordinates!** Like how $\mathbf{v} = [3, 4]$ in Cartesian is $[5, 53.1°]$ in polar.
+
+---
+
+### Common Confusion: Which Direction Is the Projection?
+
+**Question:** "Isn't $\langle + | \psi \rangle$ just the projection of the basis vector $|+\rangle$ onto the state $|\psi\rangle$?"
+
+**Answer:** No! The notation $\langle + | \psi \rangle$ means:
+
+> "Project the **state** $|\psi\rangle$ onto the **basis vector** $|+\rangle$"
+
+**Analogy:** In 3D, if you have:
+- Vector: $\mathbf{v} = [3, 4, 0]$
+- Basis vector: $\mathbf{e}_x = [1, 0, 0]$
+
+The "$x$-coordinate" is:
+$$x = \mathbf{e}_x \cdot \mathbf{v} = [1, 0, 0] \cdot [3, 4, 0] = 3$$
+
+You're asking: "How much of $\mathbf{v}$ is in the $\mathbf{e}_x$ direction?"
+
+**Same in QM:** $\langle + | \psi \rangle$ asks: "How much of $|\psi\rangle$ is in the $|+\rangle$ direction?"
+
+**Why the bra-ket notation?**
+
+The notation $\langle + |$ is the "bra" (row vector), $|\psi\rangle$ is the "ket" (column vector):
+
+$$\langle + | \psi \rangle = \text{row vector} \times \text{column vector} = \text{scalar}$$
+
+This is the inner product that gives you the component!
+
+---
+
+### Summary: Two Bases, One State
+
+Let's be crystal clear about what just happened:
+
+**1. We have ONE state** (the thing we're analyzing):
+
+$$|\psi\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix}_{\text{computational}}$$
+
+**2. We expressed it in TWO different coordinate systems:**
+
+**Coordinate System 1: Computational Basis** $\{|0\rangle, |1\rangle\}$
+- Basis vectors (the "axes"): $|0\rangle = [1, 0]$, $|1\rangle = [0, 1]$
+- State coordinates: $|\psi\rangle$ has wavefunction $[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}]$
+
+**Coordinate System 2: Hadamard Basis** $\{|+\rangle, |-\rangle\}$
+- Basis vectors (the "axes"): $|+\rangle = [\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}]_{\text{computational}}$, $|-\rangle = [\frac{1}{\sqrt{2}}, -\frac{1}{\sqrt{2}}]_{\text{computational}}$
+- State coordinates: $|\psi\rangle$ has wavefunction $[1, 0]$
+
+**3. Key observation:**
+
+In computational coordinates, $|\psi\rangle$ and $|+\rangle$ are the same vector: $[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}]$.
+
+But they play different **roles**:
+- $|\psi\rangle$ = the state (subject of analysis)
+- $|+\rangle$ = one of the axes in the Hadamard coordinate system
+
+**Analogy:** If your velocity is $\mathbf{v} = [1, 0]$ m/s (heading east), you could also use that same vector $[1, 0]$ as the x-axis of a new coordinate system. Same vector, different roles!
 
 ---
 
 **The key insight:**
 
-The **state** $|\psi\rangle$ is the same in both cases—it's the same quantum system!
+The **state** $|\psi\rangle$ is the same geometric object in both cases—it's the same quantum system!
 
 But its **wavefunction** (coordinate representation) is different:
 
-| Basis | Wavefunction |
-|-------|--------------|
-| $\{|0\rangle, |1\rangle\}$ | $\left[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right]$ |
-| $\{|+\rangle, |-\rangle\}$ | $[1, 0]$ |
+| Coordinate System (Basis) | State $\|\psi\rangle$ Coordinates |
+|---------------------------|----------------------------------|
+| Computational $\{\lvert 0\rangle, \lvert 1\rangle\}$ | $\left[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right]$ |
+| Hadamard $\{\lvert +\rangle, \lvert -\rangle\}$ | $[1, 0]$ |
 
-**Analogy:** Same vector $\mathbf{v} = [3, 4, 0]$, but in polar coordinates it's $[5, 53.1°, 0]$. Same object, different numbers.
+**Analogy:** Same vector $\mathbf{v}$, different coordinate systems:
+
+| Coordinate System | Coordinates |
+|-------------------|-------------|
+| Cartesian $(x, y)$ | $[3, 4]$ |
+| Polar $(r, \theta)$ | $[5, 53.1°]$ |
+
+Same object, different numbers!
 
 ---
 
@@ -137,24 +257,221 @@ But its **wavefunction** (coordinate representation) is different:
 
 In standard quantum mechanics, position can be any real number, so the Hilbert space is **infinite-dimensional**.
 
-**State:** $|\psi\rangle$ (abstract vector)
+**State:** $|\psi\rangle$ (abstract vector in infinite-dimensional Hilbert space)
 
-**Position basis:** $\{|x\rangle : x \in \mathbb{R}\}$ (one basis vector for each position)
+**Position basis:** $\{|x\rangle : x \in \mathbb{R}\}$
 
-**Wavefunction:** For each position $x$, compute:
+**What is $|x\rangle$?**
+
+The symbol $|x\rangle$ is a **basis vector** representing "the state where the particle is definitely at position $x$."
+
+**Analogy to finite case:**
+
+| Finite (Qubit) | Infinite (Position) |
+|----------------|---------------------|
+| 2 basis vectors: $\|0\rangle, \|1\rangle$ | Infinite basis vectors: $\|x\rangle$ for every $x \in \mathbb{R}$ |
+| $\|0\rangle$ = "definitely in state 0" | $\|x\rangle$ = "definitely at position $x$" |
+| Discrete index: 0, 1 | Continuous index: $x \in \mathbb{R}$ |
+
+**Critical distinction:** $|x\rangle$ is NOT a position vector like $\mathbf{r} = [x, y, z]$ in classical mechanics. It's a basis vector in Hilbert space that represents a particular position eigenstate.
+
+**Important:** $|\psi\rangle$ is **NOT** a basis vector—it's the **state** (the thing we're analyzing), expressed as a combination of basis vectors!
+
+---
+
+**Wavefunction:** For each position $x$, compute the projection:
 
 $$\psi(x) = \langle x | \psi \rangle$$
 
-This gives a **function** $\psi: \mathbb{R} \to \mathbb{C}$ that tells you the "component" at each position.
+**What this means:**
 
-**Example: Gaussian wavepacket**
+> "Project the state $|\psi\rangle$ onto the basis vector $|x\rangle$ (the state 'definitely at position $x$')"
 
-$$\psi(x) = \frac{1}{(\pi \sigma^2)^{1/4}} \exp\left(-\frac{x^2}{2\sigma^2}\right)$$
+**Result:** This gives a **function** $\psi: \mathbb{R} \to \mathbb{C}$ that tells you the "component" of $|\psi\rangle$ in each position direction.
+
+**Analogy:** Just like we computed:
+- $\psi_0 = \langle 0 | \psi \rangle$ for the $|0\rangle$ direction
+- $\psi_1 = \langle 1 | \psi \rangle$ for the $|1\rangle$ direction
+
+Now we compute:
+- $\psi(x=0) = \langle 0 | \psi \rangle$ for position $x=0$
+- $\psi(x=1) = \langle 1 | \psi \rangle$ for position $x=1$
+- $\psi(x=2.5) = \langle 2.5 | \psi \rangle$ for position $x=2.5$
+- ... and so on for every real number $x$
+
+Since $x$ is continuous, we get a continuous function $\psi(x)$!
+
+**Concrete Example: Gaussian Wavepacket**
+
+Suppose our state $|\psi\rangle$ has the following wavefunction in the position basis:
+
+$$\psi(x) = \langle x | \psi \rangle = \frac{1}{(\pi \sigma^2)^{1/4}} \exp\left(-\frac{x^2}{2\sigma^2}\right)$$
+
+This is a bell curve! Let's evaluate it at specific positions (say $\sigma = 1$):
+
+| Position $x$ | Basis Vector | Component $\psi(x) = \langle x \| \psi \rangle$ |
+|-------------|--------------|-----------------------------------------------|
+| $x = 0$ | $\|0\rangle$ | $\psi(0) = \frac{1}{(\pi)^{1/4}} \approx 0.75$ (maximum) |
+| $x = 1$ | $\|1\rangle$ | $\psi(1) = \frac{1}{(\pi)^{1/4}} e^{-1/2} \approx 0.46$ |
+| $x = 3$ | $\|3\rangle$ | $\psi(3) = \frac{1}{(\pi)^{1/4}} e^{-9/2} \approx 0.008$ (nearly zero) |
 
 **Interpretation:**
-- At $x = 0$: Component is maximum (state is "mostly here")
-- At $x = \pm 3\sigma$: Component is nearly zero (state has very little "here")
-- $|\psi(x)|^2$ gives probability density of finding particle at $x$
+- The state $|\psi\rangle$ has **large component** in the $|x=0\rangle$ direction (particle likely near origin)
+- **Medium component** in the $|x=1\rangle$ direction
+- **Tiny component** in the $|x=3\rangle$ direction (particle unlikely far from origin)
+
+**Visual:**
+
+```
+ψ(x)
+  ^
+  |     *
+  |    ***
+  |   *****
+  |  *******
+  | *********
+  |***********
+  +---------------> x
+ -3  -1  0  1  3
+```
+
+The wavefunction $\psi(x)$ tells you how much of $|\psi\rangle$ "points in the direction" of each position basis vector $|x\rangle$.
+
+---
+
+### Clarification: $|\psi\rangle$ vs. $|x\rangle$ - Which Is the Basis?
+
+**Your question:** "Are both $|\psi\rangle$ and $|x\rangle$ basis vectors?"
+
+**Answer:** **NO!** This is the key confusion. Let me be very clear:
+
+| Symbol | What It Is | Role |
+|--------|------------|------|
+| $\|\psi\rangle$ | **The state** (thing being analyzed) | Like the vector $\mathbf{v} = [3, 4]$ you're analyzing |
+| $\|x\rangle$ | **A basis vector** (coordinate axis) | Like $\mathbf{e}_x = [1, 0]$ or $\mathbf{e}_y = [0, 1]$ |
+
+**$|\psi\rangle$ is expressed AS A COMBINATION of basis vectors $|x\rangle$:**
+
+$$|\psi\rangle = \int_{-\infty}^{\infty} \psi(x) \, |x\rangle \, dx$$
+
+This is like writing: $\mathbf{v} = 3\mathbf{e}_x + 4\mathbf{e}_y$
+
+---
+
+### Your Classical Intuition Is Right—But Quantum Is Different!
+
+**You said:** "When I hear 'basis vector', it gives me the impression of [0, 0, 1], [0, 1, 0], [1, 0, 0] - linearly independent vectors."
+
+**You're absolutely right!** That's exactly what basis vectors are in classical mechanics.
+
+**The quantum twist:**
+
+In quantum mechanics, $|x\rangle$ plays a role **analogous to** $\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z$, but there's a crucial difference:
+
+| Classical Position | Quantum State |
+|-------------------|---------------|
+| **Position vector:** $\mathbf{r} = [x, y, z]$ | **State vector:** $\|\psi\rangle$ |
+| **Expressed using basis:** $\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z$ | **Expressed using basis:** $\|\psi\rangle = \int \psi(x) \|x\rangle dx$ |
+| **Basis vectors:** $\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z$ (3 of them) | **Basis vectors:** $\|x\rangle$ (one for each $x \in \mathbb{R}$, infinitely many) |
+| **Coordinates:** $x, y, z$ (numbers) | **Coordinates:** $\psi(x)$ (the wavefunction!) |
+
+---
+
+### The Big Difference: What We're Representing
+
+**Classical mechanics:**
+- **Thing:** Position of a particle
+- **Representation:** $\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z$
+- **Basis vectors:** $\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z$ (spatial directions)
+
+**Quantum mechanics:**
+- **Thing:** State of a particle
+- **Representation:** $|\psi\rangle = \int \psi(x) |x\rangle dx$
+- **Basis vectors:** $|x\rangle$ (not spatial directions, but quantum states!)
+
+**Key insight:** In QM, $|x\rangle$ doesn't represent "the direction x" in space. It represents **the quantum state "particle is at position x"**.
+
+---
+
+### Concrete Example: Finite Case First
+
+Let's make this super concrete with a qubit:
+
+**Basis vectors (the "axes"):**
+- $|0\rangle = [1, 0]$
+- $|1\rangle = [0, 1]$
+
+These are linearly independent, just like $\mathbf{e}_x$ and $\mathbf{e}_y$!
+
+**State (the thing we're analyzing):**
+$$|\psi\rangle = \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix}$$
+
+**Is $|\psi\rangle$ a basis vector?** NO! It's a **combination** of basis vectors, like $\mathbf{v} = 3\mathbf{e}_x + 4\mathbf{e}_y$.
+
+---
+
+### Now the Infinite Case
+
+**Basis vectors (the "axes"):**
+- $|x\rangle$ for every $x \in \mathbb{R}$
+
+**State (the thing we're analyzing):**
+$$|\psi\rangle = \int_{-\infty}^{\infty} \psi(x) \, |x\rangle \, dx$$
+
+where $\psi(x) = \langle x | \psi \rangle$ are the coordinates (wavefunction).
+
+**Is $|\psi\rangle$ a basis vector?** NO! It's a **continuous combination** of basis vectors $|x\rangle$.
+
+---
+
+### Answering Your Original Question
+
+**You asked:** "So an arbitrary position x should be able to be expressed in terms of a chosen basis vector?"
+
+**Classical answer (YES):** Position $\mathbf{r}$ is expressed as $\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z$.
+
+**Quantum answer (DIFFERENT!):** We're not expressing positions—we're expressing **states**!
+
+The state $|\psi\rangle$ is expressed in the position basis as:
+$$|\psi\rangle = \int \psi(x) |x\rangle dx$$
+
+**The basis vectors $|x\rangle$ are NOT expressing positions—they ARE quantum states** (states of "definitely at position x").
+
+---
+
+### Why This Is Confusing
+
+The notation $|x\rangle$ looks like it should mean "position x", but it actually means:
+
+> **"The quantum state where the particle is definitely located at position x"**
+
+So $|x\rangle$ is not a point in space—it's a **vector in Hilbert space** representing a specific quantum state.
+
+**Better notation (if we could redesign QM):**
+- $|x\rangle$ → $|\text{definitely at } x\rangle$ (clearer!)
+
+But physicists use $|x\rangle$ as shorthand.
+
+---
+
+### Summary: Classical vs. Quantum Representation
+
+| Aspect | Classical Mechanics | Quantum Mechanics |
+|--------|-------------------|-------------------|
+| **What we represent** | Position of particle | State of particle |
+| **The thing** | $\mathbf{r}$ (position vector) | $\|\psi\rangle$ (state vector) |
+| **Basis vectors** | $\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z$ | $\|x\rangle$ for each $x \in \mathbb{R}$ |
+| **What basis vectors mean** | Spatial directions | Quantum states ("at position x") |
+| **Number of basis vectors** | 3 (in 3D space) | Infinite (one per position) |
+| **Representation** | $\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z$ | $\|\psi\rangle = \int \psi(x) \|x\rangle dx$ |
+| **Coordinates** | $x, y, z$ (position components) | $\psi(x)$ (wavefunction) |
+| **"Is position a basis vector?"** | No, position uses basis vectors | No, $\|x\rangle$ IS a basis vector |
+
+**Key takeaway:**
+- Classical: Position $\mathbf{r}$ **is expressed using** basis vectors $\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z$
+- Quantum: Basis vector $|x\rangle$ **represents the state** "particle at position x"
+
+**This is why quantum mechanics feels weird!** We're not representing positions anymore—we're representing **states**, and the basis vectors themselves encode "where the particle is."
 
 ---
 
@@ -167,11 +484,11 @@ $$\psi(x) = \frac{1}{(\pi \sigma^2)^{1/4}} \exp\left(-\frac{x^2}{2\sigma^2}\righ
 
 | Concept | What It Is | Analogy |
 |---------|------------|---------|
-| **State vector** $\|\psi\rangle$ | The quantum system (abstract) | The geometric vector $\mathbf{v}$ |
+| **State vector** $\lvert\psi\rangle$ | The quantum system (abstract) | The geometric vector $\mathbf{v}$ |
 | **Wavefunction** $\psi(x)$ | Coordinate representation | Cartesian coordinates $[3, 4, 0]$ |
-| **Inner product** $\langle x \| \psi \rangle$ | "Component" in direction $\|x\rangle$ | "How much of $\mathbf{v}$ is in $x$-direction?" |
+| **Inner product** $\langle x \lvert \psi \rangle$ | Component in direction $\lvert x\rangle$ | How much of $\mathbf{v}$ is in $x$-direction? |
 | **Different basis** | Different coordinate system | Cartesian vs. polar |
-| **Same state, different wavefunction** | Same $\|\psi\rangle$, different basis | Same $\mathbf{v}$, different coordinates |
+| **Same state, different wavefunction** | Same $\lvert\psi\rangle$, different basis | Same $\mathbf{v}$, different coordinates |
 
 **Why this matters for GRL:**
 
