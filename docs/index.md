@@ -60,12 +60,12 @@ This formulation, inspired by the **least-action principle** in physics, leads t
 
 Particle-based belief representation, energy landscapes, and functional learning over augmented state-action space.
 
-**[Start Learning →](docs/GRL0/tutorials/00-overview.md)** | **[Research Roadmap →](docs/ROADMAP.md)**
+**[Start Learning →](GRL0/tutorials/00-overview.md)** | **[Research Roadmap →](ROADMAP.md)**
 
 | Section | Chapters | Topics |
 |---------|----------|--------|
-| **Foundations** | [0](docs/GRL0/tutorials/00-overview.md), [1](docs/GRL0/tutorials/01-core-concepts.md), [2](docs/GRL0/tutorials/02-rkhs-foundations.md), [3](docs/GRL0/tutorials/03-energy-and-fitness.md) | Augmented space, particles, RKHS, energy |
-| **Field & Memory** | [4](docs/GRL0/tutorials/04-reinforcement-field.md), [4a](docs/GRL0/tutorials/04a-riesz-representer.md), [5](docs/GRL0/tutorials/05-particle-memory.md), [6](docs/GRL0/tutorials/06-memory-update.md), [6a](docs/GRL0/tutorials/06a-advanced-memory-dynamics.md) | Functional fields, Riesz theorem, belief states, MemoryUpdate, advanced memory |
+| **Foundations** | [0](GRL0/tutorials/00-overview.md), [1](GRL0/tutorials/01-core-concepts.md), [2](GRL0/tutorials/02-rkhs-foundations.md), [3](GRL0/tutorials/03-energy-and-fitness.md) | Augmented space, particles, RKHS, energy |
+| **Field & Memory** | [4](GRL0/tutorials/04-reinforcement-field.md), [4a](GRL0/tutorials/04a-riesz-representer.md), [5](GRL0/tutorials/05-particle-memory.md), [6](GRL0/tutorials/06-memory-update.md), [6a](GRL0/tutorials/06a-advanced-memory-dynamics.md) | Functional fields, Riesz theorem, belief states, MemoryUpdate, advanced memory |
 | **Algorithms** | 7 | RF-SARSA (next) |
 | **Interpretation** | 8-10 | Soft transitions, POMDP, synthesis |
 
@@ -95,14 +95,14 @@ Spectral discovery of hierarchical concepts through functional clustering in RKH
 
 Mathematical connections to quantum mechanics and novel probability formulations for ML.
 
-**[Explore Advanced Topics →](docs/GRL0/quantum_inspired/)**
+**[Explore Advanced Topics →](GRL0/quantum_inspired/)**
 
 | Theme | Chapters | Topics |
 |-------|----------|--------|
-| **Foundations** | [01](docs/GRL0/quantum_inspired/01-rkhs-quantum-parallel.md), [01a](docs/GRL0/quantum_inspired/01a-wavefunction-interpretation.md), [02](docs/GRL0/quantum_inspired/02-rkhs-basis-and-amplitudes.md) | RKHS-QM parallel, state vs. wavefunction, amplitude interpretation |
-| **Complex RKHS** | [03](docs/GRL0/quantum_inspired/03-complex-rkhs.md) | Complex-valued kernels, interference, phase semantics |
-| **Projections** | [04](docs/GRL0/quantum_inspired/04-action-and-state-fields.md), [05](docs/GRL0/quantum_inspired/05-concept-projections-and-measurements.md), [06](docs/GRL0/quantum_inspired/06-agent-state-and-belief-evolution.md) | Action/state fields, concept subspaces, belief dynamics |
-| **Learning & Memory** | [07](docs/GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md), [08](docs/GRL0/quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md) | Beyond GP, memory dynamics, principled consolidation |
+| **Foundations** | [01](GRL0/quantum_inspired/01-rkhs-quantum-parallel.md), [01a](GRL0/quantum_inspired/01a-wavefunction-interpretation.md), [02](GRL0/quantum_inspired/02-rkhs-basis-and-amplitudes.md) | RKHS-QM parallel, state vs. wavefunction, amplitude interpretation |
+| **Complex RKHS** | [03](GRL0/quantum_inspired/03-complex-rkhs.md) | Complex-valued kernels, interference, phase semantics |
+| **Projections** | [04](GRL0/quantum_inspired/04-action-and-state-fields.md), [05](GRL0/quantum_inspired/05-concept-projections-and-measurements.md), [06](GRL0/quantum_inspired/06-agent-state-and-belief-evolution.md) | Action/state fields, concept subspaces, belief dynamics |
+| **Learning & Memory** | [07](GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md), [08](GRL0/quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md) | Beyond GP, memory dynamics, principled consolidation |
 
 **Novel Contributions:**
 - **Amplitude-based RL:** Complex-valued value functions with phase semantics
@@ -132,7 +132,7 @@ When you:
 - **Apply Boltzmann policies** → GRL recovers REINFORCE/Actor-Critic
 - **Fine-tune LLMs** → GRL generalizes RLHF
 
-**[See: Recovering Classical RL from GRL →](docs/GRL0/recovering_classical_rl.md)**
+**[See: Recovering Classical RL from GRL →](GRL0/recovering_classical_rl.md)**
 
 ### Why GRL?
 
@@ -170,10 +170,10 @@ See [INSTALL.md](INSTALL.md) for detailed instructions.
 
 ### First Steps
 
-1. **Read the tutorial**: Start with [Chapter 0: Overview](docs/GRL0/tutorials/00-overview.md)
-2. **Explore concepts**: Work through [Chapter 1: Core Concepts](docs/GRL0/tutorials/01-core-concepts.md)
+1. **Read the tutorial**: Start with [Chapter 0: Overview](GRL0/tutorials/00-overview.md)
+2. **Explore concepts**: Work through [Chapter 1: Core Concepts](GRL0/tutorials/01-core-concepts.md)
 3. **Understand algorithms**: See the algorithm chapters (coming soon)
-4. **Implement**: Follow the [implementation guide](docs/GRL0/implementation/)
+4. **Implement**: Follow the [implementation guide](GRL0/implementation/)
 
 ---
 
@@ -207,9 +207,9 @@ GRL/
 
 **Part I: Particle-Based Learning** (6/10 chapters complete)
 
-- **[Start Here](docs/GRL0/tutorials/00-overview.md)** — Overview
-- **[Tutorials](docs/GRL0/tutorials/)** — Chapter-by-chapter learning
-- **[Implementation](docs/GRL0/implementation/)** — Technical specifications
+- **[Start Here](GRL0/tutorials/00-overview.md)** — Overview
+- **[Tutorials](GRL0/tutorials/)** — Chapter-by-chapter learning
+- **[Implementation](GRL0/implementation/)** — Technical specifications
 
 **Part II: Emergent Structure & Spectral Abstraction** (Planned)
 
@@ -271,7 +271,7 @@ The foundational work introducing particle-based belief states, reinforcement fi
 - **Paper B:** Target submission June 2026 (ICML/NeurIPS)
 - **Paper C:** Target submission July 2026 (CoRL)
 
-**See:** [Research Roadmap](docs/ROADMAP.md) for detailed timeline and additional research directions.
+**See:** [Research Roadmap](ROADMAP.md) for detailed timeline and additional research directions.
 
 ---
 
@@ -445,7 +445,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Wave function analogy** — The reinforcement field as a superposition of particle basis states
 - This formulation is **novel to mainstream ML** and opens new directions for probabilistic reasoning
 
-See: [Quantum-Inspired Extensions](docs/GRL0/quantum_inspired/) for technical details.
+See: [Quantum-Inspired Extensions](GRL0/quantum_inspired/) for technical details.
 
 ### Conceptual Connections
 - **Energy-based models** (EBMs) — Control as energy landscape navigation
@@ -459,4 +459,4 @@ See: [Quantum-Inspired Extensions](docs/GRL0/quantum_inspired/) for technical de
 
 ---
 
-**[📚 Start the Tutorial →](docs/GRL0/tutorials/00-overview.md)**
+**[📚 Start the Tutorial →](GRL0/tutorials/00-overview.md)**

@@ -2,6 +2,7 @@ site_name: Generalized Reinforcement Learning (GRL)
 site_description: Physics-grounded reinforcement learning with particle-based belief representations
 site_author: GRL Research Team
 site_url: https://pleiadian53.github.io/GRL/
+# Note: For local development, MkDocs ignores site_url and serves at http://127.0.0.1:8000/
 
 repo_name: pleiadian53/GRL
 repo_url: https://github.com/pleiadian53/GRL
