@@ -60,6 +60,7 @@ Let $\{\phi_{k,1}, \phi_{k,2}, \ldots, \phi_{k,m_k}\}$ be eigenvectors in cluste
 $$\mathcal{C}_k = \text{span}\{\phi_{k,1}, \phi_{k,2}, \ldots, \phi_{k,m_k}\} \subset \mathcal{H}_k$$
 
 **Properties:**
+
 - $\mathcal{C}_k$ is a linear subspace of the RKHS
 - Dimension: $\dim(\mathcal{C}_k) = m_k$
 - Orthogonal decomposition: $\mathcal{H}_k = \bigoplus_k \mathcal{C}_k \oplus \mathcal{C}_{\perp}$
