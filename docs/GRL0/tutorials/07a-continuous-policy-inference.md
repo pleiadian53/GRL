@@ -99,6 +99,7 @@ Recall from the least action principle that optimal actions follow gradient flow
 $$\theta_{t+1} = \theta_t + \epsilon \nabla_\theta Q^+(s, \theta_t) + \sqrt{2\epsilon\lambda} \, \xi_t$$
 
 where:
+
 - $\nabla_\theta Q^+(s, \theta)$ = gradient of field w.r.t. action parameters (via Riesz representer, Chapter 04a)
 - $\lambda$ = temperature (exploration)
 - $\xi_t \sim \mathcal{N}(0, I)$ = Gaussian noise

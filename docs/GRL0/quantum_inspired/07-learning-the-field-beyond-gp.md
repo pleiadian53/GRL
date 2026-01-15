@@ -42,6 +42,7 @@ Given:
 $$\min_{Q^+ \in \mathcal{H}_k} \underbrace{\mathcal{L}(Q^+, \mathcal{D}_{t+1})}_{\text{fit data}} + \underbrace{\mathcal{R}(Q^+)}_{\text{regularization}}$$
 
 where:
+
 - $\mathcal{D}_{t+1} = \{(z_i, y_i)\}_{i=1}^{N+1}$ is accumulated experience
 - $\mathcal{L}$ measures prediction error
 - $\mathcal{R}$ controls complexity
@@ -303,6 +304,7 @@ Instead of one global field, maintain **multiple local fields** with a gating fu
 $$Q^+(z) = \sum_{m=1}^M g_m(z) Q_m(z)$$
 
 where:
+
 - $Q_m(z)$ = expert $m$'s field
 - $g_m(z)$ = gate (probability expert $m$ is active)
 - $\sum_m g_m(z) = 1$

@@ -308,6 +308,7 @@ The score function gradient $\nabla_\phi \log \pi_\phi(a|s)$ in REINFORCE is equ
 $$\mathcal{L}(\phi) = \mathbb{E}_{(s,a) \sim \pi_\phi} [\min(r_\text{clip}, r_\text{KL})]$$
 
 where:
+
 - $r_\text{clip}$ = clipped advantage
 - $r_\text{KL}$ = KL penalty from reference policy
 

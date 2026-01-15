@@ -69,6 +69,7 @@ z = (s, \theta) \in \mathcal{Z} = \mathcal{S} \times \Theta
 $$
 
 where:
+
 - $s \in \mathcal{S}$ is the environment state (possibly embedded/encoded)
 - $\theta \in \Theta$ is the action parameter vector
 - $\mathcal{Z}$ is the augmented space
@@ -94,6 +95,7 @@ z = (x_s(s), x_a(\theta))
 $$
 
 where:
+
 - $x_s: \mathcal{S} \to \mathbb{R}^{d_s}$ embeds states
 - $x_a: \Theta \to \mathbb{R}^{d_a}$ embeds action parameters
 
@@ -117,6 +119,7 @@ $$
 $$
 
 where:
+
 - $z_i = (s_i, \theta_i)$ is the **location** in augmented space
 - $w_i \in \mathbb{R}$ is the **weight** (typically related to value)
 

@@ -19,6 +19,7 @@ Feynman showed this is equivalent to **summing over all possible paths**:
 $$\langle x_f | e^{-i\hat{H}T/\hbar} | x_i \rangle = \int \mathcal{D}[x(t)] \, e^{iS[x(t)]/\hbar}$$
 
 where:
+
 - $S[x(t)] = \int_0^T L(x, \dot{x}, t) dt$ = **action functional**
 - $L = T - V$ = Lagrangian (kinetic - potential energy)
 - $\hbar$ = Planck's constant (sets the scale)
@@ -128,6 +129,7 @@ In augmented space $z = (s, \theta)$, the action along trajectory $\tau = \{z_t\
 $$S_{\text{GRL}}[\tau] = \int_0^T \left[E(z_t) + \frac{1}{2\lambda}\|\dot{z}_t\|^2\right] dt$$
 
 where:
+
 - $E(z) = -Q^+(z)$ = energy
 - $\lambda$ = temperature (exploration parameter)
 

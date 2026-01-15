@@ -20,6 +20,7 @@ In classical mechanics, a particle doesn't "choose" its trajectory arbitrarily. 
 $$S[\gamma] = \int_{t_0}^{t_f} L(q(t), \dot{q}(t), t) \, dt$$
 
 where:
+
 - $L(q, \dot{q}, t)$ = **Lagrangian** = Kinetic Energy - Potential Energy
 - $q(t)$ = position at time $t$
 - $\dot{q}(t)$ = velocity at time $t$
@@ -85,6 +86,7 @@ Sound familiar? This is exactly an action minimization problem!
 $$S[\tau] = \int_{t_0}^{t_f} \left[ C(s_t, u_t) + \frac{1}{2\nu} \|u_t\|^2 \right] dt$$
 
 where:
+
 - $C(s, u)$ = instantaneous cost (like potential energy)
 - $\frac{1}{2\nu} \|u_t\|^2$ = control cost (like kinetic energy)
 - $u_t$ = control input at time $t$
@@ -139,6 +141,7 @@ In GRL, we work in **augmented state-action space** $z = (s, \theta)$. The natur
 $$S[\tau] = \int_{t_0}^{t_f} \left[ E(s_t, \theta_t) + \frac{1}{2\lambda} \|\dot{\theta}_t\|^2 \right] dt$$
 
 where:
+
 - $E(s, \theta) = -Q^+(s, \theta)$ = **energy landscape** (potential)
 - $\|\dot{\theta}_t\|^2$ = "kinetic energy" of action parameter changes
 - $\lambda$ = temperature (controls exploration)

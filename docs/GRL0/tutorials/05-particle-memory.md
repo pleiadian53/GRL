@@ -37,6 +37,7 @@ $$
 $$
 
 where:
+
 - $z = (s, \theta)$: **Location** in augmented space
 - $w \in \mathbb{R}$: **Weight** (influence on the field)
 

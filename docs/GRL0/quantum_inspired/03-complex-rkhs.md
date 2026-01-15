@@ -76,6 +76,7 @@ Each particle carries a position, magnitude, and **phase**:
 $$(z_i, w_i, \phi_i)$$
 
 where:
+
 - $z_i = (s_i, \theta_i)$: augmented state-action location
 - $w_i \in \mathbb{R}^+$: magnitude (importance)
 - $\phi_i \in [0, 2\pi)$: phase angle

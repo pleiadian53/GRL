@@ -159,6 +159,7 @@ Let's formalize each.
 $$\Omega_{t+1} = \Omega_t \cup \{(z_t, w_t)\}$$
 
 where:
+
 - $z_t = (s_t, a_t)$ (augmented state)
 - $w_t = r_t$ or TD target $y_t = r_t + \gamma \max_{a'} Q^+_t(s_{t+1}, a')$
 

@@ -206,6 +206,7 @@ For particles with strong association ($a_i > \varepsilon$), adjust their weight
 $$w_i \leftarrow w_i + \lambda \cdot a_i \cdot w_{new}$$
 
 where:
+
 - $\lambda \in [0, 1]$ controls propagation strength
 - $a_i$ determines how much particle $i$ should respond
 - $w_{new}$ provides the signal to propagate
@@ -387,6 +388,7 @@ Let's see MemoryUpdate in action with a concrete example.
 - **Current memory:** $\mathcal{M} = \{(z_1, w_1), (z_2, w_2)\}$
 
 where:
+
 - $z_1 = (8.0, +0.5)$, $w_1 = +5.0$
 - $z_2 = (3.0, -0.3)$, $w_2 = -2.0$
 
