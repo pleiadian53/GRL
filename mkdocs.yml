@@ -1,0 +1,157 @@
+site_name: Generalized Reinforcement Learning (GRL)
+site_description: Physics-grounded reinforcement learning with particle-based belief representations
+site_author: GRL Research Team
+site_url: https://pleiadian53.github.io/GRL/
+
+repo_name: pleiadian53/GRL
+repo_url: https://github.com/pleiadian53/GRL
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2026 GRL Research Team
+
+# Theme configuration
+theme:
+  name: material
+  language: en
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.instant        # Instant loading
+    - navigation.tracking       # Anchor tracking
+    - navigation.tabs           # Top-level navigation tabs
+    - navigation.tabs.sticky    # Sticky tabs
+    - navigation.sections       # Section navigation
+    - navigation.expand         # Expand sections by default
+    - navigation.top            # Back to top button
+    - search.suggest            # Search suggestions
+    - search.highlight          # Highlight search results
+    - content.code.copy         # Copy button for code blocks
+    - content.action.edit       # Edit button (links to GitHub)
+  icon:
+    repo: fontawesome/brands/github
+    edit: material/pencil
+
+# Extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+  
+  # Python Markdown Extensions (pymdownx)
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Extra JavaScript for MathJax
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Extra CSS
+extra_css:
+  - stylesheets/extra.css
+
+# Plugins
+plugins:
+  - search:
+      lang: en
+      separator: '[\s\-\.]+'
+  - tags
+
+# Navigation structure
+nav:
+  - Home: index.md
+  - 'GRL v0 (Tutorial Paper)':
+      - Overview: GRL0/README.md
+      - 'Part I: Tutorials':
+          - 'Tutorial Index': GRL0/tutorials/README.md
+          - 'Ch 0: Overview': GRL0/tutorials/00-overview.md
+          - 'Ch 1: Core Concepts': GRL0/tutorials/01-core-concepts.md
+          - 'Ch 2: RKHS Foundations': GRL0/tutorials/02-rkhs-foundations.md
+          - 'Ch 3: Energy and Fitness': GRL0/tutorials/03-energy-and-fitness.md
+          - 'Ch 3a: Least Action Principle': GRL0/tutorials/03a-least-action-principle.md
+          - 'Ch 4: Reinforcement Field': GRL0/tutorials/04-reinforcement-field.md
+          - 'Ch 4a: Riesz Representer': GRL0/tutorials/04a-riesz-representer.md
+          - 'Ch 5: Particle Memory': GRL0/tutorials/05-particle-memory.md
+          - 'Ch 6: MemoryUpdate': GRL0/tutorials/06-memory-update.md
+          - 'Ch 6a: Advanced Memory Dynamics': GRL0/tutorials/06a-advanced-memory-dynamics.md
+          - 'Ch 7: RF-SARSA': GRL0/tutorials/07-rf-sarsa.md
+          - 'Ch 7a: Continuous Policy Inference': GRL0/tutorials/07a-continuous-policy-inference.md
+      - 'Quantum-Inspired Extensions':
+          - 'Overview': GRL0/quantum_inspired/README.md
+          - '01: RKHS-QM Parallel': GRL0/quantum_inspired/01-rkhs-quantum-parallel.md
+          - '01a: Wavefunction Interpretation': GRL0/quantum_inspired/01a-wavefunction-interpretation.md
+          - '02: Basis and Amplitudes': GRL0/quantum_inspired/02-rkhs-basis-and-amplitudes.md
+          - '03: Complex RKHS': GRL0/quantum_inspired/03-complex-rkhs.md
+          - '04: Action and State Fields': GRL0/quantum_inspired/04-action-and-state-fields.md
+          - '05: Concept Projections': GRL0/quantum_inspired/05-concept-projections-and-measurements.md
+          - '06: Agent State and Belief': GRL0/quantum_inspired/06-agent-state-and-belief-evolution.md
+          - '07: Learning Beyond GP': GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md
+          - '08: Memory Dynamics': GRL0/quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md
+          - '09: Path Integrals': GRL0/quantum_inspired/09-path-integrals-and-action-principles.md
+      - 'Implementation Guide': GRL0/implementation/README.md
+      - 'Recovering Classical RL': GRL0/recovering_classical_rl.md
+  - 'Research Roadmap': ROADMAP.md
+  - 'About':
+      - 'Contributing': CONTRIBUTING.md
+      - 'License': LICENSE.md
+
+# Extra configuration
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/pleiadian53/GRL
+  version:
+    provider: mike
