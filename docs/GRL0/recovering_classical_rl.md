@@ -11,11 +11,13 @@
 **Key Claim**: Generalized Reinforcement Learning (GRL) is not a replacement for classical RL—it's a **unifying framework** that recovers existing methods as special cases while enabling new capabilities.
 
 **Why This Matters**:
+
 - **Adoption**: Researchers trust frameworks that subsume what they already know
 - **Validation**: If GRL recovers DQN/PPO/SAC, it must be correct
 - **Innovation**: Once the connection is clear, extensions become natural
 
 **What You'll Learn**:
+
 1. How **Q-learning** emerges from GRL with discrete actions
 2. How **DQN** is GRL with neural network approximation
 3. How **Policy Gradients** (REINFORCE) follow from the energy landscape
@@ -66,6 +68,7 @@
 ### Classical Q-Learning
 
 **Setup**:
+
 - State space: $\mathcal{S}$
 - Action space: $\mathcal{A} = \{a_1, \ldots, a_K\}$ (discrete, finite)
 - Q-function: $Q(s, a)$ for each $(s, a)$ pair
@@ -80,16 +83,19 @@ $$Q(s, a) \leftarrow Q(s, a) + \alpha [r + \gamma \max_{a'} Q(s', a') - Q(s, a)]
 ### GRL Version
 
 **Setup**:
+
 - State space: $\mathcal{S}$ (same)
 - Action space: $\mathcal{A} = \{a_1, \ldots, a_K\}$ (discrete)
 - **Map each discrete action to a parameter**: $\theta_1, \ldots, \theta_K$ (fixed)
 - **Augmented space**: $\mathcal{Z} = \mathcal{S} \times \{\theta_1, \ldots, \theta_K\}$
 - **Reinforcement field**: $Q^+(s, \theta_i)$ evaluated only at discrete points $\theta_i$
 
-**Particle Memory**: 
+**Particle Memory**:
+
 - Each experience $(s, a_i, r, s')$ creates particle $(z_i, w_i)$ where $z_i = (s, \theta_i)$, $w_i = r$
 
 **MemoryUpdate**:
+
 - Add particle $(z_t, w_t)$ where $z_t = (s_t, \theta_{a_t})$, $w_t = r_t$
 - With **no kernel association** (set $k(z, z') = \delta(z, z')$), MemoryUpdate reduces to:
   $$Q^+(s, \theta_a) \leftarrow Q^+(s, \theta_a) + \alpha [y_t - Q^+(s, \theta_a)]$$
@@ -102,11 +108,13 @@ $$Q(s, a) \leftarrow Q(s, a) + \alpha [r + \gamma \max_{a'} Q(s', a') - Q(s, a)]
 ### Key Takeaways
 
 **Q-learning is GRL with**:
+
 1. **Discrete action space** (finite $\{\theta_i\}$)
 2. **Delta kernel** (no generalization between actions)
 3. **Tabular representation** (store $Q$ for each state-action pair)
 
 **What GRL adds**:
+
 - Generalization via non-trivial kernels: $k((s, \theta_i), (s, \theta_j)) > 0$ for $i \neq j$
 - Continuous interpolation: $Q^+(s, \theta)$ defined for all $\theta$, not just discrete actions
 - Weighted particles: Experience importance via $w_i$
@@ -148,11 +156,13 @@ where $y = w + \gamma \max_{\theta'} Q_\psi(s', \theta')$
 ### Key Takeaways
 
 **DQN is GRL with**:
+
 1. **Neural network approximation** of the reinforcement field
 2. **Experience replay** = particle memory sampling
 3. **Discrete actions** (typically)
 
 **What GRL adds**:
+
 - **Explicit particle representation**: Particles are not just for replay, they define the field
 - **Kernel interpretation**: Neural network as implicit kernel
 - **Continuous action generalization**: $Q_\psi(s, \theta)$ for any $\theta$
@@ -201,11 +211,13 @@ The score function gradient $\nabla_\phi \log \pi_\phi(a|s)$ in REINFORCE is equ
 ### Key Takeaways
 
 **REINFORCE is GRL with**:
+
 1. **Boltzmann policy** derived from energy landscape
 2. **Direct parameterization** of the field (or policy)
 3. **Monte Carlo returns** ($G_t$) as targets
 
 **What GRL adds**:
+
 - **Energy interpretation**: $Q^+ = -E$ provides physics-inspired regularization
 - **Particle-based updates**: No need for full gradient, use particle approximation
 - **Smooth action selection**: Temperature $\beta$ controls exploration naturally
@@ -263,16 +275,19 @@ The score function gradient $\nabla_\phi \log \pi_\phi(a|s)$ in REINFORCE is equ
 ### Key Takeaways
 
 **Actor-Critic is GRL with**:
+
 1. **Reinforcement field as critic**
 2. **Boltzmann policy as actor** (no separate parameters)
 3. **RF-SARSA as update rule**
 
 **What GRL adds**:
+
 - **Unified representation**: No need for separate actor and critic
 - **Automatic exploration**: Temperature $\beta$ replaces entropy regularization
 - **Particle-based**: Memory naturally handles off-policy data
 
 **Special Cases**:
+
 - **PPO**: GRL with clipped field updates, on-policy sampling
 - **SAC**: GRL with entropy term in field (equivalent to temperature)
 
@@ -284,6 +299,7 @@ The score function gradient $\nabla_\phi \log \pi_\phi(a|s)$ in REINFORCE is equ
 ### Classical RLHF (Reinforcement Learning from Human Feedback)
 
 **Setup** (e.g., for ChatGPT):
+
 - **LLM**: $\pi_\phi(a_t | s_t)$ where $s_t$ = (prompt, response so far), $a_t$ = next token
 - **Reward Model**: $r_\theta(s, a)$ learned from human preferences
 - **Algorithm**: PPO or similar policy gradient method
@@ -371,6 +387,7 @@ where:
 ### Key Takeaways
 
 **RLHF is GRL with**:
+
 1. **Discrete action space** (tokens)
 2. **On-policy updates** (PPO)
 3. **Neural network approximation** of field
