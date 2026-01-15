@@ -1,28 +1,41 @@
-# GRL Notebooks
+# Interactive Notebooks
 
-Jupyter notebooks for exploration, experimentation, and visualization.
+Welcome to the GRL interactive demonstrations! These Jupyter notebooks provide hands-on visualizations and examples.
 
-## Contents
+---
 
-### Getting Started
-- `01_operators_intro.ipynb` - Introduction to action operators
-- `02_field_navigation.ipynb` - Visual navigation with field operators
-- `03_training_loop.ipynb` - Training a GRL agent step by step
+## Available Notebooks
 
-### Experiments
-- `exp_operator_comparison.ipynb` - Compare affine, field, and kernel operators
-- `exp_least_action.ipynb` - Ablation study on least-action regularization
-- `exp_baseline_comparison.ipynb` - GRL vs SAC/PPO on standard benchmarks
+### **[Vector Field Visualization](vector_field.ipynb)**
+Interactive exploration of:
+- Reinforcement field topology
+- Particle dynamics and memory evolution  
+- Energy landscape navigation
+- Action inference from field gradients
 
-### Visualization
-- `viz_operator_fields.ipynb` - Beautiful field visualizations
-- `viz_trajectory_analysis.ipynb` - Trajectory smoothness analysis
+---
 
-## Usage
+## Note for Contributors
+
+These notebooks are **copies** from the main `notebooks/` directory in the repository, rendered here for reliable display with full math and plot support.
+
+**Development workflow:**
+1. Work on notebooks in `/notebooks/` (root directory)
+2. Copy to `/docs/notebooks/` when ready to publish
+3. Notebooks here are built and deployed to GitHub Pages automatically
+
+**Why two locations?**
+- `/notebooks/` — Standard location for repository browsing
+- `/docs/notebooks/` — Rendered version for documentation site (reliable, math-enabled)
+
+---
+
+## Running Locally
+
+To run these notebooks interactively:
 
 ```bash
-# Start Jupyter
-cd GRL
-mamba activate grl
-jupyter lab notebooks/
+git clone https://github.com/pleiadian53/GRL.git
+cd GRL/notebooks  # Use the original location
+jupyter notebook
 ```

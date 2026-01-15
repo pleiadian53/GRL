@@ -216,7 +216,8 @@ GRL/
 ### Additional Resources
 
 - **[Installation Guide](INSTALL.md)** — Detailed setup instructions
-- **[Vector Field Demo](notebooks/vector_field.ipynb)** — Interactive visualizations
+- **[Interactive Notebooks](https://pleiadian53.github.io/GRL/notebooks/vector_field/)** — Jupyter demos with visualizations (best viewed on Pages)
+  - [View source](notebooks/) — Raw notebooks in repository
 
 ---
 

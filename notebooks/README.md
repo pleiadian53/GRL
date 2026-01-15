@@ -1,28 +1,38 @@
 # GRL Notebooks
 
-Jupyter notebooks for exploration, experimentation, and visualization.
+Interactive demonstrations and visualizations for Generalized Reinforcement Learning.
 
-## Contents
+## Available Notebooks
 
-### Getting Started
-- `01_operators_intro.ipynb` - Introduction to action operators
-- `02_field_navigation.ipynb` - Visual navigation with field operators
-- `03_training_loop.ipynb` - Training a GRL agent step by step
+- **[`vector_field.ipynb`](vector_field.ipynb)** — Visualizing reinforcement fields and particle dynamics
 
-### Experiments
-- `exp_operator_comparison.ipynb` - Compare affine, field, and kernel operators
-- `exp_least_action.ipynb` - Ablation study on least-action regularization
-- `exp_baseline_comparison.ipynb` - GRL vs SAC/PPO on standard benchmarks
+---
 
-### Visualization
-- `viz_operator_fields.ipynb` - Beautiful field visualizations
-- `viz_trajectory_analysis.ipynb` - Trajectory smoothness analysis
+## Viewing Options
 
-## Usage
+### **Option 1: GitHub Pages (Recommended)**
+Best rendering with proper math display:
+- 📊 [View on Documentation Site](https://pleiadian53.github.io/GRL/notebooks/vector_field/)
 
+### **Option 2: GitHub.com**
+View directly on GitHub (may be slow for large notebooks):
+- 📓 [View on GitHub](https://github.com/pleiadian53/GRL/blob/main/notebooks/vector_field.ipynb)
+
+### **Option 3: Run Locally**
+Clone the repository and run in Jupyter:
 ```bash
-# Start Jupyter
-cd GRL
-mamba activate grl
-jupyter lab notebooks/
+git clone https://github.com/pleiadian53/GRL.git
+cd GRL/notebooks
+jupyter notebook vector_field.ipynb
 ```
+
+---
+
+## Development
+
+These notebooks are **automatically synced** to the documentation site at `docs/notebooks/` for reliable rendering.
+
+To add a new notebook:
+1. Create/develop in this `notebooks/` directory
+2. Copy to `docs/notebooks/` when ready to publish
+3. Add to navigation in `mkdocs.yml`
