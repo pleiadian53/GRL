@@ -122,14 +122,16 @@ Getting the sign right is essential for implementation:
 
 ### 4.2 Dynamics and Flows
 
-For continuous-time extensions of GRL, the energy convention is standard:
+For continuous-time extensions of GRL, the energy convention is standard.
 
-**Gradient descent**:
+**Gradient descent:**
+
 $$
 \frac{d\theta}{dt} = -\nabla E(s, \theta)
 $$
 
-**Langevin dynamics** (with exploration):
+**Langevin dynamics (with exploration):**
+
 $$
 d\theta_t = -\nabla E(s, \theta_t) \, dt + \sqrt{2\beta^{-1}} \, dW_t
 $$

@@ -1,41 +1,71 @@
 # Interactive Notebooks
 
-Welcome to the GRL interactive demonstrations! These Jupyter notebooks provide hands-on visualizations and examples.
+Welcome to the GRL interactive demonstrations! These Jupyter notebooks provide hands-on visualizations for understanding reinforcement fields.
 
 ---
 
-## Available Notebooks
+## 📚 Notebook Series
 
-### **[Vector Field Visualization](vector_field.ipynb)**
-Interactive exploration of:
-- Reinforcement field topology
-- Particle dynamics and memory evolution  
-- Energy landscape navigation
-- Action inference from field gradients
+This is a **3-part progressive series** building intuition from classical vector fields to GRL's functional fields:
 
----
+### **[Part 1: Classical Vector Fields](01_classical_vector_fields/)**
+🔄 **In Development** | ⏱️ ~15-20 min
 
-## Note for Contributors
+Arrows at each point, gradient fields, optimization basics.
 
-These notebooks are **copies** from the main `notebooks/` directory in the repository, rendered here for reliable display with full math and plot support.
+### **Part 2: Functional Fields** 
+📋 **Planned** | ⏱️ ~20-25 min
 
-**Development workflow:**
-1. Work on notebooks in `/notebooks/` (root directory)
-2. Copy to `/docs/notebooks/` when ready to publish
-3. Notebooks here are built and deployed to GitHub Pages automatically
+Functions as vectors, RKHS foundations, explicit comparison.
 
-**Why two locations?**
-- `/notebooks/` — Standard location for repository browsing
-- `/docs/notebooks/` — Rendered version for documentation site (reliable, math-enabled)
+### **Part 3: Reinforcement Fields in GRL**
+📋 **Planned** | ⏱️ ~25-30 min
+
+Particle memory, Q⁺ emergence, policy inference, learning dynamics.
 
 ---
 
-## Running Locally
+## 🗺️ Complete Roadmap
 
-To run these notebooks interactively:
+**See the full roadmap with learning paths, FAQ, and development status:**
 
+👉 **[Notebook Series Roadmap](https://github.com/pleiadian53/GRL/blob/main/notebooks/README.md)**
+
+---
+
+## 💡 Quick Start
+
+**Best viewing experience:**
+1. Click notebook links above (rendered on this site)
+2. Math and plots display correctly
+3. No GitHub timeout issues!
+
+**Want to run interactively?**
 ```bash
 git clone https://github.com/pleiadian53/GRL.git
-cd GRL/notebooks  # Use the original location
+cd GRL/notebooks
 jupyter notebook
 ```
+
+---
+
+## 📖 Related Resources
+
+- **[Tutorial Series](../tutorials/README.md)** — Mathematical depth
+- **[Implementation Guide](../implementation/README.md)** — Technical specs
+- **[Quantum-Inspired Extensions](../quantum_inspired/README.md)** — Advanced topics
+
+---
+
+## 📍 Note for Contributors
+
+These notebooks are **rendered copies** from `/notebooks/` in the repository.
+
+**Development workflow:**
+1. Develop in `/notebooks/` (primary location)
+2. Copy to `/docs/notebooks/` when ready to publish
+3. GitHub Actions deploys automatically
+
+**Why two locations?**
+- `/notebooks/` — Source of truth, easy to find
+- `/docs/notebooks/` — Rendered for reliable display
