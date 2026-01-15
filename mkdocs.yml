@@ -110,6 +110,12 @@ plugins:
       lang: en
       separator: '[\s\-\.]+'
   - tags
+  - mkdocs-jupyter:
+      include_source: True           # Include source code in rendered output
+      execute: False                 # Don't re-run notebooks (use saved outputs)
+      allow_errors: False            # Stop build if notebook has errors
+      ignore_h1_titles: True         # Use filename as title, not first H1
+      theme: dark                    # Code theme (dark/light)
 
 # Navigation structure
 nav:
@@ -145,6 +151,9 @@ nav:
       - 'Implementation Guide': GRL0/implementation/README.md
       - 'Recovering Classical RL': GRL0/recovering_classical_rl.md
   - 'Research Roadmap': ROADMAP.md
+  - 'Notebooks':
+      - 'Overview': notebooks/README.md
+      - 'Vector Field Visualization': notebooks/vector_field.ipynb
   - 'About':
       - 'Contributing': CONTRIBUTING.md
       - 'License': LICENSE.md
