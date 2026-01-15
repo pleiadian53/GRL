@@ -5,11 +5,13 @@
 Throughout this series, we've discussed "the state" $Q^+$, projections like $Q^+(s, a)$, and operations like MemoryUpdate. But what exactly **is** the agent's state in GRL?
 
 This is not a philosophical question—it's a precise technical question with important implications:
+
 - What object encodes the agent's knowledge?
 - What changes when the agent learns?
 - What stays fixed during inference?
 
 This chapter provides definitive answers by clarifying:
+
 1. **The agent's state** = particle memory = reinforcement field
 2. **Belief evolution** = MemoryUpdate as state transition operator
 3. **The role of weights** = implicit GP-derived coefficients, not learned parameters
@@ -26,6 +28,7 @@ This chapter provides definitive answers by clarifying:
 In traditional RL, "state" usually means environment state $s \in \mathcal{S}$.
 
 But in GRL, we have multiple candidates:
+
 - Environment state $s$?
 - Augmented point $z = (s, a)$?
 - Field value $Q^+(s, a)$?
@@ -166,6 +169,7 @@ $$A_{k,t} = \|P_k Q^+_t\|^2$$
 **Key point:** These operations **do not change $Q^+_t$!**
 
 They are:
+
 - Queries
 - Projections
 - Evaluations
@@ -285,6 +289,7 @@ Given data $\mathcal{D} = \{(z_i, y_i)\}$ and kernel $k$, the posterior mean is:
 $$\mu(z) = \mathbf{k}(z)^T (\mathbf{K} + \sigma^2 \mathbf{I})^{-1} \mathbf{y}$$
 
 where:
+
 - $\mathbf{k}(z) = [k(z_1, z), \ldots, k(z_N, z)]^T$
 - $\mathbf{K}_{ij} = k(z_i, z_j)$
 - $\mathbf{y} = [y_1, \ldots, y_N]^T$
@@ -425,6 +430,7 @@ $$Q^+_{t+1} = \sum_{j=1}^{N_{t+1}} w_j^{(t+1)} k(z_j^{(t+1)}, \cdot)$$
 3. Resulting field: $Q^+_{t+1}$
 
 **Key difference:** GRL also includes:
+
 - Weight propagation (kernel association)
 - Structural consolidation (merge/prune)
 

@@ -56,6 +56,7 @@
 | **Exploration** $\epsilon$-greedy | Temperature $\beta$ in Boltzmann | Smooth instead of discrete |
 
 **Key Insight**: Classical RL is GRL with:
+
 - **Discrete or fixed action spaces**
 - **Tabular or neural network approximation** of the field
 - **Specific choices** of update rules
@@ -127,6 +128,7 @@ $$Q(s, a) \leftarrow Q(s, a) + \alpha [r + \gamma \max_{a'} Q(s', a') - Q(s, a)]
 ### Classical DQN
 
 **Setup**:
+
 - Q-function approximated by neural network: $Q_\psi(s, a)$
 - Experience replay buffer: $\mathcal{D} = \{(s_i, a_i, r_i, s_i')\}$
 - Target network: $Q_{\psi^-}$ (delayed copy)
@@ -140,6 +142,7 @@ where $y = r + \gamma \max_{a'} Q_{\psi^-}(s', a')$
 ### GRL Version
 
 **Setup**:
+
 - **Field approximator**: Neural network $Q_\psi(s, \theta)$ approximates reinforcement field
 - **Particle memory**: $\Omega = \{(z_i, w_i)\}$ where $z_i = (s_i, \theta_i)$
 - **Kernel**: Implicit kernel induced by neural network architecture
@@ -175,6 +178,7 @@ where $y = w + \gamma \max_{\theta'} Q_\psi(s', \theta')$
 ### Classical REINFORCE
 
 **Setup**:
+
 - Policy: $\pi_\phi(a|s)$ (parameterized, e.g., neural network)
 - Objective: $J(\phi) = \mathbb{E}_{\tau \sim \pi_\phi} [R(\tau)]$ (expected return)
 
@@ -188,6 +192,7 @@ where $G_t = \sum_{t'=t}^T \gamma^{t'-t} r_{t'}$ (return from time $t$)
 ### GRL Version
 
 **Setup**:
+
 - **Reinforcement field**: $Q^+(s, \theta)$
 - **Policy**: Boltzmann over field
   $$\pi(a | s) = \frac{\exp(\beta \, Q^+(s, \theta_a))}{\int \exp(\beta \, Q^+(s, \theta')) d\theta'}$$
@@ -230,10 +235,12 @@ The score function gradient $\nabla_\phi \log \pi_\phi(a|s)$ in REINFORCE is equ
 ### Classical Actor-Critic
 
 **Setup**:
+
 - **Actor**: Policy $\pi_\phi(a|s)$
 - **Critic**: Value function $V_\psi(s)$ or $Q_\psi(s, a)$
 
 **Update**:
+
 - **Critic**: TD learning
   $$\psi \leftarrow \psi - \eta \nabla_\psi [Q_\psi(s, a) - (r + \gamma V_\psi(s'))]^2$$
   
@@ -242,6 +249,7 @@ The score function gradient $\nabla_\phi \log \pi_\phi(a|s)$ in REINFORCE is equ
   where $A(s, a) = Q(s, a) - V(s)$ (advantage)
 
 **Variants**:
+
 - **PPO**: Clipped objective, KL penalty
 - **SAC**: Entropy regularization, temperature tuning
 
@@ -250,11 +258,13 @@ The score function gradient $\nabla_\phi \log \pi_\phi(a|s)$ in REINFORCE is equ
 ### GRL Version
 
 **Setup**:
+
 - **Critic**: Reinforcement field $Q^+(s, \theta)$ (this is the "critic")
 - **Actor**: Policy inferred from field via Boltzmann
   $$\pi(\theta | s) \propto \exp(\beta \, Q^+(s, \theta))$$
 
 **Update**:
+
 - **Field (Critic)**: RF-SARSA (two-layer TD system)
   - Primitive layer: TD learning for discrete transitions
   - GP layer: Smooth field over augmented space
@@ -264,6 +274,7 @@ The score function gradient $\nabla_\phi \log \pi_\phi(a|s)$ in REINFORCE is equ
   - Policy gradient = field gradient
 
 **Connection**:
+
 - $Q^+(s, \theta)$ plays the role of both Q-function and value function
 - Boltzmann policy automatically balances exploitation (high $Q^+$) and exploration (low $\beta$)
 - Advantage: $A(s, \theta) = Q^+(s, \theta) - \max_{\theta'} Q^+(s, \theta')$
@@ -317,6 +328,7 @@ where:
 ### GRL Version
 
 **Setup**:
+
 - **State**: $s_t$ = (prompt, partial response)
 - **Action**: $\theta_t$ = token ID or logit vector (discrete or continuous parameterization)
 - **Augmented space**: $(s_t, \theta_t)$ in semantic embedding space
@@ -394,12 +406,14 @@ where:
 3. **Neural network approximation** of field
 
 **What GRL adds for RLHF**:
+
 - **Off-policy learning** (replay buffer of human feedback)
 - **Kernel generalization** (transfer across prompts)
 - **Uncertainty** (exploration where most uncertain)
 - **Interpretability** (energy landscapes, particle inspection)
 
 **Strategic Impact**: Demonstrating GRL on RLHF:
+
 - Validates GRL on most commercially relevant RL problem
 - Opens door to industry adoption (OpenAI, Anthropic, Meta)
 - Natural bridge to scaling research
@@ -552,6 +566,7 @@ for episode in range(num_episodes):
 ## Conclusion
 
 **GRL is a unifying framework** that:
+
 1. ✅ **Recovers classical RL** (Q-learning, DQN, REINFORCE, PPO, SAC, RLHF)
 2. ✅ **Extends to continuous actions** (smooth generalization via kernels)
 3. ✅ **Enables composition** (operator algebra)
@@ -570,22 +585,26 @@ for episode in range(num_episodes):
 ## Next Steps
 
 **Reproduce Classical Results**:
+
 - [ ] Implement Q-learning recovery on GridWorld
 - [ ] Implement DQN recovery on CartPole
 - [ ] Implement PPO recovery on continuous control (Pendulum)
 - [ ] Implement RLHF recovery on small LLM (GPT-2)
 
 **Document Connections**:
+
 - [ ] Add "Classical RL Recovery" section to each tutorial chapter
 - [ ] Create comparison tables (classical vs. GRL)
 - [ ] Write blog post: "GRL: A Unifying Framework for RL"
 
 **Validate**:
+
 - [ ] Benchmark: GRL vs. DQN on Atari
 - [ ] Benchmark: GRL vs. SAC on MuJoCo
 - [ ] Benchmark: GRL vs. PPO on RLHF tasks
 
 **Scale**:
+
 - [ ] Apply GRL to LLaMA-7B fine-tuning
 - [ ] Demonstrate advantages (sample efficiency, uncertainty)
 - [ ] Submit paper: "GRL for LLM Fine-tuning"

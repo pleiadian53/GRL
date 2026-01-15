@@ -9,6 +9,7 @@
 ## Introduction
 
 We've built up to this point:
+
 - Chapter 1: Actions as parameters, augmented space, particles, kernels
 - Chapter 2: RKHS as the mathematical home for our value function
 - Chapter 3: Fitness and energy as two views of the same landscape
@@ -32,6 +33,7 @@ This definition is correct but potentially misleading. The phrase "vector field"
 ### What's Right About It
 
 The definition correctly identifies:
+
 - The field is **induced by kernels**
 - It is constructed from **linear combinations**
 - It lives in a **Hilbert space**
@@ -40,6 +42,7 @@ The definition correctly identifies:
 ### What Needs Clarification
 
 The word "vector" is ambiguous. It could mean:
+
 1. A geometric arrow in $\mathbb{R}^n$ (classical vector field)
 2. An element of a Hilbert space (a function)
 
@@ -64,6 +67,7 @@ At each point $x$, there's a vector $\mathbf{v}(x)$ with magnitude and direction
 In functional analysis, a vector is any element of a vector space. Functions are vectors:
 
 $$
+
 f \in \mathcal{H}_k
 $$
 
@@ -88,6 +92,7 @@ A **functional field** is:
 > A field whose values are induced by derivatives of functionals in an RKHS, not by coordinate-wise vector components.
 
 More precisely:
+
 - The value function $Q^+$ lives in RKHS $\mathcal{H}_k$
 - Its gradient $\nabla Q^+$ is defined via the RKHS inner product
 - This gradient is the **Riesz representer** of a functional derivative
@@ -124,10 +129,12 @@ where $z_i$ are particle locations and $w_i$ are weights.
 The gradient of $Q^+$ at any point $z$ is:
 
 $$
+
 \nabla_z Q^+(z) = \sum_{i=1}^N w_i \, \nabla_z k(z, z_i)
 $$
 
 This gradient is:
+
 - A **superposition of kernel gradients** centered at particles
 - **Globally smooth** (inherited from kernel smoothness)
 - **Nonlocal** (every particle contributes, weighted by kernel)
@@ -149,6 +156,7 @@ The original paper presents two key equations for policy learning:
 
 **Discrete update (Equation 12)**:
 $$
+
 \theta_{t+1} = \theta_t + \eta \, \frac{\partial Q^+(s_t, \theta)}{\partial \theta} \Big|_{\theta=\theta_t}
 $$
 
@@ -156,6 +164,7 @@ This updates action parameters by moving toward higher value.
 
 **Continuous-time flow (Equation 13)**:
 $$
+
 \frac{d\theta}{dt} = \nabla_\theta Q^+(s(t), \theta(t))
 $$
 
@@ -200,6 +209,7 @@ States, actions, or operators can live in function spaces, manifolds, or operato
 In standard RL, we learn a policy $\pi_\phi(a|s)$ by optimizing parameters $\phi$.
 
 In GRL, there is no separate policy function. Instead:
+
 - We learn the **reinforcement field** $Q^+$
 - The policy **emerges** from navigating this field
 - Action selection is geometric: move toward high-value regions
@@ -226,6 +236,7 @@ E(z) = -Q^+(z)
 $$
 
 $$
+
 \mathbf{F}(z) = -\nabla E(z) = \nabla Q^+(z)
 $$
 
@@ -236,6 +247,7 @@ The force points toward low energy (high value).
 Adding stochasticity for exploration:
 
 $$
+
 d\theta_t = -\nabla_\theta E(s_t, \theta_t) \, dt + \sqrt{2\beta^{-1}} \, dW_t
 $$
 
@@ -246,10 +258,12 @@ This is **Langevin dynamics** in the augmented space — a principled way to add
 The reinforcement field gradient is analogous to the **score function** in diffusion models:
 
 $$
+
 \nabla \log p(z) \propto -\nabla E(z) = \nabla Q^+(z)
 $$
 
 This opens connections to:
+
 - Diffusion-based policy learning
 - Score matching for value functions
 - Denoising approaches to control
@@ -287,6 +301,7 @@ These are not separate objects — they're aspects of one unified field.
 ### Setup
 
 Consider a simple domain:
+
 - State $s = (x, y) \in \mathbb{R}^2$: position
 - Action $\theta = (F_x, F_y) \in \mathbb{R}^2$: force to apply
 - Augmented state $z = (x, y, F_x, F_y) \in \mathbb{R}^4$
@@ -294,6 +309,7 @@ Consider a simple domain:
 ### Particles from Experience
 
 After exploration, suppose we have particles:
+
 - $(z_1, w_1)$: Near goal, high weight (good experience)
 - $(z_2, w_2)$: Hit obstacle, low/negative weight (bad experience)
 - $(z_3, w_3)$: Random wandering, moderate weight
@@ -313,6 +329,7 @@ creates a landscape over 4D augmented space.
 At a new state $s$, the policy queries: "For which $\theta$ is $Q^+(s, \theta)$ highest?"
 
 The answer comes from the field geometry:
+
 - Near the goal: $\theta$ similar to past successful actions
 - Near obstacles: Avoid $\theta$ similar to past failures
 - Unknown regions: Low confidence, uncertainty-driven exploration
@@ -344,6 +361,7 @@ This transforms RL from a function-fitting problem into a geometric control prob
 ### Definition Recap
 
 The reinforcement field is:
+
 1. The **functional gradient** of value/energy in RKHS
 2. A **superposition** of kernel gradients at particles
 3. A **nonlocal, smooth** field over augmented space
@@ -373,6 +391,7 @@ The reinforcement field is:
 ## Next Steps
 
 In **Chapter 5: Particle Memory**, we'll explore:
+
 - How particles represent experience
 - The MemoryUpdate algorithm
 - Particle operations: add, merge, prune

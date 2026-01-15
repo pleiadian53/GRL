@@ -13,6 +13,7 @@ In [Chapter 06](06-memory-update.md), we learned Algorithm 1: MemoryUpdate from 
 $$\text{Associate particles } i \text{ and } j \text{ if } k(z_i, z_j) > \tau$$
 
 **The problem**: This threshold is:
+
 - **Brittle**: Sensitive to $\tau$ choice
 - **Global**: Same $\tau$ everywhere (doesn't adapt to density)
 - **Manual**: Requires tuning, not data-driven
@@ -55,11 +56,13 @@ for i in range(len(memory)):
 **Issue 1: Density Variation**
 
 In dense regions (many particles):
+
 - Many particles exceed $\tau$ → lots of associations
 - Computation expensive
 - Redundant updates
 
 In sparse regions (few particles):
+
 - Few particles exceed $\tau$ → few associations
 - Under-generalization
 - Slow learning
@@ -71,6 +74,7 @@ In sparse regions (few particles):
 **Issue 2: Sensitivity**
 
 Small changes in $\tau$ cause large changes in behavior:
+
 - $\tau$ too high: No associations, no generalization
 - $\tau$ too low: Everything associates, no selectivity
 - "Just right" $\tau$ is different for each environment
@@ -82,6 +86,7 @@ Small changes in $\tau$ cause large changes in behavior:
 **Issue 3: Not Data-Driven**
 
 $\tau$ doesn't consider:
+
 - Prediction error (is this experience surprising?)
 - Particle importance (is this a critical memory?)
 - Learning stage (early vs. late training)
@@ -93,6 +98,7 @@ $\tau$ doesn't consider:
 ### What Makes a Good Alternative?
 
 **Desirable properties**:
+
 1. **Adaptive**: Adjusts to local density automatically
 2. **Data-driven**: Uses TD-error, novelty, or other signals
 3. **Simple**: Easy to implement and understand
@@ -115,6 +121,7 @@ The two methods below satisfy these criteria.
 **Per-particle threshold**: $\tau_i$ = similarity to $k$-th nearest neighbor
 
 **Effect**:
+
 - Dense regions: High $\tau_i$ (many close neighbors)
 - Sparse regions: Low $\tau_i$ (few close neighbors)
 - **Self-normalizing** across density variations
@@ -192,11 +199,13 @@ def memory_update_topk(memory, z_new, w_new, kernel, k=5, lambda_prop=0.5):
 ### Example: 1D Navigation
 
 **Setup**:
+
 - State space: $s \in [0, 10]$
 - Action space: $\theta \in \{-1, +1\}$ (left/right)
 - Kernel: RBF with bandwidth $\sigma = 1.0$
 
 **Scenario**: Agent explores, creating particles at:
+
 - Dense region: $s = \{5.0, 5.1, 5.2, 5.3, 5.4\}$ (5 particles)
 - Sparse region: $s = \{1.0, 9.0\}$ (2 particles)
 
@@ -207,12 +216,14 @@ def memory_update_topk(memory, z_new, w_new, kernel, k=5, lambda_prop=0.5):
 **Hard Threshold** ($\tau = 0.5$):
 
 Particles that exceed $\tau$:
+
 - All 5 particles in dense region (wasteful!)
 - 0 particles in sparse region
 
 **Top-k** ($k = 3$):
 
 Top-3 neighbors (by similarity):
+
 1. $s = 5.2$ (closest)
 2. $s = 5.3$ (second closest)
 3. $s = 5.1$ (third closest)
@@ -236,6 +247,7 @@ Top-3 neighbors (by similarity):
 ### Choosing $k$
 
 **Rule of thumb**:
+
 - $k = 5$: Good default for most environments
 - $k = 3$: More selective (sparse updates)
 - $k = 10$: More diffuse (broad generalization)
@@ -252,6 +264,7 @@ Top-3 neighbors (by similarity):
 ### The Idea
 
 **Key insight from neuroscience**: 
+
 - **Surprising experiences** (high prediction error) → stored distinctly
 - **Predictable experiences** (low prediction error) → consolidated into existing memories
 
@@ -286,11 +299,13 @@ where $y_t = r_t + \gamma \max_a Q^+(s_{t+1}, a)$ is the TD target.
 ### Why This Works
 
 **High surprise** (large TD-error):
+
 - Current memory is **wrong** about this experience
 - Storing distinctly **preserves** this information for learning
 - Avoids corrupting existing memories
 
 **Low surprise** (small TD-error):
+
 - Current memory is **already accurate**
 - Consolidating **compresses** redundant information
 - Saves memory space
@@ -357,6 +372,7 @@ def query_field(memory, z, kernel):
 ### Example: GridWorld Navigation
 
 **Setup**:
+
 - 5×5 GridWorld, goal at (4, 4), reward = +10
 - Agent has seen goal region before (memory exists)
 
@@ -391,6 +407,7 @@ def query_field(memory, z, kernel):
 ### Choosing $\tau_{\text{surprise}}$
 
 **Rule of thumb**:
+
 - $\tau_{\text{surprise}} = 0.5 \times \text{reward scale}$
 - If rewards are $\in [0, 10]$: try $\tau_{\text{surprise}} = 0.5$
 - If rewards are $\in [-1, +1]$: try $\tau_{\text{surprise}} = 0.1$
@@ -454,16 +471,19 @@ def memory_update_hybrid(memory, z_new, r_t, s_next, kernel,
 ### Why This Combination Works
 
 **Surprise-gating** (formation):
+
 - Controls **when** to add particles
 - Memory grows only for important experiences
 - Bounded memory growth
 
 **Top-k** (propagation):
+
 - Controls **how** to update neighbors
 - Efficient, density-adaptive
 - Stable generalization
 
 **Together**:
+
 - **Selective formation** + **efficient propagation**
 - **Bounded memory** + **good generalization**
 - Works across diverse environments
@@ -501,16 +521,19 @@ Are you resource-constrained (memory/compute)?
 ### Recommendations by Use Case
 
 **Prototyping / Research**:
+
 - Start with **Hard Threshold** (baseline)
 - If memory grows too large → add **Surprise-Gating**
 - If performance varies by region → add **Top-k**
 
 **Production / Robotics**:
+
 - Use **Hybrid** (surprise + top-k)
 - Bounded memory, stable performance
 - Tune $k$ and $\tau_{\text{surprise}}$ on validation set
 
 **Lifelong Learning**:
+
 - Use **Surprise-Gating** (required for bounded memory)
 - Consider adding **Decay** (old particles fade)
 - Periodically **Prune** low-importance particles
@@ -628,6 +651,7 @@ def prune_memory(memory, max_size=1000, kernel=None):
 - **[Chapter 06: MemoryUpdate](06-memory-update.md)** — Algorithm 1 baseline
 
 **Quantum-Inspired Extensions** (for full theory):
+
 - **[Chapter 07: Learning Beyond GP](../quantum_inspired/07-learning-the-field-beyond-gp.md)** — Alternative learning mechanisms (online SGD, sparse methods, MoE, neural networks)
 - **[Chapter 08: Memory Dynamics](../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md)** — Formation, consolidation, retrieval operators with full theoretical treatment
 
@@ -638,15 +662,18 @@ def prune_memory(memory, max_size=1000, kernel=None):
 For even more advanced approaches, see Chapter 08:
 
 **Soft Association** (no threshold):
+
 - Temperature-controlled: $\alpha_{ij} = \text{softmax}(\gamma k(z_i, z_j))$
 - Differentiable, smooth
 
 **MDL Consolidation**:
+
 - Minimize: $\text{TD-error}(Q^+) + \lambda |\Omega|$
 - Principled compression via information theory
 - More complex to implement
 
 **Memory Type Tags**:
+
 - Factual (never forget)
 - Experiential (normal decay)
 - Working (fast decay)
@@ -693,16 +720,19 @@ For even more advanced approaches, see Chapter 08:
 ### Next Steps
 
 **Immediate**:
+
 - [ ] Replace hard threshold in your MemoryUpdate with top-k
 - [ ] Measure memory growth and performance
 - [ ] Compare to baseline (Algorithm 1)
 
 **Advanced**:
+
 - [ ] Implement surprise-gating
 - [ ] Add adaptive $\tau_{\text{surprise}}$
 - [ ] Periodic pruning for long-running agents
 
 **Theoretical Depth**:
+
 - [ ] Read [Chapter 08](../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md) for operator formalism
 - [ ] Explore MDL consolidation
 - [ ] Study memory type differentiation

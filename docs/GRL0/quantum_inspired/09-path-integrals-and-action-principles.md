@@ -60,6 +60,7 @@ $$\langle x_f | e^{-\hat{H}\tau/\hbar} | x_i \rangle = \int \mathcal{D}[x(\tau)]
 where $S_E$ is the **Euclidean action** (with sign flip).
 
 **Why this matters for RL**:
+
 - Real exponentials $e^{-S_E/\hbar}$ (no oscillations!)
 - Becomes a **probability distribution** (after normalization)
 - This is the statistical mechanics / thermodynamics connection
@@ -72,6 +73,7 @@ where $S_E$ is the **Euclidean action** (with sign flip).
 ### 2.1 The Feynman-Kac Formula
 
 The **Feynman-Kac formula** connects:
+
 - Quantum mechanics (path integrals)
 - Stochastic processes (Brownian motion)
 - Parabolic PDEs (diffusion equations)
@@ -162,6 +164,7 @@ This says: **The probability of a trajectory is proportional to $\exp(-\text{act
 In Chapter 01a (Wavefunction Interpretation), we noted that GRL induces **soft state transitions** due to kernel overlap.
 
 **Path integral perspective**: 
+
 - Each trajectory contributes to the transition amplitude
 - Kernel $k(z, z')$ encodes **transition amplitude** between configurations
 - Overlap creates **interference-like effects** (constructive/destructive reinforcement)
@@ -181,11 +184,13 @@ where paths connect $(s_t, \theta_t)$ to $(s_{t+1}, \theta_{t+1})$.
 ### 4.1 Motivation: Real vs. Complex Amplitudes
 
 **Current GRL** (Chapters 01-08):
+
 - Real-valued $Q^+(z)$
 - Boltzmann weights $e^{Q^+/\lambda}$ are always positive
 - No true interference (only additive contributions)
 
 **Complex-valued extension**:
+
 - $Q^+(z) \in \mathbb{C}$ (complex reinforcement field)
 - Amplitudes $\psi(z) = e^{i\phi(z)}$ where $\phi(z) = Q^+(z)/\hbar_{\text{eff}}$
 - **Phase** $\phi(z)$ enables interference
@@ -242,6 +247,7 @@ $$P(s') = |\psi(s'|\theta_A)|^2 + |\psi(s'|\theta_B)|^2 + 2\text{Re}[\psi^*(s'|\
 The last term is the **interference term**! It can be positive (constructive) or negative (destructive).
 
 **Interpretation**:
+
 - If phases align: $\psi(s'|\theta_A)$ and $\psi(s'|\theta_B)$ reinforce → higher $P(s')$
 - If phases oppose: They cancel → lower $P(s')$
 - This allows the agent to **suppress undesirable state transitions**
@@ -301,6 +307,7 @@ where $\xi_k \sim \mathcal{N}(0, I)$.
 **This is gradient flow on the reinforcement field!**
 
 **Path integral view**: 
+
 - Each Langevin trajectory is a sample from the path integral
 - Multiple samples approximate $\mathcal{Z}(z_i, z_f)$
 - Action selection = finding high-probability paths
@@ -314,6 +321,7 @@ where $\xi_k \sim \mathcal{N}(0, I)$.
 From **Chapter 05: Concept Projections and Measurements**, concepts are subspaces $\mathcal{H}_c \subset \mathcal{H}$ with projection operator $\hat{P}_c$.
 
 **Path integral interpretation**:
+
 - Measuring concept $c$ = projecting trajectory onto $\mathcal{H}_c$
 - Post-measurement state: $|\psi'\rangle = \hat{P}_c |\psi\rangle / \|\hat{P}_c |\psi\rangle\|$
 - Measurement collapses the path integral to concept-compatible paths
@@ -331,6 +339,7 @@ This is a **conditional path integral** over concept-consistent trajectories.
 **Nested concepts** $\mathcal{H}_{c_1} \subset \mathcal{H}_{c_2}$ define a hierarchy.
 
 **Path integral view**:
+
 - Low-level concept $c_1$: Paths stay in local subspace
 - High-level concept $c_2$: Paths stay in larger subspace
 - Transition $c_1 \to c_1'$: Path integral between subspaces
@@ -343,6 +352,7 @@ Example: Molecular dynamics
 - Born-Oppenheimer approximation: Separate path integrals
 
 **In GRL**: 
+
 - Low-level: Action parameter trajectories
 - High-level: Concept activation trajectories
 - Spectral methods: Identify slow vs. fast modes
@@ -358,11 +368,13 @@ In QM, **Feynman diagrams** represent terms in the perturbative expansion of pat
 **For GRL**, could we develop a diagrammatic expansion?
 
 **Idea**:
+
 - Vertices: MemoryUpdate operations (particle creation/modification)
 - Edges: Kernel interactions (particle propagation)
 - Loops: Circular dependencies in belief update
 
 **This is speculative**, but could formalize:
+
 - How perturbations propagate through memory
 - Which particles are "entangled" (strongly coupled)
 - Computational complexity of belief updates
@@ -374,11 +386,13 @@ In QM, **Feynman diagrams** represent terms in the perturbative expansion of pat
 In QM, **instantons** are classical solutions to the Euclidean equations of motion that dominate tunneling.
 
 **For GRL**:
+
 - Instanton = rare, high-cost trajectory that dramatically changes $Q^+$
 - Example: Discovering a shortcut in navigation (low probability, high reward)
 - **Instanton calculus**: Approximate path integral by saddle points
 
 **Practical use**:
+
 - Identify critical experiences (instantons) for learning
 - Prioritize replay of high-impact trajectories
 - Understand exploration-exploitation via tunneling rates
@@ -513,26 +527,31 @@ def plot_interference(particles, s, theta_min, theta_max, n_points=200):
 ## 9. Summary: Why Path Integrals Matter for GRL
 
 **Quantum mechanical foundation**:
+
 - GRL's Boltzmann policy is the imaginary-time path integral solution
 - Not an analogy—a mathematical equivalence
 - Connects RL to 70+ years of QM path integral techniques
 
 **Complex-valued extension**:
+
 - Enables true interference (constructive/destructive)
 - Richer policy representations via phase
 - Tunneling-like exploration through barriers
 
 **Practical algorithms**:
+
 - Path integral policy improvement (PI²)
 - Langevin sampling as path integration
 - Complex particle weights for interference
 
 **Future directions**:
+
 - Feynman diagrams for belief propagation
 - Instanton calculus for rare events
 - Hierarchical path integrals for concept composition
 
 **This completes the quantum-inspired trilogy**:
+
 1. **Chapters 01-02**: RKHS ↔ Hilbert space parallel
 2. **Chapters 03-08**: Amplitude formulation and learning
 3. **Chapter 09**: Path integrals as foundational formalism
@@ -542,20 +561,24 @@ def plot_interference(particles, s, theta_min, theta_max, n_points=200):
 ## Further Reading
 
 **Feynman Path Integrals**:
+
 - Feynman, R. P., & Hibbs, A. R. (1965). *Quantum Mechanics and Path Integrals*. McGraw-Hill.
 - Kleinert, H. (2009). *Path Integrals in Quantum Mechanics, Statistics, Polymer Physics, and Financial Markets* (5th ed.). World Scientific.
 
 **Path Integral Control**:
+
 - Kappen, H. J. (2005). "Path integrals and symmetry breaking for optimal control theory." *Journal of Statistical Mechanics*.
 - Theodorou, E., Buchli, J., & Schaal, S. (2010). "A generalized path integral control approach to reinforcement learning." *JMLR*.
 - Levine, S. (2018). "Reinforcement learning and control as probabilistic inference: Tutorial and review." *arXiv:1805.00909*.
 
 **Quantum Computation & ML**:
+
 - Schuld, M., & Petruccione, F. (2018). *Supervised Learning with Quantum Computers*. Springer.
 - Wittek, P. (2014). *Quantum Machine Learning*. Academic Press.
 - Biamonte, J., et al. (2017). "Quantum machine learning." *Nature*, 549, 195-202.
 
 **Complex-Valued Neural Networks**:
+
 - Trabelsi, C., et al. (2018). "Deep complex networks." *ICLR*.
 - Virtue, P., Yu, S. X., & Lustig, M. (2017). "Better than real: Complex-valued neural nets for MRI fingerprinting." *ICIP*.
 

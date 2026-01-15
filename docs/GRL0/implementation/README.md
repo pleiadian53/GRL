@@ -124,6 +124,7 @@ GRL-v0 is organized into **four layers** spanning both Part I (Reinforcement Fie
 **Why first**: This IS the agent state. Everything else depends on it.
 
 **Key Features**:
+
 - Particle storage: `[(z_i, w_i)]`
 - Energy queries: `E(z) = -Σ w_i k(z, z_i)`
 - Association: Find similar particles
@@ -134,6 +135,7 @@ GRL-v0 is organized into **four layers** spanning both Part I (Reinforcement Fie
 **Why second**: Defines geometry of augmented space.
 
 **Key Features**:
+
 - RBF kernel with ARD
 - Augmented kernel: `k((s,θ), (s',θ'))`
 - Gradient computation
@@ -144,6 +146,7 @@ GRL-v0 is organized into **four layers** spanning both Part I (Reinforcement Fie
 **Why third**: The belief-state transition operator.
 
 **Key Features**:
+
 - Particle instantiation
 - Kernel-based association
 - Weight propagation
@@ -154,6 +157,7 @@ GRL-v0 is organized into **four layers** spanning both Part I (Reinforcement Fie
 **Why fourth**: Provides reinforcement signals.
 
 **Key Features**:
+
 - Primitive SARSA layer
 - Field GP layer
 - Two-layer coupling
@@ -164,6 +168,7 @@ GRL-v0 is organized into **four layers** spanning both Part I (Reinforcement Fie
 **Why fifth**: How actions are selected.
 
 **Key Features**:
+
 - Energy-based selection
 - Boltzmann sampling
 - Greedy mode
@@ -174,6 +179,7 @@ GRL-v0 is organized into **four layers** spanning both Part I (Reinforcement Fie
 **Why sixth**: Emergent uncertainty from kernel overlap.
 
 **Key Features**:
+
 - Distributed successor states
 - Transition probability from kernel
 - Implicit POMDP interpretation
@@ -184,11 +190,13 @@ GRL-v0 is organized into **four layers** spanning both Part I (Reinforcement Fie
 **Why seventh**: Primary validation and demonstration environment.
 
 **Purpose**:
+
 1. **Reproduce** the original paper (Figure 4, Section VI)
 2. **Validate** all Part I components in a controlled setting
 3. **Demonstrate** GRL capabilities professionally
 
 **Key Features**:
+
 - Continuous 2D state space
 - Parametric movement actions (direction, magnitude)
 - Obstacles, walls, and goals
@@ -197,9 +205,11 @@ GRL-v0 is organized into **four layers** spanning both Part I (Reinforcement Fie
 - Trajectory recording
 
 **Deployment Goals**:
+
 - **Reproducibility**: Match original paper results
 - **Professionalism**: Publication-quality figures and demos
 - **Accessibility**: 
+
   - Python API for programmatic use
   - Interactive web interface for exploration
   - Jupyter notebook tutorials
@@ -216,6 +226,7 @@ See: [2D Navigation Specification](#2d-navigation-domain-specification) below
 **Why first in Part II**: Foundation for concept discovery.
 
 **Key Features**:
+
 - Kernel matrix construction from particle memory
 - Eigendecomposition
 - Cluster identification
@@ -226,6 +237,7 @@ See: [2D Navigation Specification](#2d-navigation-domain-specification) below
 **Why second**: Automated structure learning.
 
 **Key Features**:
+
 - Functional similarity metrics
 - Automatic concept identification
 - Concept naming/labeling
@@ -236,6 +248,7 @@ See: [2D Navigation Specification](#2d-navigation-domain-specification) below
 **Why third**: Multi-level abstraction.
 
 **Key Features**:
+
 - Nested subspace structure
 - Hierarchical composition
 - Transfer across concepts
@@ -246,6 +259,7 @@ See: [2D Navigation Specification](#2d-navigation-domain-specification) below
 **Why fourth**: Use discovered structure.
 
 **Key Features**:
+
 - Policy per concept
 - Concept-gated execution
 - Hierarchical planning
@@ -305,18 +319,21 @@ $$s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cdot \Delta t$$
 ### Reproduction Goals
 
 **Figure 4 Recreation**:
+
 - Exact environment setup from paper
 - Energy landscape visualization
 - Particle memory visualization
 - Learned trajectory comparison
 
 **Quantitative Metrics**:
+
 - Success rate (reaching goal)
 - Path efficiency (vs. optimal)
 - Collision rate (with obstacles)
 - Learning curves (episodes to convergence)
 
 **Qualitative Assessment**:
+
 - Smooth, natural trajectories
 - Efficient obstacle avoidance
 - Energy landscape interpretability
@@ -326,22 +343,26 @@ $$s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cdot \Delta t$$
 ### Professional Enhancement
 
 **Visual Quality**:
+
 - Publication-ready figures (vector graphics)
 - Interactive animations (mp4/gif)
 - Real-time rendering (60 FPS)
 - Multiple view modes:
+
   - Top-down environment view
   - Energy landscape heatmap
   - Particle distribution overlay
   - Trajectory history
 
 **Code Quality**:
+
 - Modular, extensible design
 - Configuration files (YAML/JSON)
 - Logging and metrics
 - Reproducible random seeds
 
 **Documentation**:
+
 - API reference
 - Tutorial notebooks
 - Example scripts
@@ -354,12 +375,14 @@ $$s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cdot \Delta t$$
 #### Phase 1: Core Implementation
 
 **Components**:
+
 - Environment class (`Nav2DEnv`)
 - Rendering engine
 - Action space handling
 - Reward function
 
 **Deliverables**:
+
 - Python package installable via pip
 - Basic visualization
 - Unit tests
@@ -367,12 +390,14 @@ $$s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cdot \Delta t$$
 #### Phase 2: GRL Integration
 
 **Components**:
+
 - Particle memory integration
 - MemoryUpdate in navigation loop
 - RF-SARSA training
 - Energy landscape computation
 
 **Deliverables**:
+
 - Training scripts
 - Evaluation scripts
 - Experiment configs
@@ -380,12 +405,14 @@ $$s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cdot \Delta t$$
 #### Phase 3: Professional Demo
 
 **Components**:
+
 - Interactive Jupyter notebooks
 - Web-based interface (Flask/FastAPI + React)
 - Video demonstrations
 - Benchmark suite
 
 **Deliverables**:
+
 - Hosted web demo (e.g., Hugging Face Spaces, Streamlit)
 - Tutorial video
 - Blog post
@@ -395,23 +422,27 @@ $$s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cdot \Delta t$$
 ### Web Interface Features
 
 **Interactive Controls**:
+
 - Place obstacles (drag-and-drop)
 - Set goal positions
 - Adjust GRL hyperparameters (kernel bandwidth, temperature)
 - Start/stop/reset simulation
 
 **Visualizations**:
+
 - Real-time agent movement
 - Energy landscape evolution
 - Particle memory growth
 - Learning curves
 
 **Export**:
+
 - Save trajectories
 - Download figures
 - Export particle memory
 
 **Sharing**:
+
 - Permalink to configurations
 - Embed in documentation
 - Public gallery of scenarios
@@ -481,11 +512,13 @@ success_rate, avg_path_length = evaluate(agent, env, num_trials=100)
 ### Philosophy: GRL as a Generalization
 
 **Key Insight**: Traditional RL is a **special case** of GRL when:
+
 - Action space is discrete → GRL with fixed parametric mappings
 - Action space is finite → GRL with finite operator set
 - Q-learning → GRL with trivial augmentation (state only)
 
 **Strategic Goal**: Demonstrate that GRL **subsumes** classical RL, including modern applications like:
+
 - **RLHF for LLMs** (Reinforcement Learning from Human Feedback)
 - **PPO/SAC for continuous control**
 - **DQN for discrete actions**
@@ -526,6 +559,7 @@ This positions GRL not as "another RL algorithm" but as a **unifying framework**
 **Primary Value**: Demonstrating that GRL **theoretically generalizes** existing methods used in commercially relevant problems (RLHF, prompt tuning, etc.)
 
 **Implementation Reality**: These are **massive undertakings** comparable to full research projects. They serve as:
+
 - Motivation for why GRL matters
 - Future directions if resources/collaborators available
 - Examples in theoretical justification documents
@@ -587,6 +621,7 @@ This positions GRL not as "another RL algorithm" but as a **unifying framework**
 **Status**: Theoretical connection established, implementation exploratory
 
 **Why This Is Interesting**: 
+
 - **Relevance**: RLHF is used for ChatGPT, Claude, Llama, Gemini
 - **Familiarity**: Most ML researchers understand this problem
 - **Validation**: If GRL generalizes RLHF theoretically, it validates the framework's breadth
@@ -600,12 +635,14 @@ This positions GRL not as "another RL algorithm" but as a **unifying framework**
 **Action**: $a_t \in \mathcal{V}$ where $\mathcal{V}$ = vocabulary (discrete)
 
 **GRL View**: 
+
 - Augmented space: $(s_t, \theta_t)$ where $\theta_t$ represents token choice
 - Particle memory: stores (prompt, response, reward) experiences
 - Reinforcement field: $Q^+(s_t, \theta_t)$ over semantic embedding
 - Policy inference: Sample from Boltzmann over $Q^+$
 
 **Key Insight**: Standard RLHF (PPO) is GRL with:
+
 - Discrete action space (tokens)
 - Neural network approximation of field
 - On-policy sampling
@@ -628,6 +665,7 @@ This positions GRL not as "another RL algorithm" but as a **unifying framework**
 #### Implementation Reality
 
 **Challenges**:
+
 1. **Infrastructure**: Requires reward model training, human feedback data, preference datasets
 2. **Computational cost**: LLM fine-tuning is expensive (even GPT-2)
 3. **Comparison difficulty**: Matching PPO requires careful hyperparameter tuning
@@ -637,12 +675,14 @@ This positions GRL not as "another RL algorithm" but as a **unifying framework**
 **Estimated Effort**: 6-12 months of focused work with GPU resources
 
 **When to Pursue**:
+
 - ✅ After GRL validated on simpler environments (2D Nav, classical RL)
 - ✅ If collaborators or funding available
 - ✅ If clear path to demonstrating advantages
 - ✅ If access to human feedback datasets
 
 **Realistic First Step** (if pursued):
+
 - Toy RLHF-like problem (small vocabulary, simple preference task)
 - Not real LLM, but demonstrates GRL can handle discrete sequential choices
 - Fast iteration, low compute cost
@@ -689,6 +729,7 @@ src/grl/envs/
 ```
 
 **Key Design Principle**: 
+
 - **Wrappers** allow GRL to be applied to **any existing RL environment**
 - **Native environments** showcase GRL's unique capabilities
 - **Scenarios** provide reproducible experiments
@@ -716,6 +757,7 @@ src/grl/envs/
 - **Papers B & C** submissions
 
 **Future Directions** (No timeline):
+
 - **Theoretical articles**: Justify how RLHF, prompt optimization, molecule design are special cases
 - **Implementation**: If resources/collaborators available, pick 1-2 strategic applications
 - **Novel applications**: Physics simulation, multi-robot coordination (GRL-native capabilities)
@@ -725,12 +767,14 @@ src/grl/envs/
 ### Success Metrics
 
 **Technical** (Achievable):
+
 - [ ] 2D Navigation demo complete with professional web interface
 - [ ] GRL recovers DQN/SAC results on classical benchmarks (±5% performance)
 - [ ] Classical RL wrappers work with existing environments
 - [ ] Documentation complete and accessible
 
 **Research** (Achievable):
+
 - [ ] Part I tutorial complete (Chapters 0-10)
 - [ ] Part II foundation (concept subspaces formalized)
 - [ ] "Recovering Classical RL" document demonstrates generality
@@ -738,12 +782,14 @@ src/grl/envs/
 - [ ] 1-2 papers on novel contributions (amplitude-based RL or MDL consolidation)
 
 **Adoption** (Aspirational):
+
 - [ ] GitHub stars: 100+ (realistic), 1000+ (stretch)
 - [ ] External users beyond our lab
 - [ ] Cited in other papers
 - [ ] Conference workshop or tutorial (if invited)
 
 **Strategic Applications** (Aspirational, No Timeline):
+
 - [ ] Theoretical articles justify RLHF/prompt-opt as special cases
 - [ ] If resources available: implement 1-2 strategic applications
 - [ ] Industry partnerships (if opportunities arise)
@@ -871,11 +917,13 @@ sphinx >= 7.2            # Documentation
 ## Summary
 
 **GRL-v0 Implementation** spans:
+
 - **Part I** (Layers 1-3): Particle-based reinforcement fields
 - **Part II** (Layer 4): Emergent structure and concept discovery
 - **Demonstration**: Professional 2D navigation domain with web deployment
 
 **Priority Order**:
+
 1. Part I foundations (Priorities 1-6)
 2. 2D Navigation validation (Priority 7) ⭐⭐ **Critical milestone**
 3. Part II extensions (Priorities 8-11)

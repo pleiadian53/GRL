@@ -7,6 +7,7 @@ In [the previous document](01-rkhs-quantum-parallel.md), we stated:
 > "The reinforcement field *is* a wavefunction over augmented state-action space."
 
 This raises important questions:
+
 - What exactly *is* a wavefunction in quantum mechanics?
 - What does it represent and predict?
 - How should we interpret this claim for the reinforcement field?
@@ -132,6 +133,7 @@ $$|\psi\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = |+\ra
 | $\|+\rangle$ | A basis vector in the Hadamard coordinate system (the "axis") |
 
 **Analogy:** The vector $[1, 0]$ could be:
+
 - "The velocity we're analyzing" ← role: subject
 - "The x-axis of our coordinate system" ← role: reference axis
 
@@ -181,6 +183,7 @@ $$\psi_- = \langle - | \psi \rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 & -1 
 > "Project the **state** $|\psi\rangle$ onto the **basis vector** $|+\rangle$"
 
 **Analogy:** In 3D, if you have:
+
 - Vector: $\mathbf{v} = [3, 4, 0]$
 - Basis vector: $\mathbf{e}_x = [1, 0, 0]$
 
@@ -224,6 +227,7 @@ $$|\psi\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix}_{\text{
 In computational coordinates, $|\psi\rangle$ and $|+\rangle$ are the same vector: $[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}]$.
 
 But they play different **roles**:
+
 - $|\psi\rangle$ = the state (subject of analysis)
 - $|+\rangle$ = one of the axes in the Hadamard coordinate system
 
@@ -290,10 +294,12 @@ $$\psi(x) = \langle x | \psi \rangle$$
 **Result:** This gives a **function** $\psi: \mathbb{R} \to \mathbb{C}$ that tells you the "component" of $|\psi\rangle$ in each position direction.
 
 **Analogy:** Just like we computed:
+
 - $\psi_0 = \langle 0 | \psi \rangle$ for the $|0\rangle$ direction
 - $\psi_1 = \langle 1 | \psi \rangle$ for the $|1\rangle$ direction
 
 Now we compute:
+
 - $\psi(x=0) = \langle 0 | \psi \rangle$ for position $x=0$
 - $\psi(x=1) = \langle 1 | \psi \rangle$ for position $x=1$
 - $\psi(x=2.5) = \langle 2.5 | \psi \rangle$ for position $x=2.5$
@@ -501,6 +507,7 @@ This maps cleanly onto RKHS language, as we'll see in Section 5.
 ## 2. What Does the Wavefunction Represent?
 
 The wavefunction does **not** represent:
+
 - ❌ A probability
 - ❌ A physical wave in space
 - ❌ Ignorance in the Bayesian sense
@@ -526,6 +533,7 @@ This is the single most important structural move quantum mechanics makes:
 > **It is an amplitude theory from which probabilities are derived.**
 
 This alone justifies:
+
 - Spectral methods
 - Interference-like effects
 - Superposition-based reasoning
@@ -662,6 +670,7 @@ Now we can answer this precisely.
 There is **one reinforcement field state** $Q^+$.
 
 But there are **many induced wavefunction-like representations**, depending on:
+
 - Which subspace you project onto
 - Which action slice you fix
 - Which kernel basis you query
@@ -705,6 +714,7 @@ This is **far stronger** than "kernel clustering" in the usual ML sense.
 ### Connection to Part II
 
 Part II (Emergent Structure & Spectral Abstraction) leverages this:
+
 - Spectral methods reveal the natural decomposition of $Q^+$
 - Eigenmodes of the kernel matrix are "concept basis states"
 - Hierarchical structure emerges from nested spectral decompositions
@@ -779,6 +789,7 @@ $$\hat{P}_c: Q^+ \mapsto \text{proj}_{\text{concept}_c}(Q^+)$$
 $$\hat{A}: (Q^+, s) \mapsto \theta^* = \arg\max_\theta Q^+(s, \theta)$$
 
 Each of these operators acts on the reinforcement field state, producing either:
+
 - Another state (state transition)
 - An expectation value (observable)
 - A projection (reduced representation)

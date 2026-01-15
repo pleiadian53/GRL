@@ -51,6 +51,7 @@ This is natural for RL where we maximize expected return.
 In physics and modern ML, **energy** measures how much a system "resists" a configuration. Low energy = preferred = more likely.
 
 $$
+
 E(s, \theta) \quad \text{low} \;\Rightarrow\; \text{good / compatible / likely}
 $$
 
@@ -73,6 +74,7 @@ This is natural for physics-inspired models where systems seek minimum energy.
 The relationship between fitness and energy is:
 
 $$
+
 E(s, \theta) = -F(s, \theta)
 $$
 
@@ -81,6 +83,7 @@ That's it. Just a sign flip.
 Optionally, with a temperature parameter:
 
 $$
+
 E(s, \theta) = -\frac{1}{\tau} F(s, \theta)
 $$
 
@@ -97,6 +100,7 @@ $$
 **Critical point**: The extrema are in the same locations. A fitness maximum is an energy minimum:
 
 $$
+
 z^* = \arg\max_z F(z) = \arg\min_z E(z)
 $$
 
@@ -111,10 +115,12 @@ The geometry is identical; only the labeling changes.
 Getting the sign right is essential for implementation:
 
 **Fitness (GRL original)**:
+
 - Reinforcement field gradient: $\nabla F(s, \theta)$ points toward improvement
 - Policy improvement: Move in the direction of $\nabla F$
 
 **Energy (modern)**:
+
 - Force field: $-\nabla E(s, \theta)$ points toward improvement
 - Policy improvement: Move against $\nabla E$
 
@@ -127,12 +133,14 @@ For continuous-time extensions of GRL, the energy convention is standard.
 **Gradient descent:**
 
 $$
+
 \frac{d\theta}{dt} = -\nabla E(s, \theta)
 $$
 
 **Langevin dynamics (with exploration):**
 
 $$
+
 d\theta_t = -\nabla E(s, \theta_t) \, dt + \sqrt{2\beta^{-1}} \, dW_t
 $$
 
@@ -143,10 +151,12 @@ Writing these in fitness language works but feels unnatural to practitioners fam
 Fitness doesn't naturally define a probability distribution. Energy does:
 
 $$
+
 p(z) \propto \exp(-E(z)) = \exp(F(z))
 $$
 
 This **Boltzmann distribution** immediately enables:
+
 - Probabilistic policies
 - Sampling-based exploration
 - Control-as-inference frameworks
@@ -161,10 +171,12 @@ This **Boltzmann distribution** immediately enables:
 GRL's reinforcement field is essentially an energy-based model (EBM) over augmented state-action space:
 
 $$
+
 E(z) = -Q^+(z) = -\sum_i w_i \, k(z, z_i)
 $$
 
 Each particle contributes to the energy landscape:
+
 - **Positive weight** $w_i > 0$: Creates an energy well (attractor)
 - **Negative weight** $w_i < 0$: Creates an energy barrier (repeller)
 - **Kernel bandwidth**: Controls spatial extent of influence
@@ -184,10 +196,12 @@ Each particle contributes to the energy landscape:
 GRL's softmax policy over action values is exactly Boltzmann sampling from the energy:
 
 $$
+
 \pi(\theta \mid s) \propto \exp\big(-\beta E(s, \theta)\big) = \exp\big(\beta Q^+(s, \theta)\big)
 $$
 
 where $\beta$ is inverse temperature:
+
 - **$\beta \to 0$**: Uniform random actions (infinite temperature)
 - **$\beta \to \infty$**: Greedy selection of energy minimum (zero temperature)
 - **Finite $\beta$**: Stochastic exploration biased toward low energy
@@ -201,12 +215,14 @@ where $\beta$ is inverse temperature:
 Imagine the augmented space as a terrain:
 
 **Fitness view** (original GRL):
+
 - Peaks = good actions (high fitness)
 - Valleys = bad actions (low fitness)
 - Policy = climb toward peaks
 - Gradient = uphill direction
 
 **Energy view** (modern):
+
 - Valleys = good actions (low energy)
 - Peaks = bad actions (high energy)
 - Policy = descend toward valleys
@@ -234,6 +250,7 @@ The full landscape is the superposition of all particle contributions, smoothed 
 ### For Modern Extensions
 
 Switch to energy language when:
+
 - Using diffusion-based methods
 - Connecting to physics-based control
 - Interfacing with EBM literature
@@ -272,6 +289,7 @@ GRL's particle memory implicitly defines these basins through kernel overlap. Si
 ### No Explicit Parameterization
 
 A key feature of GRL: the energy landscape is **not explicitly parameterized**. It emerges from:
+
 - Particle positions $z_i$
 - Particle weights $w_i$
 - Kernel function $k$
@@ -293,6 +311,7 @@ $$
 For GRL's reinforcement field:
 
 $$
+
 \nabla_z \log \pi(z) \propto \nabla_z Q^+(z) = -\nabla_z E(z)
 $$
 
@@ -301,6 +320,7 @@ $$
 Diffusion models learn to reverse a noising process using the score function. GRL's reinforcement field gradient serves an analogous role: it indicates the direction toward high-value regions.
 
 This connection opens paths to:
+
 - Diffusion-based policy learning
 - Score matching for value functions
 - Denoising approaches to action selection
@@ -312,10 +332,12 @@ This connection opens paths to:
 ### The Core Relationship
 
 $$
+
 E(s, \theta) = -F(s, \theta)
 $$
 
 Fitness and energy are two views of the same landscape:
+
 - **Fitness**: High = good (evolutionary/RL language)
 - **Energy**: Low = good (physics/EBM language)
 
@@ -359,6 +381,7 @@ The energy function $E(z) = -Q^+(z)$ connects to one of the most fundamental pri
 **📖 See Supplement: [Chapter 03a - The Principle of Least Action](03a-least-action-principle.md)**
 
 This supplement explores:
+
 - Classical mechanics and the action principle
 - Path integral control theory
 - Why GRL's Boltzmann policy emerges from action minimization
@@ -373,6 +396,7 @@ This supplement explores:
 ## Next Steps
 
 In **Chapter 4: The Reinforcement Field**, we'll explore:
+
 - What exactly is a "functional field"?
 - Why the reinforcement field is NOT a vector field
 - How policy emerges from field geometry

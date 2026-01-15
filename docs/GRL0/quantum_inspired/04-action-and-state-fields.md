@@ -11,6 +11,7 @@ This raises a natural question:
 > **Can we slice $Q^+$ along just one dimension—fixing either state or action—to get different "views" of the same field?**
 
 **Answer:** Yes! And this reveals a powerful structure that enables:
+
 - **Action wavefunctions:** The landscape of possible actions at a given state
 - **State wavefunctions:** The applicability of an action across states
 - **Concept projections:** Hierarchical abstractions via subspace projections

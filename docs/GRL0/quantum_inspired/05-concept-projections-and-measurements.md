@@ -11,6 +11,7 @@ But all those projections were **pointwise**—we projected onto individual basi
 **Answer:** Yes! And this gives us a rigorous framework for **concepts** in reinforcement learning.
 
 This chapter develops:
+
 - **Concepts as invariant subspaces** (not clusters)
 - **Projection operators** for concept activation
 - **Measurement theory** connecting to quantum mechanics
@@ -26,6 +27,7 @@ This chapter develops:
 ### The Problem with Clusters
 
 **Traditional clustering** (k-means, hierarchical, spectral) produces:
+
 - **Discrete assignments:** Point $x$ belongs to cluster $k$
 - **Hard boundaries:** Sharp transitions between clusters
 - **No smooth interpolation:** Can't blend concepts
@@ -159,6 +161,7 @@ $P_k Q^+$ is the "shadow" of $Q^+$ on the concept subspace.
 $$P_k Q^+ = \sum_{j=1}^{m_k} \underbrace{\left(\sum_i w_i \langle k(z_i, \cdot), \phi_{k,j} \rangle\right)}_{\text{coefficient } c_{k,j}} \phi_{k,j}$$
 
 **In matrix form:** $\mathbf{c}_k = \mathbf{K} \mathbf{w}$ where:
+
 - $K_{ji} = \langle k(z_i, \cdot), \phi_{k,j} \rangle$
 - $\mathbf{w} = [w_1, \ldots, w_N]^T$
 
@@ -535,6 +538,7 @@ $$a^* = \arg\max_a Q^+_{c_D}(s, a)$$
 
 1. Initialize field: $Q^+_{\text{target}} = 0$
 2. For each experience $(s, a, r)$:
+
    - Project particle onto source concepts:
      $$z_{\text{concept}} = \sum_k P_k^{\text{source}} k((s,a), \cdot)$$
    - Update field using projected basis

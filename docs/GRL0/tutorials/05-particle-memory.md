@@ -9,6 +9,7 @@
 ## Introduction
 
 In Chapters 1-4, we've built up the mathematical foundation:
+
 - Augmented space $(s, \theta)$
 - RKHS as the function space
 - Energy/fitness landscapes
@@ -19,6 +20,7 @@ Now we address a fundamental question: **How does GRL store and use experience?*
 Traditional RL uses replay buffers — collections of transitions $(s, a, r, s')$ that are sampled for training. GRL takes a radically different approach: **particle memory**.
 
 This chapter explains:
+
 - What particles represent mathematically
 - How particles create the reinforcement field
 - Why this is more than a replay buffer
@@ -46,6 +48,7 @@ where:
 The agent maintains a **particle memory**:
 
 $$
+
 \Omega = \{(z_1, w_1), (z_2, w_2), \ldots, (z_N, w_N)\}
 $$
 
@@ -85,6 +88,7 @@ Q^+(z) = \sum_{i=1}^N w_i \, k(z, z_i)
 $$
 
 Each particle $(z_i, w_i)$ contributes a "bump" to this landscape:
+
 - **Location** $z_i$: Where the bump is centered
 - **Weight** $w_i$: Amplitude and sign of the bump
 - **Kernel** $k(\cdot, z_i)$: Shape of the bump
@@ -96,6 +100,7 @@ The particles don't just *influence* the value function — they **define** it c
 > **The particle memory is the value function in its nonparametric representation.**
 
 This is like how:
+
 - A polynomial is defined by its coefficients
 - A Fourier series is defined by its frequency components
 - A neural network is defined by its weights
@@ -109,6 +114,7 @@ Particles are the "parameters" of the reinforcement field — but they're not le
 ### Beyond Data Storage
 
 Particle memory represents more than "what happened." It represents **what the agent believes** about:
+
 - Which configurations are valuable
 - How experience generalizes
 - What uncertainties exist
@@ -142,10 +148,12 @@ Where particles are sparse, the field is weak — signaling uncertainty.
 Each particle creates a local "energy well" or "hill":
 
 **For positive weight** $w_i > 0$ (good experience):
+
 - In **fitness view**: Creates a peak (desirable region)
 - In **energy view**: Creates a valley (attractor)
 
 **For negative weight** $w_i < 0$ (bad experience):
+
 - In **fitness view**: Creates a valley (undesirable)
 - In **energy view**: Creates a hill (repeller)
 
@@ -165,6 +173,7 @@ $$
 The full landscape is the **superposition** of all particle contributions:
 
 $$
+
 Q^+(z) = \underbrace{w_1 k(z, z_1)}_{\text{particle 1}} + \underbrace{w_2 k(z, z_2)}_{\text{particle 2}} + \cdots + \underbrace{w_N k(z, z_N)}_{\text{particle N}}
 $$
 
@@ -189,6 +198,7 @@ Insert a new particle $(z_{\text{new}}, w_{\text{new}})$ based on recent experie
 Evaluate the reinforcement field at a point $z$:
 
 $$
+
 Q^+(z) = \sum_i w_i k(z, z_i)
 $$
 
@@ -237,6 +247,7 @@ Particles are not just "samples from a distribution." They are:
 ### The Ensemble View
 
 The particle ensemble collectively defines:
+
 - A value function
 - A belief state
 - An energy landscape
@@ -275,6 +286,7 @@ GRL's particle memory plays an analogous role, but in function space rather than
 ### Why This Matters
 
 Viewing particle memory as a belief state explains why:
+
 - GRL naturally handles uncertainty
 - Exploration emerges from sparse particles
 - No explicit observation model is needed
@@ -287,6 +299,7 @@ Viewing particle memory as a belief state explains why:
 ### The Growth Problem
 
 Without management, memory grows indefinitely:
+
 - New particles added at each step
 - $N$ increases linearly with experience
 - Query cost $O(N)$ becomes prohibitive
@@ -296,6 +309,7 @@ Without management, memory grows indefinitely:
 **1. Fixed Capacity**
 
 Maintain at most $N_{\max}$ particles. When full:
+
 - Merge similar particles
 - Prune low-weight particles
 - Replace least-influential particles
@@ -319,6 +333,7 @@ Select a subset of "representative" particles, approximate others.
 ### What Does a Particle Mean?
 
 A particle $(z_i, w_i)$ with:
+
 - $z_i = (s_i, \theta_i)$: "In state $s_i$, action $\theta_i$ was relevant"
 - $w_i > 0$: "This configuration led to positive reinforcement"
 - $w_i < 0$: "This configuration led to negative reinforcement"
@@ -326,12 +341,14 @@ A particle $(z_i, w_i)$ with:
 ### What Does Kernel Similarity Mean?
 
 $k(z, z_i) > 0.5$ means:
+
 - "Configuration $z$ is similar enough to $z_i$ that evidence from $z_i$ applies to $z$"
 - "The experience at $z_i$ generalizes to $z$"
 
 ### What Does the Field Value Mean?
 
 $Q^+(z)$ is:
+
 - The weighted evidence from all particles about configuration $z$
 - The agent's best guess of value at $z$
 - The fitness/energy level at that point in augmented space
@@ -369,6 +386,7 @@ If $z$ is far from all particles, all kernel values are small, so $Q^+(z) \appro
 ### Policy Inference
 
 To decide action in state $(4, 4)$:
+
 - Query field for various $\theta$: $Q^+((4, 4), \theta)$
 - Find $\theta$ that maximizes $Q^+$
 - Result: Choose action similar to $\theta_1 = (1, 0)$ (move right)
@@ -419,6 +437,7 @@ To decide action in state $(4, 4)$:
 ## Next Steps
 
 In **Chapter 6: MemoryUpdate Algorithm**, we'll explore:
+
 - How particles are added from new experiences
 - The four conceptual operations of MemoryUpdate
 - Why MemoryUpdate is a belief-state transition operator

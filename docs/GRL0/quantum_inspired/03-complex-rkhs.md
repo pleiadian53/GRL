@@ -17,6 +17,7 @@ In standard GRL, the reinforcement field is real-valued:
 $$Q^+(z) \in \mathbb{R}$$
 
 This means:
+
 - Particles can only reinforce or cancel each other (positive/negative weights)
 - There is no notion of *phase*
 - Interference is limited to constructive/destructive along a single axis
@@ -30,6 +31,7 @@ $$\psi(x) \in \mathbb{C}$$
 Probability is $|\psi(x)|^2 = \psi^*(x) \cdot \psi(x)$, where $\psi^*$ is the complex conjugate.
 
 Complex amplitudes enable:
+
 - **Phase relationships**: Two particles can have the same magnitude but different phases
 - **Rich interference**: Constructive, destructive, and *partial* interference depending on phase alignment
 - **Rotation in state space**: Phase evolution provides natural dynamics
@@ -132,6 +134,7 @@ For general phase difference $\Delta\phi = \phi_2 - \phi_1$:
 $$|\Psi(z)|^2 = |c_1|^2 + |c_2|^2 + 2|c_1||c_2| \cos(\Delta\phi) \, k(z_1, z) k(z_2, z)$$
 
 The interference term $\cos(\Delta\phi)$ modulates the interaction:
+
 - $\Delta\phi = 0$: Constructive ($\cos = +1$)
 - $\Delta\phi = \pi/2$: No interference ($\cos = 0$)
 - $\Delta\phi = \pi$: Destructive ($\cos = -1$)
@@ -197,6 +200,7 @@ The Gram matrix is now complex Hermitian:
 $$K_{ij} = k_{\mathbb{C}}(z_i, z_j) \in \mathbb{C}$$
 
 Properties:
+
 - $K^\dagger = K$ (Hermitian)
 - Eigenvalues are real
 - Eigenvectors are complex

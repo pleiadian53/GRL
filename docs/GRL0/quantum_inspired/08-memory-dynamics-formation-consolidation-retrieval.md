@@ -3,6 +3,7 @@
 ## Motivation
 
 In [Chapter 6](06-agent-state-and-belief-evolution.md), we established that:
+
 - The agent's **state** is the reinforcement field $Q^+ \in \mathcal{H}_k$
 - **MemoryUpdate** is the belief evolution operator
 
@@ -14,6 +15,7 @@ Now we address **memory dynamics over time:**
 3. **Retrieval:** How is memory accessed for decision-making?
 
 **Why this matters:** Current RL and LLM agents suffer from:
+
 - **Drift:** Long-term memory contaminated by transient information
 - **Repetition:** Same mistakes repeated (poor consolidation)
 - **Forgetting:** Constraints/facts lost (no principled retention criteria)
@@ -27,6 +29,7 @@ GRL can address these by treating memory dynamics as **operators with learnable 
 ### Inspired by Recent Memory Research
 
 Recent work on AI agent memory (Cao et al. 2024, "Memory in the Age of AI Agents") identifies:
+
 - **Forms:** What memory is made of (representation)
 - **Functions:** What memory is for (roles)
 - **Dynamics:** How memory evolves (write, consolidate, retrieve)
@@ -48,6 +51,7 @@ $$\Omega = \{(z_i, w_i)\}_{i=1}^N$$
 **Layer 2: External = Persistent Particle Store**
 
 Engineering layer: particle database/graph/tree for:
+
 - Scalable retrieval
 - Compression/pruning
 - Hierarchical organization
@@ -59,6 +63,7 @@ Engineering layer: particle database/graph/tree for:
 **Layer 3: Token-Level = Derived Narrative Buffer**
 
 For LLM integration: synthesize "what matters" from particle state into text:
+
 - Top concepts
 - Active constraints
 - Recent surprises
@@ -224,6 +229,7 @@ $$\text{surprise}(z_t) = |Q^+_t(z_t) - y_t|$$
 - Low surprise: consolidate into neighbors
 
 **This is psychologically plausible!** Human memory:
+
 - Novel experiences → encoded distinctly
 - Familiar experiences → integrated into schemas
 
@@ -234,6 +240,7 @@ $$\text{surprise}(z_t) = |Q^+_t(z_t) - y_t|$$
 ### The Consolidation Problem
 
 **Memory grows unbounded** without consolidation:
+
 - Every experience → new particle
 - $N$ increases indefinitely
 - Computation/memory: $O(N)$
@@ -308,6 +315,7 @@ $$\min_{\Omega'} \underbrace{\text{TD-error}(Q^+(\Omega'))}_{\text{accuracy}} + 
 **Greedy merging:**
 
 1. For each pair $(i, j)$ with $k(z_i, z_j) > \epsilon_{\min}$:
+
    - Compute merged particle: $z' = (w_i z_i + w_j z_j)/(w_i + w_j)$, $w' = w_i + w_j$
    - Evaluate: $\Delta \text{error} = \text{TD-error after merge} - \text{TD-error before}$
    - Evaluate: $\Delta \text{size} = -1$ (one fewer particle)
@@ -344,6 +352,7 @@ $$\text{merge-probability}(i, j) \propto k(z_i, z_j) \cdot \exp(-\beta \cdot \te
 **Treat consolidation as clustering:**
 
 Use Dirichlet Process mixture or Chinese Restaurant Process:
+
 - Prior penalizes too many clusters
 - But allows growth when needed
 
@@ -705,6 +714,7 @@ $$\text{store-distinct if} \quad |Q^+(z_t) - y_t| > \tau_{\text{surprise}}$$
 **Key Principles for Memory Update:**
 
 Replace hard threshold $\tau$ with adaptive criteria:
+
 - **Soft association**: Temperature-controlled ($\gamma$)
 - **Top-k adaptive neighbors**: Density-aware
 - **MDL-based consolidation**: Optimization-driven

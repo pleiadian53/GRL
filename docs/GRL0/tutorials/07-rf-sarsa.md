@@ -9,6 +9,7 @@
 ## Introduction
 
 We've built up the conceptual foundations:
+
 - The reinforcement field $Q^+(z)$ as a functional object in RKHS (Chapter 4)
 - Experience particles as basis elements (Chapter 5)
 - MemoryUpdate as belief evolution (Chapter 6)
@@ -37,6 +38,7 @@ Standard SARSA (State-Action-Reward-State-Action) updates Q-values using the tem
 $$Q(s, a) \leftarrow Q(s, a) + \alpha \left[r + \gamma Q(s', a') - Q(s, a)\right]$$
 
 **Interpretation**:
+
 - **Target**: $r + \gamma Q(s', a')$ (one-step return using actual next action)
 - **Error**: Difference between target and current estimate
 - **Update**: Move current estimate toward target
@@ -50,6 +52,7 @@ $$Q(s, a) \leftarrow Q(s, a) + \alpha \left[r + \gamma Q(s', a') - Q(s, a)\right
 RF-SARSA maintains the TD learning principle but applies it to **basis functions** in RKHS, not to table entries.
 
 **What changes**:
+
 1. **Primary updates**: Particle weights $w_i$ that define the field $Q^+(z) = \sum_i w_i k(z, z_i)$
 2. **Geometric propagation**: TD signal affects not just one location but a neighborhood (via kernel)
 3. **Belief representation**: The field $Q^+$ (equivalently, particle memory $\Omega$) is the agent's state
@@ -64,18 +67,21 @@ RF-SARSA maintains the TD learning principle but applies it to **basis functions
 RF-SARSA couples two learning processes:
 
 **Primitive Layer** (Discrete):
+
 - Maintains $Q(s, a)$ estimates over discrete state-action pairs
 - Uses standard SARSA updates
 - Provides **temporal grounding** (immediate feedback from environment)
 - Supplies **reinforcement signals** (TD errors)
 
 **Field Layer** (Continuous):
+
 - Generalizes estimates over continuous augmented space $(s, \theta)$
 - Uses Gaussian Process Regression (GPR) for interpolation
 - Performs **policy inference** exclusively
 - Receives **reinforcement** through experience particles
 
 **Key relationship**:
+
 - Primitive layer → generates TD evidence
 - Field layer → performs action inference
 - MemoryUpdate → connects them (Algorithm 1)
@@ -87,36 +93,45 @@ RF-SARSA couples two learning processes:
 Before the formal specification, here's the conceptual flow:
 
 **Initialization**:
+
 1. Initialize kernel hyperparameters $\theta$ (e.g., via ARD on initial particles)
 2. Initialize primitive $Q(s, a)$ arbitrarily
 3. Initialize particle memory $\Omega$ (possibly empty)
 
 **Each episode**:
+
 1. Start in state $s_0$
 
 **Each step**:
+
 2. **Field-based action inference**:
+
    - For each candidate action $a^{(i)}$, form augmented state $z^{(i)} = (s, a^{(i)})$
    - Query field: $Q^+(z^{(i)}) = \mathbb{E}[Q^+ \mid \Omega, k, \theta]$ via GPR
    - Select action via policy: $a \sim \pi(a \mid s)$ based on $Q^+$ values
    
 3. **Environment interaction**:
+
    - Execute $a$, observe reward $r$ and next state $s'$
    
 4. **Next action inference**:
+
    - Repeat step 2 for state $s'$ to select $a'$
    
 5. **Primitive SARSA update**:
+
    - Compute TD error: $\delta = r + \gamma Q(s', a') - Q(s, a)$
    - Update: $Q(s, a) \leftarrow Q(s, a) + \alpha \delta$
    
 6. **Particle reinforcement** (Algorithm 1: MemoryUpdate):
+
    - Form particle: $\omega = (z, Q(s, a))$ where $z = (s, a)$
    - Update memory: $\Omega \leftarrow \text{MemoryUpdate}(\omega, \delta, k, \tau, \Omega)$
    
 7. **Advance**: $s \leftarrow s'$, $a \leftarrow a'$
 
 **Periodic**:
+
 - Every $T$ steps, re-estimate kernel hyperparameters $\theta$ via ARD
 
 ---
@@ -126,32 +141,38 @@ Before the formal specification, here's the conceptual flow:
 ### 3.1 Notation
 
 **Environment**:
+
 - $s \in \mathcal{S}$: primitive environment state
 - $a^{(i)} \in \mathcal{A}$: discrete action ($i = 1, \ldots, n$)
 - $r \in \mathbb{R}$: reward
 - $\gamma \in [0, 1]$: discount factor
 
 **Parametric action representation**:
+
 - $M$: parametric action model
 - $f_{A^+}: a^{(i)} \mapsto x_a^{(i)} \in \mathbb{R}^{d_a}$: action encoder
 - $f_A: x_a \mapsto a$: action decoder
 
 **Augmented space**:
+
 - $x_s \in \mathbb{R}^{d_s}$: state features
 - $x_a \in \mathbb{R}^{d_a}$: action parameters
 - $z = (x_s, x_a) \in \mathbb{R}^{d_s + d_a}$: augmented state-action point
 
 **Value functions**:
+
 - $Q(s, a)$: primitive action-value (base SARSA learner)
 - $Q^+(z)$: field-based value estimate (via GPR on $\Omega$)
 - $E(z) := -Q^+(z)$: energy (lower is better)
 
 **Memory and kernel**:
+
 - $\Omega = \{(z_i, q_i)\}_{i=1}^N$: particle memory (GPR training set)
 - $k(z, z'; \theta)$: kernel function with hyperparameters $\theta$
 - $\tau \in [0, 1]$: association threshold
 
 **Parameters**:
+
 - $\alpha$: SARSA learning rate
 - $T$: ARD update period
 - $\beta$: policy temperature (for Boltzmann policy)
@@ -161,6 +182,7 @@ Before the formal specification, here's the conceptual flow:
 ### 3.2 Algorithm: RF-SARSA
 
 **Inputs**:
+
 - Kernel function $k(\cdot, \cdot; \theta)$
 - Parametric action model $M$
 - ARD update period $T$
@@ -171,16 +193,20 @@ Before the formal specification, here's the conceptual flow:
 **Initialization**:
 
 1. **Estimate kernel hyperparameters**:
+
    - If $\Omega_0 \neq \emptyset$: Run ARD on $\Omega_0$ to get $\theta$
    - Else: Initialize $\theta = \theta_0$ from prior
 
 2. **Initialize primitive Q-function**:
+
    - $Q(s, a) \leftarrow 0$ for all $(s, a)$ (or small random values)
 
 3. **Initialize particle memory**:
+
    - $\Omega \leftarrow \Omega_0$
 
 4. **Initialize step counter**:
+
    - $t_{\text{ARD}} \leftarrow 0$
 
 ---
@@ -188,11 +214,14 @@ Before the formal specification, here's the conceptual flow:
 **For each episode**:
 
 5. **Initialize state**:
+
    - Observe initial state $s_0$
    - Set $s \leftarrow s_0$
 
 6. **Initial action selection**:
+
    - For each $a^{(i)} \in \mathcal{A}$:
+
      - Encode: $x_a^{(i)} \leftarrow f_{A^+}(a^{(i)})$
      - Form augmented: $z^{(i)} \leftarrow (x_s(s), x_a^{(i)})$
      - Field query: $Q^+(z^{(i)}) \leftarrow \text{GPR-Predict}(z^{(i)}; \Omega, k, \theta)$
@@ -203,23 +232,29 @@ Before the formal specification, here's the conceptual flow:
 **For each step of episode**:
 
 7. **Periodic kernel hyperparameter update**:
+
    - If $t_{\text{ARD}} \bmod T = 0$:
+
      - Re-run ARD on $\Omega$ to update $\theta$
      - (Optional) Increase $T$ to reduce update frequency over time
    - $t_{\text{ARD}} \leftarrow t_{\text{ARD}} + 1$
 
 8. **Environment interaction**:
+
    - Execute action $a$
    - Observe reward $r$ and next state $s'$
 
 9. **Next action inference** (field query):
+
    - For each $a'^{(j)} \in \mathcal{A}$:
+
      - Encode: $x_a'^{(j)} \leftarrow f_{A^+}(a'^{(j)})$
      - Form augmented: $z'^{(j)} \leftarrow (x_s(s'), x_a'^{(j)})$
      - Field query: $Q^+(z'^{(j)}) \leftarrow \text{GPR-Predict}(z'^{(j)}; \Omega, k, \theta)$
    - Policy: $a' \sim \pi(\cdot \mid s')$ where $\pi(a'^{(j)} \mid s') \propto \exp(\beta Q^+(z'^{(j)}))$
 
 10. **Primitive SARSA update** (generates TD evidence):
+
     - Compute TD error:
       $$\delta \leftarrow r + \gamma Q(s', a') - Q(s, a)$$
     - Update primitive Q-function:
@@ -227,6 +262,7 @@ Before the formal specification, here's the conceptual flow:
     - Store updated value: $q \leftarrow Q(s, a)$
 
 11. **Particle reinforcement** (Algorithm 1: MemoryUpdate):
+
     - Form experience particle:
       $$\omega \leftarrow (z, q) \quad \text{where} \quad z = (x_s(s), f_{A^+}(a))$$
     - Update particle memory:
@@ -234,9 +270,11 @@ Before the formal specification, here's the conceptual flow:
       (See Chapter 6 for MemoryUpdate details)
 
 12. **State-action transition**:
+
     - $s \leftarrow s'$, $a \leftarrow a'$
 
 13. **Termination check**:
+
     - If $s$ is terminal, end episode
     - Else, return to step 7
 
@@ -255,6 +293,7 @@ where coefficients $\alpha = (\alpha_1, \ldots, \alpha_N)^\top$ solve:
 $$(K + \sigma_n^2 I) \alpha = q$$
 
 with:
+
 - $K_{ij} = k(z_i, z_j; \theta)$: kernel matrix
 - $q = (q_1, \ldots, q_N)^\top$: stored values
 - $\sigma_n^2$: noise variance (hyperparameter)
@@ -274,6 +313,7 @@ RF-SARSA succeeds by balancing three forces:
 **Role**: Ground the field in actual experienced returns.
 
 **Mechanism**: SARSA provides **temporally accurate** value estimates:
+
 - TD error $\delta = r + \gamma Q(s', a') - Q(s, a)$ measures prediction error
 - Bootstrapping from $Q(s', a')$ propagates future returns backward
 - On-policy learning ensures values reflect the behavior policy
@@ -287,6 +327,7 @@ RF-SARSA succeeds by balancing three forces:
 **Role**: Spread value information across similar configurations.
 
 **Mechanism**: Kernel similarity defines "nearness":
+
 - $k(z, z')$ large → $z$ and $z'$ are similar → should have similar $Q^+$ values
 - GP regression interpolates smoothly between particles
 - Predictions come with uncertainty estimates ($\sigma^2(z)$)
@@ -300,6 +341,7 @@ RF-SARSA succeeds by balancing three forces:
 **Role**: Learn which dimensions matter.
 
 **Mechanism**: Automatic Relevance Determination (ARD) adjusts kernel lengthscales:
+
 - Large lengthscale → dimension is irrelevant → smooth over it
 - Small lengthscale → dimension is critical → pay attention to variations
 
@@ -359,16 +401,19 @@ $$S[\tau] = \int_0^T \left[E(z_t) + \frac{1}{2\lambda}\|\dot{z}_t\|^2\right] dt$
 ### 5.2 Why This Matters for Learning
 
 **Smoothness as regularization**:
+
 - RF-SARSA favors smooth $Q^+$ fields (via kernel smoothness)
 - Equivalent to penalizing rapid action changes (kinetic term)
 - Natural Occam's razor: simple policies preferred
 
 **Physical intuition**:
+
 - Particles are like "mass distributions" creating a potential landscape
 - Agent follows "trajectories" that minimize action
 - MemoryUpdate reshapes the landscape based on experience
 
 **Modern perspective**:
+
 - This is **energy-based learning** (Chapter 3)
 - Policy emerges from **gradient flow** on learned energy (Langevin dynamics)
 - RF-SARSA anticipates modern score-based / diffusion-based RL methods
@@ -382,6 +427,7 @@ Let's extend the 1D navigation example from Chapter 6 to show how RF-SARSA learn
 ### 6.1 Problem Setup
 
 **Environment**:
+
 - State $s \in [0, 10]$: position on a line
 - Goal: $s = 10$ (reward $r = +10$)
 - Obstacle: region $[4, 6]$ (reward $r = -5$ if entered)
@@ -400,16 +446,19 @@ Let's extend the 1D navigation example from Chapter 6 to show how RF-SARSA learn
 **Agent at $s = 2$**:
 
 **Primitive Q-function** (initialized to zero):
+
 - $Q(2, \text{left}) = 0$
 - $Q(2, \text{right}) = 0$
 
 **Particle memory**: $\Omega = \emptyset$ (no particles yet)
 
 **Field prediction** (no particles → default prior mean = 0):
+
 - $Q^+(2, \text{left}, 0.5) = 0$
 - $Q^+(2, \text{right}, 0.5) = 0$
 
 **Action selection** (random, since all Q-values equal):
+
 - Select $a = \text{right}$, $\theta = 0.5$
 
 ---
@@ -417,9 +466,11 @@ Let's extend the 1D navigation example from Chapter 6 to show how RF-SARSA learn
 ### 6.3 First Experience
 
 **Execute action**:
+
 - $s' = 2 + 2(0.5) = 3$, $r = 0$ (no reward yet)
 
 **Next action** (random again):
+
 - $a' = \text{right}$, $\theta' = 0.5$
 
 **SARSA update** (assume $\gamma = 0.9$, $\alpha = 0.1$):
@@ -429,6 +480,7 @@ $$Q(2, \text{right}) = 0 + 0.1 \cdot 0 = 0$$
 **Particle**: $\omega = ((2, 0.5), 0)$ (augmented state, updated Q-value)
 
 **MemoryUpdate**:
+
 - $\Omega$ is empty → create new particle
 - $\Omega = \{((2, 0.5), 0)\}$
 
@@ -457,6 +509,7 @@ $$Q(9, \text{right}) = 0 + 0.1 \cdot 10 = 1.0$$
 **Agent at $s = 2$ again**:
 
 **Field prediction** (now informed by particles):
+
 - Particles exist at $(9, 0.5)$, $(7, 0.5)$, etc. with positive weights
 - $Q^+(2, \text{right}, 0.5)$ > $Q^+(2, \text{left}, 0.5)$ (right leads toward goal)
 
@@ -470,16 +523,19 @@ $$\pi(\text{right} \mid 2) = \frac{e^{Q^+(2, \text{right}, 0.5)}}{e^{Q^+(2, \tex
 ### 6.6 Long-Term Behavior
 
 **After 100 episodes**:
+
 - Particle memory $\Omega$ contains ~500 particles
 - Positive-value particles cluster in paths leading to goal
 - Negative-value particles mark obstacle region
 - ARD has learned: position $s$ is critical, step size $\theta$ less so (larger lengthscale for $\theta$)
 
 **Field $Q^+$**:
+
 - High values: paths from any $s$ toward goal, avoiding obstacle
 - Low values: paths toward obstacle or away from goal
 
 **Policy**:
+
 - Smooth, deterministic path from any start state to goal
 - Naturally avoids obstacle (low $Q^+$ region)
 
@@ -511,18 +567,22 @@ $$\pi(\text{right} \mid 2) = \frac{e^{Q^+(2, \text{right}, 0.5)}}{e^{Q^+(2, \tex
 RF-SARSA is closer to:
 
 **Galerkin methods** (functional analysis):
+
 - Approximate solutions in a finite-dimensional subspace of an infinite-dimensional space
 - RF-SARSA: subspace spanned by kernel sections $k(z_i, \cdot)$
 
 **Interacting particle systems** (statistical physics):
+
 - Particles influence each other through pairwise interactions
 - RF-SARSA: MemoryUpdate propagates weights through kernel interactions
 
 **Energy-based models** (modern ML):
+
 - Learn energy function, sample from $p \propto \exp(-E)$
 - RF-SARSA: Learn $E = -Q^+$, policy is Boltzmann distribution
 
 **Belief-state RL** (POMDPs):
+
 - Maintain belief over states, condition policy on belief
 - RF-SARSA: $\Omega$ is belief representation, policy conditioned on $Q^+(\cdot; \Omega)$
 
@@ -535,10 +595,12 @@ RF-SARSA anticipated several ideas that became mainstream later:
 ### 8.1 Kernel Temporal Difference Learning
 
 **Kernel TD** (Engel et al., 2005):
+
 - Apply TD learning in RKHS
 - Use kernel trick for function approximation
 
 **RF-SARSA connection**:
+
 - Also uses kernels for TD learning
 - But operates in augmented space $(s, \theta)$
 - Couples with particle-based memory management
@@ -548,10 +610,12 @@ RF-SARSA anticipated several ideas that became mainstream later:
 ### 8.2 Energy-Based RL
 
 **Modern EBMs** (e.g., Diffusion Q-learning, 2023):
+
 - Represent policies/values as energy functions
 - Sampling via Langevin dynamics
 
 **RF-SARSA connection**:
+
 - Energy interpretation $E = -Q^+$ (Chapter 3)
 - Policy via Boltzmann distribution (Chapter 03a)
 - Implicitly performs gradient flow on learned energy
@@ -561,10 +625,12 @@ RF-SARSA anticipated several ideas that became mainstream later:
 ### 8.3 Model-Based RL via GPs
 
 **GP-based model learning** (Deisenroth et al., 2015):
+
 - Learn forward dynamics $p(s' \mid s, a)$ via GP
 - Plan using learned model
 
 **RF-SARSA connection**:
+
 - GP over augmented space provides implicit forward model
 - Soft state transitions emerge from kernel similarity (Chapter 8, upcoming)
 - No explicit dynamics model, but captures uncertainty
@@ -574,10 +640,12 @@ RF-SARSA anticipated several ideas that became mainstream later:
 ### 8.4 Neural Processes
 
 **Neural Processes** (Garnelo et al., 2018):
+
 - Learn a distribution over functions from context set
 - Condition predictions on context
 
 **RF-SARSA connection**:
+
 - $\Omega$ is the context set (particle memory)
 - $Q^+(z; \Omega)$ is the conditional prediction
 - GPR is a (non-parametric) neural process!
@@ -589,20 +657,24 @@ RF-SARSA anticipated several ideas that became mainstream later:
 ### 9.1 Choosing Hyperparameters
 
 **Kernel lengthscale $\ell$**:
+
 - Too small: overfitting, no generalization
 - Too large: over-smoothing, loss of detail
 - **Solution**: Use ARD to learn per-dimension lengthscales
 
 **Association threshold $\tau$**:
+
 - Too low: all particles associate, slow computation
 - Too high: no association, memory explosion
 - **Rule of thumb**: $\tau \approx 0.1$ (10% correlation threshold)
 
 **SARSA learning rate $\alpha$**:
+
 - Standard RL tuning: start $\alpha = 0.1$, decay over time
 - Should be larger than typical Q-learning (on-policy is more stable)
 
 **Policy temperature $\beta$**:
+
 - High $\beta$ (low temperature): greedy, exploitation
 - Low $\beta$ (high temperature): stochastic, exploration
 - **Schedule**: Exponential decay, e.g., $\beta_t = \beta_0 \cdot 1.01^t$
@@ -629,6 +701,7 @@ RF-SARSA anticipated several ideas that became mainstream later:
 **Total**: $O(Nn + N + N^3/T) \approx O(Nn)$ for reasonable $T$, $N$.
 
 **Scaling**: For large $N$ (>1000), use:
+
 - Sparse GPs (inducing points)
 - Random Fourier features
 - Amortized inference (neural network)
@@ -640,11 +713,13 @@ RF-SARSA anticipated several ideas that became mainstream later:
 **Problem**: GP regression is $O(N^3)$ in number of particles.
 
 **Solution**: Sparse GP (Quiñonero-Candela & Rasmussen, 2005):
+
 - Choose $M \ll N$ inducing points
 - Approximate $Q^+$ using only these points
 - Reduces complexity to $O(M^2 N)$
 
 **In RF-SARSA**:
+
 - Select inducing points from particle memory (e.g., k-means)
 - Update inducing points periodically
 
@@ -815,15 +890,18 @@ RF-SARSA is **not** a policy learning algorithm. It is a **functional reinforcem
 ### 11.2 Key Conceptual Insights
 
 **Two-layer architecture**:
+
 - Primitive layer (SARSA) → temporal grounding
 - Field layer (GPR) → spatial generalization
 
 **Belief-state interpretation**:
+
 - Particle memory $\Omega$ = agent's belief state
 - MemoryUpdate = belief update operator
 - Policy = belief-conditioned action inference
 
 **Physics grounding**:
+
 - Energy landscape $E = -Q^+$ learned from experience
 - Boltzmann policy minimizes expected action (Chapter 03a)
 - Smooth trajectories emerge from kinetic regularization (kernel smoothness)
@@ -833,12 +911,14 @@ RF-SARSA is **not** a policy learning algorithm. It is a **functional reinforcem
 ### 11.3 Connection to the Big Picture
 
 **Part I: Reinforcement Fields** (where we are now):
+
 - Chapter 4: What is the reinforcement field? (functional object in RKHS)
 - Chapter 5: How is it represented? (particles as basis elements)
 - Chapter 6: How does memory evolve? (MemoryUpdate as belief transition)
 - **Chapter 7** (this chapter): **How is the field learned?** (RF-SARSA as functional TD)
 
 **Coming next**:
+
 - Chapter 8: What emerges from this? (soft state transitions, uncertainty)
 - Chapter 9: How to interpret this? (POMDP view, belief-based control)
 - Chapter 10: Putting it all together (complete GRL system)
@@ -868,20 +948,25 @@ RF-SARSA is **not** a policy learning algorithm. It is a **functional reinforcem
 ## 13. Further Reading
 
 **Original RF-SARSA**:
+
 - Chiu & Huber (2022), Section IV. [arXiv:2208.04822](https://arxiv.org/abs/2208.04822)
 
 **Kernel Temporal Difference Learning**:
+
 - Engel, Y., Mannor, S., & Meir, R. (2005). "Reinforcement learning with Gaussian processes." *ICML*.
 - Xu, X., et al. (2007). "Kernel-based least squares policy iteration for reinforcement learning." *IEEE TNNLS*.
 
 **Path Integral Control (connection to Least Action)**:
+
 - Theodorou, E., Buchli, J., & Schaal, S. (2010). "A generalized path integral control approach to reinforcement learning." *JMLR*.
 
 **Gaussian Processes for RL**:
+
 - Deisenroth, M. P., & Rasmussen, C. E. (2011). "PILCO: A model-based and data-efficient approach to policy search." *ICML*.
 - Rasmussen, C. E., & Williams, C. K. I. (2006). *Gaussian Processes for Machine Learning*. MIT Press.
 
 **Energy-Based RL**:
+
 - Haarnoja, T., et al. (2017). "Reinforcement learning with deep energy-based policies." *ICML* (SQL).
 - Ajay, A., et al. (2023). "Is conditional generative modeling all you need for decision making?" *ICLR* (Diffusion-QL).
 

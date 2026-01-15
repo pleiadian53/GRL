@@ -36,6 +36,7 @@ When you first learned about vectors, you probably thought of arrows in 2D or 3D
 - **Measured** for length and angle
 
 Functions can be vectors too! Consider continuous functions on $[0, 1]$. We can:
+
 - Add functions: $(f + g)(x) = f(x) + g(x)$
 - Scale functions: $(cf)(x) = c \cdot f(x)$
 - Measure: Using an inner product
@@ -49,6 +50,7 @@ $$
 $$
 
 Properties:
+
 - $\langle u, u \rangle \geq 0$ (non-negative)
 - $\langle u, u \rangle = 0$ implies $u = 0$ (definite)
 - $\langle u, v \rangle = \langle v, u \rangle$ (symmetric)
@@ -59,6 +61,7 @@ Properties:
 A **Hilbert space** is a vector space with an inner product that is **complete** (limits of sequences stay in the space).
 
 **Examples**:
+
 - $\mathbb{R}^n$ with the standard dot product
 - The space of square-integrable functions $L^2$
 - The space of functions induced by a kernel (RKHS)
@@ -103,6 +106,7 @@ This is profound: the kernel function directly measures how similar two points a
 In GRL, the value function $Q^+$ is not just "some function." It is a **vector in an RKHS**:
 
 $$
+
 Q^+(\cdot) = \sum_i w_i \, k(z_i, \cdot) \in \mathcal{H}_k
 $$
 
@@ -113,6 +117,7 @@ This function is a linear combination of "basis functions" $k(z_i, \cdot)$, exac
 RKHS functions inherit smoothness from the kernel. For example, with an RBF kernel:
 
 $$
+
 k(z, z') = \exp\left(-\frac{\|z - z'\|^2}{2\ell^2}\right)
 $$
 
@@ -123,6 +128,7 @@ The induced functions are **infinitely differentiable**. Small changes in input 
 When we add a new particle $(z_N, w_N)$, the updated function:
 
 $$
+
 Q^+_{\text{new}}(z) = Q^+_{\text{old}}(z) + w_N k(z, z_N)
 $$
 
@@ -133,6 +139,7 @@ The influence spreads smoothly according to the kernel. Points similar to $z_N$ 
 In an RKHS, we can differentiate the value function:
 
 $$
+
 \nabla_z Q^+(z) = \sum_i w_i \nabla_z k(z, z_i)
 $$
 
@@ -151,6 +158,7 @@ Classical ML treats data points as primary objects and functions as derived. RKH
 Each point $x$ is represented by the function $k(x, \cdot)$ — its "feature representation." Two points are compared via:
 
 $$
+
 k(x_1, x_2) = \langle k(x_1, \cdot), k(x_2, \cdot) \rangle
 $$
 
@@ -177,6 +185,7 @@ This is **epistemic, not just geometric**. The kernel defines what counts as rel
 - **GRL does not require GPs** — any method that constructs kernel superpositions works
 
 GRL is fundamentally about:
+
 1. Representing belief states as particles in augmented space
 2. Defining value functions as elements of an RKHS
 3. Policy inference from functional gradients
@@ -226,6 +235,7 @@ Individual random draws from a GP may or may not belong to the RKHS, depending o
 In Euclidean space, similarity is measured by distance. In RKHS, similarity is measured by **inner products**.
 
 The inner product $\langle f, g \rangle$ captures:
+
 - How "aligned" two functions are
 - The degree to which $f$ and $g$ "agree"
 - A generalized notion of correlation
@@ -242,6 +252,7 @@ There's a deep structural parallel to quantum mechanics:
 | Observables as operators | Value functionals |
 
 In both frameworks:
+
 - Inner products are fundamental
 - Probability/compatibility emerges from overlap
 - The "state" of the system is a vector in Hilbert space
@@ -257,6 +268,7 @@ $$
 GRL derives policy from field values:
 
 $$
+
 \pi(a|s) \propto \exp(\beta \, Q^+(s, a))
 $$
 
@@ -291,6 +303,7 @@ See Part II (Emergent Structure & Spectral Abstraction) for spectral methods and
 ### Kernel Choice Matters
 
 The kernel defines:
+
 - **Smoothness**: How quickly the value function can change
 - **Lengthscale**: The "range of influence" of each particle
 - **Feature relevance**: Which dimensions matter (via ARD kernels)
@@ -307,6 +320,7 @@ Common choices for GRL:
 ### Computational Considerations
 
 RKHS representations have complexity:
+
 - **Memory**: $O(N)$ storage for $N$ particles
 - **Query**: $O(N)$ kernel evaluations per point
 - **Update**: $O(N)$ to add/modify particles
@@ -358,6 +372,7 @@ Similarity, value, policy, and learning are all geometric consequences of the RK
 ## Next Steps
 
 In **Chapter 3: Energy and Fitness**, we'll explore:
+
 - The relationship between fitness and energy conventions
 - How to interpret the value landscape
 - Connection to energy-based models

@@ -46,6 +46,7 @@ GRL:
 ```
 
 Think of it this way:
+
 - In traditional RL, an action is a **label** ("turn left")
 - In GRL, an action is a **transformation** (a rotation matrix, a force field, a differential equation)
 
@@ -97,6 +98,7 @@ This "enriched action space" is the space of all possible operator parameters. I
 To reason about actions and states together, GRL introduces the **augmented state space**. This combines the environment state $s$ with action parameters $\theta$:
 
 $$
+
 z = (s, \theta) \in \mathcal{S} \times \Theta
 $$
 
@@ -105,6 +107,7 @@ Why combine them? Because in GRL, we want to evaluate "how good is this action i
 Think of it as asking: "If I'm in state $s$ and I apply an operator with parameters $\theta$, what value do I expect?"
 
 This unified view enables:
+
 - Smooth generalization across similar state-action pairs
 - Continuous value functions over the joint space
 - Gradient-based reasoning about actions
@@ -118,6 +121,7 @@ Traditional RL learns a value function $V(s)$ or $Q(s, a)$ that assigns values t
 GRL learns a **reinforcement field** $Q^+(z) = Q^+(s, \theta)$ — a smooth function over the entire augmented space that tells us the value of each possible state-action configuration.
 
 Because this function lives in a special mathematical space (a Reproducing Kernel Hilbert Space, which we'll explore later), it has nice properties:
+
 - Smoothness: Nearby configurations have similar values
 - Generalization: We can estimate values for unseen configurations
 - Gradients: We can compute how value changes with small parameter changes
@@ -129,10 +133,12 @@ Because this function lives in a special mathematical space (a Reproducing Kerne
 GRL doesn't optimize a policy network directly. Instead, it maintains a **particle-based representation** of the reinforcement field.
 
 Each "particle" is a remembered experience embedded in the augmented space:
+
 - Location: Where in $(s, \theta)$ space this experience occurred
 - Value: What reinforcement was received
 
 Through interaction with the environment:
+
 1. New experiences create new particles
 2. Particles accumulate and interact
 3. The reinforcement field emerges from the particle ensemble
@@ -181,6 +187,7 @@ This tutorial will build up the full GRL framework:
 7. **Interpretation** (Chapters 8-10): Soft transitions, POMDP view, synthesis
 
 By the end, you'll understand:
+
 - How GRL represents and learns from experience
 - Why its particle-based approach differs from policy gradient methods
 - How to implement and apply GRL to control problems
@@ -229,6 +236,7 @@ This tutorial series is based on:
 ## Next Steps
 
 In **Chapter 1: Core Concepts**, we'll dive deeper into:
+
 - How augmented state space is constructed
 - What particles represent mathematically
 - The role of kernel functions in defining similarity

@@ -13,6 +13,7 @@ In Chapter 5, we learned that **memory is a functional representation**—a weig
 But how does this representation **change** as the agent experiences new things?
 
 This chapter introduces **Algorithm 1: MemoryUpdate**—the core mechanism that:
+
 - Converts new experiences into particles
 - Associates them with existing knowledge
 - Reshapes the energy landscape
@@ -50,6 +51,7 @@ In GRL, when the agent observes $(s_t, \theta_t, r_t)$ (remember: actions are pa
 $$\text{MemoryUpdate}: \mathcal{M} \rightarrow \mathcal{M}'$$
 
 This single operation **simultaneously**:
+
 - Updates the agent's belief about the value landscape
 - Incorporates new experience into memory
 - Reshapes the policy (implicitly, via the field)
@@ -84,6 +86,7 @@ $$a_i = k(z_{new}, z_i) \quad \text{for each } z_i \in \mathcal{M}$$
 where $k(\cdot, \cdot)$ is the RKHS kernel over augmented space.
 
 **Why:** This determines:
+
 - How much the new experience **confirms** existing beliefs
 - How far its influence should **spread** in the landscape
 - Which particles should be **adjusted** in response
@@ -334,6 +337,7 @@ This is **subtle and powerful**.
 **Example:**
 
 Suppose:
+
 - Agent has particle $z_1 = (s_1, \theta_1)$ with $w_1 = +2.0$
 - New experience: $z_{new} = (s_1, \theta_2)$ with $r_t = +3.0$
 - Association: $a_1 = k(z_{new}, z_1) = 0.8$ (high similarity)
@@ -485,12 +489,14 @@ $$\mathcal{M}' = \{(z_1, +7.82), (z_2, -1.98), (z_{new}, +9.90)\}$$
 **Before MemoryUpdate:**
 
 Energy landscape had:
+
 - Moderate attraction near $(8.0, 0.5)$ (weight $+5.0$)
 - Weak repulsion near $(3.0, -0.3)$ (weight $-2.0$)
 
 **After MemoryUpdate:**
 
 Energy landscape has:
+
 - **Stronger attraction** near $(8.0, 0.5)$ (weight $+7.82$) ← reinforced by new evidence
 - Still weak repulsion near $(3.0, -0.3)$ (weight $-1.98$) ← unchanged (no association)
 - **Strong new attraction** near $(9.0, 0.8)$ (weight $+9.90$) ← new high-value region
@@ -628,11 +634,13 @@ $$Q^+(z) = \sum_i w_i k(z_i, z)$$
 ### Misconception 2: "Kernel Association Is Just Nearest-Neighbor"
 
 **Reality:** Kernel association is:
+
 - **Soft:** All particles contribute, weighted by similarity
 - **Global:** Associations computed with all particles simultaneously
 - **Differentiable:** Enables smooth generalization
 
 Nearest-neighbor is:
+
 - **Hard:** Only the closest point matters
 - **Local:** No information about the broader landscape
 - **Discontinuous:** Small changes in input cause jumps
@@ -642,6 +650,7 @@ Nearest-neighbor is:
 ### Misconception 3: "MemoryUpdate Only Affects Memory"
 
 **Reality:** MemoryUpdate **simultaneously affects**:
+
 - The value landscape (via particle weights)
 - The policy (via $Q^+(s, \theta)$)
 - Belief uncertainty (via particle diversity)
@@ -871,6 +880,7 @@ In the next chapter, we'll introduce **RF-SARSA**—the algorithm that determine
 **Spoiler:** RF-SARSA implements **temporal-difference learning in RKHS**, enabling the agent to bootstrap value estimates from the reinforcement field itself.
 
 Together, MemoryUpdate and RF-SARSA form a **two-layer learning system**:
+
 - **RF-SARSA:** Computes TD error in function space
 - **MemoryUpdate:** Reshapes the field in response
 
@@ -901,12 +911,14 @@ For principled alternatives to hard threshold $\tau$:
 **[Chapter 06a: Advanced Memory Dynamics →](06a-advanced-memory-dynamics.md)**
 
 Practical improvements:
+
 - **Top-k Adaptive Neighbors** — Density-aware, no global threshold
 - **Surprise-Gated Consolidation** — Data-driven, bounded memory growth
 - **Hybrid Approach** — Combines both methods
 - Code examples and decision guides
 
 For full theoretical treatment:
+
 - **[Chapter 07: Learning Beyond GP](../quantum_inspired/07-learning-the-field-beyond-gp.md)** — Alternative learning mechanisms
 - **[Chapter 08: Memory Dynamics](../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md)** — Formation, consolidation, retrieval operators
 

@@ -27,6 +27,7 @@ In quantum mechanics:
 **This is not analogy—it is structural identity.**
 
 In both cases:
+
 - The **state of the system** is a vector in a Hilbert space (not a point)
 - What we "observe" or "infer" comes from **inner products**
 - Meaning arises from **overlap**, not identity
@@ -65,6 +66,7 @@ $$Q^+(\cdot) = \sum_i w_i \, k(z_i, \cdot)$$
 $$|\psi\rangle = \sum_i c_i \, |i\rangle$$
 
 The parallel is exact:
+
 - Coefficients: $w_i \leftrightarrow c_i$
 - Basis vectors: $k(z_i, \cdot) \leftrightarrow |i\rangle$
 - The system state is **the superposition itself**
@@ -86,6 +88,7 @@ $$\langle k(z_i, \cdot), k(z_j, \cdot) \rangle_{\mathcal{H}_k} = k(z_i, z_j)$$
 $$\langle \phi | \psi \rangle$$
 
 In both cases:
+
 - Inner product = **overlap amplitude**
 - Large overlap = strong compatibility
 - Orthogonality = conceptual independence
@@ -105,6 +108,7 @@ In both cases:
 ### In GRL
 
 Similarly:
+
 - The reinforcement field $Q^+(z)$ is not a probability
 - Policy $\pi(a|s) \propto \exp(\beta \, Q^+(s, a))$ is derived from the field
 - Inner products $k(z_i, z_j)$ measure compatibility (amplitude overlap)
@@ -116,6 +120,7 @@ Similarly:
 **GRL (Quantum-Inspired):** Uses amplitudes $\langle \psi | \phi \rangle$, then derives probabilities via $|\langle \psi | \phi \rangle|^2$
 
 This formulation enables:
+
 1. **Superposition**: Represent multi-modal distributions naturally
 2. **Interference**: Amplitudes can add constructively or destructively
 3. **Phase information**: (In complex RKHS) Encode temporal/contextual relationships
@@ -159,6 +164,7 @@ This amplitude-based formulation is **not yet mainstream in ML**:
 ### 2. Spectral Structure is Natural
 
 Because the system state is a superposition in Hilbert space:
+
 - **Eigendecomposition** naturally reveals coherent subspaces
 - **Spectral clustering** groups by amplitude overlap
 - **Concepts emerge** as eigenmodes of the kernel matrix
@@ -168,6 +174,7 @@ This is why Part II (Emergent Structure & Spectral Abstraction) uses spectral me
 ### 3. Richer Dynamics
 
 With complex-valued RKHS (see [next document](02-complex-rkhs.md)):
+
 - **Interference effects** can guide learning
 - **Phase evolution** provides temporal dynamics
 - **Partial overlaps** enable nuanced similarity
@@ -198,6 +205,7 @@ The mathematics is literally the same—but applied to learning, not physics.
 ### Part I: Particle-Based Learning
 
 Uses **real-valued RKHS**:
+
 - Particles as basis functions
 - Reinforcement field as superposition
 - Inner products for similarity
@@ -208,6 +216,7 @@ Already leverages the Hilbert space structure!
 ### Part II: Emergent Structure & Spectral Abstraction
 
 Exploits this structure explicitly:
+
 - **Spectral clustering** on kernel matrix
 - **Eigenspaces** as concept subspaces
 - **Hierarchical structure** from spectral decomposition

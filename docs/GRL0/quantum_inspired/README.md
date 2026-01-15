@@ -258,6 +258,7 @@ GRL (quantum-inspired) uses **probability amplitudes**: $\langle \psi | \phi \ra
 ## Prerequisites
 
 Before reading these documents, you should understand:
+
 - **Part I, Chapter 2**: [RKHS Foundations](../tutorials/02-rkhs-foundations.md)
 - **Part I, Chapter 4**: [Reinforcement Field](../tutorials/04-reinforcement-field.md)
 - **Part I, Chapter 5**: [Particle Memory](../tutorials/05-particle-memory.md)

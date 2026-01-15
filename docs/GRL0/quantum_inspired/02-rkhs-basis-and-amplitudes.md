@@ -82,6 +82,7 @@ $$Q^+(z) = \langle Q^+, k(z, \cdot) \rangle_{\mathcal{H}_k}$$
 The kernel-induced basis $\{k(z, \cdot)\}$ exists for **all** $z \in \mathcal{Z}$, just like the position basis exists for all $x \in \mathbb{R}$.
 
 When you choose a specific $z$:
+
 - You're not "defining the basis"
 - You're **selecting which basis element** to project onto
 
@@ -268,6 +269,7 @@ An unnormalized score used for inference and control.
 ---
 
 **Nothing is inconsistent here**—they're just different **readouts** of the same state, like:
+
 - Abstract vector $\mathbf{v}$
 - Cartesian coordinates $[v_x, v_y, v_z]$
 - Potential energy $U(\mathbf{v})$
@@ -336,6 +338,7 @@ $$\pi(\theta | s) = \frac{\exp(\beta Q^+(s, \theta))}{\int_{\Theta} \exp(\beta Q
 ### Option 3: Complex-Valued RKHS (Advanced)
 
 If you extend RKHS to **complex values**, you get:
+
 - Probability amplitudes: $\psi(z) \in \mathbb{C}$
 - Born rule: $p(z) = |\psi(z)|^2$
 - **Interference effects** from phase!

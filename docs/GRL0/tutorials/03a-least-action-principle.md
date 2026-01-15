@@ -3,6 +3,7 @@
 **Purpose**: This supplement bridges classical physics and reinforcement learning, showing why GRL's energy-based formulation is not just convenient notation—it's a principled framework grounded in one of the most fundamental laws of physics: the **principle of least action**.
 
 **Why this matters for GRL**:
+
 - Explains why the Boltzmann policy $\pi(\theta|s) \propto \exp(Q^+/\lambda)$ emerges naturally
 - Provides a principled way for agents to **discover** smooth, optimal actions (not just select from pre-defined sets)
 - Connects modern RL to 300+ years of physics and optimal control theory
@@ -75,6 +76,7 @@ The action principle is powerful because:
 ### 2.1 The Control Problem
 
 In optimal control, we want to find a trajectory that:
+
 - Starts at state $s_0$
 - Ends at goal state $s_f$ (or maximizes reward)
 - Minimizes a cost functional
@@ -111,6 +113,7 @@ where $S[s \to u]$ is the action along the optimal trajectory from $s$ when appl
 **This is a Boltzmann distribution over actions!**
 
 The policy naturally emerges from minimizing action, with temperature $\nu$ controlling the sharpness:
+
 - High $\nu$ (high temperature) → More exploration, softer policy
 - Low $\nu$ (low temperature) → More exploitation, sharper policy
 
@@ -175,6 +178,7 @@ It's not an ad-hoc choice—it's the optimal policy under the action minimizatio
 The kinetic term $\frac{1}{2\lambda}\|\dot{\theta}\|^2$ penalizes rapid changes in action parameters.
 
 **Why this matters**:
+
 - Prevents jerky, discontinuous actions
 - Encourages smooth, physically realizable trajectories
 - Natural regularization (Occam's razor for actions)
@@ -197,12 +201,14 @@ A smooth kernel (e.g., RBF) ensures that nearby actions have similar $Q^+$ value
 ### 4.1 Beyond Fixed Action Sets
 
 Traditional RL assumes a fixed action space:
+
 - **Discrete**: $\mathcal{A} = \{a_1, a_2, \ldots, a_n\}$
 - **Continuous**: $\mathcal{A} = \mathbb{R}^d$ with pre-defined parameterization
 
 **GRL with least action**: Actions are **discovered** by minimizing the action functional.
 
 The agent learns:
+
 1. **What actions are smooth** (low kinetic cost)
 2. **What actions are effective** (high $Q^+$, low energy)
 3. **How to balance exploration and exploitation** ($\lambda$ temperature)
@@ -268,6 +274,7 @@ subject to environment dynamics $s_{t+1} = f(s_t, \theta_t, w_t)$.
 $$J(\phi) = \mathbb{E}_{\tau \sim \pi_\phi}\left[\sum_{t=0}^T \left[-r_t + \frac{1}{2\lambda}\|\theta_{t+1} - \theta_t\|^2\right]\right]$$
 
 This naturally balances:
+
 - **Reward maximization**: via $-r_t$ (minimize negative reward)
 - **Action smoothness**: via kinetic penalty
 
@@ -286,6 +293,7 @@ where $F$ is the Fisher information matrix (the Riemannian metric on the policy 
 **Connection to action**: The Fisher metric is the infinitesimal version of the action metric on the policy manifold.
 
 **Practical algorithms**:
+
 - TRPO (Trust Region Policy Optimization)
 - PPO (Proximal Policy Optimization)
 - Natural Actor-Critic
@@ -299,11 +307,13 @@ All implicitly minimize action-like functionals!
 The kinetic term $\frac{1}{2\lambda}\|\dot{\theta}\|^2$ is an **inductive bias** favoring smooth policies.
 
 **Why this helps learning**:
+
 - Reduces sample complexity (smooth functions generalize better)
 - Improves stability (prevents policy collapse)
 - Encodes physical priors (real systems have inertia)
 
 **In GRL**: This is naturally encoded by:
+
 1. **Kernel smoothness**: RBF kernels enforce continuity
 2. **Particle memory**: Weighted neighbors smooth the $Q^+$ estimate
 3. **MemoryUpdate propagation**: $\lambda_{\text{prop}}$ controls local smoothing
@@ -330,6 +340,7 @@ $$S[\tau] = \int \left[E(z_t) + \frac{1}{2\lambda}\|\dot{z}_t\|^2\right] dt$$
 The reinforcement field $Q^+: \mathcal{Z} \to \mathbb{R}$ defines the **potential energy landscape**.
 
 **From least action perspective**:
+
 - High $Q^+$ regions: Low potential energy, attractors
 - Low $Q^+$ regions: High potential energy, repellers
 - Gradient $\nabla Q^+$: Force field guiding action selection
@@ -343,6 +354,7 @@ The reinforcement field $Q^+: \mathcal{Z} \to \mathbb{R}$ defines the **potentia
 MemoryUpdate modifies the particle ensemble, which **reshapes the energy landscape**.
 
 **From least action perspective**:
+
 - Adding particle $(z_{\text{new}}, w_{\text{new}})$: Creates a potential well at $z_{\text{new}}$
 - Propagating weights: Smooths the landscape (kinetic regularization)
 - Hard threshold $\epsilon$: Limits influence radius (finite-range potential)
@@ -356,6 +368,7 @@ MemoryUpdate modifies the particle ensemble, which **reshapes the energy landsca
 RF-SARSA implements **temporal difference learning** on the energy landscape.
 
 **From least action perspective**:
+
 - TD error: Mismatch between predicted and actual action along trajectory
 - Weight update: Adjusts potential to make future trajectories optimal
 - Exploration ($\lambda$): Temperature for Langevin sampling
@@ -371,11 +384,13 @@ RF-SARSA implements **temporal difference learning** on the energy landscape.
 The temperature $\lambda$ controls exploration:
 
 **High $\lambda$ (hot)**:
+
 - Broad distribution over actions
 - More exploration
 - Good early in learning
 
 **Low $\lambda$ (cold)**:
+
 - Peaked distribution (near-greedy)
 - More exploitation
 - Good after convergence
@@ -441,21 +456,25 @@ def compute_loss(Q_phi, trajectories, lambda_temp, lambda_kinetic):
 ## 8. Summary: Why Least Action Matters for GRL
 
 **Physics justification**:
+
 - Energy-based formulation is not arbitrary—it's grounded in fundamental physics
 - Boltzmann policy emerges naturally from action minimization
 - Smooth trajectories are optimal, not just convenient
 
 **Algorithmic benefits**:
+
 - Principled exploration via temperature $\lambda$
 - Natural regularization via kinetic penalty
 - Gradient-based action discovery (no fixed action sets needed)
 
 **Theoretical depth**:
+
 - Connects RL to 300+ years of physics and optimal control
 - Provides a unified framework (discrete, continuous, hybrid actions)
 - Opens path to advanced techniques (natural gradients, Riemannian optimization)
 
 **Next steps**:
+
 - **Chapter 07: RF-SARSA** — How to learn $Q^+$ via temporal differences
 - **Quantum-Inspired Chapter 09** — Path integrals and Feynman's formulation
 
@@ -464,15 +483,18 @@ def compute_loss(Q_phi, trajectories, lambda_temp, lambda_kinetic):
 ## Further Reading
 
 **Path Integral Control**:
+
 - Kappen, H. J. (2005). "Path integrals and symmetry breaking for optimal control theory." *Journal of Statistical Mechanics*.
 - Todorov, E. (2009). "Efficient computation of optimal actions." *PNAS*.
 - Theodorou, E., Buchli, J., & Schaal, S. (2010). "A generalized path integral control approach to reinforcement learning." *JMLR*.
 
 **Variational Principles**:
+
 - Goldstein, H., Poole, C., & Safko, J. (2002). *Classical Mechanics* (3rd ed.), Chapter 2.
 - Landau, L. D., & Lifshitz, E. M. (1976). *Mechanics* (3rd ed.), Chapter 2.
 
 **Natural Gradients & Policy Optimization**:
+
 - Amari, S. (1998). "Natural gradient works efficiently in learning." *Neural Computation*.
 - Schulman, J., et al. (2015). "Trust region policy optimization." *ICML*.
 

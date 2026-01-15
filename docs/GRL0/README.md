@@ -43,6 +43,7 @@
 - **Emergent probabilities**: Policy derived from field values, not optimized directly
 
 This formulation—common in quantum mechanics but rare in ML—opens new directions for:
+
 - Interference-based learning dynamics
 - Phase-encoded contextual information
 - Richer uncertainty representations
@@ -121,6 +122,7 @@ Experience is not discrete transitions but a **continuous field** in RKHS:
 ### [Implementation](implementation/)
 
 Technical specifications and roadmap for the codebase:
+
 - System architecture
 - Module specifications
 - Implementation priorities
@@ -136,30 +138,36 @@ Suggested edits and improvements for the original GRL-v0 paper.
 
 ### Quick Start (2 hours)
 Start here if you want a high-level overview:
+
 - [Ch. 0: Overview](tutorials/00-overview.md)
 - [Ch. 1: Core Concepts](tutorials/01-core-concepts.md)
 
 ### Part I Complete (8 hours)
 For full understanding of particle-based learning:
+
 - Chapters 0-10 (sequential reading)
 
 ### Part II Complete (4 hours, when available)
 For hierarchical structure and abstraction:
+
 - Chapters 11-14 (sequential reading)
 
 ### Quantum-Inspired Extensions (6 hours)
 For advanced mathematical connections:
+
 - [Quantum-inspired series](quantum_inspired/) (Chapters 01-08)
 - Requires: Part I Chapters 2, 4, 5
 
 ### Implementation Focus
 If you want to build GRL systems:
+
 - [Implementation roadmap](implementation/)
 - Chapters 5-7 (algorithms)
 - Quantum-inspired Chapters 07-08 (learning & memory)
 
 ### Theory Deep-Dive
 If you want mathematical depth:
+
 - Chapters 2-3 (RKHS foundations)
 - Chapters 4-5 (field theory)
 - Quantum-inspired Chapters 01-03 (QM connections)

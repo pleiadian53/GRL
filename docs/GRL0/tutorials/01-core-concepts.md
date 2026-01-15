@@ -24,6 +24,7 @@ These concepts form the foundation on which the reinforcement field, algorithms,
 ### From Symbols to Parameters
 
 In traditional RL, an action $a$ is either:
+
 - A discrete symbol from a finite set: $a \in \{1, 2, ..., K\}$
 - A continuous vector from a bounded region: $a \in \mathbb{R}^d$
 
@@ -91,6 +92,7 @@ This has several advantages:
 In practice, we often use embedding functions to transform raw states and actions into suitable representations:
 
 $$
+
 z = (x_s(s), x_a(\theta))
 $$
 
@@ -100,6 +102,7 @@ where:
 - $x_a: \Theta \to \mathbb{R}^{d_a}$ embeds action parameters
 
 These embeddings might be:
+
 - Identity (raw features)
 - Learned neural network encodings
 - Hand-crafted features
@@ -115,6 +118,7 @@ The choice of embedding affects the geometry of the augmented space and thus how
 In GRL, experience is stored not as a replay buffer of transitions, but as a collection of **particles** in augmented space. Each particle is a tuple:
 
 $$
+
 \omega_i = (z_i, w_i) = ((s_i, \theta_i), w_i)
 $$
 
@@ -128,10 +132,12 @@ where:
 The agent maintains a **particle memory**:
 
 $$
+
 \Omega = \{(z_1, w_1), (z_2, w_2), ..., (z_N, w_N)\}
 $$
 
 This collection of weighted particles represents the agent's accumulated experience. It's analogous to:
+
 - A weighted sample approximation to a distribution
 - A nonparametric function representation
 - A memory of "what happened where and how good it was"
@@ -182,6 +188,7 @@ Higher values mean more similar.
 **Radial Basis Function (RBF) / Gaussian**:
 
 $$
+
 k(z, z') = \exp\left(-\frac{\|z - z'\|^2}{2\ell^2}\right)
 $$
 
@@ -190,6 +197,7 @@ where $\ell$ is the **lengthscale** controlling how quickly similarity decays wi
 **Automatic Relevance Determination (ARD)**:
 
 $$
+
 k(z, z') = \exp\left(-\sum_{d=1}^{D} \frac{(z_d - z'_d)^2}{2\ell_d^2}\right)
 $$
 
@@ -200,6 +208,7 @@ Each dimension has its own lengthscale $\ell_d$, allowing the kernel to learn wh
 For augmented space, we might use:
 
 $$
+
 k(z, z') = k_s(s, s') \cdot k_a(\theta, \theta')
 $$
 
@@ -222,12 +231,14 @@ Kernels are central to GRL because they define:
 Given particles $\Omega = \{(z_i, w_i)\}$ and kernel $k$, we can define a function over the entire augmented space:
 
 $$
+
 f(z) = \sum_{i=1}^{N} w_i \, k(z, z_i)
 $$
 
 This is the **reinforcement field** — a smooth function that assigns values to every point in augmented space based on the weighted contributions of all particles.
 
 This representation:
+
 - Is **nonparametric**: No fixed neural network architecture
 - Is **smooth**: Inherits smoothness from the kernel
 - **Generalizes**: Points far from any particle get low values
@@ -252,6 +263,7 @@ The agent considers action parameter $\theta$, forming augmented point $z = (s, 
 Using the kernel, the agent computes the reinforcement field value:
 
 $$
+
 Q^+(z) = \sum_{i} w_i \, k(z, z_i)
 $$
 
@@ -276,6 +288,7 @@ The cycle continues, with the reinforcement field evolving as particles accumula
 ## Visual Intuition
 
 Imagine a 2D augmented space where:
+
 - The x-axis represents some aspect of state (e.g., position)
 - The y-axis represents action parameter (e.g., force magnitude)
 
@@ -314,6 +327,7 @@ Policy learning = navigating and reshaping this landscape.
 ## Next Steps
 
 In **Chapter 2: RKHS Foundations**, we'll explore:
+
 - What is a Reproducing Kernel Hilbert Space (RKHS)?
 - Why the reinforcement field lives in an RKHS
 - The mathematical properties that make this useful

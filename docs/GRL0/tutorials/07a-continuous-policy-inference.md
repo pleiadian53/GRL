@@ -18,6 +18,7 @@ This creates two problems:
 2. **Scalability**: For high-dimensional action parameters $\theta \in \mathbb{R}^{d_a}$, enumerating all actions is intractable
 
 **Example**: In the 2D navigation domain (original GRL paper):
+
 - Primitive actions: move in 12 directions (like a clock: 0°, 30°, 60°, ..., 330°)
 - Manual mapping: each direction → angle $\theta \in [0, 2\pi)$
 - **Limitation**: What if optimal action is at angle $\pi/7 \approx 25.7°$ (not in the discrete set)?
@@ -55,6 +56,7 @@ Both steps assume $a \in \mathcal{A}$ is **discrete**.
 **Problem 1: Manual Feature Engineering**
 
 The mapping $f_{A^+}: a \mapsto x_a$ must be designed by hand:
+
 - 2D navigation: direction → angle
 - Robotic reaching: discrete waypoints → joint angles
 - Continuous control: requires discretizing continuous action space
@@ -64,12 +66,14 @@ The mapping $f_{A^+}: a \mapsto x_a$ must be designed by hand:
 **Problem 2: Curse of Dimensionality**
 
 For high-dimensional actions $\theta \in \mathbb{R}^{d_a}$:
+
 - Discretizing each dimension with $k$ values → $k^{d_a}$ primitive actions
 - Example: $d_a = 10$, $k = 10$ → $10^{10}$ actions (intractable!)
 
 **Problem 3: Suboptimal Actions**
 
 Optimal action might lie **between** discrete choices:
+
 - Discrete set: $\{30°, 45°, 60°\}$
 - Optimal: $42°$ (not representable!)
 
@@ -153,6 +157,7 @@ $$w \leftarrow w - \alpha \nabla_w [Q_w(s, \theta) - (r + \gamma Q_w(s', \theta'
 Keep the particle representation $Q^+(z) = \sum_i w_i k(z, z_i)$ but eliminate primitive $Q(s, a)$ table.
 
 **Modified update**:
+
 1. Sample action: $\theta \sim \pi(\cdot | s)$ via Langevin
 2. Execute: observe $r$, $s'$
 3. Sample next action: $\theta' \sim \pi(\cdot | s')$ via Langevin
@@ -185,6 +190,7 @@ Keep the particle representation $Q^+(z) = \sum_i w_i k(z, z_i)$ but eliminate p
 **For each step $t$:**
 
 2. **Action sampling via Langevin**:
+
    - Initialize $\theta_0$ randomly or from heuristic
    - For $k = 1, \ldots, K_{\text{sample}}$:
      $$\nabla_\theta Q^+(s_t, \theta_{k-1}) = \sum_{i=1}^N w_i \nabla_\theta k((s_t, \theta_{k-1}), z_i)$$
@@ -192,22 +198,27 @@ Keep the particle representation $Q^+(z) = \sum_i w_i k(z, z_i)$ but eliminate p
    - Set $\theta_t \leftarrow \theta_{K_{\text{sample}}}$
 
 3. **Execute action**:
+
    - Execute $\theta_t$ in environment
    - Observe $r_t$, $s_{t+1}$
 
 4. **Next action sampling**:
+
    - Repeat step 2 for $s_{t+1}$ to get $\theta_{t+1}$
 
 5. **Field-based TD update**:
+
    - Query field: $Q_t^+ \leftarrow Q^+(s_t, \theta_t)$, $Q_{t+1}^+ \leftarrow Q^+(s_{t+1}, \theta_{t+1})$
    - Compute TD error: $\delta_t \leftarrow r_t + \gamma Q_{t+1}^+ - Q_t^+$
    - Form TD target: $y_t \leftarrow r_t + \gamma Q_{t+1}^+$ (bootstrap from field)
 
 6. **Particle reinforcement**:
+
    - Form particle: $\omega_t \leftarrow ((s_t, \theta_t), y_t)$
    - Update memory: $\Omega \leftarrow \text{MemoryUpdate}(\omega_t, \delta_t, k, \tau, \Omega)$
 
 7. **Periodic ARD**:
+
    - Every $T$ steps, update kernel hyperparameters $\theta$ via ARD on $\Omega$
 
 **Repeat until terminal.**
@@ -217,12 +228,14 @@ Keep the particle representation $Q^+(z) = \sum_i w_i k(z, z_i)$ but eliminate p
 ### 2.5 Advantages and Limitations
 
 **✅ Advantages**:
+
 1. **No manual action mapping**: $\theta$ is sampled directly from field
 2. **Fully continuous**: No discretization of action space
 3. **Principled**: Langevin sampling from Boltzmann distribution (Chapter 03a)
 4. **Natural exploration**: Temperature $\lambda$ controls stochasticity
 
 **⚠️ Limitations**:
+
 1. **Gradient computation**: Requires $\nabla_\theta k(z, z')$ (analytic or autodiff)
 2. **Langevin convergence**: Need $K_{\text{sample}}$ steps per action (slower)
 3. **Local optima**: Gradient descent can get stuck (non-convex $Q^+$)
@@ -254,14 +267,17 @@ Keep the particle representation $Q^+(z) = \sum_i w_i k(z, z_i)$ but eliminate p
 **Modifications to RF-SARSA:**
 
 **Action selection** (no Langevin needed):
+
 - Sample from actor: $\theta_t \sim \pi_\phi(\cdot | s_t)$
 - Fast sampling (single forward pass)
 
 **Critic update** (unchanged):
+
 - Particle-based TD: $\delta_t = r_t + \gamma Q^+(s_{t+1}, \theta_{t+1}) - Q^+(s_t, \theta_t)$
 - MemoryUpdate as before
 
 **Actor update** (policy gradient):
+
 - Compute advantage: $A_t = Q^+(s_t, \theta_t) - V(s_t)$ where $V(s) = \mathbb{E}_{\theta \sim \pi_\phi}[Q^+(s, \theta)]$
 - Update policy: $\phi \leftarrow \phi + \beta \nabla_\phi \log \pi_\phi(\theta_t | s_t) A_t$
 
@@ -320,12 +336,14 @@ class GRL_ActorCritic:
 ### 3.4 Advantages and Limitations
 
 **✅ Advantages**:
+
 1. **Efficient sampling**: No Langevin iterations, single forward pass
 2. **Flexible policy**: Can model complex distributions (multimodal, correlations)
 3. **Standard framework**: Leverages decades of actor-critic research
 4. **Scalable**: Neural networks handle high-dimensional states/actions
 
 **⚠️ Limitations**:
+
 1. **Parametric policy**: Loses non-parametric flexibility of particle-based field
 2. **Two learning systems**: Actor and critic can be unstable (common in AC methods)
 3. **Hyperparameters**: Requires tuning learning rates, network architectures
@@ -344,6 +362,7 @@ class GRL_ActorCritic:
 **Original GRL**: Requires manual mapping from primitive actions to parametric representation.
 
 **Example** (2D navigation):
+
 - Primitive: "move North"
 - Manual embedding: North → angle $\theta = \pi/2$
 
@@ -356,10 +375,12 @@ class GRL_ActorCritic:
 ### 4.2 Contrastive Action Embedding
 
 **Objective**: Embed actions such that:
+
 - Similar actions (similar outcomes) → close in embedding space
 - Dissimilar actions → far apart
 
 **Training**:
+
 1. Collect transitions: $(s, a, s')$
 2. Define similarity: $\text{sim}(a, a') = \exp(-\|s' - s''\|^2)$ where $s', s''$ are outcomes
 3. Learn embedding: $f_\psi: a \mapsto x_a$ such that $\|x_a - x_{a'}\|^2 \propto -\log \text{sim}(a, a')$
@@ -389,11 +410,13 @@ where $a^+$ is a positive pair (similar action), $a^-$ are negatives.
 ### 4.4 Advantages and Limitations
 
 **✅ Advantages**:
+
 1. **No manual design**: Embedding learned from data
 2. **Adaptive**: Embedding adapts to task (reward structure)
 3. **Discovers structure**: May reveal latent action properties
 
 **⚠️ Limitations**:
+
 1. **Requires experience**: Need data to learn embedding
 2. **Non-stationarity**: Embedding changes as policy improves (moving target)
 3. **Computational cost**: Joint optimization is complex
@@ -411,6 +434,7 @@ where $a^+$ is a positive pair (similar action), $a^-$ are negatives.
 **Step 1**: Start with continuous action parameter space $\mathbb{R}^{d_a}$
 
 **Step 2**: After initial exploration, cluster observed action parameters:
+
 - Use k-means, GMM, or DBSCAN on $\{\theta_i\}$ from particle memory
 - Cluster centers become "discovered actions"
 
@@ -448,6 +472,7 @@ if episode % T_discovery == 0:
 ### 5.3 Options Framework Connection
 
 This is closely related to the **options framework** (Sutton et al., 1999):
+
 - **Options**: Temporally extended actions (subpolicies)
 - **GRL version**: Discovered action clusters become "options"
 - Can learn hierarchical policies: high-level chooses option, low-level executes
@@ -457,11 +482,13 @@ This is closely related to the **options framework** (Sutton et al., 1999):
 ### 5.4 Advantages and Limitations
 
 **✅ Advantages**:
+
 1. **Automatic**: No manual action design
 2. **Data-driven**: Discovers actions that matter for the task
 3. **Hierarchical**: Enables multi-level policies
 
 **⚠️ Limitations**:
+
 1. **Requires exploration**: Need diverse data to cluster well
 2. **K selection**: How many clusters? (hyperparameter)
 3. **Non-stationary**: Discovered actions change over time
@@ -487,6 +514,7 @@ $$\nabla_\Omega J = \mathbb{E}_{\tau}[\sum_{t=0}^T \nabla_\Omega \log \pi_\Omega
 where $R_t = \sum_{t'=t}^T r_{t'}$ is the return from time $t$.
 
 **Update**: Gradient ascent on particle memory:
+
 - Add particles where policy needs reinforcement
 - Remove particles where policy is suboptimal
 - Adjust weights to increase expected return
@@ -533,6 +561,7 @@ Use gradient ascent or Langevin sampling to find $\theta^*$.
 **Idea**: Use particle memory as a forward model, perform planning.
 
 **Dyna-Q analog for GRL**:
+
 1. **Direct learning**: Update $\Omega$ from real experience (as in RF-SARSA)
 2. **Model learning**: Particles encode transitions $(s, \theta) \to (r, s')$
 3. **Planning**: Simulate trajectories using particle memory
@@ -746,6 +775,7 @@ class ContinuousRFSARSA:
 ### 10.1 The Discrete Action Bottleneck
 
 RF-SARSA (Chapter 7) requires discrete primitive actions, creating limitations:
+
 - Manual action mapping needed
 - Curse of dimensionality for high-d actions
 - Suboptimal actions (discrete approximation of continuous space)
@@ -769,6 +799,7 @@ RF-SARSA (Chapter 7) requires discrete primitive actions, creating limitations:
 ### 10.4 Beyond SARSA
 
 Alternative learning mechanisms:
+
 - **Q-Learning in RKHS**: Off-policy, sample-efficient
 - **Dyna-style planning**: Model-based, simulate with particles
 - **Successor representations**: Transfer learning across reward functions
@@ -810,18 +841,22 @@ Alternative learning mechanisms:
 ## Further Reading
 
 **Continuous Action RL**:
+
 - Lillicrap, T. P., et al. (2016). "Continuous control with deep reinforcement learning" (DDPG). *ICLR*.
 - Haarnoja, T., et al. (2018). "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor" (SAC). *ICML*.
 
 **Langevin Dynamics for RL**:
+
 - Levine, S. (2018). "Reinforcement learning and control as probabilistic inference: Tutorial and review." *arXiv:1805.00909*.
 - Ajay, A., et al. (2023). "Is conditional generative modeling all you need for decision making?" *ICLR* (Diffusion-QL).
 
 **Action Embeddings**:
+
 - van den Oord, A., Li, Y., & Vinyals, O. (2018). "Representation learning with contrastive predictive coding." *arXiv:1807.03748*.
 - Kipf, T., et al. (2020). "Contrastive learning of structured world models." *ICLR*.
 
 **Options Framework**:
+
 - Sutton, R. S., Precup, D., & Singh, S. (1999). "Between MDPs and semi-MDPs: A framework for temporal abstraction in reinforcement learning." *Artificial Intelligence*.
 
 ---

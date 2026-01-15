@@ -9,6 +9,7 @@ But **how exactly should we update the field given new experience?**
 The original GRL paper uses a Gaussian Process (GP) perspective, where weights $w_i$ emerge from kernel-based inference. But **GP is not the only option!**
 
 This chapter explores:
+
 1. **Why GP is one choice among many** for learning $Q^+$
 2. **Alternative learning mechanisms** (kernel ridge, online optimization, sparse methods, deep nets)
 3. **When to use which approach** (trade-offs in scalability, sparsity, adaptivity)
@@ -23,12 +24,14 @@ This chapter explores:
 ### The Core Question
 
 Given:
+
 - Current field: $Q^+_t = \sum_i w_i^{(t)} k(z_i^{(t)}, \cdot)$
 - New experience: $(s_t, a_t, r_t)$ (or TD target $y_t$)
 
 **Find:** Updated field $Q^+_{t+1}$
 
 **Constraint:** $Q^+_{t+1}$ should:
+
 - Fit the new evidence
 - Generalize via kernel structure
 - Remain bounded/stable
@@ -465,6 +468,7 @@ $$\pi(a|s) \propto |Q^+(s, a)|^2$$
 **What's underexplored:**
 
 Amplitude-based **reinforcement learning** — treating value/policy as amplitude fields with:
+
 - Interference effects
 - Phase semantics
 - Born rule for action selection
