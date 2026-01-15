@@ -95,7 +95,7 @@ Spectral discovery of hierarchical concepts through functional clustering in RKH
 
 Mathematical connections to quantum mechanics and novel probability formulations for ML.
 
-**[Explore Advanced Topics →](GRL0/quantum_inspired/)**
+**[Explore Advanced Topics →](GRL0/quantum_inspired/README.md)**
 
 | Theme | Chapters | Topics |
 |-------|----------|--------|
@@ -166,14 +166,14 @@ pip install -e .
 python scripts/verify_installation.py
 ```
 
-See [INSTALL.md](INSTALL.md) for detailed instructions.
+Installation instructions coming soon.
 
 ### First Steps
 
 1. **Read the tutorial**: Start with [Chapter 0: Overview](GRL0/tutorials/00-overview.md)
 2. **Explore concepts**: Work through [Chapter 1: Core Concepts](GRL0/tutorials/01-core-concepts.md)
 3. **Understand algorithms**: See the algorithm chapters (coming soon)
-4. **Implement**: Follow the [implementation guide](GRL0/implementation/)
+4. **Implement**: Follow the [implementation guide](GRL0/implementation/README.md)
 
 ---
 
@@ -208,15 +208,15 @@ GRL/
 **Part I: Particle-Based Learning** (6/10 chapters complete)
 
 - **[Start Here](GRL0/tutorials/00-overview.md)** — Overview
-- **[Tutorials](GRL0/tutorials/)** — Chapter-by-chapter learning
-- **[Implementation](GRL0/implementation/)** — Technical specifications
+- **[Tutorials](GRL0/tutorials/README.md)** — Chapter-by-chapter learning
+- **[Implementation](GRL0/implementation/README.md)** — Technical specifications
 
 **Part II: Emergent Structure & Spectral Abstraction** (Planned)
 
 ### Additional Resources
 
-- **[Installation Guide](INSTALL.md)** — Detailed setup instructions
-- **[Vector Field Demo](notebooks/vector_field.ipynb)** — Interactive visualizations
+- **[Implementation Guide](GRL0/implementation/README.md)** — Technical specifications
+- **[Research Roadmap](ROADMAP.md)** — Future directions
 
 ---
 
@@ -445,7 +445,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Wave function analogy** — The reinforcement field as a superposition of particle basis states
 - This formulation is **novel to mainstream ML** and opens new directions for probabilistic reasoning
 
-See: [Quantum-Inspired Extensions](GRL0/quantum_inspired/) for technical details.
+See: [Quantum-Inspired Extensions](GRL0/quantum_inspired/README.md) for technical details.
 
 ### Conceptual Connections
 - **Energy-based models** (EBMs) — Control as energy landscape navigation
