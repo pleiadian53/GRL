@@ -4,32 +4,30 @@ Welcome to the GRL interactive demonstrations! These Jupyter notebooks provide h
 
 ---
 
-## 📚 Notebook Series
+## 📚 Field Series: Understanding GRL Through Visualization
 
-This is a **3-part progressive series** building intuition from classical vector fields to GRL's functional fields:
+A progressive notebook series building intuition from classical vector fields to GRL's reinforcement fields.
 
-### **[Part 1: Classical Vector Fields](01_classical_vector_fields/)**
-🔄 **In Development** | ⏱️ ~15-20 min
+### **[Field Series Overview](field_series/README.md)**
 
-Arrows at each point, gradient fields, optimization basics.
+**Complete Series** | ⏱️ ~60-90 minutes total
 
-### **Part 2: Functional Fields** 
-📋 **Planned** | ⏱️ ~20-25 min
-
-Functions as vectors, RKHS foundations, explicit comparison.
-
-### **Part 3: Reinforcement Fields in GRL**
-📋 **Planned** | ⏱️ ~25-30 min
-
-Particle memory, Q⁺ emergence, policy inference, learning dynamics.
+| # | Notebook | Status | Time |
+|---|----------|--------|------|
+| 0 | [Introduction to Vector Fields](field_series/00_intro_vector_fields.ipynb) | ✅ Complete | ~10-15 min |
+| 1 | [Classical Vector Fields](field_series/01_classical_vector_fields.ipynb) | ✅ Complete | ~20-25 min |
+| 1a | [Vector Fields and ODEs](field_series/01a_vector_fields_and_odes.ipynb) | ✅ Complete | ~25-30 min |
+| 2 | [Functional Fields](field_series/02_functional_fields.ipynb) | ✅ Complete | ~20-25 min |
+| 3 | [Reinforcement Fields](field_series/03_reinforcement_fields/) | ✅ Complete | ~30 min |
 
 ---
 
-## 🗺️ Complete Roadmap
+## 🗺️ Complete Documentation
 
-**See the full roadmap with learning paths, FAQ, and development status:**
-
-👉 **[Notebook Series Roadmap](https://github.com/pleiadian53/GRL/blob/main/notebooks/README.md)**
+**Learn More:**
+- 📖 **[Field Series Roadmap](field_series/ROADMAP.md)** — Planned future notebooks (Policy Inference, Memory Update, RF-SARSA)
+- 🎯 **[Learning Paths](https://github.com/pleiadian53/GRL/blob/main/notebooks/README.md)** — How to use these notebooks
+- 🔗 **[genai-lab Connection](https://github.com/pleiadian53/genai-lab)** — Flow Matching & Diffusion Models
 
 ---
 
@@ -51,9 +49,9 @@ jupyter notebook
 
 ## 📖 Related Resources
 
-- **[Tutorial Series](../tutorials/README.md)** — Mathematical depth
-- **[Implementation Guide](../implementation/README.md)** — Technical specs
-- **[Quantum-Inspired Extensions](../quantum_inspired/README.md)** — Advanced topics
+- **[Tutorial Series](../GRL0/tutorials/README.md)** — Mathematical depth
+- **[Implementation Guide](../GRL0/implementation/README.md)** — Technical specs
+- **[Quantum-Inspired Extensions](../GRL0/quantum_inspired/README.md)** — Advanced topics
 
 ---
 

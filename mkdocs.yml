@@ -115,7 +115,10 @@ plugins:
       execute: False                 # Don't re-run notebooks (use saved outputs)
       allow_errors: False            # Stop build if notebook has errors
       ignore_h1_titles: True         # Use filename as title, not first H1
-      theme: dark                    # Code theme (dark/light)
+      theme: light                   # Code theme (light for better readability)
+      remove_tag_config:
+        remove_input_tags:
+          - hide_input
 
 # Navigation structure
 nav:
@@ -153,7 +156,18 @@ nav:
   - 'Research Roadmap': ROADMAP.md
   - 'Notebooks':
       - 'Overview': notebooks/README.md
-      - 'Vector Field Visualization': notebooks/vector_field.ipynb
+      - 'Field Series':
+          - 'Series Overview': notebooks/field_series/README.md
+          - 'Roadmap': notebooks/field_series/ROADMAP.md
+          - '00: Introduction to Vector Fields': notebooks/field_series/00_intro_vector_fields.ipynb
+          - '01: Classical Vector Fields': notebooks/field_series/01_classical_vector_fields.ipynb
+          - '01a: Vector Fields and ODEs': notebooks/field_series/01a_vector_fields_and_odes.ipynb
+          - '02: Functional Fields': notebooks/field_series/02_functional_fields.ipynb
+          - 'Reinforcement Fields':
+              - 'Overview': notebooks/field_series/03_reinforcement_fields/README.md
+              - '03: Reinforcement Fields': notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields.ipynb
+              - '03a: Particle Coverage Effects': notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects.ipynb
+              - 'Theory: Particle vs Gradient Fields': notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields.md
   - 'About':
       - 'Contributing': CONTRIBUTING.md
       - 'License': LICENSE.md

@@ -1,12 +1,30 @@
-# GRL Interactive Notebook Series
+# GRL Notebooks
 
-**Understanding Reinforcement Fields: From Classical Vectors to Functional Spaces**
-
-This series of Jupyter notebooks builds intuition for GRL's core concept — the **reinforcement field** — through progressive, hands-on visualizations.
+Interactive Jupyter notebooks for exploring GRL concepts through visualization and experimentation.
 
 ---
 
-## 📚 Series Overview
+## 📁 Notebook Collections
+
+### [Field Series](field_series/) ⭐ Start Here
+
+**Understanding Reinforcement Fields: From Classical Vectors to Functional Spaces**
+
+A progressive 3-notebook series building intuition for GRL's core concept:
+
+| # | Notebook | Status | Description |
+|---|----------|--------|-------------|
+| 0 | `00_intro_vector_fields.ipynb` | ✅ Complete | Gentle intro with real-world examples (optional) |
+| 1 | `01_classical_vector_fields.ipynb` | ✅ Complete | Gradient fields, rotational fields, superposition, trajectories |
+| 1a | `01a_vector_fields_and_odes.ipynb` | ✅ Complete | ODEs, numerical solvers (Euler/RK4), flow matching connection |
+| 2 | `02_functional_fields.ipynb` | ✅ Complete | Functions as vectors, kernels, RKHS intuition |
+| 3 | `03_reinforcement_fields.ipynb` | ✅ Complete | GRL's Q⁺ field, 2D navigation domain, policy inference |
+
+**[→ Go to Field Series](field_series/)**
+
+---
+
+## 📚 Series Overview (Field Series)
 
 The series consists of **3 notebooks** that build progressively:
 
