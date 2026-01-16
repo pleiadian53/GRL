@@ -35,8 +35,11 @@ This definition is correct but potentially misleading. The phrase "vector field"
 The definition correctly identifies:
 
 - The field is **induced by kernels**
+
 - It is constructed from **linear combinations**
+
 - It lives in a **Hilbert space**
+
 - The kernel centers are **experience particles**
 
 ### What Needs Clarification

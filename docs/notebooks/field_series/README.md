@@ -41,6 +41,7 @@ This series of notebooks builds intuition for GRL's **reinforcement field** by s
 | 3 | `03_reinforcement_fields/` | ✅ Complete | GRL's Q⁺ field, 2D navigation domain, policy inference 📁 |
 
 **Note**: Notebook 3 is in a subdirectory with supplementary materials:
+
 - `03_reinforcement_fields/03_reinforcement_fields.ipynb` — Main notebook
 - `03_reinforcement_fields/03a_particle_coverage_effects.ipynb` — Visual proof of particle coverage effects
 - `03_reinforcement_fields/particle_vs_gradient_fields.md` — Theory note
@@ -98,6 +99,7 @@ Run through all three notebooks, focusing on visualizations.
 
 ### Deep Understanding (~2 hours)
 Combine notebooks with tutorial chapters:
+
 - Notebook 2 → [Tutorial Ch 2: RKHS Foundations](../../GRL0/tutorials/02-rkhs-foundations.md)
 - Notebook 3 → [Tutorial Ch 4: Reinforcement Field](../../GRL0/tutorials/04-reinforcement-field.md)
 

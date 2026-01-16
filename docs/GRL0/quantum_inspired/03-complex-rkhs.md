@@ -63,6 +63,7 @@ $$k_{\mathbb{C}}(x, y) = \exp\left(-\frac{\|x-y\|^2}{2\sigma^2}\right) \cdot e^{
 where $\phi(x,y)$ encodes directional or temporal relationships.
 
 **Properties:**
+
 - Magnitude decreases with distance (as usual)
 - Phase encodes additional structure
 - Hermitian: $k_{\mathbb{C}}(x, y) = \overline{k_{\mathbb{C}}(y, x)}$
@@ -214,7 +215,9 @@ $$K = V \Lambda V^\dagger$$
 where $V$ contains complex eigenvectors.
 
 **Interpretation:**
+
 - Each eigenvector $v_j$ is a **concept in function space**
+
 - Magnitude $|v_{ij}|$ indicates particle $i$'s contribution to concept $j$
 - Phase $\arg(v_{ij})$ indicates particle $i$'s phase alignment within concept $j$
 
@@ -290,6 +293,7 @@ def complex_gaussian_kernel(x, y, sigma=1.0, phase_fn=None):
 **Problem:** Delayed rewards make credit assignment hard.
 
 **Complex GRL Solution:**
+
 - Encode time in phase: $\phi_i = \omega \cdot t_i$
 - Recent experiences interfere constructively
 - Automatic temporal discounting via phase decoherence
@@ -299,6 +303,7 @@ def complex_gaussian_kernel(x, y, sigma=1.0, phase_fn=None):
 **Problem:** Experiences from different tasks may conflict.
 
 **Complex GRL Solution:**
+
 - Encode task ID in phase
 - Same-task experiences reinforce
 - Cross-task experiences may cancel (if interference is destructive)
@@ -308,6 +313,7 @@ def complex_gaussian_kernel(x, y, sigma=1.0, phase_fn=None):
 **Problem:** In navigation, direction matters.
 
 **Complex GRL Solution:**
+
 - Encode movement direction in phase
 - Forward-consistent trajectories reinforce
 - Conflicting directions cancel
@@ -317,6 +323,7 @@ def complex_gaussian_kernel(x, y, sigma=1.0, phase_fn=None):
 **Problem:** Concepts may have temporal or contextual organization.
 
 **Complex GRL Solution:**
+
 - Complex spectral clustering reveals concepts with phase structure
 - Hierarchical concepts organized by magnitude and phase
 
@@ -394,19 +401,23 @@ This framework connects GRL to the emerging field of **quantum kernel methods**:
 ## References
 
 **Complex-Valued Neural Networks:**
+
 - Trabelsi et al. (2018). Deep complex networks. *ICLR*.
 - Hirose (2012). Complex-valued neural networks: Advances and applications. *Wiley*.
 
 **Quantum Kernel Methods:**
+
 - Havlíček et al. (2019). Supervised learning with quantum-enhanced feature spaces. *Nature* 567, 209-212.
 - Schuld & Killoran (2019). Quantum machine learning in feature Hilbert spaces. *Physical Review Letters* 122, 040504.
 - Lloyd et al. (2020). Quantum embeddings for machine learning. *arXiv:2001.03622*.
 
 **RKHS Theory:**
+
 - Steinwart & Christmann (2008). *Support Vector Machines*. Springer (Chapter on complex RKHS).
 - Schölkopf & Smola (2002). *Learning with Kernels*. MIT Press.
 
 **GRL Original Paper:**
+
 - Chiu & Huber (2022). Generalized Reinforcement Learning. [arXiv:2208.04822](https://arxiv.org/abs/2208.04822)
 
 ---

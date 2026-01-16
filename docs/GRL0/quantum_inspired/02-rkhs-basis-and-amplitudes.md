@@ -316,6 +316,7 @@ $$p(z) = \frac{|Q^+(z)|^2}{\int_{\mathcal{Z}} |Q^+(z')|^2 dz'}$$
 **This works!** Born machines use this approach.
 
 **For GRL:**
+
 - Pro: Direct QM analogy
 - Con: Requires computing the normalization integral
 - Con: Real-valued amplitudes don't give interference effects
@@ -329,6 +330,7 @@ $$\pi(\theta | s) = \frac{\exp(\beta Q^+(s, \theta))}{\int_{\Theta} \exp(\beta Q
 **This is what GRL implicitly uses for policy!**
 
 **Advantages:**
+
 - Standard in RL (Boltzmann exploration)
 - Temperature parameter $\beta$ controls exploration
 - No need to compute normalization explicitly (ratio trick)
@@ -368,6 +370,7 @@ Let's unify the three concepts by understanding what "choosing $z$" means in eac
 Understanding that GRL works with **unnormalized amplitudes** (like EBMs) rather than **normalized probabilities** (like QM):
 
 1. **Explains why no partition function is needed**
+
 2. **Justifies the QM analogy** (geometry) without **overcommitting** (Born rule)
 3. **Positions GRL correctly** in the modern ML landscape (alongside EBMs, score-based models)
 
@@ -392,11 +395,13 @@ Both are natural extensions explored in later chapters!
 ### Practical Implications
 
 **For implementation:**
+
 - No need to compute partition functions
 - Use relative values for action selection
 - Policy normalization handled implicitly
 
 **For theory:**
+
 - Clean mathematical framework
 - Rigorous Hilbert space structure
 - Flexible enough for future probability extensions
@@ -408,26 +413,31 @@ Both are natural extensions explored in later chapters!
 ### Key Insights
 
 1. **RKHS Basis:**
+
    - Kernel sections $\{k(z, \cdot)\}$ form a continuous frame
    - Choosing $z$ selects one frame element, like choosing $x$ selects $|x\rangle$ in QM
    - The state $Q^+$ exists independently; $Q^+(z)$ is its projection onto $k(z, \cdot)$
 
 2. **Kernel Amplitudes:**
+
    - $Q^+(z)$ acts like a wavefunction (coordinate representation)
    - But GRL doesn't require normalization (unlike QM)
    - Similar to EBMs working with unnormalized energies
 
 3. **Three Interpretations:**
+
    - Abstract: $Q^+ \in \mathcal{H}_k$ (Hilbert space state)
    - Coordinate: $Q^+(z)$ (amplitude field)
    - Inference: $-Q^+(z)$ (energy score)
 
 4. **Why No Normalization:**
+
    - Decision-making uses relative values
    - Partition function cancels in ratios
    - Same principle as modern EBMs
 
 5. **Could Define Probabilities:**
+
    - Born rule: $p(z) \propto |Q^+(z)|^2$ (possible, not required)
    - Boltzmann: $\pi(\theta|s) \propto \exp(\beta Q^+(s,\theta))$ (what GRL uses)
    - Complex RKHS: $p(z) = |\psi(z)|^2$ with interference (future extension)

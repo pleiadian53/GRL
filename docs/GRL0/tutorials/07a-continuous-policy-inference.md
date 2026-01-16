@@ -173,6 +173,7 @@ Keep the particle representation $Q^+(z) = \sum_i w_i k(z, z_i)$ but eliminate p
 ### 2.4 Algorithm: Continuous RF-SARSA
 
 **Inputs:**
+
 - Kernel $k(\cdot, \cdot; \theta)$
 - Langevin step size $\epsilon$, temperature $\lambda$
 - Number of Langevin steps $K_{\text{sample}}$
@@ -180,6 +181,7 @@ Keep the particle representation $Q^+(z) = \sum_i w_i k(z, z_i)$ but eliminate p
 - Discount $\gamma$, association threshold $\tau$
 
 **Initialization:**
+
 - Particle memory $\Omega \leftarrow \emptyset$
 - Kernel hyperparameters $\theta$ (via ARD or prior)
 

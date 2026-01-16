@@ -10,6 +10,7 @@ In [Chapter 6](06-agent-state-and-belief-evolution.md), we established that:
 In [Chapter 7](07-learning-the-field-beyond-gp.md), we explored **how to learn** the field (GP, ridge, online SGD, sparse, deep nets, MoE).
 
 Now we address **memory dynamics over time:**
+
 1. **Formation:** How is new experience written to memory?
 2. **Consolidation:** What should be retained vs. forgotten?
 3. **Retrieval:** How is memory accessed for decision-making?
@@ -93,6 +94,7 @@ This prevents the "memory is RAG" confusion that plagues current LLM agents.
 - Safety rules
 
 **In GRL:** 
+
 - High-persistence anchor particles
 - Hard constraints in kernel (ignore irrelevant dimensions)
 - Repeller regions in action field
@@ -109,6 +111,7 @@ This prevents the "memory is RAG" confusion that plagues current LLM agents.
 - Temporal context
 
 **In GRL:**
+
 - This is native particle memory
 - Particles = experience evidence
 - Weights = fitness/energy
@@ -256,6 +259,7 @@ $$\text{surprise}(z_t) = |Q^+_t(z_t) - y_t|$$
 Associate particles if $k(z_i, z_j) > \tau$
 
 **Problems:**
+
 - $\tau$ is a **hard hyperparameter** (not learned)
 - Brittle: sensitive to $\tau$ choice
 - Doesn't adapt to local density
@@ -271,6 +275,7 @@ Associate particles if $k(z_i, z_j) > \tau$
 $$\alpha_{ij} = \frac{\exp(\gamma \, k(z_i, z_j))}{\sum_{j'} \exp(\gamma \, k(z_i, z_{j'}))}$$
 
 **Properties:**
+
 - No $\tau$!
 - Smooth: differentiable
 - Temperature $\gamma$ controls spread (learnable)
@@ -288,6 +293,7 @@ $$\tau_i = \text{quantile}_q \{k(z_i, z_j)\}_{j \neq i}$$
 **Choose $\tau_i$ so each particle has $\approx k$ neighbors.**
 
 **Properties:**
+
 - Self-normalizing across regions
 - Dense regions: higher $\tau_i$
 - Sparse regions: lower $\tau_i$
@@ -303,6 +309,7 @@ $$\tau_i = \text{quantile}_q \{k(z_i, z_j)\}_{j \neq i}$$
 $$\min_{\Omega'} \underbrace{\text{TD-error}(Q^+(\Omega'))}_{\text{accuracy}} + \lambda |\Omega'|$$
 
 **Interpretation:** 
+
 - Keep particles that reduce prediction error
 - Prune particles that don't contribute
 
@@ -333,6 +340,7 @@ $$\min_{\Omega'} \underbrace{\text{TD-error}(Q^+(\Omega'))}_{\text{accuracy}} + 
 **Idea:** How human memory consolidates
 
 **Rule:**
+
 - **High prediction error** → store distinctly (don't merge)
 - **Low prediction error** → consolidate (merge with neighbors)
 
@@ -341,6 +349,7 @@ $$\min_{\Omega'} \underbrace{\text{TD-error}(Q^+(\Omega'))}_{\text{accuracy}} + 
 $$\text{merge-probability}(i, j) \propto k(z_i, z_j) \cdot \exp(-\beta \cdot \text{TD-error}_i)$$
 
 **Properties:**
+
 - Surprising experiences preserved (for learning)
 - Predictable experiences compressed (save space)
 - $\beta$ controls sensitivity (learnable)
@@ -359,6 +368,7 @@ Use Dirichlet Process mixture or Chinese Restaurant Process:
 **Association = cluster assignment**
 
 **Properties:**
+
 - No fixed $k$ (clusters)
 - Automatic complexity control
 - Bayesian: uncertainty-aware
@@ -438,6 +448,7 @@ $$\text{activation}_m(z) = \|P_{\mathcal{C}_m} k(z, \cdot)\|^2$$
 $$\mathcal{N}(z) = \{i : k(z_i, z) > \epsilon\}$$
 
 **Use:**
+
 - Explain prediction (which particles contributed?)
 - Case-based reasoning
 - Memory inspection/debugging
@@ -548,6 +559,7 @@ def memory_dynamics_update(Q_plus, experience, config):
 ### The Drift Problem
 
 **Current LLM agents:**
+
 - Long-term memory contaminated by transient context
 - Constraints forgotten after few steps
 - Mistakes repeated (no consolidation)
@@ -599,16 +611,19 @@ Consolidation based on TD-error: high-error experiences retained for learning.
 ### Human Memory Stages
 
 **Short-term (working) memory:**
+
 - Capacity: $\sim$7 items
 - Duration: seconds to minutes
 - Function: active task context
 
 **Long-term memory:**
+
 - Capacity: unlimited
 - Duration: lifetime
 - Function: knowledge, skills, episodes
 
 **Consolidation:**
+
 - Sleep-dependent
 - Surprise-modulated (emotional salience)
 - Semantic compression (gist extraction)
@@ -660,6 +675,7 @@ Consolidation based on TD-error: high-error experiences retained for learning.
 **Explore:**
 
 1. **Meta-learning consolidation criteria**
+
 2. **Amplitude-based memory** (complex weights for phase)
 3. **Hierarchical consolidation** (concepts at multiple scales)
 
@@ -723,11 +739,13 @@ Replace hard threshold $\tau$ with adaptive criteria:
 **Retention Strategy:**
 
 **What to Retain:**
+
 - High surprise (large TD-error) — valuable for learning
 - High novelty (far from existing particles) — new information
 - Factual constraints (tagged) — critical knowledge
 
 **What to Forget (merge/prune):**
+
 - Low surprise (predictable) — redundant information
 - Redundant (close to neighbors) — can be compressed
 - Working memory (after episode) — task-specific, temporary
@@ -752,18 +770,23 @@ Replace hard threshold $\tau$ with adaptive criteria:
 ### Related Literature
 
 **Agent Memory:**
+
 - Cao et al. (2024). "Memory in the Age of AI Agents." arXiv:2512.13564.
 
 **Memory Consolidation:**
+
 - McClelland et al. (1995). "Why There Are Complementary Learning Systems."
 
 **Information-Theoretic Learning:**
+
 - Rissanen (1978). "Modeling by Shortest Data Description." *Automatica*.
 
 **Surprise-Modulated Memory:**
+
 - Schultz & Dickinson (2000). "Neuronal Coding of Prediction Errors." *Ann. Rev. Neurosci.*
 
 **Nonparametric Clustering:**
+
 - Rasmussen (1999). "The Infinite Gaussian Mixture Model." *NIPS*.
 
 ---

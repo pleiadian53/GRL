@@ -25,6 +25,7 @@ A progressive notebook series building intuition from classical vector fields to
 ## 🗺️ Complete Documentation
 
 **Learn More:**
+
 - 📖 **[Field Series Roadmap](field_series/ROADMAP.md)** — Planned future notebooks (Policy Inference, Memory Update, RF-SARSA)
 - 🎯 **[Learning Paths](https://github.com/pleiadian53/GRL/blob/main/notebooks/README.md)** — How to use these notebooks
 - 🔗 **[genai-lab Connection](https://github.com/pleiadian53/genai-lab)** — Flow Matching & Diffusion Models
@@ -34,6 +35,7 @@ A progressive notebook series building intuition from classical vector fields to
 ## 💡 Quick Start
 
 **Best viewing experience:**
+
 1. Click notebook links above (rendered on this site)
 2. Math and plots display correctly
 3. No GitHub timeout issues!
@@ -60,10 +62,12 @@ jupyter notebook
 These notebooks are **rendered copies** from `/notebooks/` in the repository.
 
 **Development workflow:**
+
 1. Develop in `/notebooks/` (primary location)
 2. Copy to `/docs/notebooks/` when ready to publish
 3. GitHub Actions deploys automatically
 
 **Why two locations?**
+
 - `/notebooks/` — Source of truth, easy to find
 - `/docs/notebooks/` — Rendered for reliable display

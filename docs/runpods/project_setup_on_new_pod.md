@@ -3,6 +3,7 @@
 Guide for setting up the GRL environment on a RunPods GPU pod for heavy training experiments.
 
 **When to use RunPods:**
+
 - Training with large operator networks
 - PDE control experiments requiring significant compute
 - Baseline comparisons with many episodes

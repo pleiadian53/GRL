@@ -58,6 +58,7 @@
 **Key Insight**: Classical RL is GRL with:
 
 - **Discrete or fixed action spaces**
+
 - **Tabular or neural network approximation** of the field
 - **Specific choices** of update rules
 
@@ -288,6 +289,7 @@ The score function gradient $\nabla_\phi \log \pi_\phi(a|s)$ in REINFORCE is equ
 **Actor-Critic is GRL with**:
 
 1. **Reinforcement field as critic**
+
 2. **Boltzmann policy as actor** (no separate parameters)
 3. **RF-SARSA as update rule**
 
@@ -357,21 +359,25 @@ where:
 ### Advantages of GRL for RLHF
 
 **1. Off-Policy Learning**
+
 - Particle memory enables replay
 - Sample efficiency: learn from all past human feedback
 - Classical RLHF (PPO) is on-policy only
 
 **2. Smooth Generalization**
+
 - Kernel similarity between prompts
 - Transfer value across related contexts
 - Fewer human labels needed
 
 **3. Uncertainty Quantification**
+
 - Sparse particles = high uncertainty
 - Exploration naturally targets uncertain regions
 - Safety: avoid high-stakes decisions with low confidence
 
 **4. Interpretability**
+
 - Energy landscape over prompt space
 - Visualize which responses are preferred
 - Particle inspection: "Why did you say that?"
@@ -381,16 +387,19 @@ where:
 ### Implementation Path
 
 **Phase 1: Discrete Tokens (Q1 2026)**
+
 - Implement GRL on small model (GPT-2)
 - Reproduce PPO results on standard RLHF benchmarks
 - Show GRL recovers classical behavior
 
 **Phase 2: Comparison (Q2 2026)**
+
 - Compare sample efficiency: GRL vs. PPO
 - Measure stability: fewer human labels needed?
 - Quantify uncertainty: does GRL know what it doesn't know?
 
 **Phase 3: Scale (Q3 2026)**
+
 - Apply to larger model (LLaMA-7B or Mistral-7B)
 - Test on real human feedback datasets
 - Submit paper: "GRL for LLM Fine-tuning"

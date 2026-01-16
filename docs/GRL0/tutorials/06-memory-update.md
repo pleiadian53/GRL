@@ -120,6 +120,7 @@ Adjusting weights **reshapes** this landscape to reflect new evidence.
 **Why:** Without this, the particle set grows unboundedly and computational cost explodes.
 
 **How:**
+
 - Attenuate particles with small $|w_i|$ (low evidence)
 - Merge particles with high mutual similarity (redundant)
 - Discard particles below relevance threshold (forgetting)
@@ -301,10 +302,12 @@ This is **soft association**—every particle contributes, weighted by distance.
 **But:** "How much **evidence** does this experience provide?"
 
 **Sign matters:**
+
 - If $r_t > 0$: $w_{new} > 0$ → positive particle → **attracts** in field
 - If $r_t < 0$: $w_{new} < 0$ → negative particle → **repels** in field
 
 **Magnitude matters:**
+
 - Large $|r_t|$: Strong influence
 - Small $|r_t|$: Weak influence
 
@@ -363,16 +366,19 @@ This is how GRL **generalizes without Bellman backups**—evidence spreads throu
 **Why each sub-operation matters:**
 
 **a) Weight decay:**
+
 - Implements **forgetting** (older evidence matters less)
 - Prevents weight explosion
 - Allows adaptation in non-stationary environments
 
 **b) Particle merging:**
+
 - Removes **redundancy** (two particles in nearly the same location)
 - Maintains **functional expressiveness** without wasting particles
 - Natural form of **model compression**
 
 **c) Particle pruning:**
+
 - Removes **low-evidence particles** (noise or outliers)
 - Bounds computational cost
 - Implements **Occam's razor** (prefer simpler representations)
@@ -536,6 +542,7 @@ In GRL, reinforcement propagates via **kernel association** (Step 5):
 $$w_i \leftarrow w_i + \lambda \cdot a_i \cdot w_{new}$$
 
 **Advantages:**
+
 - **Soft:** Propagation strength depends on similarity $a_i$
 - **Global:** All associated particles update simultaneously
 - **Geometry-aware:** Propagation respects the RKHS metric
@@ -589,6 +596,7 @@ Let's see how MemoryUpdate connects to the rest of the GRL framework.
 $$Q^+(z) = \sum_i w_i k(z_i, z)$$
 
 **MemoryUpdate modifies:**
+
 - Particle locations $\{z_i\}$ (by adding new particles)
 - Particle weights $\{w_i\}$ (by adjusting in response to new evidence)
 
@@ -601,6 +609,7 @@ $$Q^+(z) = \sum_i w_i k(z_i, z)$$
 **Chapter 5:** Memory is a **functional representation** of experience.
 
 **MemoryUpdate implements:**
+
 - **Dynamic basis expansion:** Adding new particles = adding new basis functions
 - **Weight adjustment:** Changing the functional prior
 - **Basis compression:** Merging/pruning to maintain tractability
@@ -614,6 +623,7 @@ $$Q^+(z) = \sum_i w_i k(z_i, z)$$
 **Chapter 7 (next):** RF-SARSA provides the **reinforcement signal** $r_t$ that enters MemoryUpdate.
 
 **Two-layer system:**
+
 1. **RF-SARSA (outer loop):** Decides *what reinforcement signal* to send
 2. **MemoryUpdate (inner loop):** Reshapes the field in response
 
@@ -683,6 +693,7 @@ It's the **state transition operator** of the agent.
 **Total:** $O(N)$ for association + adjustment, $O(N^2)$ for merging.
 
 **Optimization:**
+
 - Use **sparse association:** Only update particles with $a_i > \varepsilon$
 - Use **KD-trees** or **ball trees** to find high-association particles quickly
 - Merge periodically (every $K$ steps) rather than every update
@@ -700,6 +711,7 @@ It's the **state transition operator** of the agent.
 | $\tau_{prune}$ | Prune threshold | $[0.01, 0.5]$ | More aggressive pruning |
 
 **Tuning guidance:**
+
 - Start with $\sigma \approx \text{characteristic state-action distance}$
 - Use $\lambda = 0.5$ as default (moderate propagation)
 - Set $\gamma_w = 0.99$ for stationary environments, $0.95$ for non-stationary
@@ -790,6 +802,7 @@ Field Q^+(s, θ):
 ```
 
 **Legend:**
+
 - ⊕ High value region (positive particle)
 - ⊖ Low value region (negative particle)
 
@@ -815,6 +828,7 @@ Field Q^+(s, θ):
 ```
 
 **What changed:**
+
 - Peak near goal **strengthened** (two particles now: $z_1$ and $z_{new}$)
 - Peak **widened** (kernel overlap creates broader attraction)
 - Policy will strongly prefer $\theta \approx 0.5$-$0.8$ when $s \approx 8$-$9$
@@ -851,22 +865,27 @@ $$w_i \leftarrow w_i + \lambda \cdot a_i \cdot w_{new}$$
 ## Key Takeaways
 
 1. **MemoryUpdate is not "just memory"**
+
    - It's the agent's state transition operator
    - It simultaneously affects value, policy, and belief
 
 2. **Kernel association enables soft generalization**
+
    - Evidence spreads to geometrically similar experiences
    - No Bellman backups needed
 
 3. **Particles are functional bases**
+
    - Adding a particle = adding a basis function to RKHS
    - Adjusting weights = reshaping the field
 
 4. **Regularization is essential**
+
    - Without pruning/merging, complexity explodes
    - Implements forgetting and model selection
 
 5. **MemoryUpdate enables everything downstream**
+
    - Policy inference: via $Q^+(s, \theta)$ induced by particles
    - Soft transitions: via kernel overlap
    - POMDP: via functional belief representation

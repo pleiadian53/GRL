@@ -30,6 +30,7 @@ In both cases:
 
 - The **state of the system** is a vector in a Hilbert space (not a point)
 - What we "observe" or "infer" comes from **inner products**
+
 - Meaning arises from **overlap**, not identity
 - Probabilities are **derived** from amplitudes, not primitive
 
@@ -90,6 +91,7 @@ $$\langle \phi | \psi \rangle$$
 In both cases:
 
 - Inner product = **overlap amplitude**
+
 - Large overlap = strong compatibility
 - Orthogonality = conceptual independence
 
@@ -236,14 +238,17 @@ The quantum-inspired view explains *why* spectral methods work for concept disco
 ### External References
 
 **Quantum Kernel Methods:**
+
 - Havlíček et al. (2019). Supervised learning with quantum-enhanced feature spaces. *Nature* 567, 209-212.
 - Schuld & Killoran (2019). Quantum machine learning in feature Hilbert spaces. *Physical Review Letters* 122, 040504.
 
 **RKHS Theory:**
+
 - Berlinet & Thomas-Agnan (2004). *Reproducing Kernel Hilbert Spaces in Probability and Statistics*. Springer.
 - Steinwart & Christmann (2008). *Support Vector Machines*. Springer.
 
 **GRL Original Paper:**
+
 - Chiu & Huber (2022). Generalized Reinforcement Learning. [arXiv:2208.04822](https://arxiv.org/abs/2208.04822)
 
 ---

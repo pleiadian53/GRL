@@ -98,6 +98,7 @@ $$\psi_1 = \langle 1 | \psi \rangle = \begin{bmatrix} 0 & 1 \end{bmatrix} \cdot 
 **Result:** The wavefunction in this basis is $\left[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right]$.
 
 **Interpretation:**
+
 - "How much of $|\psi\rangle$ points in the $|0\rangle$ direction?" → $\frac{1}{\sqrt{2}}$
 - "How much of $|\psi\rangle$ points in the $|1\rangle$ direction?" → $\frac{1}{\sqrt{2}}$
 
@@ -322,6 +323,7 @@ This is a bell curve! Let's evaluate it at specific positions (say $\sigma = 1$)
 | $x = 3$ | $\|3\rangle$ | $\psi(3) = \frac{1}{(\pi)^{1/4}} e^{-9/2} \approx 0.008$ (nearly zero) |
 
 **Interpretation:**
+
 - The state $|\psi\rangle$ has **large component** in the $|x=0\rangle$ direction (particle likely near origin)
 - **Medium component** in the $|x=1\rangle$ direction
 - **Tiny component** in the $|x=3\rangle$ direction (particle unlikely far from origin)
@@ -386,11 +388,13 @@ In quantum mechanics, $|x\rangle$ plays a role **analogous to** $\mathbf{e}_x, \
 ### The Big Difference: What We're Representing
 
 **Classical mechanics:**
+
 - **Thing:** Position of a particle
 - **Representation:** $\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z$
 - **Basis vectors:** $\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z$ (spatial directions)
 
 **Quantum mechanics:**
+
 - **Thing:** State of a particle
 - **Representation:** $|\psi\rangle = \int \psi(x) |x\rangle dx$
 - **Basis vectors:** $|x\rangle$ (not spatial directions, but quantum states!)
@@ -404,6 +408,7 @@ In quantum mechanics, $|x\rangle$ plays a role **analogous to** $\mathbf{e}_x, \
 Let's make this super concrete with a qubit:
 
 **Basis vectors (the "axes"):**
+
 - $|0\rangle = [1, 0]$
 - $|1\rangle = [0, 1]$
 
@@ -419,6 +424,7 @@ $$|\psi\rangle = \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle = \fr
 ### Now the Infinite Case
 
 **Basis vectors (the "axes"):**
+
 - $|x\rangle$ for every $x \in \mathbb{R}$
 
 **State (the thing we're analyzing):**
@@ -454,6 +460,7 @@ The notation $|x\rangle$ looks like it should mean "position x", but it actually
 So $|x\rangle$ is not a point in space—it's a **vector in Hilbert space** representing a specific quantum state.
 
 **Better notation (if we could redesign QM):**
+
 - $|x\rangle$ → $|\text{definitely at } x\rangle$ (clearer!)
 
 But physicists use $|x\rangle$ as shorthand.
@@ -474,6 +481,7 @@ But physicists use $|x\rangle$ as shorthand.
 | **"Is position a basis vector?"** | No, position uses basis vectors | No, $\|x\rangle$ IS a basis vector |
 
 **Key takeaway:**
+
 - Classical: Position $\mathbf{r}$ **is expressed using** basis vectors $\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z$
 - Quantum: Basis vector $|x\rangle$ **represents the state** "particle at position x"
 
@@ -521,7 +529,9 @@ The Born rule tells us how to extract observable predictions:
 $$p(x) = |\psi(x)|^2$$
 
 **Key properties:**
+
 - $\psi(x)$ can be **positive, negative, or complex**
+
 - Interference arises because amplitudes add *before* squaring
 - Probabilities are **derived**, not primitive
 
@@ -656,6 +666,7 @@ $$\psi(x) = \langle x | \psi \rangle$$
 | Probability $p(x) = \|\psi(x)\|^2$ | Policy $\pi(a\|s) \propto \exp(\beta Q^+(s,a))$ |
 
 **Key insight:**
+
 - $Q^+$ is the state
 - $Q^+(z)$ is the *coordinate representation* of that state in the kernel-induced basis
 
@@ -699,8 +710,11 @@ This interpretation does important conceptual work:
 ### What Concepts Are
 
 - Functional clusters are **not mixtures of policies**
+
 - They are **coherent subspaces of a single state**
+
 - Spectral clustering identifies **approximate eigenstates**
+
 - Hierarchies correspond to **coarse-graining of observables**
 
 ### Concept Formation as Spectral Decomposition
@@ -734,6 +748,7 @@ Based on this analysis, we should refine our language.
 > "The reinforcement field is a **state vector in RKHS**, whose projections onto kernel-induced bases yield **wavefunction-like amplitude fields** over augmented state-action space."
 
 **Why this is better:**
+
 - Distinguishes state (abstract) from representation (coordinate)
 - Prevents over-interpretation
 - Preserves the structural claim

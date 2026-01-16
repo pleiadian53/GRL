@@ -21,6 +21,7 @@ $$\langle x_f | e^{-i\hat{H}T/\hbar} | x_i \rangle = \int \mathcal{D}[x(t)] \, e
 where:
 
 - $S[x(t)] = \int_0^T L(x, \dot{x}, t) dt$ = **action functional**
+
 - $L = T - V$ = Lagrangian (kinetic - potential energy)
 - $\hbar$ = Planck's constant (sets the scale)
 
@@ -41,6 +42,7 @@ The probability amplitude to go from $x_i$ to $x_f$ is the **sum over all paths*
 - Paths near the classical trajectory dominate (stationary phase)
 
 **Why complex amplitudes?**
+
 - Phase $e^{iS/\hbar}$ encodes action along path
 - Allows **interference**: paths can cancel or reinforce
 - Recovers classical limit as $\hbar \to 0$ (only minimal action path survives)
@@ -196,6 +198,7 @@ where paths connect $(s_t, \theta_t)$ to $(s_{t+1}, \theta_{t+1})$.
 - **Phase** $\phi(z)$ enables interference
 
 **Why complex?**
+
 - **Interference**: Paths can destructively interfere (cancel out)
 - **Richer representations**: Phase encodes additional structure
 - **Quantum-inspired exploration**: "Tunneling" through barriers

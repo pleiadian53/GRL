@@ -389,6 +389,7 @@ This supplement explores:
 - Connection to neural network policy optimization
 
 **For the quantum mechanical perspective:**
+
 - **[Quantum-Inspired Chapter 09 - Path Integrals and Action Principles](../quantum_inspired/09-path-integrals-and-action-principles.md)**
 
 ---

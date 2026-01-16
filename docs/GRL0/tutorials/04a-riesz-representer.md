@@ -390,18 +390,22 @@ The Riesz representation theorem guarantees that all the functional derivatives 
 ## Key Takeaways
 
 1. **Riesz Representer = Gradient in Function Space**
+
    - Every linear functional has a unique function that represents it via inner product
    - This function is the "gradient"
 
 2. **RKHS Makes Gradients Tractable**
+
    - Reproducing property: $f(x) = \langle f, k(x, \cdot) \rangle$
    - Kernel sections $k(x, \cdot)$ are Riesz representers of point evaluations
 
 3. **GRL's Reinforcement Field Is a Gradient Field**
+
    - $\nabla Q^+$ is the Riesz representer of value function changes
    - Policy inference follows this gradient to maximize value
 
 4. **Notation:**
+
    - $\nabla Q^+$: The gradient (a function in RKHS)
    - $\langle \nabla Q^+, h \rangle$: Directional derivative in direction $h$
    - $\nabla_z k(z_i, z)$: Gradient of kernel (computable analytically)
@@ -423,14 +427,17 @@ The Riesz representation theorem guarantees that all the functional derivatives 
 ### Mathematical References
 
 - **Riesz Representation Theorem:**
+
   - Rudin, W. (1991). *Functional Analysis*. McGraw-Hill. (Chapter 6)
   - Reed & Simon (1980). *Functional Analysis*. Academic Press.
 
 - **RKHS and Reproducing Property:**
+
   - Berlinet & Thomas-Agnan (2004). *Reproducing Kernel Hilbert Spaces in Probability and Statistics*. Springer.
   - Steinwart & Christmann (2008). *Support Vector Machines*. Springer.
 
 - **Calculus of Variations:**
+
   - Gelfand & Fomin (1963). *Calculus of Variations*. Dover.
 
 ---

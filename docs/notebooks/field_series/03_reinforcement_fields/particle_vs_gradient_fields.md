@@ -33,10 +33,12 @@ This gradient field has a key property: **arrows at every point converge toward 
 ```
 
 **Pros:**
+
 - Globally optimal direction at every point
 - Arrows naturally "rotate" to point at goal
 
 **Cons:**
+
 - Requires explicit knowledge of goal location
 - Cannot encode constraints (obstacles) naturally
 - No learning — purely geometric

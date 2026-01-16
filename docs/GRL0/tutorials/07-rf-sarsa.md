@@ -825,22 +825,27 @@ class RFSARSA:
 ### 10.1 Strengths
 
 **1. Generalization in Continuous Action Spaces**
+
 - Natural handling of parametric actions
 - Smooth interpolation across action parameters
 
 **2. Uncertainty Quantification**
+
 - GP provides variance $\sigma^2(z)$ (not shown above for simplicity)
 - Can guide exploration (e.g., UCB: $Q^+ + \kappa \sigma$)
 
 **3. Adaptive Metric Learning**
+
 - ARD discovers relevant dimensions automatically
 - No manual feature engineering required
 
 **4. Interpretability**
+
 - Particles are interpretable (experienced configurations)
 - Field visualization shows value landscape
 
 **5. Theoretical Grounding**
+
 - Connection to RKHS theory (Chapters 2, 4)
 - Least action principle (Chapter 03a)
 - POMDP interpretation (Chapter 8, upcoming)
@@ -850,23 +855,28 @@ class RFSARSA:
 ### 10.2 Limitations
 
 **1. Computational Cost**
+
 - $O(N^3)$ for GP regression (ARD step)
 - Mitigated by sparse GPs, but still slower than deep RL
 
 **2. Memory Growth**
+
 - Particle memory grows over time
 - Needs pruning/consolidation strategies (Chapter 06a)
 
 **3. Discrete Action Assumption**
+
 - Algorithm as stated requires discrete action set for field queries
 - **Solution**: Continuous optimization via Langevin sampling (Chapter 03a)
 
 **4. On-Policy Learning**
+
 - SARSA is on-policy (learns about behavior policy)
 - Slower than off-policy (Q-learning, DQN)
 - **Tradeoff**: More stable, safer for risk-sensitive domains
 
 **5. Hyperparameter Sensitivity**
+
 - Requires tuning $\alpha$, $\beta$, $\tau$, $T$
 - ARD helps but doesn't eliminate manual tuning
 

@@ -55,6 +55,7 @@ This is the core algorithmic section, containing:
 ### IV-A: Particle-Based Belief Update
 
 **Algorithm 1: MemoryUpdate**
+
 - Belief-state transition operator
 - Kernel-based association
 - Particle management
@@ -62,6 +63,7 @@ This is the core algorithmic section, containing:
 ### IV-B: Reinforcement Propagation
 
 **Algorithm 2: RF-SARSA**
+
 - Two-layer architecture
 - Primitive TD learning
 - Field-based generalization

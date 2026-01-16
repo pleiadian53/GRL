@@ -23,6 +23,7 @@ Classical MDP: $(\mathcal{S}, \mathcal{A}, T, R, \gamma)$
 GRL: $(\mathcal{S}, \mathcal{O}, T, R, \gamma)$
 
 Where:
+
 - $\mathcal{S}$: State space
 - $\mathcal{O}$: Space of operators on $\mathcal{S}$
 - $T$: Transition function (often deterministic: $s' = \hat{O}(s)$)
@@ -54,6 +55,7 @@ $$
 $$
 
 Where $\mathcal{E}(\hat{O})$ is the "energy" of the operator, encouraging:
+
 - Smooth transformations
 - Minimal perturbations
 - Physically plausible behavior

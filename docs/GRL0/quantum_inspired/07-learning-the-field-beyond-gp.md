@@ -67,6 +67,7 @@ $$Q^+(z) = \sum_{i=1}^N \alpha_i k(z_i, z)$$
 where $\boldsymbol{\alpha} = (\mathbf{K} + \sigma^2 \mathbf{I})^{-1} \mathbf{y}$
 
 **Properties:**
+
 - ✅ Probabilistic (gives uncertainty)
 - ✅ Kernel-based (automatic generalization)
 - ✅ Theoretically grounded
@@ -78,11 +79,13 @@ where $\boldsymbol{\alpha} = (\mathbf{K} + \sigma^2 \mathbf{I})^{-1} \mathbf{y}$
 ### When GP Makes Sense
 
 **Good for:**
+
 - Small-to-medium particle sets ($N < 10^4$)
 - Batch updates (re-solve periodically)
 - When you need calibrated uncertainty
 
 **Not ideal for:**
+
 - Large-scale online learning
 - Extremely sparse solutions
 - Real-time embedded systems
@@ -166,6 +169,7 @@ $$w_i^{(t+1)} = w_i^{(t)} - \eta_t [Q^+_t(z_t) - y_t] k(z_i, z_t)$$
 ### When to Use Online Updates
 
 **Good for:**
+
 - Large-scale continuous learning
 - Non-stationary environments
 - Real-time systems
@@ -198,6 +202,7 @@ $\ell_1$ penalty encourages sparse $\mathbf{w}$ (many $w_i = 0$).
 - Computation: $O(N)$ per query
 
 **With sparsity:**
+
 - Active set: $\{i : w_i \neq 0\}$ is small
 - Memory: $O(k)$ where $k \ll N$
 - Computation: $O(k)$ per query
@@ -207,6 +212,7 @@ $\ell_1$ penalty encourages sparse $\mathbf{w}$ (many $w_i = 0$).
 ### Sparse GP Variants
 
 **Inducing point methods:**
+
 - Select $M$ representative particles (inducing points)
 - Approximate $Q^+$ using only these $M$ particles
 - Solve $(M \times M)$ system instead of $(N \times N)$
@@ -220,11 +226,13 @@ $\ell_1$ penalty encourages sparse $\mathbf{w}$ (many $w_i = 0$).
 ### When to Use Sparse Methods
 
 **Good for:**
+
 - Memory-constrained systems (robots, embedded)
 - Lifelong learning (unbounded experience streams)
 - When most particles are redundant
 
 **Trade-off:**
+
 - Faster queries
 - Less memory
 - Slight approximation error
@@ -278,6 +286,7 @@ $$Q_{\text{episodic}}(z) = \sum_{i \in \text{recent}} w_i k(z_i, z)$$
 $$Q^+(z) = Q_\theta(z) + \beta \sum_{i \in \text{recent}} w_i k(z_i, z)$$
 
 **Why this works:**
+
 - Neural net: captures long-term patterns
 - Particles: fast adaptation to new experiences
 - Combination: benefits of both
@@ -287,11 +296,13 @@ $$Q^+(z) = Q_\theta(z) + \beta \sum_{i \in \text{recent}} w_i k(z_i, z)$$
 ### When to Use Deep Nets
 
 **Good for:**
+
 - High-dimensional states (images, text)
 - When kernel methods don't scale
 - Transfer learning (pre-trained representations)
 
 **Not ideal for:**
+
 - Low-data regimes (kernels better)
 - When interpretability matters (particles clearer)
 - Embedded systems (large models)
@@ -325,6 +336,7 @@ $$g_m(z) \propto \exp(\gamma \, k(z, c_m))$$
 where $c_m$ is the center of expert $m$.
 
 **Find centers via:**
+
 - K-means clustering in augmented space
 - Spectral clustering (align with concepts!)
 - Online clustering as experiences arrive
@@ -366,14 +378,17 @@ $$g_m(z) \propto \|P_{\mathcal{C}_m} k(z, \cdot)\|^2$$
 ### Training Mixture of Experts
 
 **Option 1: Hard assignment**
+
 - Assign each particle to one expert
 - Train experts independently
 
 **Option 2: Soft assignment (EM-style)**
+
 - E-step: Compute gates $g_m(z)$
 - M-step: Update each expert's weights with gate-weighted data
 
 **Option 3: Joint training**
+
 - Train gates and experts together
 - Use sparse MoE (only activate top-k experts)
 
@@ -382,12 +397,14 @@ $$g_m(z) \propto \|P_{\mathcal{C}_m} k(z, \cdot)\|^2$$
 ### When to Use MoE
 
 **Good for:**
+
 - Complex environments with distinct modes
 - When single field is too simple
 - Tool-using/API-calling agents
 - Hierarchical decision-making
 
 **Example:**
+
 - Expert 1: Navigation in open space
 - Expert 2: Navigation through doors
 - Expert 3: Navigation in crowds
@@ -412,6 +429,7 @@ $$\psi(x) = f_\theta(x), \quad p(x) = |\psi(x)|^2$$
 ### Why This Is Interesting
 
 **Allows interference:**
+
 - Amplitudes can be negative or complex
 - Combine amplitudes before squaring
 - Constructive/destructive interference
@@ -429,15 +447,18 @@ $$p(x) = |\psi_1(x) + \psi_2(x)|^2 \neq |\psi_1(x)|^2 + |\psi_2(x)|^2$$
 ### Existing Work
 
 **Born Machines (Cheng et al. 2018):**
+
 - Use quantum circuits to generate $\psi(x)$
 - Sample from $p(x) = |\psi(x)|^2$
 - For generative modeling
 
 **Complex-valued neural networks:**
+
 - Amplitude + phase
 - Used in signal processing, audio, RF
 
 **Quantum-inspired models:**
+
 - Quantum cognition (decision theory)
 - Quantum probability theory
 - Order effects, context effects
@@ -455,6 +476,7 @@ $$Q^+(z) \in \mathbb{C}$$
 $$\pi(a|s) \propto |Q^+(s, a)|^2$$
 
 **Why interesting:**
+
 - **Phase** can encode temporal structure, direction, context
 - **Interference** between action options
 - **Coherence** measures correlation strength
@@ -534,19 +556,23 @@ Amplitude-based **reinforcement learning** — treating value/policy as amplitud
 ### Key Insights
 
 1. **Learning $Q^+$ is a choice**
+
    - GP is elegant but not unique
    - Many alternatives preserve GRL structure
 
 2. **Trade-offs matter**
+
    - Scalability: online SGD, deep nets
    - Sparsity: LASSO, inducing points
    - Structure: MoE, concept-based
 
 3. **State-as-field is agnostic**
+
    - Can swap learning mechanisms
    - Preserves: state = field, query = projection, update = operator
 
 4. **Amplitude-based learning is underexplored**
+
    - QM math can be used for ML/optimization
    - GRL is positioned to pioneer this for RL
 
@@ -587,18 +613,23 @@ $$\pi(a|s) \propto |Q^+(s, a)|^2$$
 ### Related Literature
 
 **Gaussian Processes:**
+
 - Rasmussen & Williams (2006). *Gaussian Processes for Machine Learning*.
 
 **Online Learning:**
+
 - Shalev-Shwartz (2011). "Online Learning and Online Convex Optimization."
 
 **Sparse Methods:**
+
 - Quiñonero-Candela & Rasmussen (2005). "A Unifying View of Sparse Approximate Gaussian Process Regression."
 
 **Born Machines:**
+
 - Cheng et al. (2018). "Quantum Generative Adversarial Learning." *PRL*.
 
 **Mixture of Experts:**
+
 - Jacobs et al. (1991). "Adaptive Mixtures of Local Experts." *Neural Computation*.
 - Shazeer et al. (2017). "Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer."
 

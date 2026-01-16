@@ -105,6 +105,7 @@ Mathematical connections to quantum mechanics and novel probability formulations
 | **Learning & Memory** | [07](GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md), [08](GRL0/quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md) | Beyond GP, memory dynamics, principled consolidation |
 
 **Novel Contributions:**
+
 - **Amplitude-based RL:** Complex-valued value functions with phase semantics
 - **MDL consolidation:** Information-theoretic memory management
 - **Concept-based MoE:** Hierarchical RL via subspace projections
@@ -127,6 +128,7 @@ Mathematical connections to quantum mechanics and novel probability formulations
 **Key Insight**: Traditional RL algorithms (Q-learning, DQN, PPO, SAC, **RLHF for LLMs**) are **special cases** of GRL!
 
 When you:
+
 - **Discretize actions** → GRL recovers Q-learning
 - **Use neural networks** → GRL recovers DQN
 - **Apply Boltzmann policies** → GRL recovers REINFORCE/Actor-Critic
@@ -238,6 +240,7 @@ The foundational work introducing particle-based belief states, reinforcement fi
 **Reinforcement Fields Framework** — Enhanced exposition with modern formalization
 
 **Part I: Particle-Based Learning**
+
 - Functional fields over augmented state-action space
 - Particle memory as belief state in RKHS
 - MemoryUpdate and RF-SARSA algorithms
@@ -246,6 +249,7 @@ The foundational work introducing particle-based belief states, reinforcement fi
 **Status:** 🔄 Tutorial in progress (6/10 chapters complete)
 
 **Part II: Emergent Structure & Spectral Abstraction**
+
 - Functional clustering (clustering functions, not points)
 - Spectral methods on kernel matrices
 - Concepts as coherent subspaces of the reinforcement field
@@ -267,6 +271,7 @@ The foundational work introducing particle-based belief states, reinforcement fi
 | | *Physics-based control, compositional behaviors, transfer learning* | | After Paper B |
 
 **Timeline:**
+
 - **Paper A:** Target submission April 2026 (NeurIPS/ICML)
 - **Paper B:** Target submission June 2026 (ICML/NeurIPS)
 - **Paper C:** Target submission July 2026 (CoRL)
@@ -409,11 +414,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Two-Part Tutorial Series:**
 
 **Part I: Particle-Based Learning**
+
 - Actions as continuous parameters in augmented state-action space
 - Particle memory as belief state, kernel-induced value functions
 - Learning through energy landscape navigation
 
 **Part II: Emergent Structure & Spectral Abstraction**
+
 - Concepts emerge from functional clustering in RKHS
 - Spectral methods discover hierarchical structure
 - Multi-level policy organization
@@ -435,11 +442,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### Mathematical Foundations
 
 **Core Framework:**
+
 - Formulated in **Reproducing Kernel Hilbert Spaces (RKHS)** — the functional framework for particle-based belief states
 - **Kernel methods** define the geometry and similarity structure of augmented state-action space
 - Inspired by the **least-action principle** in classical mechanics
 
 **Quantum-Inspired Probability:**
+
 - **Probability amplitudes** instead of direct probabilities — RKHS inner products as amplitude overlaps
 - **Complex-valued RKHS** enabling interference effects and phase semantics for temporal/contextual dynamics
 - **Wave function analogy** — The reinforcement field as a superposition of particle basis states

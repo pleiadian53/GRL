@@ -329,6 +329,7 @@ The energy $E(z) = -Q^+(z)$ is the **potential** in the action functional:
 $$S[\tau] = \int \left[E(z_t) + \frac{1}{2\lambda}\|\dot{z}_t\|^2\right] dt$$
 
 **Why call it energy?**
+
 - Consistent with physics (potential energy landscape)
 - Optimal trajectories minimize total energy + kinetic cost
 - Connects to statistical mechanics (Boltzmann distribution)

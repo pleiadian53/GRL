@@ -46,6 +46,7 @@ This directory contains comprehensive documentation including tutorial papers, t
 Future documentation for operator-based extensions (Papers A, B, C)
 
 **Current Status:**
+
 - **Paper A** (Theory): ~70% complete — draft finished, figures in progress
 - **Paper B** (Algorithms): Planned for Q2 2026
 - **Paper C** (Applications): Planned for Q3 2026
@@ -77,16 +78,19 @@ Future documentation for operator-based extensions (Papers A, B, C)
 ## Documentation Organization
 
 **Public documentation** (this directory):
+
 - Tutorial papers, guides, API references
 - Quantum-inspired extensions
 - Intended for sharing with the research community
 
 **Private development notes** (`dev/`):
+
 - Research drafts, brainstorming, work-in-progress
 - Paper drafts (A, B, C)
 - Not intended for public sharing
 
 **Research planning**:
+
 - **[ROADMAP.md](ROADMAP.md)** — Comprehensive research plan and timeline
 - Tracks GRL v0, quantum-inspired extensions, Papers A/B/C, and future directions
 

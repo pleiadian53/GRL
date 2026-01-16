@@ -58,6 +58,7 @@ $$\Omega = \{(z_i, w_i)\}_{i=1}^N$$
 $$\Omega \Longleftrightarrow Q^+$$
 
 These are **two views of the same object:**
+
 - $\Omega$ = discrete representation (particles)
 - $Q^+$ = continuous representation (field)
 
@@ -126,6 +127,7 @@ NOT:
 $$\text{Particle } i: (z_i, w_i, Q^+(z_i)) \leftarrow \text{redundant!}$$
 
 **What $w_i$ represents:**
+
 - **Original paper:** Fitness contribution
 - **Modern framing:** Energy contribution (negative fitness: $E(z_i) = -w_i k(z_i, z_i)$)
 - **Mathematically:** RKHS expansion coefficient
@@ -192,6 +194,7 @@ or equivalently:
 $$\Omega_t \xrightarrow{\text{MemoryUpdate}} \Omega_{t+1}$$
 
 **What can change:**
+
 - **Add particles:** $\Omega_{t+1} = \Omega_t \cup \{(z_{new}, w_{new})\}$
 - **Update weights:** $w_i^{(t+1)} = w_i^{(t)} + \Delta w_i$
 - **Merge particles:** Combine nearby particles into one
@@ -240,6 +243,7 @@ $$Q^+_0 \xrightarrow{\mathcal{U}_1} Q^+_1 \xrightarrow{\mathcal{U}_2} Q^+_2 \xri
 **Between $t$ and $t+1$, $Q^+_t$ is fixed.**
 
 **Agent performs many queries:**
+
 - Evaluate $Q^+_t(s_1, a)$ for action selection at $s_1$
 - Evaluate $Q^+_t(s_2, a)$ for action selection at $s_2$
 - Compute concept activation $A_{k,t}$
@@ -254,16 +258,19 @@ $$Q^+_0 \xrightarrow{\mathcal{U}_1} Q^+_1 \xrightarrow{\mathcal{U}_2} Q^+_2 \xri
 ### Why This Matters
 
 **Separation of concerns:**
+
 - **Learning:** Happens via MemoryUpdate (slow)
 - **Acting:** Happens via inference (fast)
 - **No gradient descent** mixing learning and inference
 
 **Computational efficiency:**
+
 - Don't recompute entire field for every action
 - Cache kernel evaluations between updates
 - Amortize expensive operations (merging, pruning)
 
 **Theoretical clarity:**
+
 - Clean POMDP interpretation (belief state = $Q^+$)
 - Well-defined state transition operator ($\mathcal{U}$)
 - No ambiguity about "what changed"
@@ -311,16 +318,19 @@ where $\mathbf{w} = (\mathbf{K} + \sigma^2 \mathbf{I})^{-1} \mathbf{y}$.
 $$Q^+(z) = \sum_{i=1}^N w_i k(z_i, z)$$
 
 **The weights arise from:**
+
 1. **Experience accumulation:** Each $(z_i, r_i)$ contributes
 2. **Kernel propagation:** Overlap spreads influence
 3. **TD updates:** Temporal difference signals adjust weights
 
 **They are NOT:**
+
 - Gradient descent parameters
 - Explicitly optimized
 - Independent of the kernel structure
 
 **They ARE:**
+
 - **State variables** (part of the belief state)
 - **Functionally determined** by experience and kernel
 - **Evidence coefficients** (strength of belief at each particle)
@@ -336,6 +346,7 @@ $$Q^+(z) = \sum_{i=1}^N w_i k(z_i, z)$$
 $$f^* = \sum_{i=1}^N \alpha_i k(x_i, \cdot)$$
 
 **In GRL:**
+
 - Data points = experience particles $z_i$
 - Coefficients = weights $w_i$
 - Function = reinforcement field $Q^+$
@@ -421,10 +432,12 @@ $$Q^+_{t+1} = \sum_{j=1}^{N_{t+1}} w_j^{(t+1)} k(z_j^{(t+1)}, \cdot)$$
 > **GP posterior update expressed in particle (inducing point) coordinates**
 
 **Standard GP update:**
+
 1. Observe new data: $(z_{new}, y_{new})$
 2. Update posterior: $p(f | \mathcal{D}_{t+1}) \propto p(y_{new} | f, z_{new}) \cdot p(f | \mathcal{D}_t)$
 
 **GRL equivalent:**
+
 1. Observe new experience: $(z_{new}, r_{new})$
 2. Update particle memory: $\Omega_{t+1}$ (via MemoryUpdate)
 3. Resulting field: $Q^+_{t+1}$
@@ -459,6 +472,7 @@ where:
 $$\Delta Q^+ = \sum_{i: a_i > \varepsilon} (\lambda \cdot a_i \cdot w_{new}) \, k(z_i, \cdot)$$
 
 **In words:**
+
 - New evidence at $z_{new}$ with strength $w_{new}$
 - Propagates to associated particles $z_i$ (where $a_i = k(z_{new}, z_i) > \varepsilon$)
 - Strength of propagation: $\lambda \cdot a_i \cdot w_{new}$
@@ -478,6 +492,7 @@ where $\alpha_i$ depends only on observation $y_i$ and regularization.
 $$w_i^{(t+1)} = w_i^{(t)} + \lambda \sum_{j: \text{new}} a_{ij} w_j^{\text{new}}$$
 
 **This is a form of:**
+
 - **Soft credit assignment** (not just local TD error)
 - **Geometric belief propagation** (through kernel metric)
 - **Non-local update** (affects multiple particles simultaneously)
@@ -487,11 +502,13 @@ $$w_i^{(t+1)} = w_i^{(t)} + \lambda \sum_{j: \text{new}} a_{ij} w_j^{\text{new}}
 ### Connection to Kernel-Based Message Passing
 
 **This is similar to:**
+
 - Kernel mean embedding updates
 - Belief propagation in continuous spaces
 - Kernel density estimation with adaptive weights
 
 **But GRL's version is unique because:**
+
 - Weights can be positive or negative (not just probabilities)
 - Propagation is kernel-weighted (not uniform or discrete)
 - Updates are compositional (new evidence builds on old)
@@ -592,11 +609,13 @@ class BeliefState:
 ### For Efficiency
 
 **Between MemoryUpdate:**
+
 - Cache kernel evaluations
 - Precompute Gram matrix if needed
 - Use sparse representations for large particle sets
 
 **During MemoryUpdate:**
+
 - Only update associated particles (threshold $\varepsilon$)
 - Merge periodically, not every step
 - Use KD-trees for fast nearest-neighbor finding
@@ -632,30 +651,36 @@ plt.title('Belief Evolution at Test Point')
 ### Key Concepts
 
 1. **The Agent's State**
+
    - State = reinforcement field $Q^+ \in \mathcal{H}_k$
    - Equivalently: particle memory $\Omega = \{(z_i, w_i)\}$
    - Complete representation: particles determine field
 
 2. **Three Operations**
+
    - **Fix state:** Specify current belief (Operation A)
    - **Query state:** Compute projections/evaluations (Operation B)
    - **Evolve state:** MemoryUpdate (Operation C)
 
 3. **Two Time Scales**
+
    - **Slow:** Learning via MemoryUpdate ($Q^+_t \to Q^+_{t+1}$)
    - **Fast:** Inference via queries ($Q^+_t(s, a)$, fixed $Q^+_t$)
 
 4. **Weights Are Implicit**
+
    - Not learned parameters
    - GP-derived coefficients
    - State variables, not optimization variables
 
 5. **MemoryUpdate as Operator**
+
    - Belief state transition: $\mathcal{U}: Q^+_t \mapsto Q^+_{t+1}$
    - Includes: instantiation, association, consolidation
    - Experience association = weight propagation
 
 6. **QM Parallel**
+
    - Same structure: state vector in Hilbert space
    - Evolution via operators
    - Fixed between update/measurement events
@@ -685,18 +710,21 @@ $$w_i^{(t+1)} = w_i^{(t)} + \lambda \cdot k(z_{new}, z_i) \cdot w_{new}$$
 ### What This Clarifies
 
 **For theory:**
+
 - Rigorous definition of "the state"
 - Clean separation of learning and inference
 - Well-defined belief evolution operator
 - Precise QM parallel
 
 **For implementation:**
+
 - What to store (particles)
 - What to compute (queries)
 - When to update (MemoryUpdate events)
 - How to optimize (caching, sparse ops)
 
 **For Part II (Section V):**
+
 - Concept activation operates on fixed $Q^+$
 - Concept evolution tracks $A_k(t)$ over MemoryUpdate events
 - Clean distinction between concept inference and concept learning
@@ -719,14 +747,17 @@ $$w_i^{(t+1)} = w_i^{(t)} + \lambda \cdot k(z_{new}, z_i) \cdot w_{new}$$
 ### Related Literature
 
 **Gaussian Processes:**
+
 - Rasmussen & Williams (2006). *Gaussian Processes for Machine Learning*. MIT Press.
 - Qui & Candela (2005). "Sparse Gaussian Processes using Pseudo-inputs." *NIPS*.
 
 **Belief-State RL:**
+
 - Kaelbling et al. (1998). "Planning and Acting in Partially Observable Stochastic Domains."
 - Ross et al. (2008). "Online Planning Algorithms for POMDPs."
 
 **Kernel Methods:**
+
 - Schölkopf & Smola (2002). *Learning with Kernels*. MIT Press.
 - Berlinet & Thomas-Agnan (2004). *Reproducing Kernel Hilbert Spaces in Probability and Statistics*.
 

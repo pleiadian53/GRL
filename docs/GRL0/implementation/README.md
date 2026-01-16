@@ -521,7 +521,9 @@ success_rate, avg_path_length = evaluate(agent, env, num_trials=100)
 
 - **RLHF for LLMs** (Reinforcement Learning from Human Feedback)
 - **PPO/SAC for continuous control**
+
 - **DQN for discrete actions**
+
 - **Actor-critic methods**
 
 This positions GRL not as "another RL algorithm" but as a **unifying framework** that recovers existing methods as special cases while enabling new capabilities.
@@ -588,26 +590,31 @@ This positions GRL not as "another RL algorithm" but as a **unifying framework**
 **Contents**:
 
 1. **Q-learning from GRL**
+
    - Discrete action space as fixed parametric mapping
    - Particle memory as replay buffer
    - TD update as special case of MemoryUpdate
 
 2. **DQN from GRL**
+
    - Neural network Q-function as continuous approximation of particle field
    - Experience replay as particle subsampling
    - Target networks as delayed MemoryUpdate
 
 3. **Policy Gradient (REINFORCE) from GRL**
+
    - Boltzmann policy from energy landscape
    - Score function gradient as field gradient
    - Baseline as energy normalization
 
 4. **Actor-Critic (PPO, SAC) from GRL**
+
    - Actor = policy inference from field
    - Critic = reinforcement field itself
    - Entropy regularization as temperature parameter
 
 5. **RLHF for LLMs from GRL**
+
    - Token selection as discrete action
    - Reward model as energy function
    - PPO update as special case of RF-SARSA
@@ -731,6 +738,7 @@ src/grl/envs/
 **Key Design Principle**: 
 
 - **Wrappers** allow GRL to be applied to **any existing RL environment**
+
 - **Native environments** showcase GRL's unique capabilities
 - **Scenarios** provide reproducible experiments
 
@@ -926,6 +934,7 @@ sphinx >= 7.2            # Documentation
 
 1. Part I foundations (Priorities 1-6)
 2. 2D Navigation validation (Priority 7) ⭐⭐ **Critical milestone**
+
 3. Part II extensions (Priorities 8-11)
 4. Additional environments and experiments
 

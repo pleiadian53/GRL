@@ -16,6 +16,7 @@ This document tracks the progression from foundational concepts to complete GRL 
 ### Notebook 1: Classical Vector Fields
 **Status**: Complete  
 **Topics**: 
+
 - Vector field definition and visualization
 - Gradient fields (connection to optimization)
 - Rotational fields and curl
@@ -27,6 +28,7 @@ This document tracks the progression from foundational concepts to complete GRL 
 ### Notebook 1a: Vector Fields and ODEs
 **Status**: Complete  
 **Topics**:
+
 - ODEs as following vector fields ($\dot{x} = F(x)$)
 - Numerical solvers (Euler, RK4)
 - Phase portraits and fixed points
@@ -38,6 +40,7 @@ This document tracks the progression from foundational concepts to complete GRL 
 ### Notebook 2: Functional Fields
 **Status**: Complete  
 **Topics**:
+
 - Functions as infinite-dimensional vectors
 - Kernel functions and similarity
 - RKHS intuition
@@ -49,6 +52,7 @@ This document tracks the progression from foundational concepts to complete GRL 
 ### Notebook 3: Reinforcement Fields
 **Status**: Complete  
 **Topics**:
+
 - Augmented state-action space: $z = (s, \theta)$
 - Particle memory: $\{(z_i, w_i)\}$
 - Field emergence: $Q^+(z) = \sum_i w_i k(z, z_i)$
@@ -58,6 +62,7 @@ This document tracks the progression from foundational concepts to complete GRL 
 **Time**: ~30 minutes
 
 **Supplementary**:
+
 - `03a_particle_coverage_effects.ipynb` — Visual proof of particle coverage effects
 - `particle_vs_gradient_fields.md` — Theory comparison
 
@@ -92,6 +97,7 @@ This document tracks the progression from foundational concepts to complete GRL 
    - Local vs. global optima
 
 **Visualizations**:
+
 - Polar plots of action landscapes at different temperatures
 - Comparison: greedy vs. Boltzmann sampling
 - Interactive sliders for temperature $\beta$
@@ -109,27 +115,32 @@ This document tracks the progression from foundational concepts to complete GRL 
 **Topics to Cover**:
 
 1. **Single Particle Addition**
+
    - New experience: $(s, a, r)$
    - Creating particle: $(z_{new}, w_{new})$ where $z_{new} = (s, a)$
    - Weight assignment: $w_{new} = f(r, \gamma, ...)$
 
 2. **Field Evolution**
+
    - Before/after comparison
    - Difference map: $\Delta Q^+ = Q^+_{after} - Q^+_{before}$
    - "Ripple" effect from new particle
    - Kernel lengthscale controls influence radius
 
 3. **MemoryUpdate Algorithm**
+
    - Pseudocode walkthrough
    - When to add positive vs. negative particles
    - Memory management (capacity limits)
 
 4. **Interactive Demonstration**
+
    - Click to add particles
    - See field update in real-time
    - Observe policy changes
 
 **Visualizations**:
+
 - Side-by-side: Q⁺ before/after adding particle
 - Heatmap of $\Delta Q^+$
 - Animated field evolution over multiple updates
@@ -162,17 +173,21 @@ def compute_field_difference(X, Y, particles_before, particles_after):
 **Topics to Cover**:
 
 1. **SARSA Recap**
+
    - Classical SARSA: $Q(s,a) \leftarrow Q(s,a) + \alpha[r + \gamma Q(s',a') - Q(s,a)]$
    - TD error and bootstrapping
 
 2. **RF-SARSA Adaptation**
+
    - No explicit Q-table — field represents Q-function
    - TD error in RKHS: $\delta = r + \gamma Q^+(s', a') - Q^+(s, a)$
    - Particle weight from TD error: $w_{new} = \alpha \delta$
 
 3. **Algorithm Walkthrough**
+
    - Initialize: empty particle memory
    - Episode loop:
+
      - Select action via policy (Boltzmann or greedy)
      - Execute, observe $(s', r)$
      - Compute TD error
@@ -180,11 +195,13 @@ def compute_field_difference(X, Y, particles_before, particles_after):
    - Field emerges from accumulated particles
 
 4. **Convergence and Stability**
+
    - When does the field stabilize?
    - Memory growth over time
    - Particle pruning strategies
 
 **Visualizations**:
+
 - Episode-by-episode field evolution (animated)
 - TD error over time
 - Number of particles vs. episodes
@@ -219,6 +236,7 @@ def rf_sarsa_episode(env, particles, alpha, gamma, beta):
 ```
 
 **Experiments**:
+
 - 2D navigation (from Notebook 3)
 - Gridworld
 - Mountain car (continuous actions)
@@ -234,26 +252,31 @@ def rf_sarsa_episode(env, particles, alpha, gamma, beta):
 ### Advanced Topics (Potential Notebooks 7+)
 
 1. **Kernel Design and Selection**
+
    - RBF vs. other kernels
    - Adaptive lengthscales
    - State-action factorization
 
 2. **Scalability and Approximations**
+
    - Particle pruning
    - Sparse approximations
    - Nyström methods
 
 3. **Multi-Task and Transfer Learning**
+
    - Shared particle memories
    - Task-specific fields
    - Meta-learning
 
 4. **Theoretical Foundations**
+
    - Convergence proofs
    - Sample complexity
    - Relationship to kernel-based RL
 
 5. **Comparison with Other Methods**
+
    - GRL vs. DQN
    - GRL vs. SAC
    - GRL vs. PPO
@@ -264,12 +287,14 @@ def rf_sarsa_episode(env, particles, alpha, gamma, beta):
 ## Development Principles
 
 **Systematic Progression**:
+
 1. ✅ Build intuition (Notebooks 0-3)
 2. 🚧 Understand components (Notebooks 4-5)
 3. 🔮 Implement algorithms (Notebook 6)
 4. 🔮 Explore advanced topics (Notebooks 7+)
 
 **Each Notebook Should**:
+
 - Build on previous concepts
 - Include professional visualizations
 - Provide working code examples
@@ -277,6 +302,7 @@ def rf_sarsa_episode(env, particles, alpha, gamma, beta):
 - Take 20-45 minutes to complete
 
 **Pedagogical Goals**:
+
 - Visual > Mathematical (when possible)
 - Interactive > Static (when useful)
 - Synthetic > Real (for clarity, then real for validation)
@@ -306,11 +332,13 @@ def rf_sarsa_episode(env, particles, alpha, gamma, beta):
 ## Related Resources
 
 **Within GRL Project**:
+
 - Tutorial series: `docs/GRL0/tutorials/`
 - Theory documents: `docs/theory/`
 - Implementation: `src/` (when available)
 
 **External Projects**:
+
 - [genai-lab](https://github.com/pleiadian53/genai-lab) — Flow matching, diffusion models
 - Original GRL paper: [arXiv:2208.04822](https://arxiv.org/abs/2208.04822)
 

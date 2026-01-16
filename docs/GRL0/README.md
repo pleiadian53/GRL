@@ -13,6 +13,7 @@
 ## Part I: Particle-Based Learning
 
 **Core Topics:**
+
 - Functional fields over augmented state-action space
 - Particle memory as belief state in RKHS
 - MemoryUpdate and RF-SARSA algorithms
@@ -64,6 +65,7 @@ Experience is not discrete transitions but a **continuous field** in RKHS:
 **Status:** 📋 Planned (begins after Part I)
 
 **Core Topics:**
+
 - Functional clustering (clustering functions, not points)
 - Spectral methods on kernel matrices
 - Concepts as coherent subspaces of the reinforcement field
@@ -101,16 +103,19 @@ Experience is not discrete transitions but a **continuous field** in RKHS:
 ### Key Novel Contributions
 
 **1. Amplitude-Based Reinforcement Learning**
+
 - Complex-valued value functions with Born rule policies
 - Phase semantics for temporal/contextual information
 - Novel to mainstream ML, potential standalone paper
 
 **2. Information-Theoretic Memory Consolidation**
+
 - MDL framework replacing hard threshold $\tau$
 - Surprise-gated formation and consolidation
 - Principled criteria for what to retain/forget
 
 **3. Concept-Based Mixture of Experts**
+
 - Hierarchical RL via concept subspace projections
 - Gating by concept activation
 - Multi-scale representation and transfer learning

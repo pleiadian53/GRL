@@ -98,6 +98,7 @@ This gives you a **function over the action space** for a specific state.
 $\psi_s(a)$ is an **amplitude field over actions**, not a policy yet.
 
 **It encodes:**
+
 - Compatibility between past experience and candidate actions
 - Multi-modality (multiple plausible actions can have high amplitude)
 - Smooth generalization across actions via kernel overlap
@@ -126,6 +127,7 @@ To get a policy, apply the Boltzmann transformation:
 $$\pi(a | s) = \frac{\exp(\beta \, \psi_s(a))}{\int_{\Theta} \exp(\beta \, \psi_s(a')) da'}$$
 
 **Analogy to QM:**
+
 - Wavefunction $\psi_s(a)$ → amplitude landscape
 - Boltzmann rule → measurement process (like Born rule)
 
@@ -138,6 +140,7 @@ $$\pi(a | s) = \frac{\exp(\beta \, \psi_s(a))}{\int_{\Theta} \exp(\beta \, \psi_
 **Standard RL:** Pick $a^* = \arg\max_a Q(s, a)$ (one point)
 
 **With action wavefunction:** See the **full landscape**
+
 - Multiple peaks → multiple strategies
 - Smooth ridges → continuous manifolds of good actions
 - Natural for robotics and motor control
@@ -153,6 +156,7 @@ $$\pi(a | s) = \frac{\exp(\beta \, \psi_s(a))}{\int_{\Theta} \exp(\beta \, \psi_
 If two actions have high kernel overlap, they appear as **neighboring peaks** in $\psi_s(a)$.
 
 **This gives graded replaceability:**
+
 - Action $a_1$ unavailable? Use nearby $a_2$ with similar amplitude
 - No need for discrete "backup plans"—structure is inherent
 
@@ -167,6 +171,7 @@ If two actions have high kernel overlap, they appear as **neighboring peaks** in
 **Standard:** $\epsilon$-greedy (uniform noise) or Boltzmann (temperature)
 
 **With action wavefunction:**
+
 - Sample from high-amplitude **regions** (not just max)
 - Preserves structure (won't explore clearly bad actions)
 - Natural multi-modal exploration
@@ -182,6 +187,7 @@ If two actions have high kernel overlap, they appear as **neighboring peaks** in
 **Observation:** Peaks in $\psi_s(a)$ correspond to **natural options**
 
 **Algorithm:**
+
 1. Compute $\psi_s(a)$ for visited states $s$
 2. Cluster peaks across states
 3. Each cluster = a discovered option
@@ -210,11 +216,13 @@ $\phi_a(s)$ is an **applicability amplitude**—it answers:
 > "Where in state space does this action **make sense**?"
 
 **High values mean:**
+
 - This action has historically aligned well with similar states
 - Kernel overlap supports generalization here
 - Preconditions (implicit) are satisfied
 
 **Low values mean:**
+
 - Action is structurally incompatible with this region
 - Either never tried here, or tried and failed
 
@@ -277,6 +285,7 @@ In robotics, $\phi_a(s)$ **is literally an affordance map**.
 **Define:** An action $a$ is **unsafe** at state $s$ if $\phi_a(s) < \tau$ (threshold).
 
 **This gives implicit safety without explicit rules:**
+
 - Low amplitude → historically bad outcomes
 - Safe policy: only consider actions with $\phi_a(s) > \tau$
 
@@ -304,6 +313,7 @@ In robotics, $\phi_a(s)$ **is literally an affordance map**.
 **Observation:** Actions with **compact support** (high $\phi_a$ in small region) are natural skills.
 
 **Algorithm:**
+
 1. Compute $\phi_a(s)$ for all actions
 2. Find actions with localized high-amplitude regions
 3. Each compact region defines a skill
@@ -345,12 +355,15 @@ A concept-level amplitude field answers:
 > "How strongly does the current situation activate this **concept**?"
 
 **Not:**
+
 - ❌ A discrete label
 - ❌ A hard cluster assignment
 - ❌ A symbolic rule
 
 **But:**
+
 - ✅ A **graded, geometric activation**
+
 - ✅ Smooth interpolation between concepts
 - ✅ Hierarchical structure
 
@@ -409,6 +422,7 @@ Concept activation
 **Why:** Concepts capture abstract structure, not specific experiences.
 
 **Transfer algorithm:**
+
 1. Learn concept subspaces in source task
 2. Transfer subspaces to target task
 3. Re-learn particle weights within subspaces
@@ -454,6 +468,7 @@ All three cases share the same mathematical structure:
 **Once you see this structure, the QM analogy stops being decorative and starts being **constraining**—in a good way.**
 
 **It tells you:**
+
 - How to define new projections (other subspaces?)
 - Why actions and states are **dual** under projection
 - How to compose operations (project, then project again?)
@@ -483,16 +498,19 @@ $$\phi_a(s) = Q^+(s, a) \quad \text{(fix } a\text{, vary } s\text{)}$$
 This suggests actions and states might be more symmetric than traditional RL assumes.
 
 **Standard RL:**
+
 - States = where you are
 - Actions = what you do
 - Asymmetric roles
 
 **GRL:**
+
 - States and actions are **coordinates** in augmented space $\mathcal{Z} = \mathcal{S} \times \Theta$
 - Projections along either dimension are equally valid
 - **Symmetric structure**
 
 **This could enable:**
+
 - **Dual learning:** Learn about actions by exploring states, and vice versa
 - **Compositional policies:** Combine state-based and action-based representations
 - **Transfer:** Actions discovered in one state space transfer to another
@@ -510,6 +528,7 @@ So far, we've discussed **projections**—static views of $Q^+$.
 **Answer:** **Operators!**
 
 **Examples:**
+
 - **MemoryUpdate:** Operator that updates $Q^+$ given new experience
 - **Action conditioning:** Operator that shifts field based on action
 - **Abstraction:** Operator that projects onto concept subspaces
@@ -543,6 +562,7 @@ $$Q^+ \mapsto \psi_s(a) = Q^+(s, a)$$
 ### Key Concepts
 
 1. **One State, Many Views**
+
    - $Q^+ \in \mathcal{H}_k$ is the state
    - $Q^+(z), \psi_s(a), \phi_a(s), P_k Q^+$ are projections
 
@@ -559,6 +579,7 @@ $$Q^+ \mapsto \psi_s(a) = Q^+(s, a)$$
    - Use: hierarchical RL, interpretability, transfer
 
 5. **Action-State Duality**
+
    - Symmetric roles in augmented space
    - Enables dual learning and compositional policies
 
@@ -587,11 +608,13 @@ $$\pi(a|s) = \frac{\exp(\beta \, \psi_s(a))}{\int_{\Theta} \exp(\beta \, \psi_s(
 ### What This Enables
 
 **Theoretical:**
+
 - Rigorous projection formalism
 - Action-state duality
 - Operator-based dynamics
 
 **Practical:**
+
 - Continuous control with full action landscapes
 - Implicit precondition and affordance learning
 - Hierarchical RL via concept activations
@@ -616,15 +639,19 @@ $$\pi(a|s) = \frac{\exp(\beta \, \psi_s(a))}{\int_{\Theta} \exp(\beta \, \psi_s(
 ### Related Work
 
 **Eigenoptions:**
+
 - Machado et al. (2017). "A Laplacian Framework for Option Discovery." *ICML*.
 
 **Affordances in RL:**
+
 - Khetarpal et al. (2020). "What can I do here? A theory of affordances in reinforcement learning." *ICML*.
 
 **Hierarchical RL:**
+
 - Sutton et al. (1999). "Between MDPs and semi-MDPs: A framework for temporal abstraction in RL."
 
 **Operator Formalism:**
+
 - Barreto et al. (2017). "Successor Features for Transfer in Reinforcement Learning." *NIPS*.
 
 ---

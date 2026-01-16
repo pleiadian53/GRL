@@ -153,6 +153,7 @@ $P_k Q^+$ is the "shadow" of $Q^+$ on the concept subspace.
 ### Computational Form
 
 **Given:**
+
 - Reinforcement field: $Q^+ = \sum_i w_i k(z_i, \cdot)$
 - Concept basis: $\{\phi_{k,1}, \ldots, \phi_{k,m_k}\}$
 
@@ -279,6 +280,7 @@ $$\psi_{s,k}(a) = Q^+_k(s, a)$$
 ```
 Full field:     ψ_s(a)
                   ***
+
                  *****
 
 Concept 1:      ψ_{s,1}(a)
@@ -288,6 +290,7 @@ Concept 1:      ψ_{s,1}(a)
 
 Concept 2:      ψ_{s,2}(a)
                 *****
+
                *******
               (broad support)
 ```
@@ -307,6 +310,7 @@ Different concepts emphasize different action modes!
 $$\mathcal{C}_1 \supset \mathcal{C}_{1,1} \supset \mathcal{C}_{1,1,1}$$
 
 **Interpretation:**
+
 - $\mathcal{C}_1$: "Locomotion" (coarse)
 - $\mathcal{C}_{1,1}$: "Forward motion" (medium)
 - $\mathcal{C}_{1,1,1}$: "Running" (fine)
@@ -370,6 +374,7 @@ P₁,₁,₁ P₁,₁,₂
 ```
 
 **Reading:** 
+
 - 60% activation in concept 1
 - Within concept 1, 40% in sub-concept 1.1
 - Within 1.1, 70% in sub-sub-concept 1.1.1
@@ -415,6 +420,7 @@ $$\mathcal{C}_k = \text{span}\{\phi_{i_1}, \ldots, \phi_{i_{m_k}}\}$$
 **Eigenvectors with similar profiles** → related functional patterns → same concept.
 
 **Mathematical justification:**
+
 - Kernel PCA identifies principal components
 - Clustering groups related components
 - Subspaces capture multi-dimensional concepts
@@ -556,10 +562,12 @@ $$a^* = \arg\max_a Q^+_{c_D}(s, a)$$
 **GRL concepts:** Use eigenvectors of kernel matrix as concept subspaces.
 
 **Similarities:**
+
 - Both use spectral methods
 - Both identify "natural" structures
 
 **Differences:**
+
 - Eigenoptions: single eigenvector = one option (discrete)
 - GRL concepts: subspace of eigenvectors = one concept (continuous)
 - Eigenoptions: hard assignment
@@ -576,10 +584,12 @@ $$a^* = \arg\max_a Q^+_{c_D}(s, a)$$
 **GRL concepts:** Represent field as projection $Q^+ = \sum_k P_k Q^+$.
 
 **Similarities:**
+
 - Both use linear combinations
 - Both enable transfer
 
 **Differences:**
+
 - Successor features: fixed basis (state features)
 - GRL concepts: learned basis (eigenvectors)
 - Successor features: flat structure
@@ -606,11 +616,13 @@ shows affordances from perspective of concept $k$.
 ### Current Status of Section V
 
 **Original paper Section V:**
+
 - Introduces spectral clustering idea
 - Shows empirical results
 - Demonstrates emergent concepts
 
 **What's missing:**
+
 - Formal definition of concepts (beyond "clusters")
 - Operational semantics (what do you do with concepts?)
 - Connection to learning algorithms
@@ -620,16 +632,19 @@ shows affordances from perspective of concept $k$.
 ### What This Chapter Provides
 
 **Formalization:**
+
 - Concepts = subspaces $\mathcal{C}_k \subset \mathcal{H}_k$
 - Activation = observable $A_k = \|P_k Q^+\|^2$
 - Hierarchy = nested subspaces
 
 **Operations:**
+
 - Project field onto concepts: $P_k Q^+$
 - Condition policy on concepts: $\pi_k(a|s)$
 - Compose concepts hierarchically
 
 **Algorithms:**
+
 - Concept discovery (spectral + clustering)
 - Concept-conditioned learning
 - Hierarchical transfer
@@ -641,35 +656,42 @@ shows affordances from perspective of concept $k$.
 **Proposed outline:**
 
 **V-A. Motivation**
+
 - Why functional clustering?
 - Limitations of discrete concepts
 
 **V-B. Concept Subspaces**
+
 - Definition via eigenspaces
 - Projection operators
 - This chapter's formalism
 
 **V-C. Spectral Discovery**
+
 - Algorithm
 - Adaptive selection
 - Stability analysis
 
 **V-D. Concept Dynamics**
+
 - Activation evolution
 - Transition patterns
 - Persistence measures
 
 **V-E. Hierarchical Composition**
+
 - Nested subspaces
 - Multi-level activation
 - Compositional policies
 
 **V-F. Empirical Results**
+
 - Concept discovery in benchmark tasks
 - Activation curves
 - Transfer experiments
 
 **V-G. Connections**
+
 - Eigenoptions, successor features, affordances
 - Relation to hierarchical RL literature
 
@@ -680,25 +702,30 @@ shows affordances from perspective of concept $k$.
 ### Key Contributions of This Chapter
 
 1. **Concepts as Subspaces**
+
    - Not clusters, but linear subspaces $\mathcal{C}_k \subset \mathcal{H}_k$
    - Enables smooth, compositional representations
 
 2. **Projection Operators**
+
    - Formal definition: $P_k: \mathcal{H}_k \to \mathcal{C}_k$
    - Properties: idempotent, orthogonal, complete
    - Connection to QM measurement theory
 
 3. **Concept Activation Observables**
+
    - Measure: $A_k = \|P_k Q^+\|^2$
    - Smooth evolution, no discrete jumps
    - Interpretable learning curves
 
 4. **Hierarchical Composition**
+
    - Nested subspaces: $\mathcal{C}_1 \supset \mathcal{C}_{1,1} \supset \cdots$
    - Conditional activation at each level
    - Natural multi-scale representation
 
 5. **Practical Algorithms**
+
    - Spectral discovery
    - Concept-conditioned policies
    - Hierarchical action selection
@@ -729,17 +756,20 @@ $$A_{k,\ell|k} = \frac{\|P_{k,\ell} Q^+\|^2}{\|P_k Q^+\|^2}$$
 ### What This Enables
 
 **Theoretical:**
+
 - Rigorous concept formalism
 - Quantum measurement theory connection
 - Hierarchical composition framework
 
 **Practical:**
+
 - Interpretable learning (activation curves)
 - Hierarchical policies (multi-level decisions)
 - Transfer learning (concept basis)
 - Compositional strategies (concept mixing)
 
 **For Part II:**
+
 - Mathematical foundation for Section V
 - Operational algorithms
 - Clear connection to QM
@@ -763,22 +793,27 @@ $$A_{k,\ell|k} = \frac{\|P_{k,\ell} Q^+\|^2}{\|P_k Q^+\|^2}$$
 ### Related Literature
 
 **Spectral Methods in RL:**
+
 - Machado et al. (2017). "A Laplacian Framework for Option Discovery in Reinforcement Learning." *ICML*.
 - Mahadevan & Maggioni (2007). "Proto-value Functions: A Laplacian Framework." *ICML*.
 
 **Hierarchical RL:**
+
 - Sutton et al. (1999). "Between MDPs and semi-MDPs: A Framework for Temporal Abstraction."
 - Bacon et al. (2017). "The Option-Critic Architecture." *AAAI*.
 
 **Transfer Learning:**
+
 - Barreto et al. (2017). "Successor Features for Transfer in Reinforcement Learning." *NIPS*.
 - Taylor & Stone (2009). "Transfer Learning for Reinforcement Learning Domains: A Survey."
 
 **Quantum Measurement Theory:**
+
 - von Neumann, J. (1932). *Mathematical Foundations of Quantum Mechanics*.
 - Peres, A. (1993). *Quantum Theory: Concepts and Methods*. Kluwer.
 
 **Functional Data Analysis:**
+
 - Ramsay & Silverman (2005). *Functional Data Analysis*. Springer.
 
 ---
@@ -786,18 +821,21 @@ $$A_{k,\ell|k} = \frac{\|P_{k,\ell} Q^+\|^2}{\|P_k Q^+\|^2}$$
 ## Next Steps
 
 **For Research:**
+
 1. Implement spectral concept discovery algorithm
 2. Test concept-conditioned policies on benchmarks
 3. Develop hierarchical composition framework
 4. Apply to transfer learning problems
 
 **For Tutorial Paper (Part II):**
+
 1. Integrate this formalism into Section V
 2. Add concept activation visualizations
 3. Show hierarchical decomposition examples
 4. Connect to experimental results
 
 **For Extensions (Papers A/B/C):**
+
 - **Paper B:** "Hierarchical Reinforcement Learning via Concept Subspace Projections"
 - **Paper C:** "Transfer Learning with Functional Concept Bases"
 

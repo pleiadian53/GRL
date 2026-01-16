@@ -307,6 +307,7 @@ where $y_t = r_t + \gamma \max_a Q^+(s_{t+1}, a)$ is the TD target.
 **Low surprise** (small TD-error):
 
 - Current memory is **already accurate**
+
 - Consolidating **compresses** redundant information
 - Saves memory space
 
@@ -485,7 +486,9 @@ def memory_update_hybrid(memory, z_new, r_t, s_next, kernel,
 **Together**:
 
 - **Selective formation** + **efficient propagation**
+
 - **Bounded memory** + **good generalization**
+
 - Works across diverse environments
 
 ---
@@ -524,6 +527,7 @@ Are you resource-constrained (memory/compute)?
 
 - Start with **Hard Threshold** (baseline)
 - If memory grows too large → add **Surprise-Gating**
+
 - If performance varies by region → add **Top-k**
 
 **Production / Robotics**:
@@ -647,6 +651,7 @@ def prune_memory(memory, max_size=1000, kernel=None):
 ### Within This Tutorial Series
 
 **Part I Tutorials:**
+
 - **[Chapter 05: Particle Memory](05-particle-memory.md)** — Foundations of particle representation
 - **[Chapter 06: MemoryUpdate](06-memory-update.md)** — Algorithm 1 baseline
 
@@ -683,14 +688,17 @@ For even more advanced approaches, see Chapter 08:
 ### Related Literature
 
 **Adaptive Memory in RL:**
+
 - Schaul et al. (2015). "Prioritized Experience Replay." *ICLR*.
 - Isele & Cosgun (2018). "Selective Experience Replay for Lifelong Learning." *AAAI*.
 
 **Neuroscience of Memory:**
+
 - McClelland et al. (1995). "Why There Are Complementary Learning Systems in the Hippocampus and Neocortex."
 - Dudai (2004). "The Neurobiology of Consolidations, Or, How Stable Is the Engram?" *Annual Review of Psychology*.
 
 **Information-Theoretic Learning:**
+
 - Rissanen (1978). "Modeling by Shortest Data Description." *Automatica*.
 
 ---
