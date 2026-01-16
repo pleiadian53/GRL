@@ -4047,40 +4047,60 @@ $<span class="arithmatex">\(\pi(\text{right} \mid 2) = \frac{e^{Q^+(2, \text{rig
 <hr />
 <h2 id="10-strengths-and-limitations">10. Strengths and Limitations<a class="headerlink" href="#10-strengths-and-limitations" title="Permanent link">&para;</a></h2>
 <h3 id="101-strengths">10.1 Strengths<a class="headerlink" href="#101-strengths" title="Permanent link">&para;</a></h3>
-<p><strong>1. Generalization in Continuous Action Spaces</strong>
-- Natural handling of parametric actions
-- Smooth interpolation across action parameters</p>
-<p><strong>2. Uncertainty Quantification</strong>
-- GP provides variance <span class="arithmatex">\(\sigma^2(z)\)</span> (not shown above for simplicity)
-- Can guide exploration (e.g., UCB: <span class="arithmatex">\(Q^+ + \kappa \sigma\)</span>)</p>
-<p><strong>3. Adaptive Metric Learning</strong>
-- ARD discovers relevant dimensions automatically
-- No manual feature engineering required</p>
-<p><strong>4. Interpretability</strong>
-- Particles are interpretable (experienced configurations)
-- Field visualization shows value landscape</p>
-<p><strong>5. Theoretical Grounding</strong>
-- Connection to RKHS theory (Chapters 2, 4)
-- Least action principle (Chapter 03a)
-- POMDP interpretation (Chapter 8, upcoming)</p>
+<p><strong>1. Generalization in Continuous Action Spaces</strong></p>
+<ul>
+<li>Natural handling of parametric actions</li>
+<li>Smooth interpolation across action parameters</li>
+</ul>
+<p><strong>2. Uncertainty Quantification</strong></p>
+<ul>
+<li>GP provides variance <span class="arithmatex">\(\sigma^2(z)\)</span> (not shown above for simplicity)</li>
+<li>Can guide exploration (e.g., UCB: <span class="arithmatex">\(Q^+ + \kappa \sigma\)</span>)</li>
+</ul>
+<p><strong>3. Adaptive Metric Learning</strong></p>
+<ul>
+<li>ARD discovers relevant dimensions automatically</li>
+<li>No manual feature engineering required</li>
+</ul>
+<p><strong>4. Interpretability</strong></p>
+<ul>
+<li>Particles are interpretable (experienced configurations)</li>
+<li>Field visualization shows value landscape</li>
+</ul>
+<p><strong>5. Theoretical Grounding</strong></p>
+<ul>
+<li>Connection to RKHS theory (Chapters 2, 4)</li>
+<li>Least action principle (Chapter 03a)</li>
+<li>POMDP interpretation (Chapter 8, upcoming)</li>
+</ul>
 <hr />
 <h3 id="102-limitations">10.2 Limitations<a class="headerlink" href="#102-limitations" title="Permanent link">&para;</a></h3>
-<p><strong>1. Computational Cost</strong>
-- <span class="arithmatex">\(O(N^3)\)</span> for GP regression (ARD step)
-- Mitigated by sparse GPs, but still slower than deep RL</p>
-<p><strong>2. Memory Growth</strong>
-- Particle memory grows over time
-- Needs pruning/consolidation strategies (Chapter 06a)</p>
-<p><strong>3. Discrete Action Assumption</strong>
-- Algorithm as stated requires discrete action set for field queries
-- <strong>Solution</strong>: Continuous optimization via Langevin sampling (Chapter 03a)</p>
-<p><strong>4. On-Policy Learning</strong>
-- SARSA is on-policy (learns about behavior policy)
-- Slower than off-policy (Q-learning, DQN)
-- <strong>Tradeoff</strong>: More stable, safer for risk-sensitive domains</p>
-<p><strong>5. Hyperparameter Sensitivity</strong>
-- Requires tuning <span class="arithmatex">\(\alpha\)</span>, <span class="arithmatex">\(\beta\)</span>, <span class="arithmatex">\(\tau\)</span>, <span class="arithmatex">\(T\)</span>
-- ARD helps but doesn't eliminate manual tuning</p>
+<p><strong>1. Computational Cost</strong></p>
+<ul>
+<li><span class="arithmatex">\(O(N^3)\)</span> for GP regression (ARD step)</li>
+<li>Mitigated by sparse GPs, but still slower than deep RL</li>
+</ul>
+<p><strong>2. Memory Growth</strong></p>
+<ul>
+<li>Particle memory grows over time</li>
+<li>Needs pruning/consolidation strategies (Chapter 06a)</li>
+</ul>
+<p><strong>3. Discrete Action Assumption</strong></p>
+<ul>
+<li>Algorithm as stated requires discrete action set for field queries</li>
+<li><strong>Solution</strong>: Continuous optimization via Langevin sampling (Chapter 03a)</li>
+</ul>
+<p><strong>4. On-Policy Learning</strong></p>
+<ul>
+<li>SARSA is on-policy (learns about behavior policy)</li>
+<li>Slower than off-policy (Q-learning, DQN)</li>
+<li><strong>Tradeoff</strong>: More stable, safer for risk-sensitive domains</li>
+</ul>
+<p><strong>5. Hyperparameter Sensitivity</strong></p>
+<ul>
+<li>Requires tuning <span class="arithmatex">\(\alpha\)</span>, <span class="arithmatex">\(\beta\)</span>, <span class="arithmatex">\(\tau\)</span>, <span class="arithmatex">\(T\)</span></li>
+<li>ARD helps but doesn't eliminate manual tuning</li>
+</ul>
 <hr />
 <h2 id="11-summary">11. Summary<a class="headerlink" href="#11-summary" title="Permanent link">&para;</a></h2>
 <h3 id="111-what-rf-sarsa-does">11.1 What RF-SARSA Does<a class="headerlink" href="#111-what-rf-sarsa-does" title="Permanent link">&para;</a></h3>

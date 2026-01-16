@@ -3236,9 +3236,11 @@
 <div class="arithmatex">\[\Omega = \{(z_i, w_i)\}_{i=1}^N\]</div>
 <p><strong>Key equation:</strong></p>
 <div class="arithmatex">\[\Omega \Longleftrightarrow Q^+\]</div>
-<p>These are <strong>two views of the same object:</strong>
-- <span class="arithmatex">\(\Omega\)</span> = discrete representation (particles)
-- <span class="arithmatex">\(Q^+\)</span> = continuous representation (field)</p>
+<p>These are <strong>two views of the same object:</strong></p>
+<ul>
+<li><span class="arithmatex">\(\Omega\)</span> = discrete representation (particles)</li>
+<li><span class="arithmatex">\(Q^+\)</span> = continuous representation (field)</li>
+</ul>
 <hr />
 <h3 id="why-not-something-smaller">Why Not Something Smaller?<a class="headerlink" href="#why-not-something-smaller" title="Permanent link">&para;</a></h3>
 <p><strong>Q: Why isn't <span class="arithmatex">\(Q^+(s, \cdot)\)</span> the state?</strong></p>
@@ -3313,10 +3315,12 @@
 <div class="arithmatex">\[\text{Particle } i: (z_i, w_i)\]</div>
 <p>NOT:</p>
 <div class="arithmatex">\[\text{Particle } i: (z_i, w_i, Q^+(z_i)) \leftarrow \text{redundant!}\]</div>
-<p><strong>What <span class="arithmatex">\(w_i\)</span> represents:</strong>
-- <strong>Original paper:</strong> Fitness contribution
-- <strong>Modern framing:</strong> Energy contribution (negative fitness: <span class="arithmatex">\(E(z_i) = -w_i k(z_i, z_i)\)</span>)
-- <strong>Mathematically:</strong> RKHS expansion coefficient</p>
+<p><strong>What <span class="arithmatex">\(w_i\)</span> represents:</strong></p>
+<ul>
+<li><strong>Original paper:</strong> Fitness contribution</li>
+<li><strong>Modern framing:</strong> Energy contribution (negative fitness: <span class="arithmatex">\(E(z_i) = -w_i k(z_i, z_i)\)</span>)</li>
+<li><strong>Mathematically:</strong> RKHS expansion coefficient</li>
+</ul>
 <hr />
 <h2 id="2-three-distinct-operations">2. Three Distinct Operations<a class="headerlink" href="#2-three-distinct-operations" title="Permanent link">&para;</a></h2>
 <p>Now that we know the state is <span class="arithmatex">\(Q^+\)</span> (equivalently: <span class="arithmatex">\(\Omega\)</span>), let's clarify three operations that are often confused:</p>
@@ -3351,11 +3355,13 @@
 <div class="arithmatex">\[\mathcal{U}: Q^+_t \mapsto Q^+_{t+1}\]</div>
 <p>or equivalently:</p>
 <div class="arithmatex">\[\Omega_t \xrightarrow{\text{MemoryUpdate}} \Omega_{t+1}\]</div>
-<p><strong>What can change:</strong>
-- <strong>Add particles:</strong> <span class="arithmatex">\(\Omega_{t+1} = \Omega_t \cup \{(z_{new}, w_{new})\}\)</span>
-- <strong>Update weights:</strong> <span class="arithmatex">\(w_i^{(t+1)} = w_i^{(t)} + \Delta w_i\)</span>
-- <strong>Merge particles:</strong> Combine nearby particles into one
-- <strong>Prune particles:</strong> Remove low-influence particles</p>
+<p><strong>What can change:</strong></p>
+<ul>
+<li><strong>Add particles:</strong> <span class="arithmatex">\(\Omega_{t+1} = \Omega_t \cup \{(z_{new}, w_{new})\}\)</span></li>
+<li><strong>Update weights:</strong> <span class="arithmatex">\(w_i^{(t+1)} = w_i^{(t)} + \Delta w_i\)</span></li>
+<li><strong>Merge particles:</strong> Combine nearby particles into one</li>
+<li><strong>Prune particles:</strong> Remove low-influence particles</li>
+</ul>
 <p><strong>Result:</strong> New belief state <span class="arithmatex">\(Q^+_{t+1} \neq Q^+_t\)</span></p>
 <p><strong>This IS learning!</strong></p>
 <hr />
@@ -3402,27 +3408,35 @@
 <hr />
 <h3 id="fast-time-scale-inference">Fast Time Scale: Inference<a class="headerlink" href="#fast-time-scale-inference" title="Permanent link">&para;</a></h3>
 <p><strong>Between <span class="arithmatex">\(t\)</span> and <span class="arithmatex">\(t+1\)</span>, <span class="arithmatex">\(Q^+_t\)</span> is fixed.</strong></p>
-<p><strong>Agent performs many queries:</strong>
-- Evaluate <span class="arithmatex">\(Q^+_t(s_1, a)\)</span> for action selection at <span class="arithmatex">\(s_1\)</span>
-- Evaluate <span class="arithmatex">\(Q^+_t(s_2, a)\)</span> for action selection at <span class="arithmatex">\(s_2\)</span>
-- Compute concept activation <span class="arithmatex">\(A_{k,t}\)</span>
-- Sample from policy <span class="arithmatex">\(\pi_t(a|s) \propto \exp(\beta Q^+_t(s, a))\)</span></p>
+<p><strong>Agent performs many queries:</strong></p>
+<ul>
+<li>Evaluate <span class="arithmatex">\(Q^+_t(s_1, a)\)</span> for action selection at <span class="arithmatex">\(s_1\)</span></li>
+<li>Evaluate <span class="arithmatex">\(Q^+_t(s_2, a)\)</span> for action selection at <span class="arithmatex">\(s_2\)</span></li>
+<li>Compute concept activation <span class="arithmatex">\(A_{k,t}\)</span></li>
+<li>Sample from policy <span class="arithmatex">\(\pi_t(a|s) \propto \exp(\beta Q^+_t(s, a))\)</span></li>
+</ul>
 <p><strong>This is inference.</strong></p>
 <p><strong>Frequency:</strong> Every step, or multiple times per step</p>
 <hr />
 <h3 id="why-this-matters">Why This Matters<a class="headerlink" href="#why-this-matters" title="Permanent link">&para;</a></h3>
-<p><strong>Separation of concerns:</strong>
-- <strong>Learning:</strong> Happens via MemoryUpdate (slow)
-- <strong>Acting:</strong> Happens via inference (fast)
-- <strong>No gradient descent</strong> mixing learning and inference</p>
-<p><strong>Computational efficiency:</strong>
-- Don't recompute entire field for every action
-- Cache kernel evaluations between updates
-- Amortize expensive operations (merging, pruning)</p>
-<p><strong>Theoretical clarity:</strong>
-- Clean POMDP interpretation (belief state = <span class="arithmatex">\(Q^+\)</span>)
-- Well-defined state transition operator (<span class="arithmatex">\(\mathcal{U}\)</span>)
-- No ambiguity about "what changed"</p>
+<p><strong>Separation of concerns:</strong></p>
+<ul>
+<li><strong>Learning:</strong> Happens via MemoryUpdate (slow)</li>
+<li><strong>Acting:</strong> Happens via inference (fast)</li>
+<li><strong>No gradient descent</strong> mixing learning and inference</li>
+</ul>
+<p><strong>Computational efficiency:</strong></p>
+<ul>
+<li>Don't recompute entire field for every action</li>
+<li>Cache kernel evaluations between updates</li>
+<li>Amortize expensive operations (merging, pruning)</li>
+</ul>
+<p><strong>Theoretical clarity:</strong></p>
+<ul>
+<li>Clean POMDP interpretation (belief state = <span class="arithmatex">\(Q^+\)</span>)</li>
+<li>Well-defined state transition operator (<span class="arithmatex">\(\mathcal{U}\)</span>)</li>
+<li>No ambiguity about "what changed"</li>
+</ul>
 <hr />
 <h2 id="4-the-role-of-weights-implicit-not-learned">4. The Role of Weights: Implicit, Not Learned<a class="headerlink" href="#4-the-role-of-weights-implicit-not-learned" title="Permanent link">&para;</a></h2>
 <h3 id="common-misconception">Common Misconception<a class="headerlink" href="#common-misconception" title="Permanent link">&para;</a></h3>
@@ -3447,18 +3461,24 @@
 <h3 id="in-grl">In GRL<a class="headerlink" href="#in-grl" title="Permanent link">&para;</a></h3>
 <p><strong>Similar structure:</strong></p>
 <div class="arithmatex">\[Q^+(z) = \sum_{i=1}^N w_i k(z_i, z)\]</div>
-<p><strong>The weights arise from:</strong>
-1. <strong>Experience accumulation:</strong> Each <span class="arithmatex">\((z_i, r_i)\)</span> contributes
-2. <strong>Kernel propagation:</strong> Overlap spreads influence
-3. <strong>TD updates:</strong> Temporal difference signals adjust weights</p>
-<p><strong>They are NOT:</strong>
-- Gradient descent parameters
-- Explicitly optimized
-- Independent of the kernel structure</p>
-<p><strong>They ARE:</strong>
-- <strong>State variables</strong> (part of the belief state)
-- <strong>Functionally determined</strong> by experience and kernel
-- <strong>Evidence coefficients</strong> (strength of belief at each particle)</p>
+<p><strong>The weights arise from:</strong></p>
+<ol>
+<li><strong>Experience accumulation:</strong> Each <span class="arithmatex">\((z_i, r_i)\)</span> contributes</li>
+<li><strong>Kernel propagation:</strong> Overlap spreads influence</li>
+<li><strong>TD updates:</strong> Temporal difference signals adjust weights</li>
+</ol>
+<p><strong>They are NOT:</strong></p>
+<ul>
+<li>Gradient descent parameters</li>
+<li>Explicitly optimized</li>
+<li>Independent of the kernel structure</li>
+</ul>
+<p><strong>They ARE:</strong></p>
+<ul>
+<li><strong>State variables</strong> (part of the belief state)</li>
+<li><strong>Functionally determined</strong> by experience and kernel</li>
+<li><strong>Evidence coefficients</strong> (strength of belief at each particle)</li>
+</ul>
 <hr />
 <h3 id="representer-theorem-connection">Representer Theorem Connection<a class="headerlink" href="#representer-theorem-connection" title="Permanent link">&para;</a></h3>
 <p><strong>The representer theorem</strong> says:</p>
@@ -3466,10 +3486,12 @@
 <p>In RKHS, any function minimizing a regularized loss can be written as a finite sum over data points:</p>
 </blockquote>
 <div class="arithmatex">\[f^* = \sum_{i=1}^N \alpha_i k(x_i, \cdot)\]</div>
-<p><strong>In GRL:</strong>
-- Data points = experience particles <span class="arithmatex">\(z_i\)</span>
-- Coefficients = weights <span class="arithmatex">\(w_i\)</span>
-- Function = reinforcement field <span class="arithmatex">\(Q^+\)</span></p>
+<p><strong>In GRL:</strong></p>
+<ul>
+<li>Data points = experience particles <span class="arithmatex">\(z_i\)</span></li>
+<li>Coefficients = weights <span class="arithmatex">\(w_i\)</span></li>
+<li>Function = reinforcement field <span class="arithmatex">\(Q^+\)</span></li>
+</ul>
 <p><strong>So the particle representation is not arbitrary—it's the optimal form given the RKHS structure!</strong></p>
 <hr />
 <h2 id="5-memoryupdate-as-belief-transition-operator">5. MemoryUpdate as Belief Transition Operator<a class="headerlink" href="#5-memoryupdate-as-belief-transition-operator" title="Permanent link">&para;</a></h2>
@@ -3515,13 +3537,17 @@
 <blockquote>
 <p><strong>GP posterior update expressed in particle (inducing point) coordinates</strong></p>
 </blockquote>
-<p><strong>Standard GP update:</strong>
-1. Observe new data: <span class="arithmatex">\((z_{new}, y_{new})\)</span>
-2. Update posterior: <span class="arithmatex">\(p(f | \mathcal{D}_{t+1}) \propto p(y_{new} | f, z_{new}) \cdot p(f | \mathcal{D}_t)\)</span></p>
-<p><strong>GRL equivalent:</strong>
-1. Observe new experience: <span class="arithmatex">\((z_{new}, r_{new})\)</span>
-2. Update particle memory: <span class="arithmatex">\(\Omega_{t+1}\)</span> (via MemoryUpdate)
-3. Resulting field: <span class="arithmatex">\(Q^+_{t+1}\)</span></p>
+<p><strong>Standard GP update:</strong></p>
+<ol>
+<li>Observe new data: <span class="arithmatex">\((z_{new}, y_{new})\)</span></li>
+<li>Update posterior: <span class="arithmatex">\(p(f | \mathcal{D}_{t+1}) \propto p(y_{new} | f, z_{new}) \cdot p(f | \mathcal{D}_t)\)</span></li>
+</ol>
+<p><strong>GRL equivalent:</strong></p>
+<ol>
+<li>Observe new experience: <span class="arithmatex">\((z_{new}, r_{new})\)</span></li>
+<li>Update particle memory: <span class="arithmatex">\(\Omega_{t+1}\)</span> (via MemoryUpdate)</li>
+<li>Resulting field: <span class="arithmatex">\(Q^+_{t+1}\)</span></li>
+</ol>
 <p><strong>Key difference:</strong> GRL also includes:</p>
 <ul>
 <li>Weight propagation (kernel association)</li>
@@ -3539,10 +3565,12 @@
 <div class="arithmatex">\[\mathcal{A}: (Q^+_t, z_{new}, w_{new}) \mapsto Q^+_t + \Delta Q^+\]</div>
 <p>where:</p>
 <div class="arithmatex">\[\Delta Q^+ = \sum_{i: a_i &gt; \varepsilon} (\lambda \cdot a_i \cdot w_{new}) \, k(z_i, \cdot)\]</div>
-<p><strong>In words:</strong>
-- New evidence at <span class="arithmatex">\(z_{new}\)</span> with strength <span class="arithmatex">\(w_{new}\)</span>
-- Propagates to associated particles <span class="arithmatex">\(z_i\)</span> (where <span class="arithmatex">\(a_i = k(z_{new}, z_i) &gt; \varepsilon\)</span>)
-- Strength of propagation: <span class="arithmatex">\(\lambda \cdot a_i \cdot w_{new}\)</span></p>
+<p><strong>In words:</strong></p>
+<ul>
+<li>New evidence at <span class="arithmatex">\(z_{new}\)</span> with strength <span class="arithmatex">\(w_{new}\)</span></li>
+<li>Propagates to associated particles <span class="arithmatex">\(z_i\)</span> (where <span class="arithmatex">\(a_i = k(z_{new}, z_i) &gt; \varepsilon\)</span>)</li>
+<li>Strength of propagation: <span class="arithmatex">\(\lambda \cdot a_i \cdot w_{new}\)</span></li>
+</ul>
 <hr />
 <h3 id="why-this-differs-from-standard-gp">Why This Differs from Standard GP<a class="headerlink" href="#why-this-differs-from-standard-gp" title="Permanent link">&para;</a></h3>
 <p><strong>Standard GP:</strong> Each data point contributes independently</p>
@@ -3550,20 +3578,26 @@
 <p>where <span class="arithmatex">\(\alpha_i\)</span> depends only on observation <span class="arithmatex">\(y_i\)</span> and regularization.</p>
 <p><strong>GRL with experience association:</strong> Data points influence each other's weights</p>
 <div class="arithmatex">\[w_i^{(t+1)} = w_i^{(t)} + \lambda \sum_{j: \text{new}} a_{ij} w_j^{\text{new}}\]</div>
-<p><strong>This is a form of:</strong>
-- <strong>Soft credit assignment</strong> (not just local TD error)
-- <strong>Geometric belief propagation</strong> (through kernel metric)
-- <strong>Non-local update</strong> (affects multiple particles simultaneously)</p>
+<p><strong>This is a form of:</strong></p>
+<ul>
+<li><strong>Soft credit assignment</strong> (not just local TD error)</li>
+<li><strong>Geometric belief propagation</strong> (through kernel metric)</li>
+<li><strong>Non-local update</strong> (affects multiple particles simultaneously)</li>
+</ul>
 <hr />
 <h3 id="connection-to-kernel-based-message-passing">Connection to Kernel-Based Message Passing<a class="headerlink" href="#connection-to-kernel-based-message-passing" title="Permanent link">&para;</a></h3>
-<p><strong>This is similar to:</strong>
-- Kernel mean embedding updates
-- Belief propagation in continuous spaces
-- Kernel density estimation with adaptive weights</p>
-<p><strong>But GRL's version is unique because:</strong>
-- Weights can be positive or negative (not just probabilities)
-- Propagation is kernel-weighted (not uniform or discrete)
-- Updates are compositional (new evidence builds on old)</p>
+<p><strong>This is similar to:</strong></p>
+<ul>
+<li>Kernel mean embedding updates</li>
+<li>Belief propagation in continuous spaces</li>
+<li>Kernel density estimation with adaptive weights</li>
+</ul>
+<p><strong>But GRL's version is unique because:</strong></p>
+<ul>
+<li>Weights can be positive or negative (not just probabilities)</li>
+<li>Propagation is kernel-weighted (not uniform or discrete)</li>
+<li>Updates are compositional (new evidence builds on old)</li>
+</ul>
 <hr />
 <h2 id="7-reconciling-with-quantum-mechanics">7. Reconciling with Quantum Mechanics<a class="headerlink" href="#7-reconciling-with-quantum-mechanics" title="Permanent link">&para;</a></h2>
 <h3 id="the-qm-analogy-precisely-stated">The QM Analogy, Precisely Stated<a class="headerlink" href="#the-qm-analogy-precisely-stated" title="Permanent link">&para;</a></h3>
@@ -3665,14 +3699,18 @@
 </span></code></pre></div>
 <hr />
 <h3 id="for-efficiency">For Efficiency<a class="headerlink" href="#for-efficiency" title="Permanent link">&para;</a></h3>
-<p><strong>Between MemoryUpdate:</strong>
-- Cache kernel evaluations
-- Precompute Gram matrix if needed
-- Use sparse representations for large particle sets</p>
-<p><strong>During MemoryUpdate:</strong>
-- Only update associated particles (threshold <span class="arithmatex">\(\varepsilon\)</span>)
-- Merge periodically, not every step
-- Use KD-trees for fast nearest-neighbor finding</p>
+<p><strong>Between MemoryUpdate:</strong></p>
+<ul>
+<li>Cache kernel evaluations</li>
+<li>Precompute Gram matrix if needed</li>
+<li>Use sparse representations for large particle sets</li>
+</ul>
+<p><strong>During MemoryUpdate:</strong></p>
+<ul>
+<li>Only update associated particles (threshold <span class="arithmatex">\(\varepsilon\)</span>)</li>
+<li>Merge periodically, not every step</li>
+<li>Use KD-trees for fast nearest-neighbor finding</li>
+</ul>
 <hr />
 <h3 id="for-interpretation">For Interpretation<a class="headerlink" href="#for-interpretation" title="Permanent link">&para;</a></h3>
 <p><strong>Visualize belief evolution:</strong></p>
@@ -3696,8 +3734,12 @@
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <h3 id="key-concepts">Key Concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>The Agent's State</strong></li>
-<li>State = reinforcement field <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span></li>
+<li>
+<p><strong>The Agent's State</strong></p>
+</li>
+<li>
+<p>State = reinforcement field <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span></p>
+</li>
 <li>Equivalently: particle memory <span class="arithmatex">\(\Omega = \{(z_i, w_i)\}\)</span></li>
 <li>
 <p>Complete representation: particles determine field</p>
@@ -3705,7 +3747,9 @@
 <li>
 <p><strong>Three Operations</strong></p>
 </li>
-<li><strong>Fix state:</strong> Specify current belief (Operation A)</li>
+<li>
+<p><strong>Fix state:</strong> Specify current belief (Operation A)</p>
+</li>
 <li><strong>Query state:</strong> Compute projections/evaluations (Operation B)</li>
 <li>
 <p><strong>Evolve state:</strong> MemoryUpdate (Operation C)</p>
@@ -3713,14 +3757,18 @@
 <li>
 <p><strong>Two Time Scales</strong></p>
 </li>
-<li><strong>Slow:</strong> Learning via MemoryUpdate (<span class="arithmatex">\(Q^+_t \to Q^+_{t+1}\)</span>)</li>
+<li>
+<p><strong>Slow:</strong> Learning via MemoryUpdate (<span class="arithmatex">\(Q^+_t \to Q^+_{t+1}\)</span>)</p>
+</li>
 <li>
 <p><strong>Fast:</strong> Inference via queries (<span class="arithmatex">\(Q^+_t(s, a)\)</span>, fixed <span class="arithmatex">\(Q^+_t\)</span>)</p>
 </li>
 <li>
 <p><strong>Weights Are Implicit</strong></p>
 </li>
-<li>Not learned parameters</li>
+<li>
+<p>Not learned parameters</p>
+</li>
 <li>GP-derived coefficients</li>
 <li>
 <p>State variables, not optimization variables</p>
@@ -3728,7 +3776,9 @@
 <li>
 <p><strong>MemoryUpdate as Operator</strong></p>
 </li>
-<li>Belief state transition: <span class="arithmatex">\(\mathcal{U}: Q^+_t \mapsto Q^+_{t+1}\)</span></li>
+<li>
+<p>Belief state transition: <span class="arithmatex">\(\mathcal{U}: Q^+_t \mapsto Q^+_{t+1}\)</span></p>
+</li>
 <li>Includes: instantiation, association, consolidation</li>
 <li>
 <p>Experience association = weight propagation</p>
@@ -3736,7 +3786,9 @@
 <li>
 <p><strong>QM Parallel</strong></p>
 </li>
-<li>Same structure: state vector in Hilbert space</li>
+<li>
+<p>Same structure: state vector in Hilbert space</p>
+</li>
 <li>Evolution via operators</li>
 <li>Fixed between update/measurement events</li>
 </ol>
@@ -3752,20 +3804,26 @@
 <div class="arithmatex">\[w_i^{(t+1)} = w_i^{(t)} + \lambda \cdot k(z_{new}, z_i) \cdot w_{new}\]</div>
 <hr />
 <h3 id="what-this-clarifies">What This Clarifies<a class="headerlink" href="#what-this-clarifies" title="Permanent link">&para;</a></h3>
-<p><strong>For theory:</strong>
-- Rigorous definition of "the state"
-- Clean separation of learning and inference
-- Well-defined belief evolution operator
-- Precise QM parallel</p>
-<p><strong>For implementation:</strong>
-- What to store (particles)
-- What to compute (queries)
-- When to update (MemoryUpdate events)
-- How to optimize (caching, sparse ops)</p>
-<p><strong>For Part II (Section V):</strong>
-- Concept activation operates on fixed <span class="arithmatex">\(Q^+\)</span>
-- Concept evolution tracks <span class="arithmatex">\(A_k(t)\)</span> over MemoryUpdate events
-- Clean distinction between concept inference and concept learning</p>
+<p><strong>For theory:</strong></p>
+<ul>
+<li>Rigorous definition of "the state"</li>
+<li>Clean separation of learning and inference</li>
+<li>Well-defined belief evolution operator</li>
+<li>Precise QM parallel</li>
+</ul>
+<p><strong>For implementation:</strong></p>
+<ul>
+<li>What to store (particles)</li>
+<li>What to compute (queries)</li>
+<li>When to update (MemoryUpdate events)</li>
+<li>How to optimize (caching, sparse ops)</li>
+</ul>
+<p><strong>For Part II (Section V):</strong></p>
+<ul>
+<li>Concept activation operates on fixed <span class="arithmatex">\(Q^+\)</span></li>
+<li>Concept evolution tracks <span class="arithmatex">\(A_k(t)\)</span> over MemoryUpdate events</li>
+<li>Clean distinction between concept inference and concept learning</li>
+</ul>
 <hr />
 <h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
 <h3 id="within-this-series">Within This Series<a class="headerlink" href="#within-this-series" title="Permanent link">&para;</a></h3>
@@ -3780,15 +3838,21 @@
 <li><strong><a href="../../tutorials/06-memory-update/">Tutorial Chapter 6</a>:</strong> MemoryUpdate Algorithm</li>
 </ul>
 <h3 id="related-literature">Related Literature<a class="headerlink" href="#related-literature" title="Permanent link">&para;</a></h3>
-<p><strong>Gaussian Processes:</strong>
-- Rasmussen &amp; Williams (2006). <em>Gaussian Processes for Machine Learning</em>. MIT Press.
-- Qui &amp; Candela (2005). "Sparse Gaussian Processes using Pseudo-inputs." <em>NIPS</em>.</p>
-<p><strong>Belief-State RL:</strong>
-- Kaelbling et al. (1998). "Planning and Acting in Partially Observable Stochastic Domains."
-- Ross et al. (2008). "Online Planning Algorithms for POMDPs."</p>
-<p><strong>Kernel Methods:</strong>
-- Schölkopf &amp; Smola (2002). <em>Learning with Kernels</em>. MIT Press.
-- Berlinet &amp; Thomas-Agnan (2004). <em>Reproducing Kernel Hilbert Spaces in Probability and Statistics</em>.</p>
+<p><strong>Gaussian Processes:</strong></p>
+<ul>
+<li>Rasmussen &amp; Williams (2006). <em>Gaussian Processes for Machine Learning</em>. MIT Press.</li>
+<li>Qui &amp; Candela (2005). "Sparse Gaussian Processes using Pseudo-inputs." <em>NIPS</em>.</li>
+</ul>
+<p><strong>Belief-State RL:</strong></p>
+<ul>
+<li>Kaelbling et al. (1998). "Planning and Acting in Partially Observable Stochastic Domains."</li>
+<li>Ross et al. (2008). "Online Planning Algorithms for POMDPs."</li>
+</ul>
+<p><strong>Kernel Methods:</strong></p>
+<ul>
+<li>Schölkopf &amp; Smola (2002). <em>Learning with Kernels</em>. MIT Press.</li>
+<li>Berlinet &amp; Thomas-Agnan (2004). <em>Reproducing Kernel Hilbert Spaces in Probability and Statistics</em>.</li>
+</ul>
 <hr />
 <p><strong>Last Updated:</strong> January 14, 2026</p>
 

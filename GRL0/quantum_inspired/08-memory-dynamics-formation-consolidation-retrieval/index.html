@@ -3360,10 +3360,12 @@
 <li><strong>MemoryUpdate</strong> is the belief evolution operator</li>
 </ul>
 <p>In <a href="../07-learning-the-field-beyond-gp/">Chapter 7</a>, we explored <strong>how to learn</strong> the field (GP, ridge, online SGD, sparse, deep nets, MoE).</p>
-<p>Now we address <strong>memory dynamics over time:</strong>
-1. <strong>Formation:</strong> How is new experience written to memory?
-2. <strong>Consolidation:</strong> What should be retained vs. forgotten?
-3. <strong>Retrieval:</strong> How is memory accessed for decision-making?</p>
+<p>Now we address <strong>memory dynamics over time:</strong></p>
+<ol>
+<li><strong>Formation:</strong> How is new experience written to memory?</li>
+<li><strong>Consolidation:</strong> What should be retained vs. forgotten?</li>
+<li><strong>Retrieval:</strong> How is memory accessed for decision-making?</li>
+</ol>
 <p><strong>Why this matters:</strong> Current RL and LLM agents suffer from:</p>
 <ul>
 <li><strong>Drift:</strong> Long-term memory contaminated by transient information</li>
@@ -3419,10 +3421,12 @@
 - Physical laws
 - Task constraints
 - Safety rules</p>
-<p><strong>In GRL:</strong> 
-- High-persistence anchor particles
-- Hard constraints in kernel (ignore irrelevant dimensions)
-- Repeller regions in action field</p>
+<p><strong>In GRL:</strong> </p>
+<ul>
+<li>High-persistence anchor particles</li>
+<li>Hard constraints in kernel (ignore irrelevant dimensions)</li>
+<li>Repeller regions in action field</li>
+</ul>
 <p><strong>Example:</strong> "Never use Tool X with PII" → persistent negative weight in action subspace.</p>
 <hr />
 <p><strong>Experiential Memory (What Happened + How It Felt)</strong></p>
@@ -3430,11 +3434,13 @@
 - <span class="arithmatex">\((s, a, r)\)</span> transitions
 - Success/failure outcomes
 - Temporal context</p>
-<p><strong>In GRL:</strong>
-- This is native particle memory
-- Particles = experience evidence
-- Weights = fitness/energy
-- Kernel overlap = generalization</p>
+<p><strong>In GRL:</strong></p>
+<ul>
+<li>This is native particle memory</li>
+<li>Particles = experience evidence</li>
+<li>Weights = fitness/energy</li>
+<li>Kernel overlap = generalization</li>
+</ul>
 <hr />
 <p><strong>Working Memory (Task-Local, Short-Horizon)</strong></p>
 <p><strong>What:</strong> Temporary context for current decision
@@ -3523,37 +3529,45 @@
 <h3 id="the-hard-threshold-problem">The Hard Threshold Problem<a class="headerlink" href="#the-hard-threshold-problem" title="Permanent link">&para;</a></h3>
 <p><strong>Original GRL (Algorithm 1):</strong></p>
 <p>Associate particles if <span class="arithmatex">\(k(z_i, z_j) &gt; \tau\)</span></p>
-<p><strong>Problems:</strong>
-- <span class="arithmatex">\(\tau\)</span> is a <strong>hard hyperparameter</strong> (not learned)
-- Brittle: sensitive to <span class="arithmatex">\(\tau\)</span> choice
-- Doesn't adapt to local density</p>
+<p><strong>Problems:</strong></p>
+<ul>
+<li><span class="arithmatex">\(\tau\)</span> is a <strong>hard hyperparameter</strong> (not learned)</li>
+<li>Brittle: sensitive to <span class="arithmatex">\(\tau\)</span> choice</li>
+<li>Doesn't adapt to local density</li>
+</ul>
 <p><strong>We need something better!</strong></p>
 <hr />
 <h3 id="alternative-1-soft-association-no-threshold">Alternative 1: Soft Association (No Threshold)<a class="headerlink" href="#alternative-1-soft-association-no-threshold" title="Permanent link">&para;</a></h3>
 <p><strong>Replace hard threshold with soft weights:</strong></p>
 <div class="arithmatex">\[\alpha_{ij} = \frac{\exp(\gamma \, k(z_i, z_j))}{\sum_{j'} \exp(\gamma \, k(z_i, z_{j'}))}\]</div>
-<p><strong>Properties:</strong>
-- No <span class="arithmatex">\(\tau\)</span>!
-- Smooth: differentiable
-- Temperature <span class="arithmatex">\(\gamma\)</span> controls spread (learnable)</p>
+<p><strong>Properties:</strong></p>
+<ul>
+<li>No <span class="arithmatex">\(\tau\)</span>!</li>
+<li>Smooth: differentiable</li>
+<li>Temperature <span class="arithmatex">\(\gamma\)</span> controls spread (learnable)</li>
+</ul>
 <p><strong>Effect:</strong> Soft neighborhood graph, not binary adjacency.</p>
 <hr />
 <h3 id="alternative-2-adaptive-threshold-top-k-neighbors">Alternative 2: Adaptive Threshold (Top-k Neighbors)<a class="headerlink" href="#alternative-2-adaptive-threshold-top-k-neighbors" title="Permanent link">&para;</a></h3>
 <p><strong>Per-particle threshold:</strong></p>
 <div class="arithmatex">\[\tau_i = \text{quantile}_q \{k(z_i, z_j)\}_{j \neq i}\]</div>
 <p><strong>Choose <span class="arithmatex">\(\tau_i\)</span> so each particle has <span class="arithmatex">\(\approx k\)</span> neighbors.</strong></p>
-<p><strong>Properties:</strong>
-- Self-normalizing across regions
-- Dense regions: higher <span class="arithmatex">\(\tau_i\)</span>
-- Sparse regions: lower <span class="arithmatex">\(\tau_i\)</span></p>
+<p><strong>Properties:</strong></p>
+<ul>
+<li>Self-normalizing across regions</li>
+<li>Dense regions: higher <span class="arithmatex">\(\tau_i\)</span></li>
+<li>Sparse regions: lower <span class="arithmatex">\(\tau_i\)</span></li>
+</ul>
 <p><strong>Very "memory-like":</strong> Association density adapts to local structure.</p>
 <hr />
 <h3 id="alternative-3-information-theoretic-consolidation-mdl">Alternative 3: Information-Theoretic Consolidation (MDL)<a class="headerlink" href="#alternative-3-information-theoretic-consolidation-mdl" title="Permanent link">&para;</a></h3>
 <p><strong>Objective:</strong> Minimize description length</p>
 <div class="arithmatex">\[\min_{\Omega'} \underbrace{\text{TD-error}(Q^+(\Omega'))}_{\text{accuracy}} + \lambda |\Omega'|\]</div>
-<p><strong>Interpretation:</strong> 
-- Keep particles that reduce prediction error
-- Prune particles that don't contribute</p>
+<p><strong>Interpretation:</strong> </p>
+<ul>
+<li>Keep particles that reduce prediction error</li>
+<li>Prune particles that don't contribute</li>
+</ul>
 <p><strong>Merge criterion:</strong> Merge <span class="arithmatex">\((z_i, w_i)\)</span> and <span class="arithmatex">\((z_j, w_j)\)</span> if it reduces objective.</p>
 <hr />
 <h4 id="practical-implementation">Practical Implementation<a class="headerlink" href="#practical-implementation" title="Permanent link">&para;</a></h4>
@@ -3580,15 +3594,19 @@
 <hr />
 <h3 id="alternative-4-surprise-gated-consolidation">Alternative 4: Surprise-Gated Consolidation<a class="headerlink" href="#alternative-4-surprise-gated-consolidation" title="Permanent link">&para;</a></h3>
 <p><strong>Idea:</strong> How human memory consolidates</p>
-<p><strong>Rule:</strong>
-- <strong>High prediction error</strong> → store distinctly (don't merge)
-- <strong>Low prediction error</strong> → consolidate (merge with neighbors)</p>
+<p><strong>Rule:</strong></p>
+<ul>
+<li><strong>High prediction error</strong> → store distinctly (don't merge)</li>
+<li><strong>Low prediction error</strong> → consolidate (merge with neighbors)</li>
+</ul>
 <p><strong>Formally:</strong></p>
 <div class="arithmatex">\[\text{merge-probability}(i, j) \propto k(z_i, z_j) \cdot \exp(-\beta \cdot \text{TD-error}_i)\]</div>
-<p><strong>Properties:</strong>
-- Surprising experiences preserved (for learning)
-- Predictable experiences compressed (save space)
-- <span class="arithmatex">\(\beta\)</span> controls sensitivity (learnable)</p>
+<p><strong>Properties:</strong></p>
+<ul>
+<li>Surprising experiences preserved (for learning)</li>
+<li>Predictable experiences compressed (save space)</li>
+<li><span class="arithmatex">\(\beta\)</span> controls sensitivity (learnable)</li>
+</ul>
 <hr />
 <h3 id="alternative-5-nonparametric-clustering-dp-mixtures">Alternative 5: Nonparametric Clustering (DP Mixtures)<a class="headerlink" href="#alternative-5-nonparametric-clustering-dp-mixtures" title="Permanent link">&para;</a></h3>
 <p><strong>Treat consolidation as clustering:</strong></p>
@@ -3598,10 +3616,12 @@
 <li>But allows growth when needed</li>
 </ul>
 <p><strong>Association = cluster assignment</strong></p>
-<p><strong>Properties:</strong>
-- No fixed <span class="arithmatex">\(k\)</span> (clusters)
-- Automatic complexity control
-- Bayesian: uncertainty-aware</p>
+<p><strong>Properties:</strong></p>
+<ul>
+<li>No fixed <span class="arithmatex">\(k\)</span> (clusters)</li>
+<li>Automatic complexity control</li>
+<li>Bayesian: uncertainty-aware</li>
+</ul>
 <p><strong>For GRL:</strong> Each cluster is a "concept" (see Chapter 5!).</p>
 <hr />
 <h3 id="consolidation-summary">Consolidation Summary<a class="headerlink" href="#consolidation-summary" title="Permanent link">&para;</a></h3>
@@ -3677,10 +3697,12 @@
 <p><strong>Mode 4: Neighborhood Retrieval</strong></p>
 <p><strong>Find particles similar to <span class="arithmatex">\(z\)</span>:</strong></p>
 <div class="arithmatex">\[\mathcal{N}(z) = \{i : k(z_i, z) &gt; \epsilon\}\]</div>
-<p><strong>Use:</strong>
-- Explain prediction (which particles contributed?)
-- Case-based reasoning
-- Memory inspection/debugging</p>
+<p><strong>Use:</strong></p>
+<ul>
+<li>Explain prediction (which particles contributed?)</li>
+<li>Case-based reasoning</li>
+<li>Memory inspection/debugging</li>
+</ul>
 <hr />
 <h3 id="retrieval-abstraction-levels">Retrieval Abstraction Levels<a class="headerlink" href="#retrieval-abstraction-levels" title="Permanent link">&para;</a></h3>
 <p><strong>GRL supports multi-scale retrieval:</strong></p>
@@ -3819,10 +3841,12 @@
 <hr />
 <h2 id="8-addressing-agent-drift">8. Addressing Agent Drift<a class="headerlink" href="#8-addressing-agent-drift" title="Permanent link">&para;</a></h2>
 <h3 id="the-drift-problem">The Drift Problem<a class="headerlink" href="#the-drift-problem" title="Permanent link">&para;</a></h3>
-<p><strong>Current LLM agents:</strong>
-- Long-term memory contaminated by transient context
-- Constraints forgotten after few steps
-- Mistakes repeated (no consolidation)</p>
+<p><strong>Current LLM agents:</strong></p>
+<ul>
+<li>Long-term memory contaminated by transient context</li>
+<li>Constraints forgotten after few steps</li>
+<li>Mistakes repeated (no consolidation)</li>
+</ul>
 <p><strong>Root cause:</strong> No separation between working/long-term memory.</p>
 <hr />
 <h3 id="grl-solution">GRL Solution<a class="headerlink" href="#grl-solution" title="Permanent link">&para;</a></h3>
@@ -3854,18 +3878,24 @@
 <hr />
 <h2 id="9-connection-to-biological-memory">9. Connection to Biological Memory<a class="headerlink" href="#9-connection-to-biological-memory" title="Permanent link">&para;</a></h2>
 <h3 id="human-memory-stages">Human Memory Stages<a class="headerlink" href="#human-memory-stages" title="Permanent link">&para;</a></h3>
-<p><strong>Short-term (working) memory:</strong>
-- Capacity: <span class="arithmatex">\(\sim\)</span>7 items
-- Duration: seconds to minutes
-- Function: active task context</p>
-<p><strong>Long-term memory:</strong>
-- Capacity: unlimited
-- Duration: lifetime
-- Function: knowledge, skills, episodes</p>
-<p><strong>Consolidation:</strong>
-- Sleep-dependent
-- Surprise-modulated (emotional salience)
-- Semantic compression (gist extraction)</p>
+<p><strong>Short-term (working) memory:</strong></p>
+<ul>
+<li>Capacity: <span class="arithmatex">\(\sim\)</span>7 items</li>
+<li>Duration: seconds to minutes</li>
+<li>Function: active task context</li>
+</ul>
+<p><strong>Long-term memory:</strong></p>
+<ul>
+<li>Capacity: unlimited</li>
+<li>Duration: lifetime</li>
+<li>Function: knowledge, skills, episodes</li>
+</ul>
+<p><strong>Consolidation:</strong></p>
+<ul>
+<li>Sleep-dependent</li>
+<li>Surprise-modulated (emotional salience)</li>
+<li>Semantic compression (gist extraction)</li>
+</ul>
 <hr />
 <h3 id="grl-parallels">GRL Parallels<a class="headerlink" href="#grl-parallels" title="Permanent link">&para;</a></h3>
 <table>
@@ -3928,8 +3958,12 @@
 <h3 id="for-research-extensions">For Research Extensions<a class="headerlink" href="#for-research-extensions" title="Permanent link">&para;</a></h3>
 <p><strong>Explore:</strong></p>
 <ol>
-<li><strong>Meta-learning consolidation criteria</strong></li>
-<li><strong>Amplitude-based memory</strong> (complex weights for phase)</li>
+<li>
+<p><strong>Meta-learning consolidation criteria</strong></p>
+</li>
+<li>
+<p><strong>Amplitude-based memory</strong> (complex weights for phase)</p>
+</li>
 <li><strong>Hierarchical consolidation</strong> (concepts at multiple scales)</li>
 </ol>
 <hr />
@@ -3981,14 +4015,18 @@
 <li><strong>Surprise-gating</strong>: Psychologically plausible</li>
 </ul>
 <p><strong>Retention Strategy:</strong></p>
-<p><strong>What to Retain:</strong>
-- High surprise (large TD-error) — valuable for learning
-- High novelty (far from existing particles) — new information
-- Factual constraints (tagged) — critical knowledge</p>
-<p><strong>What to Forget (merge/prune):</strong>
-- Low surprise (predictable) — redundant information
-- Redundant (close to neighbors) — can be compressed
-- Working memory (after episode) — task-specific, temporary</p>
+<p><strong>What to Retain:</strong></p>
+<ul>
+<li>High surprise (large TD-error) — valuable for learning</li>
+<li>High novelty (far from existing particles) — new information</li>
+<li>Factual constraints (tagged) — critical knowledge</li>
+</ul>
+<p><strong>What to Forget (merge/prune):</strong></p>
+<ul>
+<li>Low surprise (predictable) — redundant information</li>
+<li>Redundant (close to neighbors) — can be compressed</li>
+<li>Working memory (after episode) — task-specific, temporary</li>
+</ul>
 <p><strong>Implementation:</strong> MDL consolidation or surprise-gated formation provide principled, data-driven criteria rather than fixed hyperparameters.</p>
 <hr />
 <h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
@@ -4004,16 +4042,26 @@
 <li><strong><a href="../../tutorials/06-memory-update/">Tutorial 6</a>:</strong> MemoryUpdate Algorithm</li>
 </ul>
 <h3 id="related-literature">Related Literature<a class="headerlink" href="#related-literature" title="Permanent link">&para;</a></h3>
-<p><strong>Agent Memory:</strong>
-- Cao et al. (2024). "Memory in the Age of AI Agents." arXiv:2512.13564.</p>
-<p><strong>Memory Consolidation:</strong>
-- McClelland et al. (1995). "Why There Are Complementary Learning Systems."</p>
-<p><strong>Information-Theoretic Learning:</strong>
-- Rissanen (1978). "Modeling by Shortest Data Description." <em>Automatica</em>.</p>
-<p><strong>Surprise-Modulated Memory:</strong>
-- Schultz &amp; Dickinson (2000). "Neuronal Coding of Prediction Errors." <em>Ann. Rev. Neurosci.</em></p>
-<p><strong>Nonparametric Clustering:</strong>
-- Rasmussen (1999). "The Infinite Gaussian Mixture Model." <em>NIPS</em>.</p>
+<p><strong>Agent Memory:</strong></p>
+<ul>
+<li>Cao et al. (2024). "Memory in the Age of AI Agents." arXiv:2512.13564.</li>
+</ul>
+<p><strong>Memory Consolidation:</strong></p>
+<ul>
+<li>McClelland et al. (1995). "Why There Are Complementary Learning Systems."</li>
+</ul>
+<p><strong>Information-Theoretic Learning:</strong></p>
+<ul>
+<li>Rissanen (1978). "Modeling by Shortest Data Description." <em>Automatica</em>.</li>
+</ul>
+<p><strong>Surprise-Modulated Memory:</strong></p>
+<ul>
+<li>Schultz &amp; Dickinson (2000). "Neuronal Coding of Prediction Errors." <em>Ann. Rev. Neurosci.</em></li>
+</ul>
+<p><strong>Nonparametric Clustering:</strong></p>
+<ul>
+<li>Rasmussen (1999). "The Infinite Gaussian Mixture Model." <em>NIPS</em>.</li>
+</ul>
 <hr />
 <p><strong>Last Updated:</strong> January 14, 2026</p>
 

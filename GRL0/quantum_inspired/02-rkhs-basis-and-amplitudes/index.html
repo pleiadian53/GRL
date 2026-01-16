@@ -3291,18 +3291,22 @@ and the unnormalized inference logic from energy-based models.</strong></p>
 <h3 id="option-1-born-rule-on-kernel-amplitudes">Option 1: Born Rule on Kernel Amplitudes<a class="headerlink" href="#option-1-born-rule-on-kernel-amplitudes" title="Permanent link">&para;</a></h3>
 <div class="arithmatex">\[p(z) = \frac{|Q^+(z)|^2}{\int_{\mathcal{Z}} |Q^+(z')|^2 dz'}\]</div>
 <p><strong>This works!</strong> Born machines use this approach.</p>
-<p><strong>For GRL:</strong>
-- Pro: Direct QM analogy
-- Con: Requires computing the normalization integral
-- Con: Real-valued amplitudes don't give interference effects</p>
+<p><strong>For GRL:</strong></p>
+<ul>
+<li>Pro: Direct QM analogy</li>
+<li>Con: Requires computing the normalization integral</li>
+<li>Con: Real-valued amplitudes don't give interference effects</li>
+</ul>
 <hr />
 <h3 id="option-2-boltzmann-distribution-what-grl-uses">Option 2: Boltzmann Distribution (What GRL Uses)<a class="headerlink" href="#option-2-boltzmann-distribution-what-grl-uses" title="Permanent link">&para;</a></h3>
 <div class="arithmatex">\[\pi(\theta | s) = \frac{\exp(\beta Q^+(s, \theta))}{\int_{\Theta} \exp(\beta Q^+(s, \theta')) d\theta'}\]</div>
 <p><strong>This is what GRL implicitly uses for policy!</strong></p>
-<p><strong>Advantages:</strong>
-- Standard in RL (Boltzmann exploration)
-- Temperature parameter <span class="arithmatex">\(\beta\)</span> controls exploration
-- No need to compute normalization explicitly (ratio trick)</p>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Standard in RL (Boltzmann exploration)</li>
+<li>Temperature parameter <span class="arithmatex">\(\beta\)</span> controls exploration</li>
+<li>No need to compute normalization explicitly (ratio trick)</li>
+</ul>
 <hr />
 <h3 id="option-3-complex-valued-rkhs-advanced">Option 3: Complex-Valued RKHS (Advanced)<a class="headerlink" href="#option-3-complex-valued-rkhs-advanced" title="Permanent link">&para;</a></h3>
 <p>If you extend RKHS to <strong>complex values</strong>, you get:</p>
@@ -3347,8 +3351,12 @@ and the unnormalized inference logic from energy-based models.</strong></p>
 <h3 id="conceptual-clarity">Conceptual Clarity<a class="headerlink" href="#conceptual-clarity" title="Permanent link">&para;</a></h3>
 <p>Understanding that GRL works with <strong>unnormalized amplitudes</strong> (like EBMs) rather than <strong>normalized probabilities</strong> (like QM):</p>
 <ol>
-<li><strong>Explains why no partition function is needed</strong></li>
-<li><strong>Justifies the QM analogy</strong> (geometry) without <strong>overcommitting</strong> (Born rule)</li>
+<li>
+<p><strong>Explains why no partition function is needed</strong></p>
+</li>
+<li>
+<p><strong>Justifies the QM analogy</strong> (geometry) without <strong>overcommitting</strong> (Born rule)</p>
+</li>
 <li><strong>Positions GRL correctly</strong> in the modern ML landscape (alongside EBMs, score-based models)</li>
 </ol>
 <hr />
@@ -3361,20 +3369,28 @@ and the unnormalized inference logic from energy-based models.</strong></p>
 <p>Both are natural extensions explored in later chapters!</p>
 <hr />
 <h3 id="practical-implications">Practical Implications<a class="headerlink" href="#practical-implications" title="Permanent link">&para;</a></h3>
-<p><strong>For implementation:</strong>
-- No need to compute partition functions
-- Use relative values for action selection
-- Policy normalization handled implicitly</p>
-<p><strong>For theory:</strong>
-- Clean mathematical framework
-- Rigorous Hilbert space structure
-- Flexible enough for future probability extensions</p>
+<p><strong>For implementation:</strong></p>
+<ul>
+<li>No need to compute partition functions</li>
+<li>Use relative values for action selection</li>
+<li>Policy normalization handled implicitly</li>
+</ul>
+<p><strong>For theory:</strong></p>
+<ul>
+<li>Clean mathematical framework</li>
+<li>Rigorous Hilbert space structure</li>
+<li>Flexible enough for future probability extensions</li>
+</ul>
 <hr />
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <h3 id="key-insights">Key Insights<a class="headerlink" href="#key-insights" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>RKHS Basis:</strong></li>
-<li>Kernel sections <span class="arithmatex">\(\{k(z, \cdot)\}\)</span> form a continuous frame</li>
+<li>
+<p><strong>RKHS Basis:</strong></p>
+</li>
+<li>
+<p>Kernel sections <span class="arithmatex">\(\{k(z, \cdot)\}\)</span> form a continuous frame</p>
+</li>
 <li>Choosing <span class="arithmatex">\(z\)</span> selects one frame element, like choosing <span class="arithmatex">\(x\)</span> selects <span class="arithmatex">\(|x\rangle\)</span> in QM</li>
 <li>
 <p>The state <span class="arithmatex">\(Q^+\)</span> exists independently; <span class="arithmatex">\(Q^+(z)\)</span> is its projection onto <span class="arithmatex">\(k(z, \cdot)\)</span></p>
@@ -3382,7 +3398,9 @@ and the unnormalized inference logic from energy-based models.</strong></p>
 <li>
 <p><strong>Kernel Amplitudes:</strong></p>
 </li>
-<li><span class="arithmatex">\(Q^+(z)\)</span> acts like a wavefunction (coordinate representation)</li>
+<li>
+<p><span class="arithmatex">\(Q^+(z)\)</span> acts like a wavefunction (coordinate representation)</p>
+</li>
 <li>But GRL doesn't require normalization (unlike QM)</li>
 <li>
 <p>Similar to EBMs working with unnormalized energies</p>
@@ -3390,7 +3408,9 @@ and the unnormalized inference logic from energy-based models.</strong></p>
 <li>
 <p><strong>Three Interpretations:</strong></p>
 </li>
-<li>Abstract: <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span> (Hilbert space state)</li>
+<li>
+<p>Abstract: <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span> (Hilbert space state)</p>
+</li>
 <li>Coordinate: <span class="arithmatex">\(Q^+(z)\)</span> (amplitude field)</li>
 <li>
 <p>Inference: <span class="arithmatex">\(-Q^+(z)\)</span> (energy score)</p>
@@ -3398,7 +3418,9 @@ and the unnormalized inference logic from energy-based models.</strong></p>
 <li>
 <p><strong>Why No Normalization:</strong></p>
 </li>
-<li>Decision-making uses relative values</li>
+<li>
+<p>Decision-making uses relative values</p>
+</li>
 <li>Partition function cancels in ratios</li>
 <li>
 <p>Same principle as modern EBMs</p>
@@ -3406,7 +3428,9 @@ and the unnormalized inference logic from energy-based models.</strong></p>
 <li>
 <p><strong>Could Define Probabilities:</strong></p>
 </li>
-<li>Born rule: <span class="arithmatex">\(p(z) \propto |Q^+(z)|^2\)</span> (possible, not required)</li>
+<li>
+<p>Born rule: <span class="arithmatex">\(p(z) \propto |Q^+(z)|^2\)</span> (possible, not required)</p>
+</li>
 <li>Boltzmann: <span class="arithmatex">\(\pi(\theta|s) \propto \exp(\beta Q^+(s,\theta))\)</span> (what GRL uses)</li>
 <li>Complex RKHS: <span class="arithmatex">\(p(z) = |\psi(z)|^2\)</span> with interference (future extension)</li>
 </ol>

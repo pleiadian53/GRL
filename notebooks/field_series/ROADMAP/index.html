@@ -2538,43 +2538,53 @@
 <strong>Time</strong>: ~10-15 minutes</p>
 <h3 id="notebook-1-classical-vector-fields">Notebook 1: Classical Vector Fields<a class="headerlink" href="#notebook-1-classical-vector-fields" title="Permanent link">&para;</a></h3>
 <p><strong>Status</strong>: Complete<br />
-<strong>Topics</strong>: 
-- Vector field definition and visualization
-- Gradient fields (connection to optimization)
-- Rotational fields and curl
-- Superposition of fields
-- Trajectories following gradients</p>
+<strong>Topics</strong>: </p>
+<ul>
+<li>Vector field definition and visualization</li>
+<li>Gradient fields (connection to optimization)</li>
+<li>Rotational fields and curl</li>
+<li>Superposition of fields</li>
+<li>Trajectories following gradients</li>
+</ul>
 <p><strong>Time</strong>: ~20-25 minutes</p>
 <h3 id="notebook-1a-vector-fields-and-odes">Notebook 1a: Vector Fields and ODEs<a class="headerlink" href="#notebook-1a-vector-fields-and-odes" title="Permanent link">&para;</a></h3>
 <p><strong>Status</strong>: Complete<br />
-<strong>Topics</strong>:
-- ODEs as following vector fields (<span class="arithmatex">\(\dot{x} = F(x)\)</span>)
-- Numerical solvers (Euler, RK4)
-- Phase portraits and fixed points
-- Gradient flow (optimization as ODE)
-- Connection to flow matching (genai-lab)</p>
+<strong>Topics</strong>:</p>
+<ul>
+<li>ODEs as following vector fields (<span class="arithmatex">\(\dot{x} = F(x)\)</span>)</li>
+<li>Numerical solvers (Euler, RK4)</li>
+<li>Phase portraits and fixed points</li>
+<li>Gradient flow (optimization as ODE)</li>
+<li>Connection to flow matching (genai-lab)</li>
+</ul>
 <p><strong>Time</strong>: ~25-30 minutes</p>
 <h3 id="notebook-2-functional-fields">Notebook 2: Functional Fields<a class="headerlink" href="#notebook-2-functional-fields" title="Permanent link">&para;</a></h3>
 <p><strong>Status</strong>: Complete<br />
-<strong>Topics</strong>:
-- Functions as infinite-dimensional vectors
-- Kernel functions and similarity
-- RKHS intuition
-- Functional gradients
-- Superposition in function space</p>
+<strong>Topics</strong>:</p>
+<ul>
+<li>Functions as infinite-dimensional vectors</li>
+<li>Kernel functions and similarity</li>
+<li>RKHS intuition</li>
+<li>Functional gradients</li>
+<li>Superposition in function space</li>
+</ul>
 <p><strong>Time</strong>: ~20-25 minutes</p>
 <h3 id="notebook-3-reinforcement-fields">Notebook 3: Reinforcement Fields<a class="headerlink" href="#notebook-3-reinforcement-fields" title="Permanent link">&para;</a></h3>
 <p><strong>Status</strong>: Complete<br />
-<strong>Topics</strong>:
-- Augmented state-action space: <span class="arithmatex">\(z = (s, \theta)\)</span>
-- Particle memory: <span class="arithmatex">\(\{(z_i, w_i)\}\)</span>
-- Field emergence: <span class="arithmatex">\(Q^+(z) = \sum_i w_i k(z, z_i)\)</span>
-- <strong>Basic policy inference</strong>: <span class="arithmatex">\(\theta^* = \arg\max_\theta Q^+(s, \theta)\)</span> (discrete search)
-- Obstacles via negative particles</p>
+<strong>Topics</strong>:</p>
+<ul>
+<li>Augmented state-action space: <span class="arithmatex">\(z = (s, \theta)\)</span></li>
+<li>Particle memory: <span class="arithmatex">\(\{(z_i, w_i)\}\)</span></li>
+<li>Field emergence: <span class="arithmatex">\(Q^+(z) = \sum_i w_i k(z, z_i)\)</span></li>
+<li><strong>Basic policy inference</strong>: <span class="arithmatex">\(\theta^* = \arg\max_\theta Q^+(s, \theta)\)</span> (discrete search)</li>
+<li>Obstacles via negative particles</li>
+</ul>
 <p><strong>Time</strong>: ~30 minutes</p>
-<p><strong>Supplementary</strong>:
-- <code>03a_particle_coverage_effects.ipynb</code> — Visual proof of particle coverage effects
-- <code>particle_vs_gradient_fields.md</code> — Theory comparison</p>
+<p><strong>Supplementary</strong>:</p>
+<ul>
+<li><code>03a_particle_coverage_effects.ipynb</code> — Visual proof of particle coverage effects</li>
+<li><code>particle_vs_gradient_fields.md</code> — Theory comparison</li>
+</ul>
 <hr />
 <h2 id="in-progress-planned-learning-algorithms">🚧 In Progress / Planned: Learning Algorithms<a class="headerlink" href="#in-progress-planned-learning-algorithms" title="Permanent link">&para;</a></h2>
 <h3 id="notebook-4-policy-inference-planned">Notebook 4: Policy Inference (Planned)<a class="headerlink" href="#notebook-4-policy-inference-planned" title="Permanent link">&para;</a></h3>
@@ -2610,10 +2620,12 @@
 <li>Multi-modal action distributions</li>
 <li>Local vs. global optima</li>
 </ol>
-<p><strong>Visualizations</strong>:
-- Polar plots of action landscapes at different temperatures
-- Comparison: greedy vs. Boltzmann sampling
-- Interactive sliders for temperature <span class="arithmatex">\(\beta\)</span></p>
+<p><strong>Visualizations</strong>:</p>
+<ul>
+<li>Polar plots of action landscapes at different temperatures</li>
+<li>Comparison: greedy vs. Boltzmann sampling</li>
+<li>Interactive sliders for temperature <span class="arithmatex">\(\beta\)</span></li>
+</ul>
 <p><strong>Time Estimate</strong>: ~25-30 minutes</p>
 <p><strong>Prerequisites</strong>: Notebook 3</p>
 <hr />
@@ -2621,8 +2633,12 @@
 <p><strong>Goal</strong>: Understand how the field evolves as the agent learns</p>
 <p><strong>Topics to Cover</strong>:</p>
 <ol>
-<li><strong>Single Particle Addition</strong></li>
-<li>New experience: <span class="arithmatex">\((s, a, r)\)</span></li>
+<li>
+<p><strong>Single Particle Addition</strong></p>
+</li>
+<li>
+<p>New experience: <span class="arithmatex">\((s, a, r)\)</span></p>
+</li>
 <li>Creating particle: <span class="arithmatex">\((z_{new}, w_{new})\)</span> where <span class="arithmatex">\(z_{new} = (s, a)\)</span></li>
 <li>
 <p>Weight assignment: <span class="arithmatex">\(w_{new} = f(r, \gamma, ...)\)</span></p>
@@ -2630,7 +2646,9 @@
 <li>
 <p><strong>Field Evolution</strong></p>
 </li>
-<li>Before/after comparison</li>
+<li>
+<p>Before/after comparison</p>
+</li>
 <li>Difference map: <span class="arithmatex">\(\Delta Q^+ = Q^+_{after} - Q^+_{before}\)</span></li>
 <li>"Ripple" effect from new particle</li>
 <li>
@@ -2639,7 +2657,9 @@
 <li>
 <p><strong>MemoryUpdate Algorithm</strong></p>
 </li>
-<li>Pseudocode walkthrough</li>
+<li>
+<p>Pseudocode walkthrough</p>
+</li>
 <li>When to add positive vs. negative particles</li>
 <li>
 <p>Memory management (capacity limits)</p>
@@ -2647,15 +2667,19 @@
 <li>
 <p><strong>Interactive Demonstration</strong></p>
 </li>
-<li>Click to add particles</li>
+<li>
+<p>Click to add particles</p>
+</li>
 <li>See field update in real-time</li>
 <li>Observe policy changes</li>
 </ol>
-<p><strong>Visualizations</strong>:
-- Side-by-side: Q⁺ before/after adding particle
-- Heatmap of <span class="arithmatex">\(\Delta Q^+\)</span>
-- Animated field evolution over multiple updates
-- Policy vector field changes</p>
+<p><strong>Visualizations</strong>:</p>
+<ul>
+<li>Side-by-side: Q⁺ before/after adding particle</li>
+<li>Heatmap of <span class="arithmatex">\(\Delta Q^+\)</span></li>
+<li>Animated field evolution over multiple updates</li>
+<li>Policy vector field changes</li>
+</ul>
 <p><strong>Code Examples</strong>:
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">add_particle</span><span class="p">(</span><span class="n">particles</span><span class="p">,</span> <span class="n">z_new</span><span class="p">,</span> <span class="n">w_new</span><span class="p">):</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a new particle to memory.&quot;&quot;&quot;</span>
@@ -2675,15 +2699,21 @@
 <p><strong>Goal</strong>: Implement and understand the full GRL learning algorithm</p>
 <p><strong>Topics to Cover</strong>:</p>
 <ol>
-<li><strong>SARSA Recap</strong></li>
-<li>Classical SARSA: <span class="arithmatex">\(Q(s,a) \leftarrow Q(s,a) + \alpha[r + \gamma Q(s',a') - Q(s,a)]\)</span></li>
+<li>
+<p><strong>SARSA Recap</strong></p>
+</li>
+<li>
+<p>Classical SARSA: <span class="arithmatex">\(Q(s,a) \leftarrow Q(s,a) + \alpha[r + \gamma Q(s',a') - Q(s,a)]\)</span></p>
+</li>
 <li>
 <p>TD error and bootstrapping</p>
 </li>
 <li>
 <p><strong>RF-SARSA Adaptation</strong></p>
 </li>
-<li>No explicit Q-table — field represents Q-function</li>
+<li>
+<p>No explicit Q-table — field represents Q-function</p>
+</li>
 <li>TD error in RKHS: <span class="arithmatex">\(\delta = r + \gamma Q^+(s', a') - Q^+(s, a)\)</span></li>
 <li>
 <p>Particle weight from TD error: <span class="arithmatex">\(w_{new} = \alpha \delta\)</span></p>
@@ -2691,29 +2721,35 @@
 <li>
 <p><strong>Algorithm Walkthrough</strong></p>
 </li>
-<li>Initialize: empty particle memory</li>
-<li>Episode loop:<ul>
+<li>
+<p>Initialize: empty particle memory</p>
+</li>
+<li>
+<p>Episode loop:</p>
+<ul>
 <li>Select action via policy (Boltzmann or greedy)</li>
 <li>Execute, observe <span class="arithmatex">\((s', r)\)</span></li>
 <li>Compute TD error</li>
 <li>Add particle if <span class="arithmatex">\(|\delta| &gt; \epsilon\)</span></li>
+<li>Field emerges from accumulated particles</li>
 </ul>
-</li>
-<li>
-<p>Field emerges from accumulated particles</p>
 </li>
 <li>
 <p><strong>Convergence and Stability</strong></p>
 </li>
-<li>When does the field stabilize?</li>
+<li>
+<p>When does the field stabilize?</p>
+</li>
 <li>Memory growth over time</li>
 <li>Particle pruning strategies</li>
 </ol>
-<p><strong>Visualizations</strong>:
-- Episode-by-episode field evolution (animated)
-- TD error over time
-- Number of particles vs. episodes
-- Final learned policy vs. optimal policy</p>
+<p><strong>Visualizations</strong>:</p>
+<ul>
+<li>Episode-by-episode field evolution (animated)</li>
+<li>TD error over time</li>
+<li>Number of particles vs. episodes</li>
+<li>Final learned policy vs. optimal policy</li>
+</ul>
 <p><strong>Code Examples</strong>:
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">rf_sarsa_episode</span><span class="p">(</span><span class="n">env</span><span class="p">,</span> <span class="n">particles</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">):</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run one episode of RF-SARSA.&quot;&quot;&quot;</span>
@@ -2740,18 +2776,24 @@
 </span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>
 </span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>    <span class="k">return</span> <span class="n">particles</span>
 </span></code></pre></div></p>
-<p><strong>Experiments</strong>:
-- 2D navigation (from Notebook 3)
-- Gridworld
-- Mountain car (continuous actions)</p>
+<p><strong>Experiments</strong>:</p>
+<ul>
+<li>2D navigation (from Notebook 3)</li>
+<li>Gridworld</li>
+<li>Mountain car (continuous actions)</li>
+</ul>
 <p><strong>Time Estimate</strong>: ~40-45 minutes</p>
 <p><strong>Prerequisites</strong>: Notebooks 3, 4, 5</p>
 <hr />
 <h2 id="future-topics-beyond-core-series">🔮 Future Topics (Beyond Core Series)<a class="headerlink" href="#future-topics-beyond-core-series" title="Permanent link">&para;</a></h2>
 <h3 id="advanced-topics-potential-notebooks-7">Advanced Topics (Potential Notebooks 7+)<a class="headerlink" href="#advanced-topics-potential-notebooks-7" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>Kernel Design and Selection</strong></li>
-<li>RBF vs. other kernels</li>
+<li>
+<p><strong>Kernel Design and Selection</strong></p>
+</li>
+<li>
+<p>RBF vs. other kernels</p>
+</li>
 <li>Adaptive lengthscales</li>
 <li>
 <p>State-action factorization</p>
@@ -2759,7 +2801,9 @@
 <li>
 <p><strong>Scalability and Approximations</strong></p>
 </li>
-<li>Particle pruning</li>
+<li>
+<p>Particle pruning</p>
+</li>
 <li>Sparse approximations</li>
 <li>
 <p>Nyström methods</p>
@@ -2767,7 +2811,9 @@
 <li>
 <p><strong>Multi-Task and Transfer Learning</strong></p>
 </li>
-<li>Shared particle memories</li>
+<li>
+<p>Shared particle memories</p>
+</li>
 <li>Task-specific fields</li>
 <li>
 <p>Meta-learning</p>
@@ -2775,7 +2821,9 @@
 <li>
 <p><strong>Theoretical Foundations</strong></p>
 </li>
-<li>Convergence proofs</li>
+<li>
+<p>Convergence proofs</p>
+</li>
 <li>Sample complexity</li>
 <li>
 <p>Relationship to kernel-based RL</p>
@@ -2783,29 +2831,37 @@
 <li>
 <p><strong>Comparison with Other Methods</strong></p>
 </li>
-<li>GRL vs. DQN</li>
+<li>
+<p>GRL vs. DQN</p>
+</li>
 <li>GRL vs. SAC</li>
 <li>GRL vs. PPO</li>
 <li>When to use GRL?</li>
 </ol>
 <hr />
 <h2 id="development-principles">Development Principles<a class="headerlink" href="#development-principles" title="Permanent link">&para;</a></h2>
-<p><strong>Systematic Progression</strong>:
-1. ✅ Build intuition (Notebooks 0-3)
-2. 🚧 Understand components (Notebooks 4-5)
-3. 🔮 Implement algorithms (Notebook 6)
-4. 🔮 Explore advanced topics (Notebooks 7+)</p>
-<p><strong>Each Notebook Should</strong>:
-- Build on previous concepts
-- Include professional visualizations
-- Provide working code examples
-- Connect theory to practice
-- Take 20-45 minutes to complete</p>
-<p><strong>Pedagogical Goals</strong>:
-- Visual &gt; Mathematical (when possible)
-- Interactive &gt; Static (when useful)
-- Synthetic &gt; Real (for clarity, then real for validation)
-- Incremental &gt; Comprehensive (build up systematically)</p>
+<p><strong>Systematic Progression</strong>:</p>
+<ol>
+<li>✅ Build intuition (Notebooks 0-3)</li>
+<li>🚧 Understand components (Notebooks 4-5)</li>
+<li>🔮 Implement algorithms (Notebook 6)</li>
+<li>🔮 Explore advanced topics (Notebooks 7+)</li>
+</ol>
+<p><strong>Each Notebook Should</strong>:</p>
+<ul>
+<li>Build on previous concepts</li>
+<li>Include professional visualizations</li>
+<li>Provide working code examples</li>
+<li>Connect theory to practice</li>
+<li>Take 20-45 minutes to complete</li>
+</ul>
+<p><strong>Pedagogical Goals</strong>:</p>
+<ul>
+<li>Visual &gt; Mathematical (when possible)</li>
+<li>Interactive &gt; Static (when useful)</li>
+<li>Synthetic &gt; Real (for clarity, then real for validation)</li>
+<li>Incremental &gt; Comprehensive (build up systematically)</li>
+</ul>
 <hr />
 <h2 id="timeline-and-priorities">Timeline and Priorities<a class="headerlink" href="#timeline-and-priorities" title="Permanent link">&para;</a></h2>
 <h3 id="high-priority-core-understanding">High Priority (Core Understanding)<a class="headerlink" href="#high-priority-core-understanding" title="Permanent link">&para;</a></h3>
@@ -2828,13 +2884,17 @@
 </ul>
 <hr />
 <h2 id="related-resources">Related Resources<a class="headerlink" href="#related-resources" title="Permanent link">&para;</a></h2>
-<p><strong>Within GRL Project</strong>:
-- Tutorial series: <code>docs/GRL0/tutorials/</code>
-- Theory documents: <code>docs/theory/</code>
-- Implementation: <code>src/</code> (when available)</p>
-<p><strong>External Projects</strong>:
-- <a href="https://github.com/pleiadian53/genai-lab">genai-lab</a> — Flow matching, diffusion models
-- Original GRL paper: <a href="https://arxiv.org/abs/2208.04822">arXiv:2208.04822</a></p>
+<p><strong>Within GRL Project</strong>:</p>
+<ul>
+<li>Tutorial series: <code>docs/GRL0/tutorials/</code></li>
+<li>Theory documents: <code>docs/theory/</code></li>
+<li>Implementation: <code>src/</code> (when available)</li>
+</ul>
+<p><strong>External Projects</strong>:</p>
+<ul>
+<li><a href="https://github.com/pleiadian53/genai-lab">genai-lab</a> — Flow matching, diffusion models</li>
+<li>Original GRL paper: <a href="https://arxiv.org/abs/2208.04822">arXiv:2208.04822</a></li>
+</ul>
 <hr />
 <p><strong>Last Updated</strong>: January 15, 2026</p>
 <p><strong>Status</strong>: Foundation complete (Notebooks 0-3), planning next phase (Notebooks 4-6)</p>

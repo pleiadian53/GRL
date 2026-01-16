@@ -3919,9 +3919,15 @@ $<span class="arithmatex">\(s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cd
 <p><strong>Strategic Goal</strong>: Demonstrate that GRL <strong>subsumes</strong> classical RL, including modern applications like:</p>
 <ul>
 <li><strong>RLHF for LLMs</strong> (Reinforcement Learning from Human Feedback)</li>
-<li><strong>PPO/SAC for continuous control</strong></li>
-<li><strong>DQN for discrete actions</strong></li>
-<li><strong>Actor-critic methods</strong></li>
+<li>
+<p><strong>PPO/SAC for continuous control</strong></p>
+</li>
+<li>
+<p><strong>DQN for discrete actions</strong></p>
+</li>
+<li>
+<p><strong>Actor-critic methods</strong></p>
+</li>
 </ul>
 <p>This positions GRL not as "another RL algorithm" but as a <strong>unifying framework</strong> that recovers existing methods as special cases while enabling new capabilities.</p>
 <hr />
@@ -4071,8 +4077,12 @@ $<span class="arithmatex">\(s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cd
 <p><strong>Purpose</strong>: Show step-by-step how classical RL algorithms emerge from GRL as special cases</p>
 <p><strong>Contents</strong>:</p>
 <ol>
-<li><strong>Q-learning from GRL</strong></li>
-<li>Discrete action space as fixed parametric mapping</li>
+<li>
+<p><strong>Q-learning from GRL</strong></p>
+</li>
+<li>
+<p>Discrete action space as fixed parametric mapping</p>
+</li>
 <li>Particle memory as replay buffer</li>
 <li>
 <p>TD update as special case of MemoryUpdate</p>
@@ -4080,7 +4090,9 @@ $<span class="arithmatex">\(s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cd
 <li>
 <p><strong>DQN from GRL</strong></p>
 </li>
-<li>Neural network Q-function as continuous approximation of particle field</li>
+<li>
+<p>Neural network Q-function as continuous approximation of particle field</p>
+</li>
 <li>Experience replay as particle subsampling</li>
 <li>
 <p>Target networks as delayed MemoryUpdate</p>
@@ -4088,7 +4100,9 @@ $<span class="arithmatex">\(s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cd
 <li>
 <p><strong>Policy Gradient (REINFORCE) from GRL</strong></p>
 </li>
-<li>Boltzmann policy from energy landscape</li>
+<li>
+<p>Boltzmann policy from energy landscape</p>
+</li>
 <li>Score function gradient as field gradient</li>
 <li>
 <p>Baseline as energy normalization</p>
@@ -4096,7 +4110,9 @@ $<span class="arithmatex">\(s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cd
 <li>
 <p><strong>Actor-Critic (PPO, SAC) from GRL</strong></p>
 </li>
-<li>Actor = policy inference from field</li>
+<li>
+<p>Actor = policy inference from field</p>
+</li>
 <li>Critic = reinforcement field itself</li>
 <li>
 <p>Entropy regularization as temperature parameter</p>
@@ -4104,7 +4120,9 @@ $<span class="arithmatex">\(s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cd
 <li>
 <p><strong>RLHF for LLMs from GRL</strong></p>
 </li>
-<li>Token selection as discrete action</li>
+<li>
+<p>Token selection as discrete action</p>
+</li>
 <li>Reward model as energy function</li>
 <li>PPO update as special case of RF-SARSA</li>
 </ol>
@@ -4207,8 +4225,12 @@ $<span class="arithmatex">\(s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cd
 </span></code></pre></div>
 <p><strong>Key Design Principle</strong>: </p>
 <ul>
-<li><strong>Wrappers</strong> allow GRL to be applied to <strong>any existing RL environment</strong></li>
-<li><strong>Native environments</strong> showcase GRL's unique capabilities</li>
+<li>
+<p><strong>Wrappers</strong> allow GRL to be applied to <strong>any existing RL environment</strong></p>
+</li>
+<li>
+<p><strong>Native environments</strong> showcase GRL's unique capabilities</p>
+</li>
 <li><strong>Scenarios</strong> provide reproducible experiments</li>
 </ul>
 <hr />
@@ -4373,8 +4395,12 @@ $<span class="arithmatex">\(s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cd
 <p><strong>Priority Order</strong>:</p>
 <ol>
 <li>Part I foundations (Priorities 1-6)</li>
-<li>2D Navigation validation (Priority 7) ⭐⭐ <strong>Critical milestone</strong></li>
-<li>Part II extensions (Priorities 8-11)</li>
+<li>
+<p>2D Navigation validation (Priority 7) ⭐⭐ <strong>Critical milestone</strong></p>
+</li>
+<li>
+<p>Part II extensions (Priorities 8-11)</p>
+</li>
 <li>Additional environments and experiments</li>
 </ol>
 <p><strong>Target</strong>: Complete 2D navigation demo by <strong>March 2026</strong></p>

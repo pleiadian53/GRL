@@ -3056,10 +3056,12 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Novel Contributions:</strong>
-- <strong>Amplitude-based RL:</strong> Complex-valued value functions with phase semantics
-- <strong>MDL consolidation:</strong> Information-theoretic memory management
-- <strong>Concept-based MoE:</strong> Hierarchical RL via subspace projections</p>
+<p><strong>Novel Contributions:</strong></p>
+<ul>
+<li><strong>Amplitude-based RL:</strong> Complex-valued value functions with phase semantics</li>
+<li><strong>MDL consolidation:</strong> Information-theoretic memory management</li>
+<li><strong>Concept-based MoE:</strong> Hierarchical RL via subspace projections</li>
+</ul>
 <hr />
 <h2 id="key-innovations">🔑 Key Innovations<a class="headerlink" href="#key-innovations" title="Permanent link">&para;</a></h2>
 <table>
@@ -3105,11 +3107,13 @@
 </table>
 <h3 id="grl-as-a-unifying-framework">GRL as a Unifying Framework<a class="headerlink" href="#grl-as-a-unifying-framework" title="Permanent link">&para;</a></h3>
 <p><strong>Key Insight</strong>: Traditional RL algorithms (Q-learning, DQN, PPO, SAC, <strong>RLHF for LLMs</strong>) are <strong>special cases</strong> of GRL!</p>
-<p>When you:
-- <strong>Discretize actions</strong> → GRL recovers Q-learning
-- <strong>Use neural networks</strong> → GRL recovers DQN
-- <strong>Apply Boltzmann policies</strong> → GRL recovers REINFORCE/Actor-Critic
-- <strong>Fine-tune LLMs</strong> → GRL generalizes RLHF</p>
+<p>When you:</p>
+<ul>
+<li><strong>Discretize actions</strong> → GRL recovers Q-learning</li>
+<li><strong>Use neural networks</strong> → GRL recovers DQN</li>
+<li><strong>Apply Boltzmann policies</strong> → GRL recovers REINFORCE/Actor-Critic</li>
+<li><strong>Fine-tune LLMs</strong> → GRL generalizes RLHF</li>
+</ul>
 <p><strong><a href="GRL0/recovering_classical_rl/">See: Recovering Classical RL from GRL →</a></strong></p>
 <h3 id="why-grl">Why GRL?<a class="headerlink" href="#why-grl" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3191,17 +3195,21 @@ arXiv:2208.04822 (2022) — 37 pages, 15 figures</p>
 <hr />
 <h3 id="tutorial-papers-this-repository">Tutorial Papers (This Repository)<a class="headerlink" href="#tutorial-papers-this-repository" title="Permanent link">&para;</a></h3>
 <p><strong>Reinforcement Fields Framework</strong> — Enhanced exposition with modern formalization</p>
-<p><strong>Part I: Particle-Based Learning</strong>
-- Functional fields over augmented state-action space
-- Particle memory as belief state in RKHS
-- MemoryUpdate and RF-SARSA algorithms
-- Emergent soft state transitions, POMDP interpretation</p>
+<p><strong>Part I: Particle-Based Learning</strong></p>
+<ul>
+<li>Functional fields over augmented state-action space</li>
+<li>Particle memory as belief state in RKHS</li>
+<li>MemoryUpdate and RF-SARSA algorithms</li>
+<li>Emergent soft state transitions, POMDP interpretation</li>
+</ul>
 <p><strong>Status:</strong> 🔄 Tutorial in progress (6/10 chapters complete)</p>
-<p><strong>Part II: Emergent Structure &amp; Spectral Abstraction</strong>
-- Functional clustering (clustering functions, not points)
-- Spectral methods on kernel matrices
-- Concepts as coherent subspaces of the reinforcement field
-- Hierarchical policy organization</p>
+<p><strong>Part II: Emergent Structure &amp; Spectral Abstraction</strong></p>
+<ul>
+<li>Functional clustering (clustering functions, not points)</li>
+<li>Spectral methods on kernel matrices</li>
+<li>Concepts as coherent subspaces of the reinforcement field</li>
+<li>Hierarchical policy organization</li>
+</ul>
 <p><strong>Status:</strong> 📋 Planned (after Part I)</p>
 <hr />
 <h3 id="planned-extensions">Planned Extensions<a class="headerlink" href="#planned-extensions" title="Permanent link">&para;</a></h3>
@@ -3253,10 +3261,12 @@ arXiv:2208.04822 (2022) — 37 pages, 15 figures</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Timeline:</strong>
-- <strong>Paper A:</strong> Target submission April 2026 (NeurIPS/ICML)
-- <strong>Paper B:</strong> Target submission June 2026 (ICML/NeurIPS)
-- <strong>Paper C:</strong> Target submission July 2026 (CoRL)</p>
+<p><strong>Timeline:</strong></p>
+<ul>
+<li><strong>Paper A:</strong> Target submission April 2026 (NeurIPS/ICML)</li>
+<li><strong>Paper B:</strong> Target submission June 2026 (ICML/NeurIPS)</li>
+<li><strong>Paper C:</strong> Target submission July 2026 (CoRL)</li>
+</ul>
 <p><strong>See:</strong> <a href="ROADMAP/">Research Roadmap</a> for detailed timeline and additional research directions.</p>
 <hr />
 <h2 id="how-grl-works-particle-based-learning">📊 How GRL Works: Particle-Based Learning<a class="headerlink" href="#how-grl-works-particle-based-learning" title="Permanent link">&para;</a></h2>
@@ -3357,14 +3367,18 @@ arXiv:2208.04822 (2022) — 37 pages, 15 figures</p>
 <p><strong>Original paper:</strong> <a href="https://arxiv.org/abs/2208.04822">arXiv:2208.04822</a> (Chiu &amp; Huber, 2022)</p>
 <h3 id="reinforcement-fields-this-repository">Reinforcement Fields (This Repository)<a class="headerlink" href="#reinforcement-fields-this-repository" title="Permanent link">&para;</a></h3>
 <p><strong>Two-Part Tutorial Series:</strong></p>
-<p><strong>Part I: Particle-Based Learning</strong>
-- Actions as continuous parameters in augmented state-action space
-- Particle memory as belief state, kernel-induced value functions
-- Learning through energy landscape navigation</p>
-<p><strong>Part II: Emergent Structure &amp; Spectral Abstraction</strong>
-- Concepts emerge from functional clustering in RKHS
-- Spectral methods discover hierarchical structure
-- Multi-level policy organization</p>
+<p><strong>Part I: Particle-Based Learning</strong></p>
+<ul>
+<li>Actions as continuous parameters in augmented state-action space</li>
+<li>Particle memory as belief state, kernel-induced value functions</li>
+<li>Learning through energy landscape navigation</li>
+</ul>
+<p><strong>Part II: Emergent Structure &amp; Spectral Abstraction</strong></p>
+<ul>
+<li>Concepts emerge from functional clustering in RKHS</li>
+<li>Spectral methods discover hierarchical structure</li>
+<li>Multi-level policy organization</li>
+</ul>
 <p><strong>Key Innovation</strong>: Learning emerges from particle dynamics in function space, not explicit policy optimization.</p>
 <hr />
 <h3 id="actions-as-operators-paper-a-in-development">Actions as Operators (Paper A — In Development)<a class="headerlink" href="#actions-as-operators-paper-a-in-development" title="Permanent link">&para;</a></h3>
@@ -3373,15 +3387,19 @@ arXiv:2208.04822 (2022) — 37 pages, 15 figures</p>
 <hr />
 <h2 id="acknowledgments">🙏 Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permanent link">&para;</a></h2>
 <h3 id="mathematical-foundations">Mathematical Foundations<a class="headerlink" href="#mathematical-foundations" title="Permanent link">&para;</a></h3>
-<p><strong>Core Framework:</strong>
-- Formulated in <strong>Reproducing Kernel Hilbert Spaces (RKHS)</strong> — the functional framework for particle-based belief states
-- <strong>Kernel methods</strong> define the geometry and similarity structure of augmented state-action space
-- Inspired by the <strong>least-action principle</strong> in classical mechanics</p>
-<p><strong>Quantum-Inspired Probability:</strong>
-- <strong>Probability amplitudes</strong> instead of direct probabilities — RKHS inner products as amplitude overlaps
-- <strong>Complex-valued RKHS</strong> enabling interference effects and phase semantics for temporal/contextual dynamics
-- <strong>Wave function analogy</strong> — The reinforcement field as a superposition of particle basis states
-- This formulation is <strong>novel to mainstream ML</strong> and opens new directions for probabilistic reasoning</p>
+<p><strong>Core Framework:</strong></p>
+<ul>
+<li>Formulated in <strong>Reproducing Kernel Hilbert Spaces (RKHS)</strong> — the functional framework for particle-based belief states</li>
+<li><strong>Kernel methods</strong> define the geometry and similarity structure of augmented state-action space</li>
+<li>Inspired by the <strong>least-action principle</strong> in classical mechanics</li>
+</ul>
+<p><strong>Quantum-Inspired Probability:</strong></p>
+<ul>
+<li><strong>Probability amplitudes</strong> instead of direct probabilities — RKHS inner products as amplitude overlaps</li>
+<li><strong>Complex-valued RKHS</strong> enabling interference effects and phase semantics for temporal/contextual dynamics</li>
+<li><strong>Wave function analogy</strong> — The reinforcement field as a superposition of particle basis states</li>
+<li>This formulation is <strong>novel to mainstream ML</strong> and opens new directions for probabilistic reasoning</li>
+</ul>
 <p>See: <a href="GRL0/quantum_inspired/">Quantum-Inspired Extensions</a> for technical details.</p>
 <h3 id="conceptual-connections">Conceptual Connections<a class="headerlink" href="#conceptual-connections" title="Permanent link">&para;</a></h3>
 <ul>

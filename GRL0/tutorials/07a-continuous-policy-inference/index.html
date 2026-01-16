@@ -3302,15 +3302,19 @@ $<span class="arithmatex">\(w \leftarrow w - \alpha \nabla_w [Q_w(s, \theta) - (
 <p><strong>Key difference</strong>: No primitive <span class="arithmatex">\(Q(s, a)\)</span> table! TD target computed <strong>directly</strong> from field queries.</p>
 <hr />
 <h3 id="24-algorithm-continuous-rf-sarsa">2.4 Algorithm: Continuous RF-SARSA<a class="headerlink" href="#24-algorithm-continuous-rf-sarsa" title="Permanent link">&para;</a></h3>
-<p><strong>Inputs:</strong>
-- Kernel <span class="arithmatex">\(k(\cdot, \cdot; \theta)\)</span>
-- Langevin step size <span class="arithmatex">\(\epsilon\)</span>, temperature <span class="arithmatex">\(\lambda\)</span>
-- Number of Langevin steps <span class="arithmatex">\(K_{\text{sample}}\)</span>
-- TD learning rate <span class="arithmatex">\(\alpha\)</span> (for particle weight updates)
-- Discount <span class="arithmatex">\(\gamma\)</span>, association threshold <span class="arithmatex">\(\tau\)</span></p>
-<p><strong>Initialization:</strong>
-- Particle memory <span class="arithmatex">\(\Omega \leftarrow \emptyset\)</span>
-- Kernel hyperparameters <span class="arithmatex">\(\theta\)</span> (via ARD or prior)</p>
+<p><strong>Inputs:</strong></p>
+<ul>
+<li>Kernel <span class="arithmatex">\(k(\cdot, \cdot; \theta)\)</span></li>
+<li>Langevin step size <span class="arithmatex">\(\epsilon\)</span>, temperature <span class="arithmatex">\(\lambda\)</span></li>
+<li>Number of Langevin steps <span class="arithmatex">\(K_{\text{sample}}\)</span></li>
+<li>TD learning rate <span class="arithmatex">\(\alpha\)</span> (for particle weight updates)</li>
+<li>Discount <span class="arithmatex">\(\gamma\)</span>, association threshold <span class="arithmatex">\(\tau\)</span></li>
+</ul>
+<p><strong>Initialization:</strong></p>
+<ul>
+<li>Particle memory <span class="arithmatex">\(\Omega \leftarrow \emptyset\)</span></li>
+<li>Kernel hyperparameters <span class="arithmatex">\(\theta\)</span> (via ARD or prior)</li>
+</ul>
 <p><strong>For each episode:</strong></p>
 <ol>
 <li>Observe initial state <span class="arithmatex">\(s_0\)</span></li>

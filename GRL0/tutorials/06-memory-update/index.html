@@ -3545,10 +3545,12 @@
 <h3 id="4-memory-management">4. Memory Management<a class="headerlink" href="#4-memory-management" title="Permanent link">&para;</a></h3>
 <p><strong>What:</strong> Prune, merge, or decay particles to maintain bounded complexity</p>
 <p><strong>Why:</strong> Without this, the particle set grows unboundedly and computational cost explodes.</p>
-<p><strong>How:</strong>
-- Attenuate particles with small <span class="arithmatex">\(|w_i|\)</span> (low evidence)
-- Merge particles with high mutual similarity (redundant)
-- Discard particles below relevance threshold (forgetting)</p>
+<p><strong>How:</strong></p>
+<ul>
+<li>Attenuate particles with small <span class="arithmatex">\(|w_i|\)</span> (low evidence)</li>
+<li>Merge particles with high mutual similarity (redundant)</li>
+<li>Discard particles below relevance threshold (forgetting)</li>
+</ul>
 <p><strong>Not:</strong> Simple replay buffer eviction. This is <strong>functional regularization</strong> + <strong>model selection</strong>.</p>
 <hr />
 <h2 id="algorithm-1-memoryupdate-formal-specification">Algorithm 1: MemoryUpdate (Formal Specification)<a class="headerlink" href="#algorithm-1-memoryupdate-formal-specification" title="Permanent link">&para;</a></h2>
@@ -3696,12 +3698,16 @@
 </blockquote>
 <p><strong>Not:</strong> "What is the value of <span class="arithmatex">\((s, a)\)</span>?"</p>
 <p><strong>But:</strong> "How much <strong>evidence</strong> does this experience provide?"</p>
-<p><strong>Sign matters:</strong>
-- If <span class="arithmatex">\(r_t &gt; 0\)</span>: <span class="arithmatex">\(w_{new} &gt; 0\)</span> → positive particle → <strong>attracts</strong> in field
-- If <span class="arithmatex">\(r_t &lt; 0\)</span>: <span class="arithmatex">\(w_{new} &lt; 0\)</span> → negative particle → <strong>repels</strong> in field</p>
-<p><strong>Magnitude matters:</strong>
-- Large <span class="arithmatex">\(|r_t|\)</span>: Strong influence
-- Small <span class="arithmatex">\(|r_t|\)</span>: Weak influence</p>
+<p><strong>Sign matters:</strong></p>
+<ul>
+<li>If <span class="arithmatex">\(r_t &gt; 0\)</span>: <span class="arithmatex">\(w_{new} &gt; 0\)</span> → positive particle → <strong>attracts</strong> in field</li>
+<li>If <span class="arithmatex">\(r_t &lt; 0\)</span>: <span class="arithmatex">\(w_{new} &lt; 0\)</span> → negative particle → <strong>repels</strong> in field</li>
+</ul>
+<p><strong>Magnitude matters:</strong></p>
+<ul>
+<li>Large <span class="arithmatex">\(|r_t|\)</span>: Strong influence</li>
+<li>Small <span class="arithmatex">\(|r_t|\)</span>: Weak influence</li>
+</ul>
 <hr />
 <h3 id="step-4-memory-integration">Step 4: Memory Integration<a class="headerlink" href="#step-4-memory-integration" title="Permanent link">&para;</a></h3>
 <p><strong>Plain language:</strong></p>
@@ -3738,18 +3744,24 @@
 <p>"Keep the particle set tractable and adaptive."</p>
 </blockquote>
 <p><strong>Why each sub-operation matters:</strong></p>
-<p><strong>a) Weight decay:</strong>
-- Implements <strong>forgetting</strong> (older evidence matters less)
-- Prevents weight explosion
-- Allows adaptation in non-stationary environments</p>
-<p><strong>b) Particle merging:</strong>
-- Removes <strong>redundancy</strong> (two particles in nearly the same location)
-- Maintains <strong>functional expressiveness</strong> without wasting particles
-- Natural form of <strong>model compression</strong></p>
-<p><strong>c) Particle pruning:</strong>
-- Removes <strong>low-evidence particles</strong> (noise or outliers)
-- Bounds computational cost
-- Implements <strong>Occam's razor</strong> (prefer simpler representations)</p>
+<p><strong>a) Weight decay:</strong></p>
+<ul>
+<li>Implements <strong>forgetting</strong> (older evidence matters less)</li>
+<li>Prevents weight explosion</li>
+<li>Allows adaptation in non-stationary environments</li>
+</ul>
+<p><strong>b) Particle merging:</strong></p>
+<ul>
+<li>Removes <strong>redundancy</strong> (two particles in nearly the same location)</li>
+<li>Maintains <strong>functional expressiveness</strong> without wasting particles</li>
+<li>Natural form of <strong>model compression</strong></li>
+</ul>
+<p><strong>c) Particle pruning:</strong></p>
+<ul>
+<li>Removes <strong>low-evidence particles</strong> (noise or outliers)</li>
+<li>Bounds computational cost</li>
+<li>Implements <strong>Occam's razor</strong> (prefer simpler representations)</li>
+</ul>
 <hr />
 <h2 id="worked-example-1d-navigation">Worked Example: 1D Navigation<a class="headerlink" href="#worked-example-1d-navigation" title="Permanent link">&para;</a></h2>
 <p>Let's see MemoryUpdate in action with a concrete example.</p>
@@ -3842,10 +3854,12 @@ $$w_{new} \leftarrow 0.99 \cdot 10.0 = 9.90\]</div>
 <div class="arithmatex">\[Q(s, a) \gets r + \gamma \max_{a'} Q(s', a')\]</div>
 <p>In GRL, reinforcement propagates via <strong>kernel association</strong> (Step 5):</p>
 <div class="arithmatex">\[w_i \leftarrow w_i + \lambda \cdot a_i \cdot w_{new}\]</div>
-<p><strong>Advantages:</strong>
-- <strong>Soft:</strong> Propagation strength depends on similarity <span class="arithmatex">\(a_i\)</span>
-- <strong>Global:</strong> All associated particles update simultaneously
-- <strong>Geometry-aware:</strong> Propagation respects the RKHS metric</p>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li><strong>Soft:</strong> Propagation strength depends on similarity <span class="arithmatex">\(a_i\)</span></li>
+<li><strong>Global:</strong> All associated particles update simultaneously</li>
+<li><strong>Geometry-aware:</strong> Propagation respects the RKHS metric</li>
+</ul>
 <hr />
 <h3 id="3-memoryupdate-induces-soft-state-transitions">3. MemoryUpdate Induces Soft State Transitions<a class="headerlink" href="#3-memoryupdate-induces-soft-state-transitions" title="Permanent link">&para;</a></h3>
 <p>Classical RL assumes deterministic or explicitly stochastic state transitions:</p>
@@ -3870,24 +3884,30 @@ $$w_{new} \leftarrow 0.99 \cdot 10.0 = 9.90\]</div>
 <h3 id="memoryupdate-reinforcement-field">MemoryUpdate + Reinforcement Field<a class="headerlink" href="#memoryupdate-reinforcement-field" title="Permanent link">&para;</a></h3>
 <p><strong>Chapter 4:</strong> The reinforcement field is:</p>
 <div class="arithmatex">\[Q^+(z) = \sum_i w_i k(z_i, z)\]</div>
-<p><strong>MemoryUpdate modifies:</strong>
-- Particle locations <span class="arithmatex">\(\{z_i\}\)</span> (by adding new particles)
-- Particle weights <span class="arithmatex">\(\{w_i\}\)</span> (by adjusting in response to new evidence)</p>
+<p><strong>MemoryUpdate modifies:</strong></p>
+<ul>
+<li>Particle locations <span class="arithmatex">\(\{z_i\}\)</span> (by adding new particles)</li>
+<li>Particle weights <span class="arithmatex">\(\{w_i\}\)</span> (by adjusting in response to new evidence)</li>
+</ul>
 <p><strong>Result:</strong> The field <strong>reshapes</strong> to reflect new experience—peaks form in high-value regions, valleys in low-value regions.</p>
 <hr />
 <h3 id="memoryupdate-particle-memory">MemoryUpdate + Particle Memory<a class="headerlink" href="#memoryupdate-particle-memory" title="Permanent link">&para;</a></h3>
 <p><strong>Chapter 5:</strong> Memory is a <strong>functional representation</strong> of experience.</p>
-<p><strong>MemoryUpdate implements:</strong>
-- <strong>Dynamic basis expansion:</strong> Adding new particles = adding new basis functions
-- <strong>Weight adjustment:</strong> Changing the functional prior
-- <strong>Basis compression:</strong> Merging/pruning to maintain tractability</p>
+<p><strong>MemoryUpdate implements:</strong></p>
+<ul>
+<li><strong>Dynamic basis expansion:</strong> Adding new particles = adding new basis functions</li>
+<li><strong>Weight adjustment:</strong> Changing the functional prior</li>
+<li><strong>Basis compression:</strong> Merging/pruning to maintain tractability</li>
+</ul>
 <p><strong>Result:</strong> Memory stays <strong>expressive</strong> (can represent complex fields) yet <strong>bounded</strong> (doesn't explode).</p>
 <hr />
 <h3 id="memoryupdate-rf-sarsa">MemoryUpdate + RF-SARSA<a class="headerlink" href="#memoryupdate-rf-sarsa" title="Permanent link">&para;</a></h3>
 <p><strong>Chapter 7 (next):</strong> RF-SARSA provides the <strong>reinforcement signal</strong> <span class="arithmatex">\(r_t\)</span> that enters MemoryUpdate.</p>
-<p><strong>Two-layer system:</strong>
-1. <strong>RF-SARSA (outer loop):</strong> Decides <em>what reinforcement signal</em> to send
-2. <strong>MemoryUpdate (inner loop):</strong> Reshapes the field in response</p>
+<p><strong>Two-layer system:</strong></p>
+<ol>
+<li><strong>RF-SARSA (outer loop):</strong> Decides <em>what reinforcement signal</em> to send</li>
+<li><strong>MemoryUpdate (inner loop):</strong> Reshapes the field in response</li>
+</ol>
 <p><strong>Analogy:</strong> RF-SARSA is the "teacher" providing feedback; MemoryUpdate is the "learner" updating beliefs.</p>
 <hr />
 <h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
@@ -3933,10 +3953,12 @@ $$w_{new} \leftarrow 0.99 \cdot 10.0 = 9.90\]</div>
 <li><strong>Step 6 (Regularization):</strong> <span class="arithmatex">\(O(N^2)\)</span> for merging (pairwise comparison), <span class="arithmatex">\(O(N)\)</span> for pruning</li>
 </ul>
 <p><strong>Total:</strong> <span class="arithmatex">\(O(N)\)</span> for association + adjustment, <span class="arithmatex">\(O(N^2)\)</span> for merging.</p>
-<p><strong>Optimization:</strong>
-- Use <strong>sparse association:</strong> Only update particles with <span class="arithmatex">\(a_i &gt; \varepsilon\)</span>
-- Use <strong>KD-trees</strong> or <strong>ball trees</strong> to find high-association particles quickly
-- Merge periodically (every <span class="arithmatex">\(K\)</span> steps) rather than every update</p>
+<p><strong>Optimization:</strong></p>
+<ul>
+<li>Use <strong>sparse association:</strong> Only update particles with <span class="arithmatex">\(a_i &gt; \varepsilon\)</span></li>
+<li>Use <strong>KD-trees</strong> or <strong>ball trees</strong> to find high-association particles quickly</li>
+<li>Merge periodically (every <span class="arithmatex">\(K\)</span> steps) rather than every update</li>
+</ul>
 <hr />
 <h3 id="2-hyperparameters">2. Hyperparameters<a class="headerlink" href="#2-hyperparameters" title="Permanent link">&para;</a></h3>
 <table>
@@ -3981,11 +4003,13 @@ $$w_{new} \leftarrow 0.99 \cdot 10.0 = 9.90\]</div>
 </tr>
 </tbody>
 </table>
-<p><strong>Tuning guidance:</strong>
-- Start with <span class="arithmatex">\(\sigma \approx \text{characteristic state-action distance}\)</span>
-- Use <span class="arithmatex">\(\lambda = 0.5\)</span> as default (moderate propagation)
-- Set <span class="arithmatex">\(\gamma_w = 0.99\)</span> for stationary environments, <span class="arithmatex">\(0.95\)</span> for non-stationary
-- Tune <span class="arithmatex">\(\tau_{merge}\)</span> and <span class="arithmatex">\(\tau_{prune}\)</span> based on memory budget</p>
+<p><strong>Tuning guidance:</strong></p>
+<ul>
+<li>Start with <span class="arithmatex">\(\sigma \approx \text{characteristic state-action distance}\)</span></li>
+<li>Use <span class="arithmatex">\(\lambda = 0.5\)</span> as default (moderate propagation)</li>
+<li>Set <span class="arithmatex">\(\gamma_w = 0.99\)</span> for stationary environments, <span class="arithmatex">\(0.95\)</span> for non-stationary</li>
+<li>Tune <span class="arithmatex">\(\tau_{merge}\)</span> and <span class="arithmatex">\(\tau_{prune}\)</span> based on memory budget</li>
+</ul>
 <hr />
 <h3 id="3-implementation-tips">3. Implementation Tips<a class="headerlink" href="#3-implementation-tips" title="Permanent link">&para;</a></h3>
 <p><strong>Efficient kernel computation:</strong></p>
@@ -4052,9 +4076,11 @@ $$w_{new} \leftarrow 0.99 \cdot 10.0 = 9.90\]</div>
 </span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>      |________________________
 </span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>      0    3    6    9    10   s
 </span></code></pre></div>
-<p><strong>Legend:</strong>
-- ⊕ High value region (positive particle)
-- ⊖ Low value region (negative particle)</p>
+<p><strong>Legend:</strong></p>
+<ul>
+<li>⊕ High value region (positive particle)</li>
+<li>⊖ Low value region (negative particle)</li>
+</ul>
 <hr />
 <h3 id="after-new-experience-3-particles">After New Experience (3 particles)<a class="headerlink" href="#after-new-experience-3-particles" title="Permanent link">&para;</a></h3>
 <p><strong>New experience:</strong> <span class="arithmatex">\((s=9, θ=0.8, r=+10)\)</span></p>
@@ -4071,10 +4097,12 @@ $$w_{new} \leftarrow 0.99 \cdot 10.0 = 9.90\]</div>
 </span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>      |________________________
 </span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>      0    3    6    9    10   s
 </span></code></pre></div>
-<p><strong>What changed:</strong>
-- Peak near goal <strong>strengthened</strong> (two particles now: <span class="arithmatex">\(z_1\)</span> and <span class="arithmatex">\(z_{new}\)</span>)
-- Peak <strong>widened</strong> (kernel overlap creates broader attraction)
-- Policy will strongly prefer <span class="arithmatex">\(\theta \approx 0.5\)</span>-<span class="arithmatex">\(0.8\)</span> when <span class="arithmatex">\(s \approx 8\)</span>-<span class="arithmatex">\(9\)</span></p>
+<p><strong>What changed:</strong></p>
+<ul>
+<li>Peak near goal <strong>strengthened</strong> (two particles now: <span class="arithmatex">\(z_1\)</span> and <span class="arithmatex">\(z_{new}\)</span>)</li>
+<li>Peak <strong>widened</strong> (kernel overlap creates broader attraction)</li>
+<li>Policy will strongly prefer <span class="arithmatex">\(\theta \approx 0.5\)</span>-<span class="arithmatex">\(0.8\)</span> when <span class="arithmatex">\(s \approx 8\)</span>-<span class="arithmatex">\(9\)</span></li>
+</ul>
 <hr />
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <h3 id="memoryupdate-is">MemoryUpdate Is...<a class="headerlink" href="#memoryupdate-is" title="Permanent link">&para;</a></h3>
@@ -4114,36 +4142,48 @@ $$w_{new} \leftarrow 0.99 \cdot 10.0 = 9.90\]</div>
 <hr />
 <h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>MemoryUpdate is not "just memory"</strong></li>
-<li>It's the agent's state transition operator</li>
+<li>
+<p><strong>MemoryUpdate is not "just memory"</strong></p>
+</li>
+<li>
+<p>It's the agent's state transition operator</p>
+</li>
 <li>
 <p>It simultaneously affects value, policy, and belief</p>
 </li>
 <li>
 <p><strong>Kernel association enables soft generalization</strong></p>
 </li>
-<li>Evidence spreads to geometrically similar experiences</li>
+<li>
+<p>Evidence spreads to geometrically similar experiences</p>
+</li>
 <li>
 <p>No Bellman backups needed</p>
 </li>
 <li>
 <p><strong>Particles are functional bases</strong></p>
 </li>
-<li>Adding a particle = adding a basis function to RKHS</li>
+<li>
+<p>Adding a particle = adding a basis function to RKHS</p>
+</li>
 <li>
 <p>Adjusting weights = reshaping the field</p>
 </li>
 <li>
 <p><strong>Regularization is essential</strong></p>
 </li>
-<li>Without pruning/merging, complexity explodes</li>
+<li>
+<p>Without pruning/merging, complexity explodes</p>
+</li>
 <li>
 <p>Implements forgetting and model selection</p>
 </li>
 <li>
 <p><strong>MemoryUpdate enables everything downstream</strong></p>
 </li>
-<li>Policy inference: via <span class="arithmatex">\(Q^+(s, \theta)\)</span> induced by particles</li>
+<li>
+<p>Policy inference: via <span class="arithmatex">\(Q^+(s, \theta)\)</span> induced by particles</p>
+</li>
 <li>Soft transitions: via kernel overlap</li>
 <li>POMDP: via functional belief representation</li>
 </ol>

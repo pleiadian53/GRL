@@ -3516,9 +3516,11 @@
 <p><span class="arithmatex">\(P_k Q^+\)</span> is the "shadow" of <span class="arithmatex">\(Q^+\)</span> on the concept subspace.</p>
 <hr />
 <h3 id="computational-form">Computational Form<a class="headerlink" href="#computational-form" title="Permanent link">&para;</a></h3>
-<p><strong>Given:</strong>
-- Reinforcement field: <span class="arithmatex">\(Q^+ = \sum_i w_i k(z_i, \cdot)\)</span>
-- Concept basis: <span class="arithmatex">\(\{\phi_{k,1}, \ldots, \phi_{k,m_k}\}\)</span></p>
+<p><strong>Given:</strong></p>
+<ul>
+<li>Reinforcement field: <span class="arithmatex">\(Q^+ = \sum_i w_i k(z_i, \cdot)\)</span></li>
+<li>Concept basis: <span class="arithmatex">\(\{\phi_{k,1}, \ldots, \phi_{k,m_k}\}\)</span></li>
+</ul>
 <p><strong>Compute projection:</strong></p>
 <div class="arithmatex">\[P_k Q^+ = \sum_{j=1}^{m_k} \underbrace{\left(\sum_i w_i \langle k(z_i, \cdot), \phi_{k,j} \rangle\right)}_{\text{coefficient } c_{k,j}} \phi_{k,j}\]</div>
 <p><strong>In matrix form:</strong> <span class="arithmatex">\(\mathbf{c}_k = \mathbf{K} \mathbf{w}\)</span> where:</p>
@@ -3613,17 +3615,19 @@
 <p><strong>Visual:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Full field:     ψ_s(a)
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                  ***
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>                 *****
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Concept 1:      ψ_{s,1}(a)
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>                  *
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                 ***
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>                (sharp peak)
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>Concept 2:      ψ_{s,2}(a)
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>                *****
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>               *******
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>              (broad support)
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>                 *****
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>Concept 1:      ψ_{s,1}(a)
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                  *
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>                 ***
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>                (sharp peak)
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>Concept 2:      ψ_{s,2}(a)
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>                *****
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>               *******
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>              (broad support)
 </span></code></pre></div>
 <p>Different concepts emphasize different action modes!</p>
 <hr />
@@ -3632,10 +3636,12 @@
 <p><strong>Key idea:</strong> Concepts can be hierarchical via <strong>nested subspaces</strong>.</p>
 <p><strong>Example:</strong></p>
 <div class="arithmatex">\[\mathcal{C}_1 \supset \mathcal{C}_{1,1} \supset \mathcal{C}_{1,1,1}\]</div>
-<p><strong>Interpretation:</strong>
-- <span class="arithmatex">\(\mathcal{C}_1\)</span>: "Locomotion" (coarse)
-- <span class="arithmatex">\(\mathcal{C}_{1,1}\)</span>: "Forward motion" (medium)
-- <span class="arithmatex">\(\mathcal{C}_{1,1,1}\)</span>: "Running" (fine)</p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><span class="arithmatex">\(\mathcal{C}_1\)</span>: "Locomotion" (coarse)</li>
+<li><span class="arithmatex">\(\mathcal{C}_{1,1}\)</span>: "Forward motion" (medium)</li>
+<li><span class="arithmatex">\(\mathcal{C}_{1,1,1}\)</span>: "Running" (fine)</li>
+</ul>
 <hr />
 <h3 id="hierarchical-projection">Hierarchical Projection<a class="headerlink" href="#hierarchical-projection" title="Permanent link">&para;</a></h3>
 <p><strong>Level 1 (coarse):</strong></p>
@@ -3672,10 +3678,12 @@
 </span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>P₁,₁,₁ P₁,₁,₂
 </span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a> 0.7    0.3
 </span></code></pre></div>
-<p><strong>Reading:</strong> 
-- 60% activation in concept 1
-- Within concept 1, 40% in sub-concept 1.1
-- Within 1.1, 70% in sub-sub-concept 1.1.1</p>
+<p><strong>Reading:</strong> </p>
+<ul>
+<li>60% activation in concept 1</li>
+<li>Within concept 1, 40% in sub-concept 1.1</li>
+<li>Within 1.1, 70% in sub-sub-concept 1.1.1</li>
+</ul>
 <p><strong>This is a continuous hierarchy, not a discrete tree!</strong></p>
 <hr />
 <h2 id="6-spectral-discovery-of-concepts">6. Spectral Discovery of Concepts<a class="headerlink" href="#6-spectral-discovery-of-concepts" title="Permanent link">&para;</a></h2>
@@ -3696,10 +3704,12 @@
 <h3 id="why-this-works">Why This Works<a class="headerlink" href="#why-this-works" title="Permanent link">&para;</a></h3>
 <p><strong>Intuition:</strong> Eigenvectors of the kernel matrix capture <strong>modes of variation</strong> in the augmented space.</p>
 <p><strong>Eigenvectors with similar profiles</strong> → related functional patterns → same concept.</p>
-<p><strong>Mathematical justification:</strong>
-- Kernel PCA identifies principal components
-- Clustering groups related components
-- Subspaces capture multi-dimensional concepts</p>
+<p><strong>Mathematical justification:</strong></p>
+<ul>
+<li>Kernel PCA identifies principal components</li>
+<li>Clustering groups related components</li>
+<li>Subspaces capture multi-dimensional concepts</li>
+</ul>
 <hr />
 <h3 id="adaptive-concept-discovery">Adaptive Concept Discovery<a class="headerlink" href="#adaptive-concept-discovery" title="Permanent link">&para;</a></h3>
 <p><strong>Instead of fixed <span class="arithmatex">\(C\)</span>, use adaptive methods:</strong></p>
@@ -3783,27 +3793,35 @@
 <h3 id="eigenoptions-machado-et-al-2017">Eigenoptions (Machado et al., 2017)<a class="headerlink" href="#eigenoptions-machado-et-al-2017" title="Permanent link">&para;</a></h3>
 <p><strong>Eigenoptions:</strong> Use eigenvectors of state transition graph as options (skills).</p>
 <p><strong>GRL concepts:</strong> Use eigenvectors of kernel matrix as concept subspaces.</p>
-<p><strong>Similarities:</strong>
-- Both use spectral methods
-- Both identify "natural" structures</p>
-<p><strong>Differences:</strong>
-- Eigenoptions: single eigenvector = one option (discrete)
-- GRL concepts: subspace of eigenvectors = one concept (continuous)
-- Eigenoptions: hard assignment
-- GRL concepts: soft activation</p>
+<p><strong>Similarities:</strong></p>
+<ul>
+<li>Both use spectral methods</li>
+<li>Both identify "natural" structures</li>
+</ul>
+<p><strong>Differences:</strong></p>
+<ul>
+<li>Eigenoptions: single eigenvector = one option (discrete)</li>
+<li>GRL concepts: subspace of eigenvectors = one concept (continuous)</li>
+<li>Eigenoptions: hard assignment</li>
+<li>GRL concepts: soft activation</li>
+</ul>
 <p><strong>GRL generalizes eigenoptions to continuous, compositional representations.</strong></p>
 <hr />
 <h3 id="successor-features-barreto-et-al-2017">Successor Features (Barreto et al., 2017)<a class="headerlink" href="#successor-features-barreto-et-al-2017" title="Permanent link">&para;</a></h3>
 <p><strong>Successor features:</strong> Represent value function as inner product <span class="arithmatex">\(V(s) = \langle \psi(s), w \rangle\)</span>.</p>
 <p><strong>GRL concepts:</strong> Represent field as projection <span class="arithmatex">\(Q^+ = \sum_k P_k Q^+\)</span>.</p>
-<p><strong>Similarities:</strong>
-- Both use linear combinations
-- Both enable transfer</p>
-<p><strong>Differences:</strong>
-- Successor features: fixed basis (state features)
-- GRL concepts: learned basis (eigenvectors)
-- Successor features: flat structure
-- GRL concepts: hierarchical structure</p>
+<p><strong>Similarities:</strong></p>
+<ul>
+<li>Both use linear combinations</li>
+<li>Both enable transfer</li>
+</ul>
+<p><strong>Differences:</strong></p>
+<ul>
+<li>Successor features: fixed basis (state features)</li>
+<li>GRL concepts: learned basis (eigenvectors)</li>
+<li>Successor features: flat structure</li>
+<li>GRL concepts: hierarchical structure</li>
+</ul>
 <hr />
 <h3 id="affordances-gibson-1979-khetarpal-et-al-2020">Affordances (Gibson, 1979; Khetarpal et al., 2020)<a class="headerlink" href="#affordances-gibson-1979-khetarpal-et-al-2020" title="Permanent link">&para;</a></h3>
 <p><strong>Affordance:</strong> What actions are possible in a state?</p>
@@ -3814,70 +3832,100 @@
 <hr />
 <h2 id="10-implications-for-part-ii-of-tutorial-paper">10. Implications for Part II of Tutorial Paper<a class="headerlink" href="#10-implications-for-part-ii-of-tutorial-paper" title="Permanent link">&para;</a></h2>
 <h3 id="current-status-of-section-v">Current Status of Section V<a class="headerlink" href="#current-status-of-section-v" title="Permanent link">&para;</a></h3>
-<p><strong>Original paper Section V:</strong>
-- Introduces spectral clustering idea
-- Shows empirical results
-- Demonstrates emergent concepts</p>
-<p><strong>What's missing:</strong>
-- Formal definition of concepts (beyond "clusters")
-- Operational semantics (what do you do with concepts?)
-- Connection to learning algorithms</p>
+<p><strong>Original paper Section V:</strong></p>
+<ul>
+<li>Introduces spectral clustering idea</li>
+<li>Shows empirical results</li>
+<li>Demonstrates emergent concepts</li>
+</ul>
+<p><strong>What's missing:</strong></p>
+<ul>
+<li>Formal definition of concepts (beyond "clusters")</li>
+<li>Operational semantics (what do you do with concepts?)</li>
+<li>Connection to learning algorithms</li>
+</ul>
 <hr />
 <h3 id="what-this-chapter-provides">What This Chapter Provides<a class="headerlink" href="#what-this-chapter-provides" title="Permanent link">&para;</a></h3>
-<p><strong>Formalization:</strong>
-- Concepts = subspaces <span class="arithmatex">\(\mathcal{C}_k \subset \mathcal{H}_k\)</span>
-- Activation = observable <span class="arithmatex">\(A_k = \|P_k Q^+\|^2\)</span>
-- Hierarchy = nested subspaces</p>
-<p><strong>Operations:</strong>
-- Project field onto concepts: <span class="arithmatex">\(P_k Q^+\)</span>
-- Condition policy on concepts: <span class="arithmatex">\(\pi_k(a|s)\)</span>
-- Compose concepts hierarchically</p>
-<p><strong>Algorithms:</strong>
-- Concept discovery (spectral + clustering)
-- Concept-conditioned learning
-- Hierarchical transfer</p>
+<p><strong>Formalization:</strong></p>
+<ul>
+<li>Concepts = subspaces <span class="arithmatex">\(\mathcal{C}_k \subset \mathcal{H}_k\)</span></li>
+<li>Activation = observable <span class="arithmatex">\(A_k = \|P_k Q^+\|^2\)</span></li>
+<li>Hierarchy = nested subspaces</li>
+</ul>
+<p><strong>Operations:</strong></p>
+<ul>
+<li>Project field onto concepts: <span class="arithmatex">\(P_k Q^+\)</span></li>
+<li>Condition policy on concepts: <span class="arithmatex">\(\pi_k(a|s)\)</span></li>
+<li>Compose concepts hierarchically</li>
+</ul>
+<p><strong>Algorithms:</strong></p>
+<ul>
+<li>Concept discovery (spectral + clustering)</li>
+<li>Concept-conditioned learning</li>
+<li>Hierarchical transfer</li>
+</ul>
 <hr />
 <h3 id="structure-for-extended-section-v">Structure for Extended Section V<a class="headerlink" href="#structure-for-extended-section-v" title="Permanent link">&para;</a></h3>
 <p><strong>Proposed outline:</strong></p>
-<p><strong>V-A. Motivation</strong>
-- Why functional clustering?
-- Limitations of discrete concepts</p>
-<p><strong>V-B. Concept Subspaces</strong>
-- Definition via eigenspaces
-- Projection operators
-- This chapter's formalism</p>
-<p><strong>V-C. Spectral Discovery</strong>
-- Algorithm
-- Adaptive selection
-- Stability analysis</p>
-<p><strong>V-D. Concept Dynamics</strong>
-- Activation evolution
-- Transition patterns
-- Persistence measures</p>
-<p><strong>V-E. Hierarchical Composition</strong>
-- Nested subspaces
-- Multi-level activation
-- Compositional policies</p>
-<p><strong>V-F. Empirical Results</strong>
-- Concept discovery in benchmark tasks
-- Activation curves
-- Transfer experiments</p>
-<p><strong>V-G. Connections</strong>
-- Eigenoptions, successor features, affordances
-- Relation to hierarchical RL literature</p>
+<p><strong>V-A. Motivation</strong></p>
+<ul>
+<li>Why functional clustering?</li>
+<li>Limitations of discrete concepts</li>
+</ul>
+<p><strong>V-B. Concept Subspaces</strong></p>
+<ul>
+<li>Definition via eigenspaces</li>
+<li>Projection operators</li>
+<li>This chapter's formalism</li>
+</ul>
+<p><strong>V-C. Spectral Discovery</strong></p>
+<ul>
+<li>Algorithm</li>
+<li>Adaptive selection</li>
+<li>Stability analysis</li>
+</ul>
+<p><strong>V-D. Concept Dynamics</strong></p>
+<ul>
+<li>Activation evolution</li>
+<li>Transition patterns</li>
+<li>Persistence measures</li>
+</ul>
+<p><strong>V-E. Hierarchical Composition</strong></p>
+<ul>
+<li>Nested subspaces</li>
+<li>Multi-level activation</li>
+<li>Compositional policies</li>
+</ul>
+<p><strong>V-F. Empirical Results</strong></p>
+<ul>
+<li>Concept discovery in benchmark tasks</li>
+<li>Activation curves</li>
+<li>Transfer experiments</li>
+</ul>
+<p><strong>V-G. Connections</strong></p>
+<ul>
+<li>Eigenoptions, successor features, affordances</li>
+<li>Relation to hierarchical RL literature</li>
+</ul>
 <hr />
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <h3 id="key-contributions-of-this-chapter">Key Contributions of This Chapter<a class="headerlink" href="#key-contributions-of-this-chapter" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>Concepts as Subspaces</strong></li>
-<li>Not clusters, but linear subspaces <span class="arithmatex">\(\mathcal{C}_k \subset \mathcal{H}_k\)</span></li>
+<li>
+<p><strong>Concepts as Subspaces</strong></p>
+</li>
+<li>
+<p>Not clusters, but linear subspaces <span class="arithmatex">\(\mathcal{C}_k \subset \mathcal{H}_k\)</span></p>
+</li>
 <li>
 <p>Enables smooth, compositional representations</p>
 </li>
 <li>
 <p><strong>Projection Operators</strong></p>
 </li>
-<li>Formal definition: <span class="arithmatex">\(P_k: \mathcal{H}_k \to \mathcal{C}_k\)</span></li>
+<li>
+<p>Formal definition: <span class="arithmatex">\(P_k: \mathcal{H}_k \to \mathcal{C}_k\)</span></p>
+</li>
 <li>Properties: idempotent, orthogonal, complete</li>
 <li>
 <p>Connection to QM measurement theory</p>
@@ -3885,7 +3933,9 @@
 <li>
 <p><strong>Concept Activation Observables</strong></p>
 </li>
-<li>Measure: <span class="arithmatex">\(A_k = \|P_k Q^+\|^2\)</span></li>
+<li>
+<p>Measure: <span class="arithmatex">\(A_k = \|P_k Q^+\|^2\)</span></p>
+</li>
 <li>Smooth evolution, no discrete jumps</li>
 <li>
 <p>Interpretable learning curves</p>
@@ -3893,7 +3943,9 @@
 <li>
 <p><strong>Hierarchical Composition</strong></p>
 </li>
-<li>Nested subspaces: <span class="arithmatex">\(\mathcal{C}_1 \supset \mathcal{C}_{1,1} \supset \cdots\)</span></li>
+<li>
+<p>Nested subspaces: <span class="arithmatex">\(\mathcal{C}_1 \supset \mathcal{C}_{1,1} \supset \cdots\)</span></p>
+</li>
 <li>Conditional activation at each level</li>
 <li>
 <p>Natural multi-scale representation</p>
@@ -3901,7 +3953,9 @@
 <li>
 <p><strong>Practical Algorithms</strong></p>
 </li>
-<li>Spectral discovery</li>
+<li>
+<p>Spectral discovery</p>
+</li>
 <li>Concept-conditioned policies</li>
 <li>Hierarchical action selection</li>
 <li>Transfer learning</li>
@@ -3918,19 +3972,25 @@
 <div class="arithmatex">\[A_{k,\ell|k} = \frac{\|P_{k,\ell} Q^+\|^2}{\|P_k Q^+\|^2}\]</div>
 <hr />
 <h3 id="what-this-enables">What This Enables<a class="headerlink" href="#what-this-enables" title="Permanent link">&para;</a></h3>
-<p><strong>Theoretical:</strong>
-- Rigorous concept formalism
-- Quantum measurement theory connection
-- Hierarchical composition framework</p>
-<p><strong>Practical:</strong>
-- Interpretable learning (activation curves)
-- Hierarchical policies (multi-level decisions)
-- Transfer learning (concept basis)
-- Compositional strategies (concept mixing)</p>
-<p><strong>For Part II:</strong>
-- Mathematical foundation for Section V
-- Operational algorithms
-- Clear connection to QM</p>
+<p><strong>Theoretical:</strong></p>
+<ul>
+<li>Rigorous concept formalism</li>
+<li>Quantum measurement theory connection</li>
+<li>Hierarchical composition framework</li>
+</ul>
+<p><strong>Practical:</strong></p>
+<ul>
+<li>Interpretable learning (activation curves)</li>
+<li>Hierarchical policies (multi-level decisions)</li>
+<li>Transfer learning (concept basis)</li>
+<li>Compositional strategies (concept mixing)</li>
+</ul>
+<p><strong>For Part II:</strong></p>
+<ul>
+<li>Mathematical foundation for Section V</li>
+<li>Operational algorithms</li>
+<li>Clear connection to QM</li>
+</ul>
 <hr />
 <h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
 <h3 id="within-this-series">Within This Series<a class="headerlink" href="#within-this-series" title="Permanent link">&para;</a></h3>
@@ -3946,35 +4006,51 @@
 <li><strong>Part II (planned):</strong> Emergent Structure &amp; Spectral Abstraction</li>
 </ul>
 <h3 id="related-literature">Related Literature<a class="headerlink" href="#related-literature" title="Permanent link">&para;</a></h3>
-<p><strong>Spectral Methods in RL:</strong>
-- Machado et al. (2017). "A Laplacian Framework for Option Discovery in Reinforcement Learning." <em>ICML</em>.
-- Mahadevan &amp; Maggioni (2007). "Proto-value Functions: A Laplacian Framework." <em>ICML</em>.</p>
-<p><strong>Hierarchical RL:</strong>
-- Sutton et al. (1999). "Between MDPs and semi-MDPs: A Framework for Temporal Abstraction."
-- Bacon et al. (2017). "The Option-Critic Architecture." <em>AAAI</em>.</p>
-<p><strong>Transfer Learning:</strong>
-- Barreto et al. (2017). "Successor Features for Transfer in Reinforcement Learning." <em>NIPS</em>.
-- Taylor &amp; Stone (2009). "Transfer Learning for Reinforcement Learning Domains: A Survey."</p>
-<p><strong>Quantum Measurement Theory:</strong>
-- von Neumann, J. (1932). <em>Mathematical Foundations of Quantum Mechanics</em>.
-- Peres, A. (1993). <em>Quantum Theory: Concepts and Methods</em>. Kluwer.</p>
-<p><strong>Functional Data Analysis:</strong>
-- Ramsay &amp; Silverman (2005). <em>Functional Data Analysis</em>. Springer.</p>
+<p><strong>Spectral Methods in RL:</strong></p>
+<ul>
+<li>Machado et al. (2017). "A Laplacian Framework for Option Discovery in Reinforcement Learning." <em>ICML</em>.</li>
+<li>Mahadevan &amp; Maggioni (2007). "Proto-value Functions: A Laplacian Framework." <em>ICML</em>.</li>
+</ul>
+<p><strong>Hierarchical RL:</strong></p>
+<ul>
+<li>Sutton et al. (1999). "Between MDPs and semi-MDPs: A Framework for Temporal Abstraction."</li>
+<li>Bacon et al. (2017). "The Option-Critic Architecture." <em>AAAI</em>.</li>
+</ul>
+<p><strong>Transfer Learning:</strong></p>
+<ul>
+<li>Barreto et al. (2017). "Successor Features for Transfer in Reinforcement Learning." <em>NIPS</em>.</li>
+<li>Taylor &amp; Stone (2009). "Transfer Learning for Reinforcement Learning Domains: A Survey."</li>
+</ul>
+<p><strong>Quantum Measurement Theory:</strong></p>
+<ul>
+<li>von Neumann, J. (1932). <em>Mathematical Foundations of Quantum Mechanics</em>.</li>
+<li>Peres, A. (1993). <em>Quantum Theory: Concepts and Methods</em>. Kluwer.</li>
+</ul>
+<p><strong>Functional Data Analysis:</strong></p>
+<ul>
+<li>Ramsay &amp; Silverman (2005). <em>Functional Data Analysis</em>. Springer.</li>
+</ul>
 <hr />
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<p><strong>For Research:</strong>
-1. Implement spectral concept discovery algorithm
-2. Test concept-conditioned policies on benchmarks
-3. Develop hierarchical composition framework
-4. Apply to transfer learning problems</p>
-<p><strong>For Tutorial Paper (Part II):</strong>
-1. Integrate this formalism into Section V
-2. Add concept activation visualizations
-3. Show hierarchical decomposition examples
-4. Connect to experimental results</p>
-<p><strong>For Extensions (Papers A/B/C):</strong>
-- <strong>Paper B:</strong> "Hierarchical Reinforcement Learning via Concept Subspace Projections"
-- <strong>Paper C:</strong> "Transfer Learning with Functional Concept Bases"</p>
+<p><strong>For Research:</strong></p>
+<ol>
+<li>Implement spectral concept discovery algorithm</li>
+<li>Test concept-conditioned policies on benchmarks</li>
+<li>Develop hierarchical composition framework</li>
+<li>Apply to transfer learning problems</li>
+</ol>
+<p><strong>For Tutorial Paper (Part II):</strong></p>
+<ol>
+<li>Integrate this formalism into Section V</li>
+<li>Add concept activation visualizations</li>
+<li>Show hierarchical decomposition examples</li>
+<li>Connect to experimental results</li>
+</ol>
+<p><strong>For Extensions (Papers A/B/C):</strong></p>
+<ul>
+<li><strong>Paper B:</strong> "Hierarchical Reinforcement Learning via Concept Subspace Projections"</li>
+<li><strong>Paper C:</strong> "Transfer Learning with Functional Concept Bases"</li>
+</ul>
 <hr />
 <p><strong>Last Updated:</strong> January 14, 2026</p>
 

@@ -3194,10 +3194,12 @@
 <p>The Gaussian kernel can be augmented with a phase factor:</p>
 <div class="arithmatex">\[k_{\mathbb{C}}(x, y) = \exp\left(-\frac{\|x-y\|^2}{2\sigma^2}\right) \cdot e^{i\phi(x,y)}\]</div>
 <p>where <span class="arithmatex">\(\phi(x,y)\)</span> encodes directional or temporal relationships.</p>
-<p><strong>Properties:</strong>
-- Magnitude decreases with distance (as usual)
-- Phase encodes additional structure
-- Hermitian: <span class="arithmatex">\(k_{\mathbb{C}}(x, y) = \overline{k_{\mathbb{C}}(y, x)}\)</span></p>
+<p><strong>Properties:</strong></p>
+<ul>
+<li>Magnitude decreases with distance (as usual)</li>
+<li>Phase encodes additional structure</li>
+<li>Hermitian: <span class="arithmatex">\(k_{\mathbb{C}}(x, y) = \overline{k_{\mathbb{C}}(y, x)}\)</span></li>
+</ul>
 <hr />
 <h2 id="complex-grl-the-extended-framework">Complex GRL: The Extended Framework<a class="headerlink" href="#complex-grl-the-extended-framework" title="Permanent link">&para;</a></h2>
 <h3 id="1-complex-experience-particles">1. Complex Experience Particles<a class="headerlink" href="#1-complex-experience-particles" title="Permanent link">&para;</a></h3>
@@ -3280,10 +3282,16 @@
 <p>Eigendecomposition:</p>
 <div class="arithmatex">\[K = V \Lambda V^\dagger\]</div>
 <p>where <span class="arithmatex">\(V\)</span> contains complex eigenvectors.</p>
-<p><strong>Interpretation:</strong>
-- Each eigenvector <span class="arithmatex">\(v_j\)</span> is a <strong>concept in function space</strong>
-- Magnitude <span class="arithmatex">\(|v_{ij}|\)</span> indicates particle <span class="arithmatex">\(i\)</span>'s contribution to concept <span class="arithmatex">\(j\)</span>
-- Phase <span class="arithmatex">\(\arg(v_{ij})\)</span> indicates particle <span class="arithmatex">\(i\)</span>'s phase alignment within concept <span class="arithmatex">\(j\)</span></p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li>
+<p>Each eigenvector <span class="arithmatex">\(v_j\)</span> is a <strong>concept in function space</strong></p>
+</li>
+<li>
+<p>Magnitude <span class="arithmatex">\(|v_{ij}|\)</span> indicates particle <span class="arithmatex">\(i\)</span>'s contribution to concept <span class="arithmatex">\(j\)</span></p>
+</li>
+<li>Phase <span class="arithmatex">\(\arg(v_{ij})\)</span> indicates particle <span class="arithmatex">\(i\)</span>'s phase alignment within concept <span class="arithmatex">\(j\)</span></li>
+</ul>
 <p><strong>Result:</strong> Concepts can have internal phase structure, enabling richer hierarchical organization.</p>
 <hr />
 <h2 id="implementation-sketch">Implementation Sketch<a class="headerlink" href="#implementation-sketch" title="Permanent link">&para;</a></h2>
@@ -3339,27 +3347,35 @@
 <h2 id="potential-applications">Potential Applications<a class="headerlink" href="#potential-applications" title="Permanent link">&para;</a></h2>
 <h3 id="1-temporal-credit-assignment">1. Temporal Credit Assignment<a class="headerlink" href="#1-temporal-credit-assignment" title="Permanent link">&para;</a></h3>
 <p><strong>Problem:</strong> Delayed rewards make credit assignment hard.</p>
-<p><strong>Complex GRL Solution:</strong>
-- Encode time in phase: <span class="arithmatex">\(\phi_i = \omega \cdot t_i\)</span>
-- Recent experiences interfere constructively
-- Automatic temporal discounting via phase decoherence</p>
+<p><strong>Complex GRL Solution:</strong></p>
+<ul>
+<li>Encode time in phase: <span class="arithmatex">\(\phi_i = \omega \cdot t_i\)</span></li>
+<li>Recent experiences interfere constructively</li>
+<li>Automatic temporal discounting via phase decoherence</li>
+</ul>
 <h3 id="2-multi-task-learning">2. Multi-Task Learning<a class="headerlink" href="#2-multi-task-learning" title="Permanent link">&para;</a></h3>
 <p><strong>Problem:</strong> Experiences from different tasks may conflict.</p>
-<p><strong>Complex GRL Solution:</strong>
-- Encode task ID in phase
-- Same-task experiences reinforce
-- Cross-task experiences may cancel (if interference is destructive)</p>
+<p><strong>Complex GRL Solution:</strong></p>
+<ul>
+<li>Encode task ID in phase</li>
+<li>Same-task experiences reinforce</li>
+<li>Cross-task experiences may cancel (if interference is destructive)</li>
+</ul>
 <h3 id="3-directional-value-fields">3. Directional Value Fields<a class="headerlink" href="#3-directional-value-fields" title="Permanent link">&para;</a></h3>
 <p><strong>Problem:</strong> In navigation, direction matters.</p>
-<p><strong>Complex GRL Solution:</strong>
-- Encode movement direction in phase
-- Forward-consistent trajectories reinforce
-- Conflicting directions cancel</p>
+<p><strong>Complex GRL Solution:</strong></p>
+<ul>
+<li>Encode movement direction in phase</li>
+<li>Forward-consistent trajectories reinforce</li>
+<li>Conflicting directions cancel</li>
+</ul>
 <h3 id="4-concept-discovery-with-phase-structure">4. Concept Discovery with Phase Structure<a class="headerlink" href="#4-concept-discovery-with-phase-structure" title="Permanent link">&para;</a></h3>
 <p><strong>Problem:</strong> Concepts may have temporal or contextual organization.</p>
-<p><strong>Complex GRL Solution:</strong>
-- Complex spectral clustering reveals concepts with phase structure
-- Hierarchical concepts organized by magnitude and phase</p>
+<p><strong>Complex GRL Solution:</strong></p>
+<ul>
+<li>Complex spectral clustering reveals concepts with phase structure</li>
+<li>Hierarchical concepts organized by magnitude and phase</li>
+</ul>
 <hr />
 <h2 id="challenges-and-open-questions">Challenges and Open Questions<a class="headerlink" href="#challenges-and-open-questions" title="Permanent link">&para;</a></h2>
 <h3 id="implementation-challenges">Implementation Challenges<a class="headerlink" href="#implementation-challenges" title="Permanent link">&para;</a></h3>
@@ -3455,18 +3471,26 @@
 </ul>
 <hr />
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
-<p><strong>Complex-Valued Neural Networks:</strong>
-- Trabelsi et al. (2018). Deep complex networks. <em>ICLR</em>.
-- Hirose (2012). Complex-valued neural networks: Advances and applications. <em>Wiley</em>.</p>
-<p><strong>Quantum Kernel Methods:</strong>
-- Havlíček et al. (2019). Supervised learning with quantum-enhanced feature spaces. <em>Nature</em> 567, 209-212.
-- Schuld &amp; Killoran (2019). Quantum machine learning in feature Hilbert spaces. <em>Physical Review Letters</em> 122, 040504.
-- Lloyd et al. (2020). Quantum embeddings for machine learning. <em>arXiv:2001.03622</em>.</p>
-<p><strong>RKHS Theory:</strong>
-- Steinwart &amp; Christmann (2008). <em>Support Vector Machines</em>. Springer (Chapter on complex RKHS).
-- Schölkopf &amp; Smola (2002). <em>Learning with Kernels</em>. MIT Press.</p>
-<p><strong>GRL Original Paper:</strong>
-- Chiu &amp; Huber (2022). Generalized Reinforcement Learning. <a href="https://arxiv.org/abs/2208.04822">arXiv:2208.04822</a></p>
+<p><strong>Complex-Valued Neural Networks:</strong></p>
+<ul>
+<li>Trabelsi et al. (2018). Deep complex networks. <em>ICLR</em>.</li>
+<li>Hirose (2012). Complex-valued neural networks: Advances and applications. <em>Wiley</em>.</li>
+</ul>
+<p><strong>Quantum Kernel Methods:</strong></p>
+<ul>
+<li>Havlíček et al. (2019). Supervised learning with quantum-enhanced feature spaces. <em>Nature</em> 567, 209-212.</li>
+<li>Schuld &amp; Killoran (2019). Quantum machine learning in feature Hilbert spaces. <em>Physical Review Letters</em> 122, 040504.</li>
+<li>Lloyd et al. (2020). Quantum embeddings for machine learning. <em>arXiv:2001.03622</em>.</li>
+</ul>
+<p><strong>RKHS Theory:</strong></p>
+<ul>
+<li>Steinwart &amp; Christmann (2008). <em>Support Vector Machines</em>. Springer (Chapter on complex RKHS).</li>
+<li>Schölkopf &amp; Smola (2002). <em>Learning with Kernels</em>. MIT Press.</li>
+</ul>
+<p><strong>GRL Original Paper:</strong></p>
+<ul>
+<li>Chiu &amp; Huber (2022). Generalized Reinforcement Learning. <a href="https://arxiv.org/abs/2208.04822">arXiv:2208.04822</a></li>
+</ul>
 <hr />
 <p><strong>Last Updated:</strong> January 12, 2026</p>
 

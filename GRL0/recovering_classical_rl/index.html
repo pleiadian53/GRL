@@ -3083,8 +3083,12 @@
 </table>
 <p><strong>Key Insight</strong>: Classical RL is GRL with:</p>
 <ul>
-<li><strong>Discrete or fixed action spaces</strong></li>
-<li><strong>Tabular or neural network approximation</strong> of the field</li>
+<li>
+<p><strong>Discrete or fixed action spaces</strong></p>
+</li>
+<li>
+<p><strong>Tabular or neural network approximation</strong> of the field</p>
+</li>
 <li><strong>Specific choices</strong> of update rules</li>
 </ul>
 <hr />
@@ -3276,8 +3280,12 @@ $<span class="arithmatex">\(\nabla_\phi J(\phi) = \mathbb{E} [\nabla_\phi Q_\phi
 <h3 id="key-takeaways_3">Key Takeaways<a class="headerlink" href="#key-takeaways_3" title="Permanent link">&para;</a></h3>
 <p><strong>Actor-Critic is GRL with</strong>:</p>
 <ol>
-<li><strong>Reinforcement field as critic</strong></li>
-<li><strong>Boltzmann policy as actor</strong> (no separate parameters)</li>
+<li>
+<p><strong>Reinforcement field as critic</strong></p>
+</li>
+<li>
+<p><strong>Boltzmann policy as actor</strong> (no separate parameters)</p>
+</li>
 <li><strong>RF-SARSA as update rule</strong></li>
 </ol>
 <p><strong>What GRL adds</strong>:</p>
@@ -3333,36 +3341,50 @@ $<span class="arithmatex">\(\mathcal{L}(\phi) = \mathbb{E}_{(s,a) \sim \pi_\phi}
 - Field learns <span class="arithmatex">\(Q^+(s, \theta)\)</span> via TD learning</p>
 <hr />
 <h3 id="advantages-of-grl-for-rlhf">Advantages of GRL for RLHF<a class="headerlink" href="#advantages-of-grl-for-rlhf" title="Permanent link">&para;</a></h3>
-<p><strong>1. Off-Policy Learning</strong>
-- Particle memory enables replay
-- Sample efficiency: learn from all past human feedback
-- Classical RLHF (PPO) is on-policy only</p>
-<p><strong>2. Smooth Generalization</strong>
-- Kernel similarity between prompts
-- Transfer value across related contexts
-- Fewer human labels needed</p>
-<p><strong>3. Uncertainty Quantification</strong>
-- Sparse particles = high uncertainty
-- Exploration naturally targets uncertain regions
-- Safety: avoid high-stakes decisions with low confidence</p>
-<p><strong>4. Interpretability</strong>
-- Energy landscape over prompt space
-- Visualize which responses are preferred
-- Particle inspection: "Why did you say that?"</p>
+<p><strong>1. Off-Policy Learning</strong></p>
+<ul>
+<li>Particle memory enables replay</li>
+<li>Sample efficiency: learn from all past human feedback</li>
+<li>Classical RLHF (PPO) is on-policy only</li>
+</ul>
+<p><strong>2. Smooth Generalization</strong></p>
+<ul>
+<li>Kernel similarity between prompts</li>
+<li>Transfer value across related contexts</li>
+<li>Fewer human labels needed</li>
+</ul>
+<p><strong>3. Uncertainty Quantification</strong></p>
+<ul>
+<li>Sparse particles = high uncertainty</li>
+<li>Exploration naturally targets uncertain regions</li>
+<li>Safety: avoid high-stakes decisions with low confidence</li>
+</ul>
+<p><strong>4. Interpretability</strong></p>
+<ul>
+<li>Energy landscape over prompt space</li>
+<li>Visualize which responses are preferred</li>
+<li>Particle inspection: "Why did you say that?"</li>
+</ul>
 <hr />
 <h3 id="implementation-path">Implementation Path<a class="headerlink" href="#implementation-path" title="Permanent link">&para;</a></h3>
-<p><strong>Phase 1: Discrete Tokens (Q1 2026)</strong>
-- Implement GRL on small model (GPT-2)
-- Reproduce PPO results on standard RLHF benchmarks
-- Show GRL recovers classical behavior</p>
-<p><strong>Phase 2: Comparison (Q2 2026)</strong>
-- Compare sample efficiency: GRL vs. PPO
-- Measure stability: fewer human labels needed?
-- Quantify uncertainty: does GRL know what it doesn't know?</p>
-<p><strong>Phase 3: Scale (Q3 2026)</strong>
-- Apply to larger model (LLaMA-7B or Mistral-7B)
-- Test on real human feedback datasets
-- Submit paper: "GRL for LLM Fine-tuning"</p>
+<p><strong>Phase 1: Discrete Tokens (Q1 2026)</strong></p>
+<ul>
+<li>Implement GRL on small model (GPT-2)</li>
+<li>Reproduce PPO results on standard RLHF benchmarks</li>
+<li>Show GRL recovers classical behavior</li>
+</ul>
+<p><strong>Phase 2: Comparison (Q2 2026)</strong></p>
+<ul>
+<li>Compare sample efficiency: GRL vs. PPO</li>
+<li>Measure stability: fewer human labels needed?</li>
+<li>Quantify uncertainty: does GRL know what it doesn't know?</li>
+</ul>
+<p><strong>Phase 3: Scale (Q3 2026)</strong></p>
+<ul>
+<li>Apply to larger model (LLaMA-7B or Mistral-7B)</li>
+<li>Test on real human feedback datasets</li>
+<li>Submit paper: "GRL for LLM Fine-tuning"</li>
+</ul>
 <hr />
 <h3 id="key-takeaways_4">Key Takeaways<a class="headerlink" href="#key-takeaways_4" title="Permanent link">&para;</a></h3>
 <p><strong>RLHF is GRL with</strong>:</p>

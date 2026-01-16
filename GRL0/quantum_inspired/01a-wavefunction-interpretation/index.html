@@ -3521,9 +3521,11 @@
 <div class="arithmatex">\[\psi_1 = \langle 1 | \psi \rangle = \begin{bmatrix} 0 &amp; 1 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{2}}\]</div>
 <p><strong>What we computed:</strong> Project the state <span class="arithmatex">\(|\psi\rangle\)</span> onto each basis vector.</p>
 <p><strong>Result:</strong> The wavefunction in this basis is <span class="arithmatex">\(\left[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right]\)</span>.</p>
-<p><strong>Interpretation:</strong>
-- "How much of <span class="arithmatex">\(|\psi\rangle\)</span> points in the <span class="arithmatex">\(|0\rangle\)</span> direction?" → <span class="arithmatex">\(\frac{1}{\sqrt{2}}\)</span>
-- "How much of <span class="arithmatex">\(|\psi\rangle\)</span> points in the <span class="arithmatex">\(|1\rangle\)</span> direction?" → <span class="arithmatex">\(\frac{1}{\sqrt{2}}\)</span></p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li>"How much of <span class="arithmatex">\(|\psi\rangle\)</span> points in the <span class="arithmatex">\(|0\rangle\)</span> direction?" → <span class="arithmatex">\(\frac{1}{\sqrt{2}}\)</span></li>
+<li>"How much of <span class="arithmatex">\(|\psi\rangle\)</span> points in the <span class="arithmatex">\(|1\rangle\)</span> direction?" → <span class="arithmatex">\(\frac{1}{\sqrt{2}}\)</span></li>
+</ul>
 <p><strong>Analogy:</strong> If <span class="arithmatex">\(\mathbf{v} = [3, 4]\)</span>, the "<span class="arithmatex">\(x\)</span>-coordinate" is 3 (how much of <span class="arithmatex">\(\mathbf{v}\)</span> is in the <span class="arithmatex">\(\mathbf{e}_x\)</span> direction).</p>
 <hr />
 <p><strong>Now let's use a DIFFERENT coordinate system:</strong></p>
@@ -3761,10 +3763,12 @@ $<span class="arithmatex">\(x = \mathbf{e}_x \cdot \mathbf{v} = [1, 0, 0] \cdot 
 </tr>
 </tbody>
 </table>
-<p><strong>Interpretation:</strong>
-- The state <span class="arithmatex">\(|\psi\rangle\)</span> has <strong>large component</strong> in the <span class="arithmatex">\(|x=0\rangle\)</span> direction (particle likely near origin)
-- <strong>Medium component</strong> in the <span class="arithmatex">\(|x=1\rangle\)</span> direction
-- <strong>Tiny component</strong> in the <span class="arithmatex">\(|x=3\rangle\)</span> direction (particle unlikely far from origin)</p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li>The state <span class="arithmatex">\(|\psi\rangle\)</span> has <strong>large component</strong> in the <span class="arithmatex">\(|x=0\rangle\)</span> direction (particle likely near origin)</li>
+<li><strong>Medium component</strong> in the <span class="arithmatex">\(|x=1\rangle\)</span> direction</li>
+<li><strong>Tiny component</strong> in the <span class="arithmatex">\(|x=3\rangle\)</span> direction (particle unlikely far from origin)</li>
+</ul>
 <p><strong>Visual:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ψ(x)
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  ^
@@ -3840,29 +3844,37 @@ $<span class="arithmatex">\(x = \mathbf{e}_x \cdot \mathbf{v} = [1, 0, 0] \cdot 
 </table>
 <hr />
 <h3 id="the-big-difference-what-were-representing">The Big Difference: What We're Representing<a class="headerlink" href="#the-big-difference-what-were-representing" title="Permanent link">&para;</a></h3>
-<p><strong>Classical mechanics:</strong>
-- <strong>Thing:</strong> Position of a particle
-- <strong>Representation:</strong> <span class="arithmatex">\(\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z\)</span>
-- <strong>Basis vectors:</strong> <span class="arithmatex">\(\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z\)</span> (spatial directions)</p>
-<p><strong>Quantum mechanics:</strong>
-- <strong>Thing:</strong> State of a particle
-- <strong>Representation:</strong> <span class="arithmatex">\(|\psi\rangle = \int \psi(x) |x\rangle dx\)</span>
-- <strong>Basis vectors:</strong> <span class="arithmatex">\(|x\rangle\)</span> (not spatial directions, but quantum states!)</p>
+<p><strong>Classical mechanics:</strong></p>
+<ul>
+<li><strong>Thing:</strong> Position of a particle</li>
+<li><strong>Representation:</strong> <span class="arithmatex">\(\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z\)</span></li>
+<li><strong>Basis vectors:</strong> <span class="arithmatex">\(\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z\)</span> (spatial directions)</li>
+</ul>
+<p><strong>Quantum mechanics:</strong></p>
+<ul>
+<li><strong>Thing:</strong> State of a particle</li>
+<li><strong>Representation:</strong> <span class="arithmatex">\(|\psi\rangle = \int \psi(x) |x\rangle dx\)</span></li>
+<li><strong>Basis vectors:</strong> <span class="arithmatex">\(|x\rangle\)</span> (not spatial directions, but quantum states!)</li>
+</ul>
 <p><strong>Key insight:</strong> In QM, <span class="arithmatex">\(|x\rangle\)</span> doesn't represent "the direction x" in space. It represents <strong>the quantum state "particle is at position x"</strong>.</p>
 <hr />
 <h3 id="concrete-example-finite-case-first">Concrete Example: Finite Case First<a class="headerlink" href="#concrete-example-finite-case-first" title="Permanent link">&para;</a></h3>
 <p>Let's make this super concrete with a qubit:</p>
-<p><strong>Basis vectors (the "axes"):</strong>
-- <span class="arithmatex">\(|0\rangle = [1, 0]\)</span>
-- <span class="arithmatex">\(|1\rangle = [0, 1]\)</span></p>
+<p><strong>Basis vectors (the "axes"):</strong></p>
+<ul>
+<li><span class="arithmatex">\(|0\rangle = [1, 0]\)</span></li>
+<li><span class="arithmatex">\(|1\rangle = [0, 1]\)</span></li>
+</ul>
 <p>These are linearly independent, just like <span class="arithmatex">\(\mathbf{e}_x\)</span> and <span class="arithmatex">\(\mathbf{e}_y\)</span>!</p>
 <p><strong>State (the thing we're analyzing):</strong>
 $<span class="arithmatex">\(|\psi\rangle = \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix}\)</span>$</p>
 <p><strong>Is <span class="arithmatex">\(|\psi\rangle\)</span> a basis vector?</strong> NO! It's a <strong>combination</strong> of basis vectors, like <span class="arithmatex">\(\mathbf{v} = 3\mathbf{e}_x + 4\mathbf{e}_y\)</span>.</p>
 <hr />
 <h3 id="now-the-infinite-case">Now the Infinite Case<a class="headerlink" href="#now-the-infinite-case" title="Permanent link">&para;</a></h3>
-<p><strong>Basis vectors (the "axes"):</strong>
-- <span class="arithmatex">\(|x\rangle\)</span> for every <span class="arithmatex">\(x \in \mathbb{R}\)</span></p>
+<p><strong>Basis vectors (the "axes"):</strong></p>
+<ul>
+<li><span class="arithmatex">\(|x\rangle\)</span> for every <span class="arithmatex">\(x \in \mathbb{R}\)</span></li>
+</ul>
 <p><strong>State (the thing we're analyzing):</strong>
 $<span class="arithmatex">\(|\psi\rangle = \int_{-\infty}^{\infty} \psi(x) \, |x\rangle \, dx\)</span>$</p>
 <p>where <span class="arithmatex">\(\psi(x) = \langle x | \psi \rangle\)</span> are the coordinates (wavefunction).</p>
@@ -3882,8 +3894,10 @@ $<span class="arithmatex">\(|\psi\rangle = \int \psi(x) |x\rangle dx\)</span>$</
 <p><strong>"The quantum state where the particle is definitely located at position x"</strong></p>
 </blockquote>
 <p>So <span class="arithmatex">\(|x\rangle\)</span> is not a point in space—it's a <strong>vector in Hilbert space</strong> representing a specific quantum state.</p>
-<p><strong>Better notation (if we could redesign QM):</strong>
-- <span class="arithmatex">\(|x\rangle\)</span> → <span class="arithmatex">\(|\text{definitely at } x\rangle\)</span> (clearer!)</p>
+<p><strong>Better notation (if we could redesign QM):</strong></p>
+<ul>
+<li><span class="arithmatex">\(|x\rangle\)</span> → <span class="arithmatex">\(|\text{definitely at } x\rangle\)</span> (clearer!)</li>
+</ul>
 <p>But physicists use <span class="arithmatex">\(|x\rangle\)</span> as shorthand.</p>
 <hr />
 <h3 id="summary-classical-vs-quantum-representation">Summary: Classical vs. Quantum Representation<a class="headerlink" href="#summary-classical-vs-quantum-representation" title="Permanent link">&para;</a></h3>
@@ -3938,9 +3952,11 @@ $<span class="arithmatex">\(|\psi\rangle = \int \psi(x) |x\rangle dx\)</span>$</
 </tr>
 </tbody>
 </table>
-<p><strong>Key takeaway:</strong>
-- Classical: Position <span class="arithmatex">\(\mathbf{r}\)</span> <strong>is expressed using</strong> basis vectors <span class="arithmatex">\(\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z\)</span>
-- Quantum: Basis vector <span class="arithmatex">\(|x\rangle\)</span> <strong>represents the state</strong> "particle at position x"</p>
+<p><strong>Key takeaway:</strong></p>
+<ul>
+<li>Classical: Position <span class="arithmatex">\(\mathbf{r}\)</span> <strong>is expressed using</strong> basis vectors <span class="arithmatex">\(\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z\)</span></li>
+<li>Quantum: Basis vector <span class="arithmatex">\(|x\rangle\)</span> <strong>represents the state</strong> "particle at position x"</li>
+</ul>
 <p><strong>This is why quantum mechanics feels weird!</strong> We're not representing positions anymore—we're representing <strong>states</strong>, and the basis vectors themselves encode "where the particle is."</p>
 <hr />
 <h3 id="key-distinction-now-clear">Key Distinction (Now Clear!)<a class="headerlink" href="#key-distinction-now-clear" title="Permanent link">&para;</a></h3>
@@ -4000,10 +4016,16 @@ $<span class="arithmatex">\(|\psi\rangle = \int \psi(x) |x\rangle dx\)</span>$</
 <h3 id="the-born-rule">The Born Rule<a class="headerlink" href="#the-born-rule" title="Permanent link">&para;</a></h3>
 <p>The Born rule tells us how to extract observable predictions:</p>
 <div class="arithmatex">\[p(x) = |\psi(x)|^2\]</div>
-<p><strong>Key properties:</strong>
-- <span class="arithmatex">\(\psi(x)\)</span> can be <strong>positive, negative, or complex</strong>
-- Interference arises because amplitudes add <em>before</em> squaring
-- Probabilities are <strong>derived</strong>, not primitive</p>
+<p><strong>Key properties:</strong></p>
+<ul>
+<li>
+<p><span class="arithmatex">\(\psi(x)\)</span> can be <strong>positive, negative, or complex</strong></p>
+</li>
+<li>
+<p>Interference arises because amplitudes add <em>before</em> squaring</p>
+</li>
+<li>Probabilities are <strong>derived</strong>, not primitive</li>
+</ul>
 <h3 id="the-fundamental-move">The Fundamental Move<a class="headerlink" href="#the-fundamental-move" title="Permanent link">&para;</a></h3>
 <p>This is the single most important structural move quantum mechanics makes:</p>
 <blockquote>
@@ -4109,9 +4131,11 @@ $<span class="arithmatex">\(c_n = \langle E_n | \psi \rangle \quad \text{(energy
 </tr>
 </tbody>
 </table>
-<p><strong>Key insight:</strong>
-- <span class="arithmatex">\(Q^+\)</span> is the state
-- <span class="arithmatex">\(Q^+(z)\)</span> is the <em>coordinate representation</em> of that state in the kernel-induced basis</p>
+<p><strong>Key insight:</strong></p>
+<ul>
+<li><span class="arithmatex">\(Q^+\)</span> is the state</li>
+<li><span class="arithmatex">\(Q^+(z)\)</span> is the <em>coordinate representation</em> of that state in the kernel-induced basis</li>
+</ul>
 <hr />
 <h2 id="6-one-reinforcement-field-or-many">6. One Reinforcement Field or Many?<a class="headerlink" href="#6-one-reinforcement-field-or-many" title="Permanent link">&para;</a></h2>
 <p>Now we can answer this precisely.</p>
@@ -4136,10 +4160,18 @@ $<span class="arithmatex">\(c_n = \langle E_n | \psi \rangle \quad \text{(energy
 <p>This interpretation does important conceptual work:</p>
 <h3 id="what-concepts-are">What Concepts Are<a class="headerlink" href="#what-concepts-are" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Functional clusters are <strong>not mixtures of policies</strong></li>
-<li>They are <strong>coherent subspaces of a single state</strong></li>
-<li>Spectral clustering identifies <strong>approximate eigenstates</strong></li>
-<li>Hierarchies correspond to <strong>coarse-graining of observables</strong></li>
+<li>
+<p>Functional clusters are <strong>not mixtures of policies</strong></p>
+</li>
+<li>
+<p>They are <strong>coherent subspaces of a single state</strong></p>
+</li>
+<li>
+<p>Spectral clustering identifies <strong>approximate eigenstates</strong></p>
+</li>
+<li>
+<p>Hierarchies correspond to <strong>coarse-graining of observables</strong></p>
+</li>
 </ul>
 <h3 id="concept-formation-as-spectral-decomposition">Concept Formation as Spectral Decomposition<a class="headerlink" href="#concept-formation-as-spectral-decomposition" title="Permanent link">&para;</a></h3>
 <p>Concept formation becomes:</p>
@@ -4165,11 +4197,13 @@ $<span class="arithmatex">\(c_n = \langle E_n | \psi \rangle \quad \text{(energy
 <blockquote>
 <p>"The reinforcement field is a <strong>state vector in RKHS</strong>, whose projections onto kernel-induced bases yield <strong>wavefunction-like amplitude fields</strong> over augmented state-action space."</p>
 </blockquote>
-<p><strong>Why this is better:</strong>
-- Distinguishes state (abstract) from representation (coordinate)
-- Prevents over-interpretation
-- Preserves the structural claim
-- Aligns precisely with quantum mechanics terminology</p>
+<p><strong>Why this is better:</strong></p>
+<ul>
+<li>Distinguishes state (abstract) from representation (coordinate)</li>
+<li>Prevents over-interpretation</li>
+<li>Preserves the structural claim</li>
+<li>Aligns precisely with quantum mechanics terminology</li>
+</ul>
 <hr />
 <h2 id="9-what-this-opens-up">9. What This Opens Up<a class="headerlink" href="#9-what-this-opens-up" title="Permanent link">&para;</a></h2>
 <p>Once this is conceptually clean, several things become almost unavoidable:</p>

@@ -3132,10 +3132,12 @@ $$\psi_s(a) := Q^+(s, a)\]</div>
 <hr />
 <h3 id="what-it-represents">What It Represents<a class="headerlink" href="#what-it-represents" title="Permanent link">&para;</a></h3>
 <p><span class="arithmatex">\(\psi_s(a)\)</span> is an <strong>amplitude field over actions</strong>, not a policy yet.</p>
-<p><strong>It encodes:</strong>
-- Compatibility between past experience and candidate actions
-- Multi-modality (multiple plausible actions can have high amplitude)
-- Smooth generalization across actions via kernel overlap</p>
+<p><strong>It encodes:</strong></p>
+<ul>
+<li>Compatibility between past experience and candidate actions</li>
+<li>Multi-modality (multiple plausible actions can have high amplitude)</li>
+<li>Smooth generalization across actions via kernel overlap</li>
+</ul>
 <p><strong>Visual intuition:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ψ_s(a)
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  ^
@@ -3151,46 +3153,56 @@ $$\psi_s(a) := Q^+(s, a)\]</div>
 <h3 id="from-amplitude-to-policy">From Amplitude to Policy<a class="headerlink" href="#from-amplitude-to-policy" title="Permanent link">&para;</a></h3>
 <p>To get a policy, apply the Boltzmann transformation:</p>
 <div class="arithmatex">\[\pi(a | s) = \frac{\exp(\beta \, \psi_s(a))}{\int_{\Theta} \exp(\beta \, \psi_s(a')) da'}\]</div>
-<p><strong>Analogy to QM:</strong>
-- Wavefunction <span class="arithmatex">\(\psi_s(a)\)</span> → amplitude landscape
-- Boltzmann rule → measurement process (like Born rule)</p>
+<p><strong>Analogy to QM:</strong></p>
+<ul>
+<li>Wavefunction <span class="arithmatex">\(\psi_s(a)\)</span> → amplitude landscape</li>
+<li>Boltzmann rule → measurement process (like Born rule)</li>
+</ul>
 <hr />
 <h3 id="practical-use-cases">Practical Use Cases<a class="headerlink" href="#practical-use-cases" title="Permanent link">&para;</a></h3>
 <h4 id="1-continuous-control"><strong>1. Continuous Control</strong><a class="headerlink" href="#1-continuous-control" title="Permanent link">&para;</a></h4>
 <p><strong>Standard RL:</strong> Pick <span class="arithmatex">\(a^* = \arg\max_a Q(s, a)\)</span> (one point)</p>
-<p><strong>With action wavefunction:</strong> See the <strong>full landscape</strong>
-- Multiple peaks → multiple strategies
-- Smooth ridges → continuous manifolds of good actions
-- Natural for robotics and motor control</p>
+<p><strong>With action wavefunction:</strong> See the <strong>full landscape</strong></p>
+<ul>
+<li>Multiple peaks → multiple strategies</li>
+<li>Smooth ridges → continuous manifolds of good actions</li>
+<li>Natural for robotics and motor control</li>
+</ul>
 <p><strong>Example:</strong> Robot grasping
 - <span class="arithmatex">\(\psi_s(a)\)</span> shows all viable grips
 - Controller can smoothly interpolate between them</p>
 <hr />
 <h4 id="2-action-substitution"><strong>2. Action Substitution</strong><a class="headerlink" href="#2-action-substitution" title="Permanent link">&para;</a></h4>
 <p>If two actions have high kernel overlap, they appear as <strong>neighboring peaks</strong> in <span class="arithmatex">\(\psi_s(a)\)</span>.</p>
-<p><strong>This gives graded replaceability:</strong>
-- Action <span class="arithmatex">\(a_1\)</span> unavailable? Use nearby <span class="arithmatex">\(a_2\)</span> with similar amplitude
-- No need for discrete "backup plans"—structure is inherent</p>
+<p><strong>This gives graded replaceability:</strong></p>
+<ul>
+<li>Action <span class="arithmatex">\(a_1\)</span> unavailable? Use nearby <span class="arithmatex">\(a_2\)</span> with similar amplitude</li>
+<li>No need for discrete "backup plans"—structure is inherent</li>
+</ul>
 <p><strong>Example:</strong> Tool use
 - "Hammer" unavailable → "mallet" is nearby in action space
 - Amplitude field shows compatibility automatically</p>
 <hr />
 <h4 id="3-exploration-strategies"><strong>3. Exploration Strategies</strong><a class="headerlink" href="#3-exploration-strategies" title="Permanent link">&para;</a></h4>
 <p><strong>Standard:</strong> <span class="arithmatex">\(\epsilon\)</span>-greedy (uniform noise) or Boltzmann (temperature)</p>
-<p><strong>With action wavefunction:</strong>
-- Sample from high-amplitude <strong>regions</strong> (not just max)
-- Preserves structure (won't explore clearly bad actions)
-- Natural multi-modal exploration</p>
+<p><strong>With action wavefunction:</strong></p>
+<ul>
+<li>Sample from high-amplitude <strong>regions</strong> (not just max)</li>
+<li>Preserves structure (won't explore clearly bad actions)</li>
+<li>Natural multi-modal exploration</li>
+</ul>
 <p><strong>Example:</strong> Game playing
 - Multiple openings have high amplitude
 - Explore all of them proportional to their support</p>
 <hr />
 <h4 id="4-option-discovery"><strong>4. Option Discovery</strong><a class="headerlink" href="#4-option-discovery" title="Permanent link">&para;</a></h4>
 <p><strong>Observation:</strong> Peaks in <span class="arithmatex">\(\psi_s(a)\)</span> correspond to <strong>natural options</strong></p>
-<p><strong>Algorithm:</strong>
-1. Compute <span class="arithmatex">\(\psi_s(a)\)</span> for visited states <span class="arithmatex">\(s\)</span>
-2. Cluster peaks across states
-3. Each cluster = a discovered option</p>
+<p><strong>Algorithm:</strong></p>
+<ol>
+<li>Compute <span class="arithmatex">\(\psi_s(a)\)</span> for visited states <span class="arithmatex">\(s\)</span></li>
+<li>Cluster peaks across states</li>
+<li>Each cluster = a discovered option</li>
+</ol>
 <p><strong>Why this works:</strong> Options are actions that "make sense together" across states—exactly what amplitude clustering captures.</p>
 <hr />
 <h2 id="3-state-wavefunction-phi_as-qs-a">3. State Wavefunction: <span class="arithmatex">\(\phi_a(s) = Q^+(s, a)\)</span><a class="headerlink" href="#3-state-wavefunction-phi_as-qs-a" title="Permanent link">&para;</a></h2>
@@ -3205,13 +3217,17 @@ $$\phi_a(s) := Q^+(s, a)\]</div>
 <blockquote>
 <p>"Where in state space does this action <strong>make sense</strong>?"</p>
 </blockquote>
-<p><strong>High values mean:</strong>
-- This action has historically aligned well with similar states
-- Kernel overlap supports generalization here
-- Preconditions (implicit) are satisfied</p>
-<p><strong>Low values mean:</strong>
-- Action is structurally incompatible with this region
-- Either never tried here, or tried and failed</p>
+<p><strong>High values mean:</strong></p>
+<ul>
+<li>This action has historically aligned well with similar states</li>
+<li>Kernel overlap supports generalization here</li>
+<li>Preconditions (implicit) are satisfied</li>
+</ul>
+<p><strong>Low values mean:</strong></p>
+<ul>
+<li>Action is structurally incompatible with this region</li>
+<li>Either never tried here, or tried and failed</li>
+</ul>
 <p><strong>Visual intuition:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>State space:
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
@@ -3248,9 +3264,11 @@ $$\phi_a(s) := Q^+(s, a)\]</div>
 <hr />
 <h4 id="3-safety-constraints"><strong>3. Safety Constraints</strong><a class="headerlink" href="#3-safety-constraints" title="Permanent link">&para;</a></h4>
 <p><strong>Define:</strong> An action <span class="arithmatex">\(a\)</span> is <strong>unsafe</strong> at state <span class="arithmatex">\(s\)</span> if <span class="arithmatex">\(\phi_a(s) &lt; \tau\)</span> (threshold).</p>
-<p><strong>This gives implicit safety without explicit rules:</strong>
-- Low amplitude → historically bad outcomes
-- Safe policy: only consider actions with <span class="arithmatex">\(\phi_a(s) &gt; \tau\)</span></p>
+<p><strong>This gives implicit safety without explicit rules:</strong></p>
+<ul>
+<li>Low amplitude → historically bad outcomes</li>
+<li>Safe policy: only consider actions with <span class="arithmatex">\(\phi_a(s) &gt; \tau\)</span></li>
+</ul>
 <p><strong>Example:</strong> Autonomous driving
 - <span class="arithmatex">\(\phi_{\text{accelerate}}(s)\)</span>: low when obstacle ahead
 - Learned from experience, not programmed</p>
@@ -3265,10 +3283,12 @@ $$\phi_a(s) := Q^+(s, a)\]</div>
 <hr />
 <h4 id="5-skill-discovery"><strong>5. Skill Discovery</strong><a class="headerlink" href="#5-skill-discovery" title="Permanent link">&para;</a></h4>
 <p><strong>Observation:</strong> Actions with <strong>compact support</strong> (high <span class="arithmatex">\(\phi_a\)</span> in small region) are natural skills.</p>
-<p><strong>Algorithm:</strong>
-1. Compute <span class="arithmatex">\(\phi_a(s)\)</span> for all actions
-2. Find actions with localized high-amplitude regions
-3. Each compact region defines a skill</p>
+<p><strong>Algorithm:</strong></p>
+<ol>
+<li>Compute <span class="arithmatex">\(\phi_a(s)\)</span> for all actions</li>
+<li>Find actions with localized high-amplitude regions</li>
+<li>Each compact region defines a skill</li>
+</ol>
 <p><strong>Why:</strong> Skills are actions that work in specific contexts—exactly what state wavefunctions capture.</p>
 <hr />
 <h2 id="4-concept-subspace-projections-p_k-q">4. Concept Subspace Projections: <span class="arithmatex">\(P_k Q^+\)</span><a class="headerlink" href="#4-concept-subspace-projections-p_k-q" title="Permanent link">&para;</a></h2>
@@ -3289,14 +3309,22 @@ $$\phi_a(s) := Q^+(s, a)\]</div>
 <blockquote>
 <p>"How strongly does the current situation activate this <strong>concept</strong>?"</p>
 </blockquote>
-<p><strong>Not:</strong>
-- ❌ A discrete label
-- ❌ A hard cluster assignment
-- ❌ A symbolic rule</p>
-<p><strong>But:</strong>
-- ✅ A <strong>graded, geometric activation</strong>
-- ✅ Smooth interpolation between concepts
-- ✅ Hierarchical structure</p>
+<p><strong>Not:</strong></p>
+<ul>
+<li>❌ A discrete label</li>
+<li>❌ A hard cluster assignment</li>
+<li>❌ A symbolic rule</li>
+</ul>
+<p><strong>But:</strong></p>
+<ul>
+<li>
+<p>✅ A <strong>graded, geometric activation</strong></p>
+</li>
+<li>
+<p>✅ Smooth interpolation between concepts</p>
+</li>
+<li>✅ Hierarchical structure</li>
+</ul>
 <hr />
 <h3 id="connection-to-concepts">Connection to Concepts<a class="headerlink" href="#connection-to-concepts" title="Permanent link">&para;</a></h3>
 <p><strong>Traditional clustering:</strong> Assign data point to one cluster</p>
@@ -3328,10 +3356,12 @@ $$\phi_a(s) := Q^+(s, a)\]</div>
 <h4 id="3-transfer-learning"><strong>3. Transfer Learning</strong><a class="headerlink" href="#3-transfer-learning" title="Permanent link">&para;</a></h4>
 <p><strong>Observation:</strong> Concept subspaces are <strong>more stable</strong> than raw particles.</p>
 <p><strong>Why:</strong> Concepts capture abstract structure, not specific experiences.</p>
-<p><strong>Transfer algorithm:</strong>
-1. Learn concept subspaces in source task
-2. Transfer subspaces to target task
-3. Re-learn particle weights within subspaces</p>
+<p><strong>Transfer algorithm:</strong></p>
+<ol>
+<li>Learn concept subspaces in source task</li>
+<li>Transfer subspaces to target task</li>
+<li>Re-learn particle weights within subspaces</li>
+</ol>
 <p><strong>This is natural compositional transfer.</strong></p>
 <hr />
 <h2 id="5-unifying-view-one-state-multiple-projections">5. Unifying View: One State, Multiple Projections<a class="headerlink" href="#5-unifying-view-one-state-multiple-projections" title="Permanent link">&para;</a></h2>
@@ -3410,10 +3440,12 @@ $$\phi_a(s) := Q^+(s, a)\]</div>
 <hr />
 <h3 id="why-this-matters">Why This Matters<a class="headerlink" href="#why-this-matters" title="Permanent link">&para;</a></h3>
 <p><strong>Once you see this structure, the QM analogy stops being decorative and starts being **constraining</strong>—in a good way.**</p>
-<p><strong>It tells you:</strong>
-- How to define new projections (other subspaces?)
-- Why actions and states are <strong>dual</strong> under projection
-- How to compose operations (project, then project again?)</p>
+<p><strong>It tells you:</strong></p>
+<ul>
+<li>How to define new projections (other subspaces?)</li>
+<li>Why actions and states are <strong>dual</strong> under projection</li>
+<li>How to compose operations (project, then project again?)</li>
+</ul>
 <hr />
 <h2 id="6-action-state-duality">6. Action-State Duality<a class="headerlink" href="#6-action-state-duality" title="Permanent link">&para;</a></h2>
 <h3 id="the-symmetry">The Symmetry<a class="headerlink" href="#the-symmetry" title="Permanent link">&para;</a></h3>
@@ -3426,28 +3458,36 @@ $$\phi_a(s) := Q^+(s, a)\]</div>
 <hr />
 <h3 id="deeper-implications">Deeper Implications<a class="headerlink" href="#deeper-implications" title="Permanent link">&para;</a></h3>
 <p>This suggests actions and states might be more symmetric than traditional RL assumes.</p>
-<p><strong>Standard RL:</strong>
-- States = where you are
-- Actions = what you do
-- Asymmetric roles</p>
-<p><strong>GRL:</strong>
-- States and actions are <strong>coordinates</strong> in augmented space <span class="arithmatex">\(\mathcal{Z} = \mathcal{S} \times \Theta\)</span>
-- Projections along either dimension are equally valid
-- <strong>Symmetric structure</strong></p>
-<p><strong>This could enable:</strong>
-- <strong>Dual learning:</strong> Learn about actions by exploring states, and vice versa
-- <strong>Compositional policies:</strong> Combine state-based and action-based representations
-- <strong>Transfer:</strong> Actions discovered in one state space transfer to another</p>
+<p><strong>Standard RL:</strong></p>
+<ul>
+<li>States = where you are</li>
+<li>Actions = what you do</li>
+<li>Asymmetric roles</li>
+</ul>
+<p><strong>GRL:</strong></p>
+<ul>
+<li>States and actions are <strong>coordinates</strong> in augmented space <span class="arithmatex">\(\mathcal{Z} = \mathcal{S} \times \Theta\)</span></li>
+<li>Projections along either dimension are equally valid</li>
+<li><strong>Symmetric structure</strong></li>
+</ul>
+<p><strong>This could enable:</strong></p>
+<ul>
+<li><strong>Dual learning:</strong> Learn about actions by exploring states, and vice versa</li>
+<li><strong>Compositional policies:</strong> Combine state-based and action-based representations</li>
+<li><strong>Transfer:</strong> Actions discovered in one state space transfer to another</li>
+</ul>
 <hr />
 <h2 id="7-from-projections-to-operators-preview">7. From Projections to Operators (Preview)<a class="headerlink" href="#7-from-projections-to-operators-preview" title="Permanent link">&para;</a></h2>
 <h3 id="the-next-level">The Next Level<a class="headerlink" href="#the-next-level" title="Permanent link">&para;</a></h3>
 <p>So far, we've discussed <strong>projections</strong>—static views of <span class="arithmatex">\(Q^+\)</span>.</p>
 <p><strong>Natural question:</strong> What <strong>transforms</strong> <span class="arithmatex">\(Q^+\)</span>?</p>
 <p><strong>Answer:</strong> <strong>Operators!</strong></p>
-<p><strong>Examples:</strong>
-- <strong>MemoryUpdate:</strong> Operator that updates <span class="arithmatex">\(Q^+\)</span> given new experience
-- <strong>Action conditioning:</strong> Operator that shifts field based on action
-- <strong>Abstraction:</strong> Operator that projects onto concept subspaces</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><strong>MemoryUpdate:</strong> Operator that updates <span class="arithmatex">\(Q^+\)</span> given new experience</li>
+<li><strong>Action conditioning:</strong> Operator that shifts field based on action</li>
+<li><strong>Abstraction:</strong> Operator that projects onto concept subspaces</li>
+</ul>
 <p><strong>This is where dynamics live—not in the state, but in the operators that transform it.</strong></p>
 <hr />
 <h3 id="operator-formalism-preview">Operator Formalism (Preview)<a class="headerlink" href="#operator-formalism-preview" title="Permanent link">&para;</a></h3>
@@ -3464,8 +3504,12 @@ $$Q^+ \mapsto \psi_s(a) = Q^+(s, a)\]</div>
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <h3 id="key-concepts">Key Concepts<a class="headerlink" href="#key-concepts" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>One State, Many Views</strong></li>
-<li><span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span> is the state</li>
+<li>
+<p><strong>One State, Many Views</strong></p>
+</li>
+<li>
+<p><span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span> is the state</p>
+</li>
 <li>
 <p><span class="arithmatex">\(Q^+(z), \psi_s(a), \phi_a(s), P_k Q^+\)</span> are projections</p>
 </li>
@@ -3493,7 +3537,9 @@ $$Q^+ \mapsto \psi_s(a) = Q^+(s, a)\]</div>
 <li>
 <p><strong>Action-State Duality</strong></p>
 </li>
-<li>Symmetric roles in augmented space</li>
+<li>
+<p>Symmetric roles in augmented space</p>
+</li>
 <li>Enables dual learning and compositional policies</li>
 </ol>
 <hr />
@@ -3508,16 +3554,20 @@ $$Q^+ \mapsto \psi_s(a) = Q^+(s, a)\]</div>
 <div class="arithmatex">\[\pi(a|s) = \frac{\exp(\beta \, \psi_s(a))}{\int_{\Theta} \exp(\beta \, \psi_s(a')) da'}\]</div>
 <hr />
 <h3 id="what-this-enables">What This Enables<a class="headerlink" href="#what-this-enables" title="Permanent link">&para;</a></h3>
-<p><strong>Theoretical:</strong>
-- Rigorous projection formalism
-- Action-state duality
-- Operator-based dynamics</p>
-<p><strong>Practical:</strong>
-- Continuous control with full action landscapes
-- Implicit precondition and affordance learning
-- Hierarchical RL via concept activations
-- Natural skill and option discovery
-- Safety via applicability constraints</p>
+<p><strong>Theoretical:</strong></p>
+<ul>
+<li>Rigorous projection formalism</li>
+<li>Action-state duality</li>
+<li>Operator-based dynamics</li>
+</ul>
+<p><strong>Practical:</strong></p>
+<ul>
+<li>Continuous control with full action landscapes</li>
+<li>Implicit precondition and affordance learning</li>
+<li>Hierarchical RL via concept activations</li>
+<li>Natural skill and option discovery</li>
+<li>Safety via applicability constraints</li>
+</ul>
 <hr />
 <h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
 <h3 id="within-this-series">Within This Series<a class="headerlink" href="#within-this-series" title="Permanent link">&para;</a></h3>
@@ -3532,14 +3582,22 @@ $$Q^+ \mapsto \psi_s(a) = Q^+(s, a)\]</div>
 <li><strong><a href="../../tutorials/05-particle-memory/">Tutorial Chapter 5</a>:</strong> Particle Memory</li>
 </ul>
 <h3 id="related-work">Related Work<a class="headerlink" href="#related-work" title="Permanent link">&para;</a></h3>
-<p><strong>Eigenoptions:</strong>
-- Machado et al. (2017). "A Laplacian Framework for Option Discovery." <em>ICML</em>.</p>
-<p><strong>Affordances in RL:</strong>
-- Khetarpal et al. (2020). "What can I do here? A theory of affordances in reinforcement learning." <em>ICML</em>.</p>
-<p><strong>Hierarchical RL:</strong>
-- Sutton et al. (1999). "Between MDPs and semi-MDPs: A framework for temporal abstraction in RL."</p>
-<p><strong>Operator Formalism:</strong>
-- Barreto et al. (2017). "Successor Features for Transfer in Reinforcement Learning." <em>NIPS</em>.</p>
+<p><strong>Eigenoptions:</strong></p>
+<ul>
+<li>Machado et al. (2017). "A Laplacian Framework for Option Discovery." <em>ICML</em>.</li>
+</ul>
+<p><strong>Affordances in RL:</strong></p>
+<ul>
+<li>Khetarpal et al. (2020). "What can I do here? A theory of affordances in reinforcement learning." <em>ICML</em>.</li>
+</ul>
+<p><strong>Hierarchical RL:</strong></p>
+<ul>
+<li>Sutton et al. (1999). "Between MDPs and semi-MDPs: A framework for temporal abstraction in RL."</li>
+</ul>
+<p><strong>Operator Formalism:</strong></p>
+<ul>
+<li>Barreto et al. (2017). "Successor Features for Transfer in Reinforcement Learning." <em>NIPS</em>.</li>
+</ul>
 <hr />
 <p><strong>Last Updated:</strong> January 14, 2026</p>
 

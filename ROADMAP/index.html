@@ -3505,17 +3505,23 @@
 <hr />
 <h3 id="part-ii-emergent-structure-spectral-abstraction">Part II: Emergent Structure &amp; Spectral Abstraction<a class="headerlink" href="#part-ii-emergent-structure-spectral-abstraction" title="Permanent link">&para;</a></h3>
 <p><strong>Status:</strong> 🎯 Foundation laid, rewrite needed</p>
-<p><strong>Original Section V topics:</strong>
-- Functional clustering in RKHS
-- Spectral concept discovery
-- Hierarchical policy organization
-- Experience compression</p>
-<p><strong>New formalization available:</strong>
-- <a href="../GRL0/quantum_inspired/05-concept-projections-and-measurements/">Chapter 5: Concept Projections and Measurements</a> provides mathematical foundation</p>
-<p><strong>Next Steps:</strong>
-- Rewrite Section V content using concept subspace formalism
-- Add tutorial chapters on spectral clustering algorithms
-- Implement concept discovery in code</p>
+<p><strong>Original Section V topics:</strong></p>
+<ul>
+<li>Functional clustering in RKHS</li>
+<li>Spectral concept discovery</li>
+<li>Hierarchical policy organization</li>
+<li>Experience compression</li>
+</ul>
+<p><strong>New formalization available:</strong></p>
+<ul>
+<li><a href="../GRL0/quantum_inspired/05-concept-projections-and-measurements/">Chapter 5: Concept Projections and Measurements</a> provides mathematical foundation</li>
+</ul>
+<p><strong>Next Steps:</strong></p>
+<ul>
+<li>Rewrite Section V content using concept subspace formalism</li>
+<li>Add tutorial chapters on spectral clustering algorithms</li>
+<li>Implement concept discovery in code</li>
+</ul>
 <p><strong>Priority:</strong> Start after Part I complete (March 2026)</p>
 <hr />
 <h2 id="quantum-inspired-extensions">Quantum-Inspired Extensions<a class="headerlink" href="#quantum-inspired-extensions" title="Permanent link">&para;</a></h2>
@@ -3581,51 +3587,67 @@
 <h3 id="future-directions-from-these-chapters">Future Directions from These Chapters<a class="headerlink" href="#future-directions-from-these-chapters" title="Permanent link">&para;</a></h3>
 <p><strong>1. Amplitude-Based Reinforcement Learning</strong> 🔥 <strong>High Priority</strong></p>
 <p><strong>Motivation:</strong> QM's probability amplitude formulation hasn't been applied to RL</p>
-<p><strong>Proposal:</strong>
-- Complex-valued value functions: <span class="arithmatex">\(Q^+(z) \in \mathbb{C}\)</span>
-- Policy from Born rule: <span class="arithmatex">\(\pi(a|s) \propto |Q^+(s,a)|^2\)</span>
-- Phase semantics: temporal, directional, or contextual structure
-- Interference-based TD updates</p>
-<p><strong>Next Steps:</strong>
-- Expand Chapter 03 with detailed algorithms
-- Design toy problems where phase helps
-- Implement and benchmark</p>
+<p><strong>Proposal:</strong></p>
+<ul>
+<li>Complex-valued value functions: <span class="arithmatex">\(Q^+(z) \in \mathbb{C}\)</span></li>
+<li>Policy from Born rule: <span class="arithmatex">\(\pi(a|s) \propto |Q^+(s,a)|^2\)</span></li>
+<li>Phase semantics: temporal, directional, or contextual structure</li>
+<li>Interference-based TD updates</li>
+</ul>
+<p><strong>Next Steps:</strong></p>
+<ul>
+<li>Expand Chapter 03 with detailed algorithms</li>
+<li>Design toy problems where phase helps</li>
+<li>Implement and benchmark</li>
+</ul>
 <p><strong>Target:</strong> Paper submission NeurIPS 2026 or ICML 2027</p>
 <hr />
 <p><strong>2. Information-Theoretic Memory Consolidation</strong> 🔥 <strong>High Priority</strong></p>
 <p><strong>Motivation:</strong> Replace hard threshold <span class="arithmatex">\(\tau\)</span> in MemoryUpdate with principled criteria</p>
-<p><strong>Proposal:</strong>
-- MDL objective: <span class="arithmatex">\(\min_{\Omega'} \text{TD-error}(Q^+(\Omega')) + \lambda |\Omega'|\)</span>
-- Surprise-gated consolidation: store distinct if high TD-error, merge if low
-- Adaptive top-k neighbors (density-aware)</p>
-<p><strong>Next Steps:</strong>
-- Implement MDL consolidation algorithm
-- Compare: hard threshold vs. soft vs. top-k vs. MDL vs. surprise-gating
-- Meta-learn consolidation parameters</p>
+<p><strong>Proposal:</strong></p>
+<ul>
+<li>MDL objective: <span class="arithmatex">\(\min_{\Omega'} \text{TD-error}(Q^+(\Omega')) + \lambda |\Omega'|\)</span></li>
+<li>Surprise-gated consolidation: store distinct if high TD-error, merge if low</li>
+<li>Adaptive top-k neighbors (density-aware)</li>
+</ul>
+<p><strong>Next Steps:</strong></p>
+<ul>
+<li>Implement MDL consolidation algorithm</li>
+<li>Compare: hard threshold vs. soft vs. top-k vs. MDL vs. surprise-gating</li>
+<li>Meta-learn consolidation parameters</li>
+</ul>
 <p><strong>Target:</strong> Paper submission ICML 2026 or NeurIPS 2027</p>
 <hr />
 <p><strong>3. Mixture of Experts with Concept-Based Gating</strong></p>
 <p><strong>Motivation:</strong> Multiple local fields for scalability and modularity</p>
-<p><strong>Proposal:</strong>
-- <span class="arithmatex">\(Q^+(z) = \sum_m g_m(z) Q_m(z)\)</span>
-- Gate by concept activation: <span class="arithmatex">\(g_m(z) \propto \|P_{\mathcal{C}_m} k(z, \cdot)\|^2\)</span>
-- Each expert specializes on a concept subspace</p>
-<p><strong>Next Steps:</strong>
-- Connect to Part II concept discovery
-- Implement hierarchical composition
-- Benchmark on multi-task environments</p>
+<p><strong>Proposal:</strong></p>
+<ul>
+<li><span class="arithmatex">\(Q^+(z) = \sum_m g_m(z) Q_m(z)\)</span></li>
+<li>Gate by concept activation: <span class="arithmatex">\(g_m(z) \propto \|P_{\mathcal{C}_m} k(z, \cdot)\|^2\)</span></li>
+<li>Each expert specializes on a concept subspace</li>
+</ul>
+<p><strong>Next Steps:</strong></p>
+<ul>
+<li>Connect to Part II concept discovery</li>
+<li>Implement hierarchical composition</li>
+<li>Benchmark on multi-task environments</li>
+</ul>
 <p><strong>Target:</strong> Part of larger hierarchical RL paper (2027)</p>
 <hr />
 <p><strong>4. Hybrid Neural-Particle Architecture</strong></p>
 <p><strong>Motivation:</strong> Combine scalability of deep nets with fast adaptation of particles</p>
-<p><strong>Proposal:</strong>
-- <span class="arithmatex">\(Q^+(z) = Q_\theta(z) + \beta \sum_{i \in \text{recent}} w_i k(z_i, z)\)</span>
-- Neural net: long-term memory (slow updates)
-- Particle buffer: short-term memory (fast updates, bounded)</p>
-<p><strong>Next Steps:</strong>
-- Implement distillation from buffer to network
-- Large-scale continuous control experiments
-- Compare to pure GP and pure neural baselines</p>
+<p><strong>Proposal:</strong></p>
+<ul>
+<li><span class="arithmatex">\(Q^+(z) = Q_\theta(z) + \beta \sum_{i \in \text{recent}} w_i k(z_i, z)\)</span></li>
+<li>Neural net: long-term memory (slow updates)</li>
+<li>Particle buffer: short-term memory (fast updates, bounded)</li>
+</ul>
+<p><strong>Next Steps:</strong></p>
+<ul>
+<li>Implement distillation from buffer to network</li>
+<li>Large-scale continuous control experiments</li>
+<li>Compare to pure GP and pure neural baselines</li>
+</ul>
 <p><strong>Target:</strong> Practical algorithms paper (2027)</p>
 <hr />
 <h2 id="grl-extensions-papers-a-b-c">GRL Extensions: Papers A, B, C<a class="headerlink" href="#grl-extensions-papers-a-b-c" title="Permanent link">&para;</a></h2>
@@ -3635,71 +3657,93 @@
 <h3 id="paper-a-theoretical-foundations-operator-framework">Paper A: Theoretical Foundations (Operator Framework)<a class="headerlink" href="#paper-a-theoretical-foundations-operator-framework" title="Permanent link">&para;</a></h3>
 <p><strong>Status:</strong> 🟢 Draft Complete (~6,500 words), Figures in Progress<br />
 <strong>Progress:</strong> 70% — Theory done, figures 43%, proofs 40%, experiments 0%</p>
-<p><strong>Core Contribution:</strong>
-- Actions as parametric operators <span class="arithmatex">\(\hat{O}_\theta\)</span> (not just parameter vectors)
-- Operator algebra: composition, Lie groups, hierarchical skills
-- Generalized Bellman equation with energy regularization
-- Unification: classical RL as special case</p>
+<p><strong>Core Contribution:</strong></p>
+<ul>
+<li>Actions as parametric operators <span class="arithmatex">\(\hat{O}_\theta\)</span> (not just parameter vectors)</li>
+<li>Operator algebra: composition, Lie groups, hierarchical skills</li>
+<li>Generalized Bellman equation with energy regularization</li>
+<li>Unification: classical RL as special case</li>
+</ul>
 <p><strong>Current State:</strong></p>
-<p>✅ <strong>Complete:</strong>
-- Unified draft with all sections
-- 3 critical figures implemented (paradigm, operator families, unification)
-- Proof outlines
-- Figure generation framework</p>
-<p>⏳ <strong>Remaining Work:</strong>
-- 4 additional figures (energy landscapes, composition, convergence, policy viz)
-- Expand proofs (Appendices A)
-- Operator catalog (Appendix B)
-- Related work section
-- Validation experiments</p>
-<p><strong>Timeline:</strong>
-- <strong>January-February 2026:</strong> Complete all figures, expand appendices
-- <strong>March 2026:</strong> Run experiments, related work, final polish
-- <strong>April 2026:</strong> Submit to NeurIPS/ICML 2026</p>
+<p>✅ <strong>Complete:</strong></p>
+<ul>
+<li>Unified draft with all sections</li>
+<li>3 critical figures implemented (paradigm, operator families, unification)</li>
+<li>Proof outlines</li>
+<li>Figure generation framework</li>
+</ul>
+<p>⏳ <strong>Remaining Work:</strong></p>
+<ul>
+<li>4 additional figures (energy landscapes, composition, convergence, policy viz)</li>
+<li>Expand proofs (Appendices A)</li>
+<li>Operator catalog (Appendix B)</li>
+<li>Related work section</li>
+<li>Validation experiments</li>
+</ul>
+<p><strong>Timeline:</strong></p>
+<ul>
+<li><strong>January-February 2026:</strong> Complete all figures, expand appendices</li>
+<li><strong>March 2026:</strong> Run experiments, related work, final polish</li>
+<li><strong>April 2026:</strong> Submit to NeurIPS/ICML 2026</li>
+</ul>
 <p><strong>Location:</strong> <code>dev/papers/paper-a-theory/</code></p>
 <hr />
 <h3 id="paper-b-algorithms-implementation">Paper B: Algorithms &amp; Implementation<a class="headerlink" href="#paper-b-algorithms-implementation" title="Permanent link">&para;</a></h3>
 <p><strong>Status:</strong> ⏳ Planned<br />
 <strong>Target:</strong> ICML/NeurIPS 2026 (Applied Track)</p>
-<p><strong>Planned Content:</strong>
-- Operator-Actor-Critic (OAC) algorithm
-- Neural operator architectures (DeepONet, FNO integration)
-- Training stability techniques
-- Benchmark results (continuous control, physics tasks)
-- Ablation studies</p>
-<p><strong>Dependencies:</strong>
-- Requires Paper A theory finalized
-- Requires implementation of <code>src/grl/operators/</code> and <code>src/grl/algorithms/</code></p>
-<p><strong>Timeline:</strong>
-- <strong>February-March 2026:</strong> Algorithm development
-- <strong>April-May 2026:</strong> Benchmarking
-- <strong>June 2026:</strong> Draft and submit</p>
+<p><strong>Planned Content:</strong></p>
+<ul>
+<li>Operator-Actor-Critic (OAC) algorithm</li>
+<li>Neural operator architectures (DeepONet, FNO integration)</li>
+<li>Training stability techniques</li>
+<li>Benchmark results (continuous control, physics tasks)</li>
+<li>Ablation studies</li>
+</ul>
+<p><strong>Dependencies:</strong></p>
+<ul>
+<li>Requires Paper A theory finalized</li>
+<li>Requires implementation of <code>src/grl/operators/</code> and <code>src/grl/algorithms/</code></li>
+</ul>
+<p><strong>Timeline:</strong></p>
+<ul>
+<li><strong>February-March 2026:</strong> Algorithm development</li>
+<li><strong>April-May 2026:</strong> Benchmarking</li>
+<li><strong>June 2026:</strong> Draft and submit</li>
+</ul>
 <hr />
 <h3 id="paper-c-empirical-applications">Paper C: Empirical Applications<a class="headerlink" href="#paper-c-empirical-applications" title="Permanent link">&para;</a></h3>
 <p><strong>Status:</strong> ⏳ Planned<br />
 <strong>Target:</strong> CoRL/IROS 2026 (Robotics/Applications)</p>
-<p><strong>Planned Content:</strong>
-- Real-world robotic manipulation
-- Fluid control problems
-- PDE-governed systems
-- Physics-based environments
-- Interpretability analysis (energy landscapes, concept activation)</p>
-<p><strong>Dependencies:</strong>
-- Requires Paper B algorithms
-- Requires mature implementation</p>
-<p><strong>Timeline:</strong>
-- <strong>April-June 2026:</strong> Application experiments
-- <strong>July 2026:</strong> Draft and submit (CoRL deadline)</p>
+<p><strong>Planned Content:</strong></p>
+<ul>
+<li>Real-world robotic manipulation</li>
+<li>Fluid control problems</li>
+<li>PDE-governed systems</li>
+<li>Physics-based environments</li>
+<li>Interpretability analysis (energy landscapes, concept activation)</li>
+</ul>
+<p><strong>Dependencies:</strong></p>
+<ul>
+<li>Requires Paper B algorithms</li>
+<li>Requires mature implementation</li>
+</ul>
+<p><strong>Timeline:</strong></p>
+<ul>
+<li><strong>April-June 2026:</strong> Application experiments</li>
+<li><strong>July 2026:</strong> Draft and submit (CoRL deadline)</li>
+</ul>
 <hr />
 <h2 id="implementation-roadmap">Implementation Roadmap<a class="headerlink" href="#implementation-roadmap" title="Permanent link">&para;</a></h2>
 <p><strong>Status:</strong> 🔄 Basic structure in place, algorithms pending<br />
 <strong>Goal:</strong> Reference implementation of GRL v0, classical RL recovery, and modern applications</p>
 <hr />
 <h3 id="environment-simulation-package">Environment Simulation Package<a class="headerlink" href="#environment-simulation-package" title="Permanent link">&para;</a></h3>
-<p><strong>Vision:</strong> Comprehensive environment package supporting:
-1. <strong>Validation</strong>: Classical RL baselines (CartPole, Pendulum, MuJoCo)
-2. <strong>Strategy</strong>: Modern applications (RLHF, prompt optimization, molecule design)
-3. <strong>Innovation</strong>: GRL-native domains (physics simulation, field control)</p>
+<p><strong>Vision:</strong> Comprehensive environment package supporting:</p>
+<ol>
+<li><strong>Validation</strong>: Classical RL baselines (CartPole, Pendulum, MuJoCo)</li>
+<li><strong>Strategy</strong>: Modern applications (RLHF, prompt optimization, molecule design)</li>
+<li><strong>Innovation</strong>: GRL-native domains (physics simulation, field control)</li>
+</ol>
 <p><strong>Package Structure:</strong></p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>src/grl/envs/
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── validation/              # Tier 1: Reproduce classical RL
@@ -3731,10 +3775,16 @@
 </span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    ├── benchmark_suite.py   # Standard benchmarks
 </span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>    └── tutorials.py         # Teaching examples
 </span></code></pre></div>
-<p><strong>Key Design Principles:</strong>
-- <strong>Wrappers</strong> enable GRL on <strong>any existing RL environment</strong>
-- <strong>Strategic environments</strong> target commercially relevant problems
-- <strong>Scenarios</strong> provide reproducible experiments</p>
+<p><strong>Key Design Principles:</strong></p>
+<ul>
+<li>
+<p><strong>Wrappers</strong> enable GRL on <strong>any existing RL environment</strong></p>
+</li>
+<li>
+<p><strong>Strategic environments</strong> target commercially relevant problems</p>
+</li>
+<li><strong>Scenarios</strong> provide reproducible experiments</li>
+</ul>
 <hr />
 <h2 id="implementation-roadmap_1">Implementation Roadmap<a class="headerlink" href="#implementation-roadmap_1" title="Permanent link">&para;</a></h2>
 <hr />
@@ -3782,65 +3832,81 @@
 </tr>
 </tbody>
 </table>
-<p><strong>Priority Tasks:</strong>
-1. Complete MemoryUpdate implementation
-2. Implement RF-SARSA
-3. Add sparse GP variants
-4. Create tutorial notebooks</p>
+<p><strong>Priority Tasks:</strong></p>
+<ol>
+<li>Complete MemoryUpdate implementation</li>
+<li>Implement RF-SARSA</li>
+<li>Add sparse GP variants</li>
+<li>Create tutorial notebooks</li>
+</ol>
 <hr />
 <h3 id="phase-2-scalable-learning-march-april-2026">Phase 2: Scalable Learning (March-April 2026)<a class="headerlink" href="#phase-2-scalable-learning-march-april-2026" title="Permanent link">&para;</a></h3>
 <p><strong>Goal:</strong> Implement alternative learning mechanisms from Chapter 07</p>
-<p><strong>Tasks:</strong>
-- Kernel ridge regression
-- Online SGD on weights
-- Sparse methods (LASSO, inducing points)
-- Hybrid (neural + particle)</p>
+<p><strong>Tasks:</strong></p>
+<ul>
+<li>Kernel ridge regression</li>
+<li>Online SGD on weights</li>
+<li>Sparse methods (LASSO, inducing points)</li>
+<li>Hybrid (neural + particle)</li>
+</ul>
 <hr />
 <h3 id="phase-3-memory-dynamics-april-may-2026">Phase 3: Memory Dynamics (April-May 2026)<a class="headerlink" href="#phase-3-memory-dynamics-april-may-2026" title="Permanent link">&para;</a></h3>
 <p><strong>Goal:</strong> Implement principled memory consolidation from Chapter 08</p>
-<p><strong>Tasks:</strong>
-- Soft association (no hard threshold)
-- Top-k adaptive neighbors
-- MDL consolidation
-- Surprise-gated formation
-- Memory type tags (factual/experiential/working)</p>
+<p><strong>Tasks:</strong></p>
+<ul>
+<li>Soft association (no hard threshold)</li>
+<li>Top-k adaptive neighbors</li>
+<li>MDL consolidation</li>
+<li>Surprise-gated formation</li>
+<li>Memory type tags (factual/experiential/working)</li>
+</ul>
 <hr />
 <h3 id="phase-4-operator-framework-may-july-2026">Phase 4: Operator Framework (May-July 2026)<a class="headerlink" href="#phase-4-operator-framework-may-july-2026" title="Permanent link">&para;</a></h3>
 <p><strong>Goal:</strong> Implement Paper A operator formalism</p>
-<p><strong>Tasks:</strong>
-- Operator base classes
-- Operator families (affine, field, kernel, neural)
-- Composition and algebra
-- Operator-Actor-Critic (OAC)</p>
+<p><strong>Tasks:</strong></p>
+<ul>
+<li>Operator base classes</li>
+<li>Operator families (affine, field, kernel, neural)</li>
+<li>Composition and algebra</li>
+<li>Operator-Actor-Critic (OAC)</li>
+</ul>
 <hr />
 <h3 id="phase-5-applications-august-2026">Phase 5: Applications (August 2026+)<a class="headerlink" href="#phase-5-applications-august-2026" title="Permanent link">&para;</a></h3>
 <p><strong>Goal:</strong> Benchmarks and real-world demos</p>
-<p><strong>Tasks:</strong>
-- Continuous control tasks
-- Physics-based simulations
-- Robotic manipulation (if hardware available)
-- Transfer learning experiments</p>
+<p><strong>Tasks:</strong></p>
+<ul>
+<li>Continuous control tasks</li>
+<li>Physics-based simulations</li>
+<li>Robotic manipulation (if hardware available)</li>
+<li>Transfer learning experiments</li>
+</ul>
 <hr />
 <h2 id="documentation-structure">Documentation Structure<a class="headerlink" href="#documentation-structure" title="Permanent link">&para;</a></h2>
 <p><strong>Goal:</strong> Multi-level documentation for different audiences</p>
 <hr />
 <h3 id="public-documentation-docs">Public Documentation (<code>docs/</code>)<a class="headerlink" href="#public-documentation-docs" title="Permanent link">&para;</a></h3>
-<p><strong>Tutorial Papers:</strong>
-- <code>docs/GRL0/tutorials/</code> — Part I: Particle-Based Learning
-- <code>docs/GRL0/quantum_inspired/</code> — Advanced topics (QM connections)
-- <code>docs/GRL0/paper/</code> — Suggested edits for original paper
-- <code>docs/GRL0/implementation/</code> — Implementation notes</p>
-<p><strong>Future:</strong>
-- <code>docs/theory/</code> — Operator formalism theory (from Paper A)
-- <code>docs/algorithms/</code> — Training algorithms (from Paper B)
-- <code>docs/tutorials/</code> — Quick start guides</p>
+<p><strong>Tutorial Papers:</strong></p>
+<ul>
+<li><code>docs/GRL0/tutorials/</code> — Part I: Particle-Based Learning</li>
+<li><code>docs/GRL0/quantum_inspired/</code> — Advanced topics (QM connections)</li>
+<li><code>docs/GRL0/paper/</code> — Suggested edits for original paper</li>
+<li><code>docs/GRL0/implementation/</code> — Implementation notes</li>
+</ul>
+<p><strong>Future:</strong></p>
+<ul>
+<li><code>docs/theory/</code> — Operator formalism theory (from Paper A)</li>
+<li><code>docs/algorithms/</code> — Training algorithms (from Paper B)</li>
+<li><code>docs/tutorials/</code> — Quick start guides</li>
+</ul>
 <hr />
 <h3 id="private-development-dev">Private Development (<code>dev/</code>)<a class="headerlink" href="#private-development-dev" title="Permanent link">&para;</a></h3>
-<p><strong>Current Work:</strong>
-- <code>dev/GRL0/</code> — Private notes for GRL v0 development
-- <code>dev/papers/</code> — Paper drafts (A, B, C)
-- <code>dev/GRL_extensions/</code> — Extension ideas
-- <code>dev/references/</code> — Original paper, related papers</p>
+<p><strong>Current Work:</strong></p>
+<ul>
+<li><code>dev/GRL0/</code> — Private notes for GRL v0 development</li>
+<li><code>dev/papers/</code> — Paper drafts (A, B, C)</li>
+<li><code>dev/GRL_extensions/</code> — Extension ideas</li>
+<li><code>dev/references/</code> — Original paper, related papers</li>
+</ul>
 <hr />
 <h3 id="code-documentation">Code Documentation<a class="headerlink" href="#code-documentation" title="Permanent link">&para;</a></h3>
 <ul>
@@ -3852,43 +3918,53 @@
 <hr />
 <h2 id="research-themes-connections">Research Themes &amp; Connections<a class="headerlink" href="#research-themes-connections" title="Permanent link">&para;</a></h2>
 <h3 id="theme-1-functional-learning">Theme 1: Functional Learning<a class="headerlink" href="#theme-1-functional-learning" title="Permanent link">&para;</a></h3>
-<p><strong>Across all work:</strong>
-- State as function <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span>
-- Operators on function spaces
-- RKHS as mathematical foundation</p>
+<p><strong>Across all work:</strong></p>
+<ul>
+<li>State as function <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span></li>
+<li>Operators on function spaces</li>
+<li>RKHS as mathematical foundation</li>
+</ul>
 <p><strong>Papers:</strong> GRL v0, Paper A, quantum-inspired extensions</p>
 <hr />
 <h3 id="theme-2-particle-based-inference">Theme 2: Particle-Based Inference<a class="headerlink" href="#theme-2-particle-based-inference" title="Permanent link">&para;</a></h3>
 <p><strong>Key insight:</strong> Weighted particles as basis for belief state</p>
 <p><strong>Papers:</strong> GRL v0, memory dynamics (Chapter 08)</p>
-<p><strong>Extensions:</strong>
-- Sparse approximations
-- Hierarchical particles
-- Nonparametric clustering</p>
+<p><strong>Extensions:</strong></p>
+<ul>
+<li>Sparse approximations</li>
+<li>Hierarchical particles</li>
+<li>Nonparametric clustering</li>
+</ul>
 <hr />
 <h3 id="theme-3-energy-based-learning">Theme 3: Energy-Based Learning<a class="headerlink" href="#theme-3-energy-based-learning" title="Permanent link">&para;</a></h3>
 <p><strong>Key insight:</strong> Energy function <span class="arithmatex">\(E(z) = -Q^+(z)\)</span> connects to physics</p>
 <p><strong>Papers:</strong> GRL v0 (Chapter 03), Paper A (least action principle)</p>
-<p><strong>Extensions:</strong>
-- Hamilton-Jacobi-Bellman PDEs
-- Conservative vector fields
-- Lagrangian mechanics for policy</p>
+<p><strong>Extensions:</strong></p>
+<ul>
+<li>Hamilton-Jacobi-Bellman PDEs</li>
+<li>Conservative vector fields</li>
+<li>Lagrangian mechanics for policy</li>
+</ul>
 <hr />
 <h3 id="theme-4-hierarchical-abstraction">Theme 4: Hierarchical Abstraction<a class="headerlink" href="#theme-4-hierarchical-abstraction" title="Permanent link">&para;</a></h3>
 <p><strong>Key insight:</strong> Concepts as subspaces in function space</p>
 <p><strong>Papers:</strong> GRL v0 Part II, concept projections (Chapter 05), MoE (Chapter 07)</p>
-<p><strong>Extensions:</strong>
-- Multi-scale representations
-- Transfer learning via shared basis
-- Compositional behaviors</p>
+<p><strong>Extensions:</strong></p>
+<ul>
+<li>Multi-scale representations</li>
+<li>Transfer learning via shared basis</li>
+<li>Compositional behaviors</li>
+</ul>
 <hr />
 <h3 id="theme-5-quantum-inspired-probability">Theme 5: Quantum-Inspired Probability<a class="headerlink" href="#theme-5-quantum-inspired-probability" title="Permanent link">&para;</a></h3>
 <p><strong>Key insight:</strong> Amplitude-based learning with phase and interference</p>
 <p><strong>Papers:</strong> Quantum-inspired chapters (01-04), potential standalone paper</p>
-<p><strong>Extensions:</strong>
-- Complex RKHS for RL
-- Born rule for action selection
-- Spectral methods for concept discovery</p>
+<p><strong>Extensions:</strong></p>
+<ul>
+<li>Complex RKHS for RL</li>
+<li>Born rule for action selection</li>
+<li>Spectral methods for concept discovery</li>
+</ul>
 <hr />
 <h2 id="strategic-applications-demonstrating-grls-generality">Strategic Applications: Demonstrating GRL's Generality<a class="headerlink" href="#strategic-applications-demonstrating-grls-generality" title="Permanent link">&para;</a></h2>
 <p><strong>Goal:</strong> Show that GRL <strong>subsumes</strong> classical RL and applies to modern, commercially relevant problems.</p>
@@ -3896,118 +3972,160 @@
 <h3 id="application-1-recovering-classical-rl-critical-for-adoption">Application 1: Recovering Classical RL 🔥 <strong>Critical for Adoption</strong><a class="headerlink" href="#application-1-recovering-classical-rl-critical-for-adoption" title="Permanent link">&para;</a></h3>
 <p><strong>Motivation:</strong> Researchers trust frameworks that generalize what they already know.</p>
 <p><strong>Objective:</strong> Demonstrate that Q-learning, DQN, PPO, SAC, RLHF are <strong>special cases</strong> of GRL.</p>
-<p><strong>Deliverables:</strong>
-- <strong>Document:</strong> <a href="../GRL0/recovering_classical_rl/">Recovering Classical RL from GRL</a> ✅ Complete
-- <strong>Implementation:</strong> Wrappers for Gym/Gymnasium environments
-- <strong>Validation:</strong> Reproduce classical results (±5% performance)
-  - Q-learning on GridWorld
-  - DQN on CartPole
-  - SAC on Pendulum
-  - PPO on continuous control</p>
+<p><strong>Deliverables:</strong></p>
+<ul>
+<li><strong>Document:</strong> <a href="../GRL0/recovering_classical_rl/">Recovering Classical RL from GRL</a> ✅ Complete</li>
+<li><strong>Implementation:</strong> Wrappers for Gym/Gymnasium environments</li>
+<li><strong>Validation:</strong> Reproduce classical results (±5% performance)</li>
+<li>Q-learning on GridWorld</li>
+<li>DQN on CartPole</li>
+<li>SAC on Pendulum</li>
+<li>PPO on continuous control</li>
+</ul>
 <p><strong>Timeline:</strong> Q2 2026</p>
-<p><strong>Impact:</strong> 
-- Convinces classical RL researchers GRL is not alien
-- Provides clear migration path from classical to GRL
-- Enables GRL to leverage existing benchmarks</p>
+<p><strong>Impact:</strong> </p>
+<ul>
+<li>Convinces classical RL researchers GRL is not alien</li>
+<li>Provides clear migration path from classical to GRL</li>
+<li>Enables GRL to leverage existing benchmarks</li>
+</ul>
 <hr />
 <h3 id="application-2-rlhf-for-llms-theoretical-connection-future-direction">Application 2: RLHF for LLMs (Theoretical Connection + Future Direction)<a class="headerlink" href="#application-2-rlhf-for-llms-theoretical-connection-future-direction" title="Permanent link">&para;</a></h3>
 <p><strong>Status:</strong> Theoretical connection established, implementation exploratory</p>
-<p><strong>Why This Matters:</strong>
-- <strong>Validation:</strong> RLHF (ChatGPT, Claude, Llama) is most commercially important RL application
-- <strong>Familiarity:</strong> Most ML researchers understand this problem
-- <strong>Generality:</strong> If GRL generalizes RLHF theoretically, it validates framework's breadth</p>
-<p><strong>Theoretical Formulation:</strong>
-- State: <span class="arithmatex">\(s_t\)</span> = (prompt, partial response)
-- Action: <span class="arithmatex">\(\theta_t\)</span> = token ID (discrete action space)
-- Augmented space: <span class="arithmatex">\((s_t, \theta_t)\)</span>
-- Field: <span class="arithmatex">\(Q^+(s_t, \theta_t)\)</span> = expected reward for token <span class="arithmatex">\(\theta_t\)</span> in context <span class="arithmatex">\(s_t\)</span>
-- <strong>Key insight:</strong> Standard RLHF (PPO) is GRL with discrete actions + neural network approximation</p>
-<p><strong>Documentation:</strong>
-- <a href="../GRL0/recovering_classical_rl/">Recovering Classical RL from GRL</a> — Section 6 covers RLHF</p>
-<p><strong>Potential Advantages</strong> (Theoretical):
-1. Off-policy learning (replay buffer of human feedback)
-2. Kernel generalization (transfer across prompts)
-3. Uncertainty quantification (exploration where uncertain)
-4. Interpretability (energy landscapes)</p>
+<p><strong>Why This Matters:</strong></p>
+<ul>
+<li><strong>Validation:</strong> RLHF (ChatGPT, Claude, Llama) is most commercially important RL application</li>
+<li><strong>Familiarity:</strong> Most ML researchers understand this problem</li>
+<li><strong>Generality:</strong> If GRL generalizes RLHF theoretically, it validates framework's breadth</li>
+</ul>
+<p><strong>Theoretical Formulation:</strong></p>
+<ul>
+<li>State: <span class="arithmatex">\(s_t\)</span> = (prompt, partial response)</li>
+<li>Action: <span class="arithmatex">\(\theta_t\)</span> = token ID (discrete action space)</li>
+<li>Augmented space: <span class="arithmatex">\((s_t, \theta_t)\)</span></li>
+<li>Field: <span class="arithmatex">\(Q^+(s_t, \theta_t)\)</span> = expected reward for token <span class="arithmatex">\(\theta_t\)</span> in context <span class="arithmatex">\(s_t\)</span></li>
+<li><strong>Key insight:</strong> Standard RLHF (PPO) is GRL with discrete actions + neural network approximation</li>
+</ul>
+<p><strong>Documentation:</strong></p>
+<ul>
+<li><a href="../GRL0/recovering_classical_rl/">Recovering Classical RL from GRL</a> — Section 6 covers RLHF</li>
+</ul>
+<p><strong>Potential Advantages</strong> (Theoretical):</p>
+<ol>
+<li>Off-policy learning (replay buffer of human feedback)</li>
+<li>Kernel generalization (transfer across prompts)</li>
+<li>Uncertainty quantification (exploration where uncertain)</li>
+<li>Interpretability (energy landscapes)</li>
+</ol>
 <p><strong>However:</strong> These are speculative without empirical validation.</p>
 <hr />
 <p><strong>Implementation Reality:</strong></p>
-<p><strong>Challenges:</strong>
-- Infrastructure complexity (reward model, human feedback data)
-- Computational cost (expensive even for GPT-2)
-- Integration with existing tools (TRL, transformers, accelerate)
-- Validation difficulty (matching PPO requires extensive tuning)</p>
+<p><strong>Challenges:</strong></p>
+<ul>
+<li>Infrastructure complexity (reward model, human feedback data)</li>
+<li>Computational cost (expensive even for GPT-2)</li>
+<li>Integration with existing tools (TRL, transformers, accelerate)</li>
+<li>Validation difficulty (matching PPO requires extensive tuning)</li>
+</ul>
 <p><strong>Estimated Effort:</strong> 6-12 months of focused work with GPU resources</p>
-<p><strong>When to Pursue:</strong>
-- ✅ After GRL validated on simpler environments
-- ✅ If collaborators or funding available
-- ✅ If clear path to demonstrating advantages</p>
-<p><strong>Realistic Alternative:</strong>
-- Write theoretical articles justifying the connection
-- Toy RLHF-like problem (not real LLM) as proof-of-concept
-- Wait for opportunities (industry collaboration, research grant)</p>
+<p><strong>When to Pursue:</strong></p>
+<ul>
+<li>✅ After GRL validated on simpler environments</li>
+<li>✅ If collaborators or funding available</li>
+<li>✅ If clear path to demonstrating advantages</li>
+</ul>
+<p><strong>Realistic Alternative:</strong></p>
+<ul>
+<li>Write theoretical articles justifying the connection</li>
+<li>Toy RLHF-like problem (not real LLM) as proof-of-concept</li>
+<li>Wait for opportunities (industry collaboration, research grant)</li>
+</ul>
 <hr />
 <h3 id="application-3-additional-modern-rl-domains">Application 3: Additional Modern RL Domains<a class="headerlink" href="#application-3-additional-modern-rl-domains" title="Permanent link">&para;</a></h3>
-<p><strong>Prompt Optimization:</strong>
-- Parametric prompt generation (continuous in embedding space)
-- GRL learns smooth prompt space
-- Transfer across tasks</p>
-<p><strong>Molecule Design:</strong>
-- Parametric molecular operators
-- GRL discovers optimal molecules for drug properties
-- Physics-informed kernels</p>
-<p><strong>Neural Architecture Search:</strong>
-- Compositional architecture operators
-- GRL explores architecture space efficiently
-- Uncertainty-guided search</p>
+<p><strong>Prompt Optimization:</strong></p>
+<ul>
+<li>Parametric prompt generation (continuous in embedding space)</li>
+<li>GRL learns smooth prompt space</li>
+<li>Transfer across tasks</li>
+</ul>
+<p><strong>Molecule Design:</strong></p>
+<ul>
+<li>Parametric molecular operators</li>
+<li>GRL discovers optimal molecules for drug properties</li>
+<li>Physics-informed kernels</li>
+</ul>
+<p><strong>Neural Architecture Search:</strong></p>
+<ul>
+<li>Compositional architecture operators</li>
+<li>GRL explores architecture space efficiently</li>
+<li>Uncertainty-guided search</li>
+</ul>
 <p><strong>Timeline:</strong> Q4 2026+</p>
 <hr />
 <h2 id="potential-novel-contributions-publishable">Potential Novel Contributions (Publishable)<a class="headerlink" href="#potential-novel-contributions-publishable" title="Permanent link">&para;</a></h2>
 <h3 id="high-priority-contributions">High-Priority Contributions<a class="headerlink" href="#high-priority-contributions" title="Permanent link">&para;</a></h3>
-<p><strong>1. Amplitude-Based Reinforcement Learning</strong> 🔥 <strong>Top Priority</strong>
-- <strong>Novelty:</strong> First RL with complex-valued value functions
-- <strong>Venue:</strong> NeurIPS/ICML 2026-2027
-- <strong>Readiness:</strong> 30% (theory done, needs implementation)</p>
-<p><strong>2. Information-Theoretic Memory Consolidation</strong>
-- <strong>Novelty:</strong> MDL framework for experience replay
-- <strong>Venue:</strong> ICML/NeurIPS 2026-2027
-- <strong>Readiness:</strong> 40% (formulation clear, needs experiments)</p>
-<p><strong>3. Operator-Based GRL (Paper A)</strong>
-- <strong>Novelty:</strong> Actions as operators, not symbols
-- <strong>Venue:</strong> NeurIPS/ICML 2026
-- <strong>Readiness:</strong> 70% (draft complete, figures/experiments needed)</p>
+<p><strong>1. Amplitude-Based Reinforcement Learning</strong> 🔥 <strong>Top Priority</strong></p>
+<ul>
+<li><strong>Novelty:</strong> First RL with complex-valued value functions</li>
+<li><strong>Venue:</strong> NeurIPS/ICML 2026-2027</li>
+<li><strong>Readiness:</strong> 30% (theory done, needs implementation)</li>
+</ul>
+<p><strong>2. Information-Theoretic Memory Consolidation</strong></p>
+<ul>
+<li><strong>Novelty:</strong> MDL framework for experience replay</li>
+<li><strong>Venue:</strong> ICML/NeurIPS 2026-2027</li>
+<li><strong>Readiness:</strong> 40% (formulation clear, needs experiments)</li>
+</ul>
+<p><strong>3. Operator-Based GRL (Paper A)</strong></p>
+<ul>
+<li><strong>Novelty:</strong> Actions as operators, not symbols</li>
+<li><strong>Venue:</strong> NeurIPS/ICML 2026</li>
+<li><strong>Readiness:</strong> 70% (draft complete, figures/experiments needed)</li>
+</ul>
 <hr />
 <h3 id="medium-priority-contributions">Medium-Priority Contributions<a class="headerlink" href="#medium-priority-contributions" title="Permanent link">&para;</a></h3>
-<p><strong>4. Theoretical Articles: Modern RL as Special Cases of GRL</strong>
-- <strong>Novelty:</strong> Justify that RLHF, prompt optimization, NAS, molecule design are GRL special cases
-- <strong>Venue:</strong> Blog posts, workshop papers, or sections in main papers
-- <strong>Readiness:</strong> 50% ("Recovering Classical RL" document provides template)
-- <strong>Impact:</strong> Demonstrates GRL's generality without requiring full implementations</p>
-<p><strong>5. Concept Subspaces for Hierarchical RL</strong>
-- <strong>Novelty:</strong> Rigorous RKHS subspace formalism
-- <strong>Venue:</strong> ICLR/AISTATS 2027
-- <strong>Readiness:</strong> 50% (math done, algorithms needed)</p>
-<p><strong>6. Surprise-Modulated Episodic Memory</strong>
-- <strong>Novelty:</strong> Bio-inspired consolidation
-- <strong>Venue:</strong> CogSci/Neural Computation 2027
-- <strong>Readiness:</strong> 60% (theory clear, needs validation)</p>
-<p><strong>7. Hybrid Neural-Particle RL</strong>
-- <strong>Novelty:</strong> Combining deep learning with GP memory
-- <strong>Venue:</strong> ICLR/ICML 2027
-- <strong>Readiness:</strong> 30% (concept clear, full implementation needed)</p>
+<p><strong>4. Theoretical Articles: Modern RL as Special Cases of GRL</strong></p>
+<ul>
+<li><strong>Novelty:</strong> Justify that RLHF, prompt optimization, NAS, molecule design are GRL special cases</li>
+<li><strong>Venue:</strong> Blog posts, workshop papers, or sections in main papers</li>
+<li><strong>Readiness:</strong> 50% ("Recovering Classical RL" document provides template)</li>
+<li><strong>Impact:</strong> Demonstrates GRL's generality without requiring full implementations</li>
+</ul>
+<p><strong>5. Concept Subspaces for Hierarchical RL</strong></p>
+<ul>
+<li><strong>Novelty:</strong> Rigorous RKHS subspace formalism</li>
+<li><strong>Venue:</strong> ICLR/AISTATS 2027</li>
+<li><strong>Readiness:</strong> 50% (math done, algorithms needed)</li>
+</ul>
+<p><strong>6. Surprise-Modulated Episodic Memory</strong></p>
+<ul>
+<li><strong>Novelty:</strong> Bio-inspired consolidation</li>
+<li><strong>Venue:</strong> CogSci/Neural Computation 2027</li>
+<li><strong>Readiness:</strong> 60% (theory clear, needs validation)</li>
+</ul>
+<p><strong>7. Hybrid Neural-Particle RL</strong></p>
+<ul>
+<li><strong>Novelty:</strong> Combining deep learning with GP memory</li>
+<li><strong>Venue:</strong> ICLR/ICML 2027</li>
+<li><strong>Readiness:</strong> 30% (concept clear, full implementation needed)</li>
+</ul>
 <hr />
 <h3 id="strategic-applications-future-possibilities-no-timeline">Strategic Applications (Future Possibilities, No Timeline)<a class="headerlink" href="#strategic-applications-future-possibilities-no-timeline" title="Permanent link">&para;</a></h3>
-<p><strong>8. GRL for LLM Fine-tuning (RLHF)</strong>
-- <strong>Novelty:</strong> Application of functional RL to most commercially important RL problem
-- <strong>Venue:</strong> ICLR/NeurIPS (if pursued)
-- <strong>Readiness:</strong> 20% (theoretical connection clear, implementation requires major resources)
-- <strong>Status:</strong> Exploratory — pursue only if collaborators/funding available
-- <strong>Alternative:</strong> Write theoretical articles + toy proof-of-concept</p>
-<p><strong>9. Other Strategic Applications</strong>
-- Prompt optimization, molecule design, neural architecture search
-- <strong>Status:</strong> Theoretical connections to be documented
-- <strong>Implementation:</strong> Pick 1-2 if resources available
-- <strong>Primary Value:</strong> Demonstrate GRL generalizes modern RL methods</p>
+<p><strong>8. GRL for LLM Fine-tuning (RLHF)</strong></p>
+<ul>
+<li><strong>Novelty:</strong> Application of functional RL to most commercially important RL problem</li>
+<li><strong>Venue:</strong> ICLR/NeurIPS (if pursued)</li>
+<li><strong>Readiness:</strong> 20% (theoretical connection clear, implementation requires major resources)</li>
+<li><strong>Status:</strong> Exploratory — pursue only if collaborators/funding available</li>
+<li><strong>Alternative:</strong> Write theoretical articles + toy proof-of-concept</li>
+</ul>
+<p><strong>9. Other Strategic Applications</strong></p>
+<ul>
+<li>Prompt optimization, molecule design, neural architecture search</li>
+<li><strong>Status:</strong> Theoretical connections to be documented</li>
+<li><strong>Implementation:</strong> Pick 1-2 if resources available</li>
+<li><strong>Primary Value:</strong> Demonstrate GRL generalizes modern RL methods</li>
+</ul>
 <hr />
 <h2 id="timeline-summary">Timeline Summary<a class="headerlink" href="#timeline-summary" title="Permanent link">&para;</a></h2>
 <h3 id="2026-q1-january-march">2026 Q1 (January-March)<a class="headerlink" href="#2026-q1-january-march" title="Permanent link">&para;</a></h3>
@@ -4120,16 +4238,24 @@
 <li>Chiu &amp; Huber (2022). <em>Generalized Reinforcement Learning</em>. arXiv:2208.04822.</li>
 </ul>
 <h3 id="inspirations">Inspirations<a class="headerlink" href="#inspirations" title="Permanent link">&para;</a></h3>
-<p><strong>Kernel Methods:</strong>
-- Rasmussen &amp; Williams (2006). <em>Gaussian Processes for Machine Learning</em>.</p>
-<p><strong>Operator Learning:</strong>
-- Lu et al. (2021). <em>Learning Nonlinear Operators via DeepONet</em>. Nature Machine Intelligence.
-- Li et al. (2021). <em>Fourier Neural Operator</em>. ICLR.</p>
-<p><strong>Quantum-Inspired ML:</strong>
-- Cheng et al. (2018). <em>Quantum Generative Adversarial Learning</em>. PRL.
-- Havlíček et al. (2019). <em>Supervised Learning with Quantum-Enhanced Feature Spaces</em>. Nature.</p>
-<p><strong>Memory &amp; Agent Systems:</strong>
-- Cao et al. (2024). <em>Memory in the Age of AI Agents</em>. arXiv:2512.13564.</p>
+<p><strong>Kernel Methods:</strong></p>
+<ul>
+<li>Rasmussen &amp; Williams (2006). <em>Gaussian Processes for Machine Learning</em>.</li>
+</ul>
+<p><strong>Operator Learning:</strong></p>
+<ul>
+<li>Lu et al. (2021). <em>Learning Nonlinear Operators via DeepONet</em>. Nature Machine Intelligence.</li>
+<li>Li et al. (2021). <em>Fourier Neural Operator</em>. ICLR.</li>
+</ul>
+<p><strong>Quantum-Inspired ML:</strong></p>
+<ul>
+<li>Cheng et al. (2018). <em>Quantum Generative Adversarial Learning</em>. PRL.</li>
+<li>Havlíček et al. (2019). <em>Supervised Learning with Quantum-Enhanced Feature Spaces</em>. Nature.</li>
+</ul>
+<p><strong>Memory &amp; Agent Systems:</strong></p>
+<ul>
+<li>Cao et al. (2024). <em>Memory in the Age of AI Agents</em>. arXiv:2512.13564.</li>
+</ul>
 <hr />
 <h2 id="contact-collaboration">Contact &amp; Collaboration<a class="headerlink" href="#contact-collaboration" title="Permanent link">&para;</a></h2>
 <p><strong>Documentation:</strong> <a href="docs/">docs/</a><br />

@@ -3342,22 +3342,28 @@
 <p><strong>Posterior mean after observing data:</strong></p>
 <div class="arithmatex">\[Q^+(z) = \sum_{i=1}^N \alpha_i k(z_i, z)\]</div>
 <p>where <span class="arithmatex">\(\boldsymbol{\alpha} = (\mathbf{K} + \sigma^2 \mathbf{I})^{-1} \mathbf{y}\)</span></p>
-<p><strong>Properties:</strong>
-- ✅ Probabilistic (gives uncertainty)
-- ✅ Kernel-based (automatic generalization)
-- ✅ Theoretically grounded
-- ❌ Requires matrix inversion (<span class="arithmatex">\(O(N^3)\)</span>)
-- ❌ Full covariance matrix (<span class="arithmatex">\(O(N^2)\)</span> memory)</p>
+<p><strong>Properties:</strong></p>
+<ul>
+<li>✅ Probabilistic (gives uncertainty)</li>
+<li>✅ Kernel-based (automatic generalization)</li>
+<li>✅ Theoretically grounded</li>
+<li>❌ Requires matrix inversion (<span class="arithmatex">\(O(N^3)\)</span>)</li>
+<li>❌ Full covariance matrix (<span class="arithmatex">\(O(N^2)\)</span> memory)</li>
+</ul>
 <hr />
 <h3 id="when-gp-makes-sense">When GP Makes Sense<a class="headerlink" href="#when-gp-makes-sense" title="Permanent link">&para;</a></h3>
-<p><strong>Good for:</strong>
-- Small-to-medium particle sets (<span class="arithmatex">\(N &lt; 10^4\)</span>)
-- Batch updates (re-solve periodically)
-- When you need calibrated uncertainty</p>
-<p><strong>Not ideal for:</strong>
-- Large-scale online learning
-- Extremely sparse solutions
-- Real-time embedded systems</p>
+<p><strong>Good for:</strong></p>
+<ul>
+<li>Small-to-medium particle sets (<span class="arithmatex">\(N &lt; 10^4\)</span>)</li>
+<li>Batch updates (re-solve periodically)</li>
+<li>When you need calibrated uncertainty</li>
+</ul>
+<p><strong>Not ideal for:</strong></p>
+<ul>
+<li>Large-scale online learning</li>
+<li>Extremely sparse solutions</li>
+<li>Real-time embedded systems</li>
+</ul>
 <hr />
 <h2 id="3-method-2-kernel-ridge-regression-deterministic-cousin">3. Method 2: Kernel Ridge Regression (Deterministic Cousin)<a class="headerlink" href="#3-method-2-kernel-ridge-regression-deterministic-cousin" title="Permanent link">&para;</a></h2>
 <h3 id="the-regularized-least-squares-view">The Regularized Least Squares View<a class="headerlink" href="#the-regularized-least-squares-view" title="Permanent link">&para;</a></h3>
@@ -3431,11 +3437,13 @@
 ❌ <strong>Stability:</strong> May need momentum, adaptive rates</p>
 <hr />
 <h3 id="when-to-use-online-updates">When to Use Online Updates<a class="headerlink" href="#when-to-use-online-updates" title="Permanent link">&para;</a></h3>
-<p><strong>Good for:</strong>
-- Large-scale continuous learning
-- Non-stationary environments
-- Real-time systems
-- When batch re-solving is too expensive</p>
+<p><strong>Good for:</strong></p>
+<ul>
+<li>Large-scale continuous learning</li>
+<li>Non-stationary environments</li>
+<li>Real-time systems</li>
+<li>When batch re-solving is too expensive</li>
+</ul>
 <p><strong>Example:</strong> RL with millions of experiences—batch GP infeasible, online SGD works.</p>
 <hr />
 <h2 id="5-method-4-sparse-methods-compact-memory">5. Method 4: Sparse Methods (Compact Memory)<a class="headerlink" href="#5-method-4-sparse-methods-compact-memory" title="Permanent link">&para;</a></h2>
@@ -3452,28 +3460,36 @@
 <li>Memory: <span class="arithmatex">\(O(N)\)</span></li>
 <li>Computation: <span class="arithmatex">\(O(N)\)</span> per query</li>
 </ul>
-<p><strong>With sparsity:</strong>
-- Active set: <span class="arithmatex">\(\{i : w_i \neq 0\}\)</span> is small
-- Memory: <span class="arithmatex">\(O(k)\)</span> where <span class="arithmatex">\(k \ll N\)</span>
-- Computation: <span class="arithmatex">\(O(k)\)</span> per query</p>
+<p><strong>With sparsity:</strong></p>
+<ul>
+<li>Active set: <span class="arithmatex">\(\{i : w_i \neq 0\}\)</span> is small</li>
+<li>Memory: <span class="arithmatex">\(O(k)\)</span> where <span class="arithmatex">\(k \ll N\)</span></li>
+<li>Computation: <span class="arithmatex">\(O(k)\)</span> per query</li>
+</ul>
 <hr />
 <h3 id="sparse-gp-variants">Sparse GP Variants<a class="headerlink" href="#sparse-gp-variants" title="Permanent link">&para;</a></h3>
-<p><strong>Inducing point methods:</strong>
-- Select <span class="arithmatex">\(M\)</span> representative particles (inducing points)
-- Approximate <span class="arithmatex">\(Q^+\)</span> using only these <span class="arithmatex">\(M\)</span> particles
-- Solve <span class="arithmatex">\((M \times M)\)</span> system instead of <span class="arithmatex">\((N \times N)\)</span></p>
+<p><strong>Inducing point methods:</strong></p>
+<ul>
+<li>Select <span class="arithmatex">\(M\)</span> representative particles (inducing points)</li>
+<li>Approximate <span class="arithmatex">\(Q^+\)</span> using only these <span class="arithmatex">\(M\)</span> particles</li>
+<li>Solve <span class="arithmatex">\((M \times M)\)</span> system instead of <span class="arithmatex">\((N \times N)\)</span></li>
+</ul>
 <p><strong>Example: FITC, PITC, VFE</strong></p>
 <p><strong>Compression ratio:</strong> <span class="arithmatex">\(M/N\)</span> (e.g., 100 inducing points for 10,000 experiences)</p>
 <hr />
 <h3 id="when-to-use-sparse-methods">When to Use Sparse Methods<a class="headerlink" href="#when-to-use-sparse-methods" title="Permanent link">&para;</a></h3>
-<p><strong>Good for:</strong>
-- Memory-constrained systems (robots, embedded)
-- Lifelong learning (unbounded experience streams)
-- When most particles are redundant</p>
-<p><strong>Trade-off:</strong>
-- Faster queries
-- Less memory
-- Slight approximation error</p>
+<p><strong>Good for:</strong></p>
+<ul>
+<li>Memory-constrained systems (robots, embedded)</li>
+<li>Lifelong learning (unbounded experience streams)</li>
+<li>When most particles are redundant</li>
+</ul>
+<p><strong>Trade-off:</strong></p>
+<ul>
+<li>Faster queries</li>
+<li>Less memory</li>
+<li>Slight approximation error</li>
+</ul>
 <hr />
 <h2 id="6-method-5-deep-neural-networks-function-approximation">6. Method 5: Deep Neural Networks (Function Approximation)<a class="headerlink" href="#6-method-5-deep-neural-networks-function-approximation" title="Permanent link">&para;</a></h2>
 <h3 id="replacing-kernels-with-neural-nets">Replacing Kernels with Neural Nets<a class="headerlink" href="#replacing-kernels-with-neural-nets" title="Permanent link">&para;</a></h3>
@@ -3498,20 +3514,26 @@
 <div class="arithmatex">\[Q_{\text{episodic}}(z) = \sum_{i \in \text{recent}} w_i k(z_i, z)\]</div>
 <p><strong>Combined:</strong></p>
 <div class="arithmatex">\[Q^+(z) = Q_\theta(z) + \beta \sum_{i \in \text{recent}} w_i k(z_i, z)\]</div>
-<p><strong>Why this works:</strong>
-- Neural net: captures long-term patterns
-- Particles: fast adaptation to new experiences
-- Combination: benefits of both</p>
+<p><strong>Why this works:</strong></p>
+<ul>
+<li>Neural net: captures long-term patterns</li>
+<li>Particles: fast adaptation to new experiences</li>
+<li>Combination: benefits of both</li>
+</ul>
 <hr />
 <h3 id="when-to-use-deep-nets">When to Use Deep Nets<a class="headerlink" href="#when-to-use-deep-nets" title="Permanent link">&para;</a></h3>
-<p><strong>Good for:</strong>
-- High-dimensional states (images, text)
-- When kernel methods don't scale
-- Transfer learning (pre-trained representations)</p>
-<p><strong>Not ideal for:</strong>
-- Low-data regimes (kernels better)
-- When interpretability matters (particles clearer)
-- Embedded systems (large models)</p>
+<p><strong>Good for:</strong></p>
+<ul>
+<li>High-dimensional states (images, text)</li>
+<li>When kernel methods don't scale</li>
+<li>Transfer learning (pre-trained representations)</li>
+</ul>
+<p><strong>Not ideal for:</strong></p>
+<ul>
+<li>Low-data regimes (kernels better)</li>
+<li>When interpretability matters (particles clearer)</li>
+<li>Embedded systems (large models)</li>
+</ul>
 <hr />
 <h2 id="7-method-6-mixture-of-experts-multiple-local-fields">7. Method 6: Mixture of Experts (Multiple Local Fields)<a class="headerlink" href="#7-method-6-mixture-of-experts-multiple-local-fields" title="Permanent link">&para;</a></h2>
 <h3 id="the-idea">The Idea<a class="headerlink" href="#the-idea" title="Permanent link">&para;</a></h3>
@@ -3529,10 +3551,12 @@
 <p>Gate based on kernel similarity to expert centers:</p>
 <div class="arithmatex">\[g_m(z) \propto \exp(\gamma \, k(z, c_m))\]</div>
 <p>where <span class="arithmatex">\(c_m\)</span> is the center of expert <span class="arithmatex">\(m\)</span>.</p>
-<p><strong>Find centers via:</strong>
-- K-means clustering in augmented space
-- Spectral clustering (align with concepts!)
-- Online clustering as experiences arrive</p>
+<p><strong>Find centers via:</strong></p>
+<ul>
+<li>K-means clustering in augmented space</li>
+<li>Spectral clustering (align with concepts!)</li>
+<li>Online clustering as experiences arrive</li>
+</ul>
 <hr />
 <p><strong>Option B: Concept-based partition (function space)</strong></p>
 <p>Use concept subspaces from Chapter 5:</p>
@@ -3554,27 +3578,37 @@
 - Aligns with GRL's augmented space philosophy</p>
 <hr />
 <h3 id="training-mixture-of-experts">Training Mixture of Experts<a class="headerlink" href="#training-mixture-of-experts" title="Permanent link">&para;</a></h3>
-<p><strong>Option 1: Hard assignment</strong>
-- Assign each particle to one expert
-- Train experts independently</p>
-<p><strong>Option 2: Soft assignment (EM-style)</strong>
-- E-step: Compute gates <span class="arithmatex">\(g_m(z)\)</span>
-- M-step: Update each expert's weights with gate-weighted data</p>
-<p><strong>Option 3: Joint training</strong>
-- Train gates and experts together
-- Use sparse MoE (only activate top-k experts)</p>
+<p><strong>Option 1: Hard assignment</strong></p>
+<ul>
+<li>Assign each particle to one expert</li>
+<li>Train experts independently</li>
+</ul>
+<p><strong>Option 2: Soft assignment (EM-style)</strong></p>
+<ul>
+<li>E-step: Compute gates <span class="arithmatex">\(g_m(z)\)</span></li>
+<li>M-step: Update each expert's weights with gate-weighted data</li>
+</ul>
+<p><strong>Option 3: Joint training</strong></p>
+<ul>
+<li>Train gates and experts together</li>
+<li>Use sparse MoE (only activate top-k experts)</li>
+</ul>
 <hr />
 <h3 id="when-to-use-moe">When to Use MoE<a class="headerlink" href="#when-to-use-moe" title="Permanent link">&para;</a></h3>
-<p><strong>Good for:</strong>
-- Complex environments with distinct modes
-- When single field is too simple
-- Tool-using/API-calling agents
-- Hierarchical decision-making</p>
-<p><strong>Example:</strong>
-- Expert 1: Navigation in open space
-- Expert 2: Navigation through doors
-- Expert 3: Navigation in crowds
-- Gate routes based on context</p>
+<p><strong>Good for:</strong></p>
+<ul>
+<li>Complex environments with distinct modes</li>
+<li>When single field is too simple</li>
+<li>Tool-using/API-calling agents</li>
+<li>Hierarchical decision-making</li>
+</ul>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Expert 1: Navigation in open space</li>
+<li>Expert 2: Navigation through doors</li>
+<li>Expert 3: Navigation in crowds</li>
+<li>Gate routes based on context</li>
+</ul>
 <hr />
 <h2 id="8-amplitude-based-learning-quantum-inspired">8. Amplitude-Based Learning (Quantum-Inspired)<a class="headerlink" href="#8-amplitude-based-learning-quantum-inspired" title="Permanent link">&para;</a></h2>
 <h3 id="the-probability-amplitude-view">The Probability Amplitude View<a class="headerlink" href="#the-probability-amplitude-view" title="Permanent link">&para;</a></h3>
@@ -3584,37 +3618,47 @@
 <div class="arithmatex">\[\psi(x) = f_\theta(x), \quad p(x) = |\psi(x)|^2\]</div>
 <hr />
 <h3 id="why-this-is-interesting">Why This Is Interesting<a class="headerlink" href="#why-this-is-interesting" title="Permanent link">&para;</a></h3>
-<p><strong>Allows interference:</strong>
-- Amplitudes can be negative or complex
-- Combine amplitudes before squaring
-- Constructive/destructive interference</p>
+<p><strong>Allows interference:</strong></p>
+<ul>
+<li>Amplitudes can be negative or complex</li>
+<li>Combine amplitudes before squaring</li>
+<li>Constructive/destructive interference</li>
+</ul>
 <p><strong>Example:</strong></p>
 <div class="arithmatex">\[\psi_{\text{total}}(x) = \psi_1(x) + \psi_2(x)\]</div>
 <div class="arithmatex">\[p(x) = |\psi_1(x) + \psi_2(x)|^2 \neq |\psi_1(x)|^2 + |\psi_2(x)|^2\]</div>
 <p><strong>This captures correlations that direct probability models miss!</strong></p>
 <hr />
 <h3 id="existing-work">Existing Work<a class="headerlink" href="#existing-work" title="Permanent link">&para;</a></h3>
-<p><strong>Born Machines (Cheng et al. 2018):</strong>
-- Use quantum circuits to generate <span class="arithmatex">\(\psi(x)\)</span>
-- Sample from <span class="arithmatex">\(p(x) = |\psi(x)|^2\)</span>
-- For generative modeling</p>
-<p><strong>Complex-valued neural networks:</strong>
-- Amplitude + phase
-- Used in signal processing, audio, RF</p>
-<p><strong>Quantum-inspired models:</strong>
-- Quantum cognition (decision theory)
-- Quantum probability theory
-- Order effects, context effects</p>
+<p><strong>Born Machines (Cheng et al. 2018):</strong></p>
+<ul>
+<li>Use quantum circuits to generate <span class="arithmatex">\(\psi(x)\)</span></li>
+<li>Sample from <span class="arithmatex">\(p(x) = |\psi(x)|^2\)</span></li>
+<li>For generative modeling</li>
+</ul>
+<p><strong>Complex-valued neural networks:</strong></p>
+<ul>
+<li>Amplitude + phase</li>
+<li>Used in signal processing, audio, RF</li>
+</ul>
+<p><strong>Quantum-inspired models:</strong></p>
+<ul>
+<li>Quantum cognition (decision theory)</li>
+<li>Quantum probability theory</li>
+<li>Order effects, context effects</li>
+</ul>
 <hr />
 <h3 id="for-grl-amplitude-based-value-functions">For GRL: Amplitude-Based Value Functions<a class="headerlink" href="#for-grl-amplitude-based-value-functions" title="Permanent link">&para;</a></h3>
 <p><strong>Proposal:</strong> Treat <span class="arithmatex">\(Q^+\)</span> as an amplitude</p>
 <div class="arithmatex">\[Q^+(z) \in \mathbb{C}\]</div>
 <p><strong>Policy from Born rule:</strong></p>
 <div class="arithmatex">\[\pi(a|s) \propto |Q^+(s, a)|^2\]</div>
-<p><strong>Why interesting:</strong>
-- <strong>Phase</strong> can encode temporal structure, direction, context
-- <strong>Interference</strong> between action options
-- <strong>Coherence</strong> measures correlation strength</p>
+<p><strong>Why interesting:</strong></p>
+<ul>
+<li><strong>Phase</strong> can encode temporal structure, direction, context</li>
+<li><strong>Interference</strong> between action options</li>
+<li><strong>Coherence</strong> measures correlation strength</li>
+</ul>
 <p><strong>This approach is explored in detail in <a href="../03-complex-rkhs/">Chapter 3: Complex-Valued RKHS</a>.</strong></p>
 <hr />
 <h3 id="research-opportunity">Research Opportunity<a class="headerlink" href="#research-opportunity" title="Permanent link">&para;</a></h3>
@@ -3719,15 +3763,21 @@
 <h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
 <h3 id="key-insights">Key Insights<a class="headerlink" href="#key-insights" title="Permanent link">&para;</a></h3>
 <ol>
-<li><strong>Learning <span class="arithmatex">\(Q^+\)</span> is a choice</strong></li>
-<li>GP is elegant but not unique</li>
+<li>
+<p><strong>Learning <span class="arithmatex">\(Q^+\)</span> is a choice</strong></p>
+</li>
+<li>
+<p>GP is elegant but not unique</p>
+</li>
 <li>
 <p>Many alternatives preserve GRL structure</p>
 </li>
 <li>
 <p><strong>Trade-offs matter</strong></p>
 </li>
-<li>Scalability: online SGD, deep nets</li>
+<li>
+<p>Scalability: online SGD, deep nets</p>
+</li>
 <li>Sparsity: LASSO, inducing points</li>
 <li>
 <p>Structure: MoE, concept-based</p>
@@ -3735,14 +3785,18 @@
 <li>
 <p><strong>State-as-field is agnostic</strong></p>
 </li>
-<li>Can swap learning mechanisms</li>
+<li>
+<p>Can swap learning mechanisms</p>
+</li>
 <li>
 <p>Preserves: state = field, query = projection, update = operator</p>
 </li>
 <li>
 <p><strong>Amplitude-based learning is underexplored</strong></p>
 </li>
-<li>QM math can be used for ML/optimization</li>
+<li>
+<p>QM math can be used for ML/optimization</p>
+</li>
 <li>GRL is positioned to pioneer this for RL</li>
 </ol>
 <hr />
@@ -3768,17 +3822,27 @@
 <li><strong><a href="../../tutorials/06-memory-update/">Tutorial Chapter 6</a>:</strong> MemoryUpdate Algorithm</li>
 </ul>
 <h3 id="related-literature">Related Literature<a class="headerlink" href="#related-literature" title="Permanent link">&para;</a></h3>
-<p><strong>Gaussian Processes:</strong>
-- Rasmussen &amp; Williams (2006). <em>Gaussian Processes for Machine Learning</em>.</p>
-<p><strong>Online Learning:</strong>
-- Shalev-Shwartz (2011). "Online Learning and Online Convex Optimization."</p>
-<p><strong>Sparse Methods:</strong>
-- Quiñonero-Candela &amp; Rasmussen (2005). "A Unifying View of Sparse Approximate Gaussian Process Regression."</p>
-<p><strong>Born Machines:</strong>
-- Cheng et al. (2018). "Quantum Generative Adversarial Learning." <em>PRL</em>.</p>
-<p><strong>Mixture of Experts:</strong>
-- Jacobs et al. (1991). "Adaptive Mixtures of Local Experts." <em>Neural Computation</em>.
-- Shazeer et al. (2017). "Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer."</p>
+<p><strong>Gaussian Processes:</strong></p>
+<ul>
+<li>Rasmussen &amp; Williams (2006). <em>Gaussian Processes for Machine Learning</em>.</li>
+</ul>
+<p><strong>Online Learning:</strong></p>
+<ul>
+<li>Shalev-Shwartz (2011). "Online Learning and Online Convex Optimization."</li>
+</ul>
+<p><strong>Sparse Methods:</strong></p>
+<ul>
+<li>Quiñonero-Candela &amp; Rasmussen (2005). "A Unifying View of Sparse Approximate Gaussian Process Regression."</li>
+</ul>
+<p><strong>Born Machines:</strong></p>
+<ul>
+<li>Cheng et al. (2018). "Quantum Generative Adversarial Learning." <em>PRL</em>.</li>
+</ul>
+<p><strong>Mixture of Experts:</strong></p>
+<ul>
+<li>Jacobs et al. (1991). "Adaptive Mixtures of Local Experts." <em>Neural Computation</em>.</li>
+<li>Shazeer et al. (2017). "Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer."</li>
+</ul>
 <hr />
 <p><strong>Last Updated:</strong> January 14, 2026</p>
 

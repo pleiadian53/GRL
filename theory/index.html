@@ -2114,12 +2114,14 @@
 <h2 id="the-grl-tuple">The GRL Tuple<a class="headerlink" href="#the-grl-tuple" title="Permanent link">&para;</a></h2>
 <p>Classical MDP: <span class="arithmatex">\((\mathcal{S}, \mathcal{A}, T, R, \gamma)\)</span></p>
 <p>GRL: <span class="arithmatex">\((\mathcal{S}, \mathcal{O}, T, R, \gamma)\)</span></p>
-<p>Where:
-- <span class="arithmatex">\(\mathcal{S}\)</span>: State space
-- <span class="arithmatex">\(\mathcal{O}\)</span>: Space of operators on <span class="arithmatex">\(\mathcal{S}\)</span>
-- <span class="arithmatex">\(T\)</span>: Transition function (often deterministic: <span class="arithmatex">\(s' = \hat{O}(s)\)</span>)
-- <span class="arithmatex">\(R\)</span>: Reward function
-- <span class="arithmatex">\(\gamma\)</span>: Discount factor</p>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\(\mathcal{S}\)</span>: State space</li>
+<li><span class="arithmatex">\(\mathcal{O}\)</span>: Space of operators on <span class="arithmatex">\(\mathcal{S}\)</span></li>
+<li><span class="arithmatex">\(T\)</span>: Transition function (often deterministic: <span class="arithmatex">\(s' = \hat{O}(s)\)</span>)</li>
+<li><span class="arithmatex">\(R\)</span>: Reward function</li>
+<li><span class="arithmatex">\(\gamma\)</span>: Discount factor</li>
+</ul>
 <h2 id="operator-generator-policy">Operator Generator (Policy)<a class="headerlink" href="#operator-generator-policy" title="Permanent link">&para;</a></h2>
 <p>The policy in GRL is an <strong>operator generator</strong>:</p>
 <div class="arithmatex">\[
@@ -2135,10 +2137,12 @@ s' = \hat{O}(s)
 <div class="arithmatex">\[
 \mathcal{L} = \mathcal{L}_{\text{RL}} + \lambda \mathcal{E}(\hat{O})
 \]</div>
-<p>Where <span class="arithmatex">\(\mathcal{E}(\hat{O})\)</span> is the "energy" of the operator, encouraging:
-- Smooth transformations
-- Minimal perturbations
-- Physically plausible behavior</p>
+<p>Where <span class="arithmatex">\(\mathcal{E}(\hat{O})\)</span> is the "energy" of the operator, encouraging:</p>
+<ul>
+<li>Smooth transformations</li>
+<li>Minimal perturbations</li>
+<li>Physically plausible behavior</li>
+</ul>
 <h2 id="classical-rl-as-a-special-case">Classical RL as a Special Case<a class="headerlink" href="#classical-rl-as-a-special-case" title="Permanent link">&para;</a></h2>
 <p>Standard continuous-action RL is recovered when operators are restricted to displacements:</p>
 <div class="arithmatex">\[

@@ -2558,110 +2558,134 @@
 <hr />
 <h2 id="documents">Documents<a class="headerlink" href="#documents" title="Permanent link">&para;</a></h2>
 <h3 id="1-rkhs-and-quantum-mechanics-a-structural-parallel">1. <a href="01-rkhs-quantum-parallel/">RKHS and Quantum Mechanics: A Structural Parallel</a><a class="headerlink" href="#1-rkhs-and-quantum-mechanics-a-structural-parallel" title="Permanent link">&para;</a></h3>
-<p><strong>Topics:</strong>
-- Hilbert space as shared mathematical structure
-- Inner products and probability amplitudes
-- Superposition of particle states
-- Observables and expectation values</p>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Hilbert space as shared mathematical structure</li>
+<li>Inner products and probability amplitudes</li>
+<li>Superposition of particle states</li>
+<li>Observables and expectation values</li>
+</ul>
 <p><strong>Key Insight:</strong> GRL's RKHS formulation is structurally identical to quantum mechanics' Hilbert space formulation.</p>
 <hr />
 <h3 id="1a-wavefunction-interpretation-what-does-it-mean-new">1a. <a href="01a-wavefunction-interpretation/">Wavefunction Interpretation: What Does It Mean?</a> ⭐ <strong>New</strong><a class="headerlink" href="#1a-wavefunction-interpretation-what-does-it-mean-new" title="Permanent link">&para;</a></h3>
-<p><strong>Topics:</strong>
-- State vector vs. wavefunction (coordinate representation)
-- Probability amplitudes vs. direct probabilities
-- One state, many representations
-- Mapping to GRL: <span class="arithmatex">\(Q^+\)</span> as state, <span class="arithmatex">\(Q^+(z)\)</span> as wavefunction
-- Implications for concept discovery</p>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>State vector vs. wavefunction (coordinate representation)</li>
+<li>Probability amplitudes vs. direct probabilities</li>
+<li>One state, many representations</li>
+<li>Mapping to GRL: <span class="arithmatex">\(Q^+\)</span> as state, <span class="arithmatex">\(Q^+(z)\)</span> as wavefunction</li>
+<li>Implications for concept discovery</li>
+</ul>
 <p><strong>Key Insight:</strong> The reinforcement field <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span> is a state vector whose projections yield wavefunction-like amplitude fields.</p>
 <p><strong>Clarifies:</strong> What we mean when we say "the reinforcement field is a wavefunction."</p>
 <hr />
 <h3 id="2-rkhs-basis-kernel-amplitudes-and-energy-based-inference-new">2. <a href="02-rkhs-basis-and-amplitudes/">RKHS Basis, Kernel Amplitudes, and Energy-Based Inference</a> ⭐ <strong>New</strong><a class="headerlink" href="#2-rkhs-basis-kernel-amplitudes-and-energy-based-inference-new" title="Permanent link">&para;</a></h3>
-<p><strong>Topics:</strong>
-- What is the "basis" in RKHS? (Kernel sections as frame elements)
-- How choosing <span class="arithmatex">\(z\)</span> selects a basis element
-- Kernel amplitudes vs. quantum amplitudes
-- Why GRL doesn't need normalization (EBM perspective)
-- Three interpretations: Hilbert state, amplitude field, energy score</p>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>What is the "basis" in RKHS? (Kernel sections as frame elements)</li>
+<li>How choosing <span class="arithmatex">\(z\)</span> selects a basis element</li>
+<li>Kernel amplitudes vs. quantum amplitudes</li>
+<li>Why GRL doesn't need normalization (EBM perspective)</li>
+<li>Three interpretations: Hilbert state, amplitude field, energy score</li>
+</ul>
 <p><strong>Key Insight:</strong> GRL combines QM's amplitude geometry with EBM's unnormalized inference—no partition function needed!</p>
 <p><strong>Clarifies:</strong> Why <span class="arithmatex">\(Q^+(z)\)</span> acts like an amplitude but doesn't require Born rule normalization.</p>
 <hr />
 <h3 id="4-slicing-the-reinforcement-field-action-and-state-projections-new">4. <a href="04-action-and-state-fields/">Slicing the Reinforcement Field: Action and State Projections</a> ⭐ <strong>New</strong><a class="headerlink" href="#4-slicing-the-reinforcement-field-action-and-state-projections-new" title="Permanent link">&para;</a></h3>
-<p><strong>Topics:</strong>
-- Action wavefunction <span class="arithmatex">\(\psi_s(a) = Q^+(s, a)\)</span>: landscape of actions at a state
-- State wavefunction <span class="arithmatex">\(\phi_a(s) = Q^+(s, a)\)</span>: applicability of action across states
-- Concept subspace projections: hierarchical abstractions
-- Action-state duality in augmented space
-- From projections to operators</p>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Action wavefunction <span class="arithmatex">\(\psi_s(a) = Q^+(s, a)\)</span>: landscape of actions at a state</li>
+<li>State wavefunction <span class="arithmatex">\(\phi_a(s) = Q^+(s, a)\)</span>: applicability of action across states</li>
+<li>Concept subspace projections: hierarchical abstractions</li>
+<li>Action-state duality in augmented space</li>
+<li>From projections to operators</li>
+</ul>
 <p><strong>Key Insight:</strong> One state <span class="arithmatex">\(Q^+\)</span>, multiple projections—action fields, state fields, and concept activations all emerge from the same underlying structure.</p>
 <p><strong>Enables:</strong> Continuous control, implicit precondition learning, affordance maps, hierarchical RL, and natural skill discovery.</p>
 <hr />
 <h3 id="5-concept-subspaces-projections-and-measurement-theory-new">5. <a href="05-concept-projections-and-measurements/">Concept Subspaces, Projections, and Measurement Theory</a> ⭐ <strong>New</strong><a class="headerlink" href="#5-concept-subspaces-projections-and-measurement-theory-new" title="Permanent link">&para;</a></h3>
-<p><strong>Topics:</strong>
-- Concepts as invariant subspaces (not clusters)
-- Projection operators and their properties
-- Concept activation observables <span class="arithmatex">\(A_k = \|P_k Q^+\|^2\)</span>
-- Hierarchical composition via nested subspaces
-- Spectral discovery algorithms
-- Connection to quantum measurement theory</p>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Concepts as invariant subspaces (not clusters)</li>
+<li>Projection operators and their properties</li>
+<li>Concept activation observables <span class="arithmatex">\(A_k = \|P_k Q^+\|^2\)</span></li>
+<li>Hierarchical composition via nested subspaces</li>
+<li>Spectral discovery algorithms</li>
+<li>Connection to quantum measurement theory</li>
+</ul>
 <p><strong>Key Insight:</strong> Concepts are multi-dimensional subspaces with smooth, compositional activations—provides mathematical foundation for Part II (Section V).</p>
 <p><strong>Enables:</strong> Hierarchical RL, concept-conditioned policies, interpretable learning curves, transfer via concept basis.</p>
 <hr />
 <h3 id="6-the-agents-state-and-belief-evolution-new">6. <a href="06-agent-state-and-belief-evolution/">The Agent's State and Belief Evolution</a> ⭐ <strong>New</strong><a class="headerlink" href="#6-the-agents-state-and-belief-evolution-new" title="Permanent link">&para;</a></h3>
-<p><strong>Topics:</strong>
-- What is "the state" in GRL? (Answer: <span class="arithmatex">\(Q^+\)</span> = particle memory)
-- Three distinct operations: fix state, query state, evolve state
-- Two time scales: learning (MemoryUpdate) vs. inference (queries)
-- Role of weights: implicit GP-derived coefficients
-- Experience association as weight propagation operator
-- Connection to quantum measurement theory</p>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>What is "the state" in GRL? (Answer: <span class="arithmatex">\(Q^+\)</span> = particle memory)</li>
+<li>Three distinct operations: fix state, query state, evolve state</li>
+<li>Two time scales: learning (MemoryUpdate) vs. inference (queries)</li>
+<li>Role of weights: implicit GP-derived coefficients</li>
+<li>Experience association as weight propagation operator</li>
+<li>Connection to quantum measurement theory</li>
+</ul>
 <p><strong>Key Insight:</strong> The agent's state is the entire field <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span>, equivalently the particle memory <span class="arithmatex">\(\Omega\)</span>. MemoryUpdate is a belief transition operator; queries are projections of a fixed state.</p>
 <p><strong>Clarifies:</strong> What changes when the agent learns vs. what stays fixed during inference—critical for understanding GRL's structure.</p>
 <hr />
 <h3 id="7-learning-the-reinforcement-field-beyond-gaussian-processes-new">7. <a href="07-learning-the-field-beyond-gp/">Learning the Reinforcement Field — Beyond Gaussian Processes</a> ⭐ <strong>New</strong><a class="headerlink" href="#7-learning-the-reinforcement-field-beyond-gaussian-processes-new" title="Permanent link">&para;</a></h3>
-<p><strong>Topics:</strong>
-- Why GP is one choice among many for learning <span class="arithmatex">\(Q^+\)</span>
-- Alternative learning mechanisms: kernel ridge, online optimization, sparse methods, deep nets, mixture of experts
-- Amplitude-based learning from quantum-inspired probability
-- When to use which approach (trade-offs)</p>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Why GP is one choice among many for learning <span class="arithmatex">\(Q^+\)</span></li>
+<li>Alternative learning mechanisms: kernel ridge, online optimization, sparse methods, deep nets, mixture of experts</li>
+<li>Amplitude-based learning from quantum-inspired probability</li>
+<li>When to use which approach (trade-offs)</li>
+</ul>
 <p><strong>Key Insight:</strong> The state-as-field formalism is agnostic to the learning mechanism—you can swap the inference engine while preserving GRL's structure.</p>
-<p><strong>Key Findings:</strong>
-1. ✅ QM math and probability amplitudes can be applied to ML/optimization
-2. ✅ Multiple alternatives to GPR exist: online SGD, sparse methods, mixture of experts, deep neural networks</p>
+<p><strong>Key Findings:</strong></p>
+<ol>
+<li>✅ QM math and probability amplitudes can be applied to ML/optimization</li>
+<li>✅ Multiple alternatives to GPR exist: online SGD, sparse methods, mixture of experts, deep neural networks</li>
+</ol>
 <p><strong>Enables:</strong> Scalable GRL implementations, hybrid approaches, novel probability formulations.</p>
 <hr />
 <h3 id="8-memory-dynamics-formation-consolidation-and-retrieval-new">8. <a href="08-memory-dynamics-formation-consolidation-retrieval/">Memory Dynamics: Formation, Consolidation, and Retrieval</a> ⭐ <strong>New</strong><a class="headerlink" href="#8-memory-dynamics-formation-consolidation-and-retrieval-new" title="Permanent link">&para;</a></h3>
-<p><strong>Topics:</strong>
-- Three memory functions: factual, experiential, working
-- Formation operator <span class="arithmatex">\(\mathcal{E}\)</span> (how to write memory)
-- Consolidation operator <span class="arithmatex">\(\mathcal{C}\)</span> (what to retain/forget)
-- Retrieval operator <span class="arithmatex">\(\mathcal{R}\)</span> (how to access memory)
-- Replacing hard threshold <span class="arithmatex">\(\tau\)</span> with principled criteria
-- Preventing agent drift</p>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Three memory functions: factual, experiential, working</li>
+<li>Formation operator <span class="arithmatex">\(\mathcal{E}\)</span> (how to write memory)</li>
+<li>Consolidation operator <span class="arithmatex">\(\mathcal{C}\)</span> (what to retain/forget)</li>
+<li>Retrieval operator <span class="arithmatex">\(\mathcal{R}\)</span> (how to access memory)</li>
+<li>Replacing hard threshold <span class="arithmatex">\(\tau\)</span> with principled criteria</li>
+<li>Preventing agent drift</li>
+</ul>
 <p><strong>Key Insight:</strong> Memory dynamics are operators with learnable criteria—formation, consolidation, retrieval form a complete system.</p>
-<p><strong>Key Results:</strong>
-1. ✅ Principled memory update mechanisms: soft association, top-k adaptive neighbors, MDL consolidation, surprise-gating
-2. ✅ Data-driven retention criteria: based on surprise, novelty, memory type, and compression objectives</p>
+<p><strong>Key Results:</strong></p>
+<ol>
+<li>✅ Principled memory update mechanisms: soft association, top-k adaptive neighbors, MDL consolidation, surprise-gating</li>
+<li>✅ Data-driven retention criteria: based on surprise, novelty, memory type, and compression objectives</li>
+</ol>
 <p><strong>Enables:</strong> Lifelong learning, bounded memory, adaptive forgetting, preventing agent drift.</p>
 <hr />
 <h3 id="9-path-integrals-and-action-principles-new">9. <a href="09-path-integrals-and-action-principles/">Path Integrals and Action Principles</a> ⭐ <strong>New</strong><a class="headerlink" href="#9-path-integrals-and-action-principles-new" title="Permanent link">&para;</a></h3>
-<p><strong>Topics:</strong>
-- Feynman's path integral formulation
-- Stochastic control as imaginary time QM
-- GRL's action functional and Boltzmann policy
-- Complex-valued GRL: enabling true interference
-- Path integral sampling algorithms (PI², Langevin)
-- Connection to quantum measurement (Chapter 05)
-- Feynman diagrams and instanton calculus</p>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Feynman's path integral formulation</li>
+<li>Stochastic control as imaginary time QM</li>
+<li>GRL's action functional and Boltzmann policy</li>
+<li>Complex-valued GRL: enabling true interference</li>
+<li>Path integral sampling algorithms (PI², Langevin)</li>
+<li>Connection to quantum measurement (Chapter 05)</li>
+<li>Feynman diagrams and instanton calculus</li>
+</ul>
 <p><strong>Key Insight:</strong> GRL's Boltzmann policy emerges from the principle of least action via path integrals—not an analogy, a mathematical equivalence. Complex extensions enable quantum interference effects.</p>
 <p><strong>Enables:</strong> Physics-grounded policy optimization, complex-valued fields, tunneling-like exploration, principled action discovery.</p>
 <hr />
 <h3 id="10-complex-valued-rkhs-and-interference-effects">10. <a href="03-complex-rkhs/">Complex-Valued RKHS and Interference Effects</a><a class="headerlink" href="#10-complex-valued-rkhs-and-interference-effects" title="Permanent link">&para;</a></h3>
-<p><strong>Topics:</strong>
-- Complex-valued kernels and feature maps
-- Interference: constructive and destructive
-- Phase semantics (temporal, contextual, directional)
-- Complex spectral clustering
-- Connections to quantum kernel methods</p>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Complex-valued kernels and feature maps</li>
+<li>Interference: constructive and destructive</li>
+<li>Phase semantics (temporal, contextual, directional)</li>
+<li>Complex spectral clustering</li>
+<li>Connections to quantum kernel methods</li>
+</ul>
 <p><strong>Key Insight:</strong> Complex-valued RKHS enables richer dynamics and multi-modal representations through interference effects.</p>
 <hr />
 <h2 id="why-this-matters-for-ml">Why This Matters for ML<a class="headerlink" href="#why-this-matters-for-ml" title="Permanent link">&para;</a></h2>
@@ -2709,48 +2733,66 @@
 <hr />
 <h2 id="reading-order">Reading Order<a class="headerlink" href="#reading-order" title="Permanent link">&para;</a></h2>
 <p><strong>Recommended sequence:</strong></p>
-<p><strong>Foundation (Chapters 1-2):</strong>
-1. Start with <a href="01-rkhs-quantum-parallel/">01-rkhs-quantum-parallel.md</a> for the high-level structural parallel
-2. Read <a href="01a-wavefunction-interpretation/">01a-wavefunction-interpretation.md</a> for precise conceptual grounding (state vs. wavefunction)
-3. Continue with <a href="02-rkhs-basis-and-amplitudes/">02-rkhs-basis-and-amplitudes.md</a> to understand RKHS basis and why normalization isn't needed</p>
-<p><strong>Applications (Chapters 4-6):</strong>
-4. <strong>New:</strong> Read <a href="04-action-and-state-fields/">04-action-and-state-fields.md</a> to see how one field <span class="arithmatex">\(Q^+\)</span> gives multiple projections (action/state/concept)
-5. <strong>New:</strong> Read <a href="05-concept-projections-and-measurements/">05-concept-projections-and-measurements.md</a> for rigorous formalism of concepts as subspaces (foundation for Part II)
-6. <strong>New:</strong> Read <a href="06-agent-state-and-belief-evolution/">06-agent-state-and-belief-evolution.md</a> to understand what "the state" is and how it evolves via MemoryUpdate</p>
-<p><strong>Learning &amp; Memory (Chapters 7-8):</strong>
-7. <strong>New:</strong> Read <a href="07-learning-the-field-beyond-gp/">07-learning-the-field-beyond-gp.md</a> for learning mechanisms beyond GP—scalability, amplitude-based learning, mixture of experts
-8. <strong>New:</strong> Read <a href="08-memory-dynamics-formation-consolidation-retrieval/">08-memory-dynamics-formation-consolidation-retrieval.md</a> for principled memory dynamics—what to retain/forget, preventing agent drift</p>
-<p><strong>Advanced (Chapters 9-10):</strong>
-9. <strong>New:</strong> Read <a href="09-path-integrals-and-action-principles/">09-path-integrals-and-action-principles.md</a> for Feynman path integrals, imaginary time QM, complex-valued GRL, and connection to Tutorial Chapter 03a
-10. Explore <a href="03-complex-rkhs/">03-complex-rkhs.md</a> for complex-valued extensions (interference, phase semantics)</p>
+<p><strong>Foundation (Chapters 1-2):</strong></p>
+<ol>
+<li>Start with <a href="01-rkhs-quantum-parallel/">01-rkhs-quantum-parallel.md</a> for the high-level structural parallel</li>
+<li>Read <a href="01a-wavefunction-interpretation/">01a-wavefunction-interpretation.md</a> for precise conceptual grounding (state vs. wavefunction)</li>
+<li>Continue with <a href="02-rkhs-basis-and-amplitudes/">02-rkhs-basis-and-amplitudes.md</a> to understand RKHS basis and why normalization isn't needed</li>
+</ol>
+<p><strong>Applications (Chapters 4-6):</strong></p>
+<ol>
+<li><strong>New:</strong> Read <a href="04-action-and-state-fields/">04-action-and-state-fields.md</a> to see how one field <span class="arithmatex">\(Q^+\)</span> gives multiple projections (action/state/concept)</li>
+<li><strong>New:</strong> Read <a href="05-concept-projections-and-measurements/">05-concept-projections-and-measurements.md</a> for rigorous formalism of concepts as subspaces (foundation for Part II)</li>
+<li><strong>New:</strong> Read <a href="06-agent-state-and-belief-evolution/">06-agent-state-and-belief-evolution.md</a> to understand what "the state" is and how it evolves via MemoryUpdate</li>
+</ol>
+<p><strong>Learning &amp; Memory (Chapters 7-8):</strong></p>
+<ol>
+<li><strong>New:</strong> Read <a href="07-learning-the-field-beyond-gp/">07-learning-the-field-beyond-gp.md</a> for learning mechanisms beyond GP—scalability, amplitude-based learning, mixture of experts</li>
+<li><strong>New:</strong> Read <a href="08-memory-dynamics-formation-consolidation-retrieval/">08-memory-dynamics-formation-consolidation-retrieval.md</a> for principled memory dynamics—what to retain/forget, preventing agent drift</li>
+</ol>
+<p><strong>Advanced (Chapters 9-10):</strong></p>
+<ol>
+<li><strong>New:</strong> Read <a href="09-path-integrals-and-action-principles/">09-path-integrals-and-action-principles.md</a> for Feynman path integrals, imaginary time QM, complex-valued GRL, and connection to Tutorial Chapter 03a</li>
+<li>Explore <a href="03-complex-rkhs/">03-complex-rkhs.md</a> for complex-valued extensions (interference, phase semantics)</li>
+</ol>
 <hr />
 <h2 id="connection-to-tutorial-paper">Connection to Tutorial Paper<a class="headerlink" href="#connection-to-tutorial-paper" title="Permanent link">&para;</a></h2>
-<p><strong>Part I (Particle-Based Learning):</strong>
-- Chapters 1-2 provide mathematical grounding
-- Show RKHS-QM structural parallel
-- Justify amplitude interpretation</p>
-<p><strong>Part II (Emergent Structure &amp; Spectral Abstraction):</strong>
-- <strong>Chapter 5 provides the formal foundation</strong> for Section V
-- Concepts as subspaces (not clusters)
-- Projection operators and observables
-- Hierarchical composition framework</p>
-<p><strong>Extensions (Papers A/B/C):</strong>
-- Chapter 4 (action/state fields) enables novel algorithms
-- Chapter 5 (concept projections) enables transfer learning
-- Chapter 6 (complex RKHS) enables interference-based dynamics</p>
+<p><strong>Part I (Particle-Based Learning):</strong></p>
+<ul>
+<li>Chapters 1-2 provide mathematical grounding</li>
+<li>Show RKHS-QM structural parallel</li>
+<li>Justify amplitude interpretation</li>
+</ul>
+<p><strong>Part II (Emergent Structure &amp; Spectral Abstraction):</strong></p>
+<ul>
+<li><strong>Chapter 5 provides the formal foundation</strong> for Section V</li>
+<li>Concepts as subspaces (not clusters)</li>
+<li>Projection operators and observables</li>
+<li>Hierarchical composition framework</li>
+</ul>
+<p><strong>Extensions (Papers A/B/C):</strong></p>
+<ul>
+<li>Chapter 4 (action/state fields) enables novel algorithms</li>
+<li>Chapter 5 (concept projections) enables transfer learning</li>
+<li>Chapter 6 (complex RKHS) enables interference-based dynamics</li>
+</ul>
 <hr />
 <h2 id="implementation-notes">Implementation Notes<a class="headerlink" href="#implementation-notes" title="Permanent link">&para;</a></h2>
 <p><strong>Current Status:</strong> Theoretical foundations established</p>
-<p><strong>Implemented:</strong>
-- RKHS framework (standard kernels)
-- Particle-based field representation
-- Spectral clustering for concept discovery</p>
-<p><strong>To Implement:</strong>
-- Projection operators for concept activation
-- Concept-conditioned policies
-- Hierarchical composition algorithms
-- Complex-valued kernels (Chapter 6)
-- Interference-based updates</p>
+<p><strong>Implemented:</strong></p>
+<ul>
+<li>RKHS framework (standard kernels)</li>
+<li>Particle-based field representation</li>
+<li>Spectral clustering for concept discovery</li>
+</ul>
+<p><strong>To Implement:</strong></p>
+<ul>
+<li>Projection operators for concept activation</li>
+<li>Concept-conditioned policies</li>
+<li>Hierarchical composition algorithms</li>
+<li>Complex-valued kernels (Chapter 6)</li>
+<li>Interference-based updates</li>
+</ul>
 <hr />
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <p>Before reading these documents, you should understand:</p>
@@ -2762,15 +2804,21 @@
 <hr />
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <p><strong>Original Paper:</strong> Chiu &amp; Huber (2022), Section V. <a href="https://arxiv.org/abs/2208.04822">arXiv:2208.04822</a></p>
-<p><strong>Quantum Kernel Methods:</strong>
-- Havlíček et al. (2019). Supervised learning with quantum-enhanced feature spaces. <em>Nature</em>.
-- Schuld &amp; Killoran (2019). Quantum machine learning in feature Hilbert spaces. <em>Physical Review Letters</em>.</p>
-<p><strong>Complex-Valued Neural Networks:</strong>
-- Trabelsi et al. (2018). Deep complex networks. <em>ICLR</em>.
-- Hirose (2012). Complex-valued neural networks: Advances and applications. <em>Wiley</em>.</p>
-<p><strong>Quantum Mechanics Foundations:</strong>
-- Dirac, P. A. M. (1930). <em>The Principles of Quantum Mechanics</em>. Oxford.
-- Ballentine, L. E. (1998). <em>Quantum Mechanics: A Modern Development</em>. World Scientific.</p>
+<p><strong>Quantum Kernel Methods:</strong></p>
+<ul>
+<li>Havlíček et al. (2019). Supervised learning with quantum-enhanced feature spaces. <em>Nature</em>.</li>
+<li>Schuld &amp; Killoran (2019). Quantum machine learning in feature Hilbert spaces. <em>Physical Review Letters</em>.</li>
+</ul>
+<p><strong>Complex-Valued Neural Networks:</strong></p>
+<ul>
+<li>Trabelsi et al. (2018). Deep complex networks. <em>ICLR</em>.</li>
+<li>Hirose (2012). Complex-valued neural networks: Advances and applications. <em>Wiley</em>.</li>
+</ul>
+<p><strong>Quantum Mechanics Foundations:</strong></p>
+<ul>
+<li>Dirac, P. A. M. (1930). <em>The Principles of Quantum Mechanics</em>. Oxford.</li>
+<li>Ballentine, L. E. (1998). <em>Quantum Mechanics: A Modern Development</em>. World Scientific.</li>
+</ul>
 <hr />
 <p><strong>Last Updated:</strong> January 14, 2026</p>
 
