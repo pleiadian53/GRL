@@ -1,0 +1,4377 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/quantum_inspired/01a-wavefunction-interpretation/">
+      
+      
+        <link rel="prev" href="../01-rkhs-quantum-parallel/">
+      
+      
+        <link rel="next" href="../02-rkhs-basis-and-amplitudes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>01a: Wavefunction Interpretation - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#wavefunction-interpretation-what-does-it-mean-for-the-reinforcement-field" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              01a: Wavefunction Interpretation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03a-least-action-principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/06-memory-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/07a-continuous-policy-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-the-wavefunction-in-quantum-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What Is the Wavefunction in Quantum Mechanics?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. What Is the Wavefunction in Quantum Mechanics?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simple-analogy-first-3d-vectors-and-coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simple Analogy First: 3D Vectors and Coordinates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-quantum-version-state-vector-vs-wavefunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Quantum Version: State Vector vs. Wavefunction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concrete-example-two-level-system-qubit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concrete Example: Two-Level System (Qubit)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-confusion-which-direction-is-the-projection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Confusion: Which Direction Is the Projection?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-two-bases-one-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary: Two Bases, One State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infinite-dimensional-case-position-basis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infinite-Dimensional Case: Position Basis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clarification-psirangle-vs-xrangle-which-is-the-basis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clarification: \(|\psi\rangle\) vs. \(|x\rangle\) - Which Is the Basis?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-classical-intuition-is-rightbut-quantum-is-different" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your Classical Intuition Is Right—But Quantum Is Different!
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-big-difference-what-were-representing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Big Difference: What We're Representing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concrete-example-finite-case-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concrete Example: Finite Case First
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#now-the-infinite-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Now the Infinite Case
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classical-vs-quantum-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classical vs. Quantum Interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-is-confusing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Is Confusing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-classical-vs-quantum-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary: Classical vs. Quantum Representation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-distinction-now-clear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Distinction (Now Clear!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-does-the-wavefunction-represent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. What Does the Wavefunction Represent?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. What Does the Wavefunction Represent?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-born-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Born Rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-fundamental-move" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Fundamental Move
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-why-one-state-many-wavefunctions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Why "One State, Many Wavefunctions"?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Why &#34;One State, Many Wavefunctions&#34;?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#singular-the-wavefunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Singular: "The Wavefunction"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plural-different-wavefunctions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plural: "Different Wavefunctions"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to GRL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-operators-observables-and-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Operators, Observables, and Prediction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Operators, Observables, and Prediction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#observables-as-hermitian-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observables as Hermitian Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#measurement-probabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measurement Probabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-mapping-back-to-grl-state-vs-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Mapping Back to GRL: State vs. Representation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Mapping Back to GRL: State vs. Representation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-what-corresponds-to-the-quantum-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (a) What Corresponds to the Quantum State?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-what-corresponds-to-the-wavefunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (b) What Corresponds to the Wavefunction?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-of-the-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of the Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-one-reinforcement-field-or-many" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. One Reinforcement Field or Many?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. One Reinforcement Field or Many?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strict-answer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strict Answer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-of-different-representations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples of Different Representations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-implications-for-concept-discovery-section-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Implications for Concept Discovery (Section V)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Implications for Concept Discovery (Section V)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-concepts-are" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Concepts Are
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-formation-as-spectral-decomposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Formation as Spectral Decomposition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-part-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to Part II
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-refined-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Refined Terminology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Refined Terminology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instead-of" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instead of:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-what-this-opens-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. What This Opens Up
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. What This Opens Up">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#for-theory-part-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Theory (Part II)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-understanding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Understanding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-next-steps-what-operators-does-grl-define" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Next Steps: What Operators Does GRL Define?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Next Steps: What Operators Does GRL Define?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#candidate-operators-in-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Candidate Operators in GRL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-core-insight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Core Insight
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Further Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#within-this-tutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Within This Tutorial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantum-mechanics-foundations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantum Mechanics Foundations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkhs-and-functional-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RKHS and Functional Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grl-original-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL Original Paper
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-concept-projections-and-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-path-integrals-and-action-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-is-the-wavefunction-in-quantum-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What Is the Wavefunction in Quantum Mechanics?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. What Is the Wavefunction in Quantum Mechanics?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simple-analogy-first-3d-vectors-and-coordinates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simple Analogy First: 3D Vectors and Coordinates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-quantum-version-state-vector-vs-wavefunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Quantum Version: State Vector vs. Wavefunction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concrete-example-two-level-system-qubit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concrete Example: Two-Level System (Qubit)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-confusion-which-direction-is-the-projection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Confusion: Which Direction Is the Projection?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-two-bases-one-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary: Two Bases, One State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infinite-dimensional-case-position-basis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infinite-Dimensional Case: Position Basis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clarification-psirangle-vs-xrangle-which-is-the-basis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clarification: \(|\psi\rangle\) vs. \(|x\rangle\) - Which Is the Basis?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#your-classical-intuition-is-rightbut-quantum-is-different" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Your Classical Intuition Is Right—But Quantum Is Different!
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-big-difference-what-were-representing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Big Difference: What We're Representing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concrete-example-finite-case-first" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concrete Example: Finite Case First
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#now-the-infinite-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Now the Infinite Case
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classical-vs-quantum-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classical vs. Quantum Interpretation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-is-confusing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Is Confusing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-classical-vs-quantum-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary: Classical vs. Quantum Representation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-distinction-now-clear" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Distinction (Now Clear!)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-table" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary Table
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-does-the-wavefunction-represent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. What Does the Wavefunction Represent?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. What Does the Wavefunction Represent?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-born-rule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Born Rule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-fundamental-move" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Fundamental Move
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-why-one-state-many-wavefunctions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Why "One State, Many Wavefunctions"?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Why &#34;One State, Many Wavefunctions&#34;?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#singular-the-wavefunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Singular: "The Wavefunction"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#plural-different-wavefunctions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plural: "Different Wavefunctions"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to GRL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-operators-observables-and-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Operators, Observables, and Prediction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Operators, Observables, and Prediction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#observables-as-hermitian-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observables as Hermitian Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#measurement-probabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measurement Probabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Workflow
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-mapping-back-to-grl-state-vs-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Mapping Back to GRL: State vs. Representation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Mapping Back to GRL: State vs. Representation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a-what-corresponds-to-the-quantum-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (a) What Corresponds to the Quantum State?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-what-corresponds-to-the-wavefunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        (b) What Corresponds to the Wavefunction?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#summary-of-the-mapping" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary of the Mapping
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-one-reinforcement-field-or-many" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. One Reinforcement Field or Many?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. One Reinforcement Field or Many?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#strict-answer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strict Answer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#examples-of-different-representations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples of Different Representations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-implications-for-concept-discovery-section-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Implications for Concept Discovery (Section V)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Implications for Concept Discovery (Section V)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-concepts-are" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Concepts Are
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-formation-as-spectral-decomposition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Formation as Spectral Decomposition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-part-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to Part II
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-refined-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Refined Terminology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Refined Terminology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#instead-of" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Instead of:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use:
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-what-this-opens-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. What This Opens Up
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. What This Opens Up">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#for-theory-part-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Theory (Part II)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Implementation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-understanding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Understanding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-next-steps-what-operators-does-grl-define" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Next Steps: What Operators Does GRL Define?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Next Steps: What Operators Does GRL Define?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#candidate-operators-in-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Candidate Operators in GRL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="11. Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-core-insight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Core Insight
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Further Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#within-this-tutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Within This Tutorial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quantum-mechanics-foundations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantum Mechanics Foundations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkhs-and-functional-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RKHS and Functional Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grl-original-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL Original Paper
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/quantum_inspired/01a-wavefunction-interpretation.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="wavefunction-interpretation-what-does-it-mean-for-the-reinforcement-field">Wavefunction Interpretation: What Does It Mean for the Reinforcement Field?<a class="headerlink" href="#wavefunction-interpretation-what-does-it-mean-for-the-reinforcement-field" title="Permanent link">&para;</a></h1>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>In <a href="../01-rkhs-quantum-parallel/">the previous document</a>, we stated:</p>
+<blockquote>
+<p>"The reinforcement field <em>is</em> a wavefunction over augmented state-action space."</p>
+</blockquote>
+<p>This raises important questions:</p>
+<ul>
+<li>What exactly <em>is</em> a wavefunction in quantum mechanics?</li>
+<li>What does it represent and predict?</li>
+<li>How should we interpret this claim for the reinforcement field?</li>
+</ul>
+<p>This document provides the precise conceptual grounding.</p>
+<hr />
+<h2 id="1-what-is-the-wavefunction-in-quantum-mechanics">1. What Is the Wavefunction in Quantum Mechanics?<a class="headerlink" href="#1-what-is-the-wavefunction-in-quantum-mechanics" title="Permanent link">&para;</a></h2>
+<p>In standard (non-relativistic) quantum mechanics, the wavefunction <span class="arithmatex">\(\psi(x,t)\)</span> is:</p>
+<p><strong>A complete mathematical representation of the physical state of a system, expressed in a particular basis (the position basis).</strong></p>
+<h3 id="simple-analogy-first-3d-vectors-and-coordinates">Simple Analogy First: 3D Vectors and Coordinates<a class="headerlink" href="#simple-analogy-first-3d-vectors-and-coordinates" title="Permanent link">&para;</a></h3>
+<p>Before the formal definition, let's build intuition with a familiar example.</p>
+<p>Consider a vector in 3D space, like a velocity: <span class="arithmatex">\(\mathbf{v}\)</span>.</p>
+<p><strong>The vector itself</strong> is a geometric object—an arrow with direction and magnitude. This exists independent of any coordinate system.</p>
+<p>But to work with it numerically, we express it in coordinates:</p>
+<p><strong>In Cartesian coordinates</strong> <span class="arithmatex">\((x, y, z)\)</span>:</p>
+<div class="arithmatex">\[\mathbf{v} = \begin{bmatrix} 3 \\ 4 \\ 0 \end{bmatrix}\]</div>
+<p>This means: "3 units in the <span class="arithmatex">\(x\)</span> direction, 4 in <span class="arithmatex">\(y\)</span>, 0 in <span class="arithmatex">\(z\)</span>."</p>
+<p><strong>In polar coordinates</strong> <span class="arithmatex">\((r, \theta, z)\)</span>:</p>
+<div class="arithmatex">\[\mathbf{v} = \begin{bmatrix} 5 \\ 53.1° \\ 0 \end{bmatrix}\]</div>
+<p><strong>Key insight:</strong> The <strong>vector <span class="arithmatex">\(\mathbf{v}\)</span> is the same geometric object</strong> in both cases. Only its <strong>coordinate representation</strong> changed.</p>
+<hr />
+<h3 id="the-quantum-version-state-vector-vs-wavefunction">The Quantum Version: State Vector vs. Wavefunction<a class="headerlink" href="#the-quantum-version-state-vector-vs-wavefunction" title="Permanent link">&para;</a></h3>
+<p>The same idea applies in quantum mechanics:</p>
+<p><strong>Formal definition:</strong></p>
+<ul>
+<li>The <strong>state</strong> of a quantum system is a vector <span class="arithmatex">\(|\psi\rangle\)</span> in a complex Hilbert space <span class="arithmatex">\(\mathcal{H}\)</span> (like the geometric vector <span class="arithmatex">\(\mathbf{v}\)</span>)</li>
+<li>The <strong>wavefunction</strong> <span class="arithmatex">\(\psi(x)\)</span> is the <strong>coordinate representation</strong> of that vector in the position basis <span class="arithmatex">\(\{|x\rangle\}\)</span></li>
+</ul>
+<p>The relationship is given by an inner product (projection):</p>
+<div class="arithmatex">\[\psi(x) = \langle x | \psi \rangle\]</div>
+<p><strong>What this means in plain English:</strong></p>
+<blockquote>
+<p>The wavefunction <span class="arithmatex">\(\psi(x)\)</span> tells you "how much" of the state <span class="arithmatex">\(|\psi\rangle\)</span> "points in the direction" of position <span class="arithmatex">\(x\)</span>.</p>
+</blockquote>
+<p>It's exactly like asking: "What is the <span class="arithmatex">\(x\)</span>-component of velocity <span class="arithmatex">\(\mathbf{v}\)</span>?" Answer: 3.</p>
+<hr />
+<h3 id="concrete-example-two-level-system-qubit">Concrete Example: Two-Level System (Qubit)<a class="headerlink" href="#concrete-example-two-level-system-qubit" title="Permanent link">&para;</a></h3>
+<p>Let's work through this with actual numbers.</p>
+<p><strong>Setup:</strong> A qubit has a 2-dimensional Hilbert space with <strong>computational basis</strong>:</p>
+<div class="arithmatex">\[|0\rangle = \begin{bmatrix} 1 \\ 0 \end{bmatrix}, \quad |1\rangle = \begin{bmatrix} 0 \\ 1 \end{bmatrix}\]</div>
+<p>These are <strong>basis vectors</strong>, analogous to <span class="arithmatex">\(\mathbf{e}_x = [1, 0]\)</span> and <span class="arithmatex">\(\mathbf{e}_y = [0, 1]\)</span> in 2D Cartesian coordinates.</p>
+<p><strong>State vector (the quantum system itself):</strong></p>
+<div class="arithmatex">\[|\psi\rangle = \frac{1}{\sqrt{2}} |0\rangle + \frac{1}{\sqrt{2}} |1\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix}\]</div>
+<p><strong>Analogy:</strong> Just like <span class="arithmatex">\(\mathbf{v} = 3\mathbf{e}_x + 4\mathbf{e}_y = [3, 4]\)</span>, here <span class="arithmatex">\(|\psi\rangle\)</span> is a linear combination of basis vectors <span class="arithmatex">\(|0\rangle\)</span> and <span class="arithmatex">\(|1\rangle\)</span>.</p>
+<hr />
+<p><strong>Question:</strong> What are the "wavefunction values" (coordinates) in the <span class="arithmatex">\(\{|0\rangle, |1\rangle\}\)</span> basis?</p>
+<p><strong>Answer:</strong> Compute the inner products (projections)!</p>
+<div class="arithmatex">\[\psi_0 = \langle 0 | \psi \rangle = \begin{bmatrix} 1 &amp; 0 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{2}}\]</div>
+<div class="arithmatex">\[\psi_1 = \langle 1 | \psi \rangle = \begin{bmatrix} 0 &amp; 1 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{\sqrt{2}}\]</div>
+<p><strong>What we computed:</strong> Project the state <span class="arithmatex">\(|\psi\rangle\)</span> onto each basis vector.</p>
+<p><strong>Result:</strong> The wavefunction in this basis is <span class="arithmatex">\(\left[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right]\)</span>.</p>
+<p><strong>Interpretation:</strong>
+- "How much of <span class="arithmatex">\(|\psi\rangle\)</span> points in the <span class="arithmatex">\(|0\rangle\)</span> direction?" → <span class="arithmatex">\(\frac{1}{\sqrt{2}}\)</span>
+- "How much of <span class="arithmatex">\(|\psi\rangle\)</span> points in the <span class="arithmatex">\(|1\rangle\)</span> direction?" → <span class="arithmatex">\(\frac{1}{\sqrt{2}}\)</span></p>
+<p><strong>Analogy:</strong> If <span class="arithmatex">\(\mathbf{v} = [3, 4]\)</span>, the "<span class="arithmatex">\(x\)</span>-coordinate" is 3 (how much of <span class="arithmatex">\(\mathbf{v}\)</span> is in the <span class="arithmatex">\(\mathbf{e}_x\)</span> direction).</p>
+<hr />
+<p><strong>Now let's use a DIFFERENT coordinate system:</strong></p>
+<p>So far, we've been working in the <strong>computational basis</strong> <span class="arithmatex">\(\{|0\rangle, |1\rangle\}\)</span>—think of this as our "Cartesian coordinates."</p>
+<p>Now let's define a <strong>second coordinate system</strong>, the <strong>Hadamard basis</strong>:</p>
+<div class="arithmatex">\[|+\rangle = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix}\]</div>
+<div class="arithmatex">\[|-\rangle = \frac{1}{\sqrt{2}}(|0\rangle - |1\rangle) = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ -1 \end{bmatrix}\]</div>
+<p><strong>Important:</strong> These coordinates <span class="arithmatex">\([1/\sqrt{2}, 1/\sqrt{2}]\)</span> are expressed <strong>in the computational basis</strong>. We're defining new basis vectors by specifying their coordinates in the old basis.</p>
+<p><strong>Analogy:</strong> Like defining polar coordinates by saying: <span class="arithmatex">\(\hat{r} = \cos\theta \, \mathbf{e}_x + \sin\theta \, \mathbf{e}_y\)</span> (new basis vectors in terms of old).</p>
+<hr />
+<p><strong>Key observation:</strong> Our state <span class="arithmatex">\(|\psi\rangle\)</span> and the basis vector <span class="arithmatex">\(|+\rangle\)</span> have the <strong>same coordinates</strong> in the computational basis:</p>
+<div class="arithmatex">\[|\psi\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = |+\rangle\]</div>
+<p><strong>Wait, so they're equal?</strong> Yes! As vectors, <span class="arithmatex">\(|\psi\rangle = |+\rangle\)</span>. But they play <strong>different roles</strong> in our current discussion:</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Role in This Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\|\psi\rangle\)</span></td>
+<td>The state we're analyzing (the "subject")</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\|+\rangle\)</span></td>
+<td>A basis vector in the Hadamard coordinate system (the "axis")</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Analogy:</strong> The vector <span class="arithmatex">\([1, 0]\)</span> could be:</p>
+<ul>
+<li>"The velocity we're analyzing" ← role: subject</li>
+<li>"The x-axis of our coordinate system" ← role: reference axis</li>
+</ul>
+<p>Same vector, different roles!</p>
+<hr />
+<p><strong>Now the question:</strong> What is the wavefunction of <span class="arithmatex">\(|\psi\rangle\)</span> in the <strong>Hadamard basis</strong> <span class="arithmatex">\(\{|+\rangle, |-\rangle\}\)</span>?</p>
+<p><strong>What we're computing:</strong> Express our state <span class="arithmatex">\(|\psi\rangle\)</span> using the Hadamard basis vectors <span class="arithmatex">\(|+\rangle\)</span> and <span class="arithmatex">\(|-\rangle\)</span> as coordinates.</p>
+<p><strong>Component in the <span class="arithmatex">\(|+\rangle\)</span> direction:</strong></p>
+<div class="arithmatex">\[\psi_+ = \langle + | \psi \rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 &amp; 1 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{2}(1 + 1) = 1\]</div>
+<p><strong>Why is this 1?</strong> Because <span class="arithmatex">\(|\psi\rangle = |+\rangle\)</span>! The state is <strong>perfectly aligned</strong> with the <span class="arithmatex">\(|+\rangle\)</span> basis vector. It's like asking: "How much of <span class="arithmatex">\(\mathbf{e}_x\)</span> is in the <span class="arithmatex">\(\mathbf{e}_x\)</span> direction?" Answer: 1 (all of it).</p>
+<hr />
+<p><strong>Component in the <span class="arithmatex">\(|-\rangle\)</span> direction:</strong></p>
+<div class="arithmatex">\[\psi_- = \langle - | \psi \rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 &amp; -1 \end{bmatrix} \cdot \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix} = \frac{1}{2}(1 - 1) = 0\]</div>
+<p><strong>Why is this 0?</strong> Because <span class="arithmatex">\(|\psi\rangle\)</span> is <strong>orthogonal</strong> to <span class="arithmatex">\(|-\rangle\)</span>. It has zero component in that direction.</p>
+<hr />
+<p><strong>Result:</strong> In the Hadamard basis, the wavefunction is <span class="arithmatex">\([1, 0]\)</span>.</p>
+<p><strong>What this means:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Basis Used</th>
+<th>Coordinates of <span class="arithmatex">\(\|\psi\rangle\)</span></th>
+<th>Interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Computational <span class="arithmatex">\(\{\|0\rangle, \|1\rangle\}\)</span></td>
+<td><span class="arithmatex">\([\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}]\)</span></td>
+<td>Equal mix of both directions</td>
+</tr>
+<tr>
+<td>Hadamard <span class="arithmatex">\(\{\|+\rangle, \|-\rangle\}\)</span></td>
+<td><span class="arithmatex">\([1, 0]\)</span></td>
+<td>Fully in <span class="arithmatex">\(\|+\rangle\)</span> direction, nothing in <span class="arithmatex">\(\|-\rangle\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Same state, different coordinates!</strong> Like how <span class="arithmatex">\(\mathbf{v} = [3, 4]\)</span> in Cartesian is <span class="arithmatex">\([5, 53.1°]\)</span> in polar.</p>
+<hr />
+<h3 id="common-confusion-which-direction-is-the-projection">Common Confusion: Which Direction Is the Projection?<a class="headerlink" href="#common-confusion-which-direction-is-the-projection" title="Permanent link">&para;</a></h3>
+<p><strong>Question:</strong> "Isn't <span class="arithmatex">\(\langle + | \psi \rangle\)</span> just the projection of the basis vector <span class="arithmatex">\(|+\rangle\)</span> onto the state <span class="arithmatex">\(|\psi\rangle\)</span>?"</p>
+<p><strong>Answer:</strong> No! The notation <span class="arithmatex">\(\langle + | \psi \rangle\)</span> means:</p>
+<blockquote>
+<p>"Project the <strong>state</strong> <span class="arithmatex">\(|\psi\rangle\)</span> onto the <strong>basis vector</strong> <span class="arithmatex">\(|+\rangle\)</span>"</p>
+</blockquote>
+<p><strong>Analogy:</strong> In 3D, if you have:</p>
+<ul>
+<li>Vector: <span class="arithmatex">\(\mathbf{v} = [3, 4, 0]\)</span></li>
+<li>Basis vector: <span class="arithmatex">\(\mathbf{e}_x = [1, 0, 0]\)</span></li>
+</ul>
+<p>The "<span class="arithmatex">\(x\)</span>-coordinate" is:
+$<span class="arithmatex">\(x = \mathbf{e}_x \cdot \mathbf{v} = [1, 0, 0] \cdot [3, 4, 0] = 3\)</span>$</p>
+<p>You're asking: "How much of <span class="arithmatex">\(\mathbf{v}\)</span> is in the <span class="arithmatex">\(\mathbf{e}_x\)</span> direction?"</p>
+<p><strong>Same in QM:</strong> <span class="arithmatex">\(\langle + | \psi \rangle\)</span> asks: "How much of <span class="arithmatex">\(|\psi\rangle\)</span> is in the <span class="arithmatex">\(|+\rangle\)</span> direction?"</p>
+<p><strong>Why the bra-ket notation?</strong></p>
+<p>The notation <span class="arithmatex">\(\langle + |\)</span> is the "bra" (row vector), <span class="arithmatex">\(|\psi\rangle\)</span> is the "ket" (column vector):</p>
+<div class="arithmatex">\[\langle + | \psi \rangle = \text{row vector} \times \text{column vector} = \text{scalar}\]</div>
+<p>This is the inner product that gives you the component!</p>
+<hr />
+<h3 id="summary-two-bases-one-state">Summary: Two Bases, One State<a class="headerlink" href="#summary-two-bases-one-state" title="Permanent link">&para;</a></h3>
+<p>Let's be crystal clear about what just happened:</p>
+<p><strong>1. We have ONE state</strong> (the thing we're analyzing):</p>
+<div class="arithmatex">\[|\psi\rangle = \frac{1}{\sqrt{2}} \begin{bmatrix} 1 \\ 1 \end{bmatrix}_{\text{computational}}\]</div>
+<p><strong>2. We expressed it in TWO different coordinate systems:</strong></p>
+<p><strong>Coordinate System 1: Computational Basis</strong> <span class="arithmatex">\(\{|0\rangle, |1\rangle\}\)</span>
+- Basis vectors (the "axes"): <span class="arithmatex">\(|0\rangle = [1, 0]\)</span>, <span class="arithmatex">\(|1\rangle = [0, 1]\)</span>
+- State coordinates: <span class="arithmatex">\(|\psi\rangle\)</span> has wavefunction <span class="arithmatex">\([\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}]\)</span></p>
+<p><strong>Coordinate System 2: Hadamard Basis</strong> <span class="arithmatex">\(\{|+\rangle, |-\rangle\}\)</span>
+- Basis vectors (the "axes"): <span class="arithmatex">\(|+\rangle = [\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}]_{\text{computational}}\)</span>, <span class="arithmatex">\(|-\rangle = [\frac{1}{\sqrt{2}}, -\frac{1}{\sqrt{2}}]_{\text{computational}}\)</span>
+- State coordinates: <span class="arithmatex">\(|\psi\rangle\)</span> has wavefunction <span class="arithmatex">\([1, 0]\)</span></p>
+<p><strong>3. Key observation:</strong></p>
+<p>In computational coordinates, <span class="arithmatex">\(|\psi\rangle\)</span> and <span class="arithmatex">\(|+\rangle\)</span> are the same vector: <span class="arithmatex">\([\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}]\)</span>.</p>
+<p>But they play different <strong>roles</strong>:</p>
+<ul>
+<li><span class="arithmatex">\(|\psi\rangle\)</span> = the state (subject of analysis)</li>
+<li><span class="arithmatex">\(|+\rangle\)</span> = one of the axes in the Hadamard coordinate system</li>
+</ul>
+<p><strong>Analogy:</strong> If your velocity is <span class="arithmatex">\(\mathbf{v} = [1, 0]\)</span> m/s (heading east), you could also use that same vector <span class="arithmatex">\([1, 0]\)</span> as the x-axis of a new coordinate system. Same vector, different roles!</p>
+<hr />
+<p><strong>The key insight:</strong></p>
+<p>The <strong>state</strong> <span class="arithmatex">\(|\psi\rangle\)</span> is the same geometric object in both cases—it's the same quantum system!</p>
+<p>But its <strong>wavefunction</strong> (coordinate representation) is different:</p>
+<table>
+<thead>
+<tr>
+<th>Coordinate System (Basis)</th>
+<th>State <span class="arithmatex">\(\|\psi\rangle\)</span> Coordinates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Computational <span class="arithmatex">\(\{\lvert 0\rangle, \lvert 1\rangle\}\)</span></td>
+<td><span class="arithmatex">\(\left[\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}\right]\)</span></td>
+</tr>
+<tr>
+<td>Hadamard <span class="arithmatex">\(\{\lvert +\rangle, \lvert -\rangle\}\)</span></td>
+<td><span class="arithmatex">\([1, 0]\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Analogy:</strong> Same vector <span class="arithmatex">\(\mathbf{v}\)</span>, different coordinate systems:</p>
+<table>
+<thead>
+<tr>
+<th>Coordinate System</th>
+<th>Coordinates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cartesian <span class="arithmatex">\((x, y)\)</span></td>
+<td><span class="arithmatex">\([3, 4]\)</span></td>
+</tr>
+<tr>
+<td>Polar <span class="arithmatex">\((r, \theta)\)</span></td>
+<td><span class="arithmatex">\([5, 53.1°]\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Same object, different numbers!</p>
+<hr />
+<h3 id="infinite-dimensional-case-position-basis">Infinite-Dimensional Case: Position Basis<a class="headerlink" href="#infinite-dimensional-case-position-basis" title="Permanent link">&para;</a></h3>
+<p>In standard quantum mechanics, position can be any real number, so the Hilbert space is <strong>infinite-dimensional</strong>.</p>
+<p><strong>State:</strong> <span class="arithmatex">\(|\psi\rangle\)</span> (abstract vector in infinite-dimensional Hilbert space)</p>
+<p><strong>Position basis:</strong> <span class="arithmatex">\(\{|x\rangle : x \in \mathbb{R}\}\)</span></p>
+<p><strong>What is <span class="arithmatex">\(|x\rangle\)</span>?</strong></p>
+<p>The symbol <span class="arithmatex">\(|x\rangle\)</span> is a <strong>basis vector</strong> representing "the state where the particle is definitely at position <span class="arithmatex">\(x\)</span>."</p>
+<p><strong>Analogy to finite case:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Finite (Qubit)</th>
+<th>Infinite (Position)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2 basis vectors: <span class="arithmatex">\(\|0\rangle, \|1\rangle\)</span></td>
+<td>Infinite basis vectors: <span class="arithmatex">\(\|x\rangle\)</span> for every <span class="arithmatex">\(x \in \mathbb{R}\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\|0\rangle\)</span> = "definitely in state 0"</td>
+<td><span class="arithmatex">\(\|x\rangle\)</span> = "definitely at position <span class="arithmatex">\(x\)</span>"</td>
+</tr>
+<tr>
+<td>Discrete index: 0, 1</td>
+<td>Continuous index: <span class="arithmatex">\(x \in \mathbb{R}\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Critical distinction:</strong> <span class="arithmatex">\(|x\rangle\)</span> is NOT a position vector like <span class="arithmatex">\(\mathbf{r} = [x, y, z]\)</span> in classical mechanics. It's a basis vector in Hilbert space that represents a particular position eigenstate.</p>
+<p><strong>Important:</strong> <span class="arithmatex">\(|\psi\rangle\)</span> is <strong>NOT</strong> a basis vector—it's the <strong>state</strong> (the thing we're analyzing), expressed as a combination of basis vectors!</p>
+<hr />
+<p><strong>Wavefunction:</strong> For each position <span class="arithmatex">\(x\)</span>, compute the projection:</p>
+<div class="arithmatex">\[\psi(x) = \langle x | \psi \rangle\]</div>
+<p><strong>What this means:</strong></p>
+<blockquote>
+<p>"Project the state <span class="arithmatex">\(|\psi\rangle\)</span> onto the basis vector <span class="arithmatex">\(|x\rangle\)</span> (the state 'definitely at position <span class="arithmatex">\(x\)</span>')"</p>
+</blockquote>
+<p><strong>Result:</strong> This gives a <strong>function</strong> <span class="arithmatex">\(\psi: \mathbb{R} \to \mathbb{C}\)</span> that tells you the "component" of <span class="arithmatex">\(|\psi\rangle\)</span> in each position direction.</p>
+<p><strong>Analogy:</strong> Just like we computed:</p>
+<ul>
+<li><span class="arithmatex">\(\psi_0 = \langle 0 | \psi \rangle\)</span> for the <span class="arithmatex">\(|0\rangle\)</span> direction</li>
+<li><span class="arithmatex">\(\psi_1 = \langle 1 | \psi \rangle\)</span> for the <span class="arithmatex">\(|1\rangle\)</span> direction</li>
+</ul>
+<p>Now we compute:</p>
+<ul>
+<li><span class="arithmatex">\(\psi(x=0) = \langle 0 | \psi \rangle\)</span> for position <span class="arithmatex">\(x=0\)</span></li>
+<li><span class="arithmatex">\(\psi(x=1) = \langle 1 | \psi \rangle\)</span> for position <span class="arithmatex">\(x=1\)</span></li>
+<li><span class="arithmatex">\(\psi(x=2.5) = \langle 2.5 | \psi \rangle\)</span> for position <span class="arithmatex">\(x=2.5\)</span></li>
+<li>... and so on for every real number <span class="arithmatex">\(x\)</span></li>
+</ul>
+<p>Since <span class="arithmatex">\(x\)</span> is continuous, we get a continuous function <span class="arithmatex">\(\psi(x)\)</span>!</p>
+<p><strong>Concrete Example: Gaussian Wavepacket</strong></p>
+<p>Suppose our state <span class="arithmatex">\(|\psi\rangle\)</span> has the following wavefunction in the position basis:</p>
+<div class="arithmatex">\[\psi(x) = \langle x | \psi \rangle = \frac{1}{(\pi \sigma^2)^{1/4}} \exp\left(-\frac{x^2}{2\sigma^2}\right)\]</div>
+<p>This is a bell curve! Let's evaluate it at specific positions (say <span class="arithmatex">\(\sigma = 1\)</span>):</p>
+<table>
+<thead>
+<tr>
+<th>Position <span class="arithmatex">\(x\)</span></th>
+<th>Basis Vector</th>
+<th>Component <span class="arithmatex">\(\psi(x) = \langle x \| \psi \rangle\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(x = 0\)</span></td>
+<td><span class="arithmatex">\(\|0\rangle\)</span></td>
+<td><span class="arithmatex">\(\psi(0) = \frac{1}{(\pi)^{1/4}} \approx 0.75\)</span> (maximum)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(x = 1\)</span></td>
+<td><span class="arithmatex">\(\|1\rangle\)</span></td>
+<td><span class="arithmatex">\(\psi(1) = \frac{1}{(\pi)^{1/4}} e^{-1/2} \approx 0.46\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(x = 3\)</span></td>
+<td><span class="arithmatex">\(\|3\rangle\)</span></td>
+<td><span class="arithmatex">\(\psi(3) = \frac{1}{(\pi)^{1/4}} e^{-9/2} \approx 0.008\)</span> (nearly zero)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation:</strong>
+- The state <span class="arithmatex">\(|\psi\rangle\)</span> has <strong>large component</strong> in the <span class="arithmatex">\(|x=0\rangle\)</span> direction (particle likely near origin)
+- <strong>Medium component</strong> in the <span class="arithmatex">\(|x=1\rangle\)</span> direction
+- <strong>Tiny component</strong> in the <span class="arithmatex">\(|x=3\rangle\)</span> direction (particle unlikely far from origin)</p>
+<p><strong>Visual:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ψ(x)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  ^
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  |     *
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  |    ***
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  |   *****
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  |  *******
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  | *********
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  |***********
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  +---------------&gt; x
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a> -3  -1  0  1  3
+</span></code></pre></div>
+<p>The wavefunction <span class="arithmatex">\(\psi(x)\)</span> tells you how much of <span class="arithmatex">\(|\psi\rangle\)</span> "points in the direction" of each position basis vector <span class="arithmatex">\(|x\rangle\)</span>.</p>
+<hr />
+<h3 id="clarification-psirangle-vs-xrangle-which-is-the-basis">Clarification: <span class="arithmatex">\(|\psi\rangle\)</span> vs. <span class="arithmatex">\(|x\rangle\)</span> - Which Is the Basis?<a class="headerlink" href="#clarification-psirangle-vs-xrangle-which-is-the-basis" title="Permanent link">&para;</a></h3>
+<p><strong>Common confusion:</strong> "Are both <span class="arithmatex">\(|\psi\rangle\)</span> and <span class="arithmatex">\(|x\rangle\)</span> basis vectors?"</p>
+<p><strong>Answer:</strong> <strong>NO!</strong> This is a critical distinction:</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>What It Is</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\|\psi\rangle\)</span></td>
+<td><strong>The state</strong> (thing being analyzed)</td>
+<td>Like the vector <span class="arithmatex">\(\mathbf{v} = [3, 4]\)</span> you're analyzing</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\|x\rangle\)</span></td>
+<td><strong>A basis vector</strong> (coordinate axis)</td>
+<td>Like <span class="arithmatex">\(\mathbf{e}_x = [1, 0]\)</span> or <span class="arithmatex">\(\mathbf{e}_y = [0, 1]\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong><span class="arithmatex">\(|\psi\rangle\)</span> is expressed AS A COMBINATION of basis vectors <span class="arithmatex">\(|x\rangle\)</span>:</strong></p>
+<div class="arithmatex">\[|\psi\rangle = \int_{-\infty}^{\infty} \psi(x) \, |x\rangle \, dx\]</div>
+<p>This is like writing: <span class="arithmatex">\(\mathbf{v} = 3\mathbf{e}_x + 4\mathbf{e}_y\)</span></p>
+<hr />
+<h3 id="your-classical-intuition-is-rightbut-quantum-is-different">Your Classical Intuition Is Right—But Quantum Is Different!<a class="headerlink" href="#your-classical-intuition-is-rightbut-quantum-is-different" title="Permanent link">&para;</a></h3>
+<p><strong>You said:</strong> "When I hear 'basis vector', it gives me the impression of [0, 0, 1], [0, 1, 0], [1, 0, 0] - linearly independent vectors."</p>
+<p><strong>You're absolutely right!</strong> That's exactly what basis vectors are in classical mechanics.</p>
+<p><strong>The quantum twist:</strong></p>
+<p>In quantum mechanics, <span class="arithmatex">\(|x\rangle\)</span> plays a role <strong>analogous to</strong> <span class="arithmatex">\(\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z\)</span>, but there's a crucial difference:</p>
+<table>
+<thead>
+<tr>
+<th>Classical Position</th>
+<th>Quantum State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Position vector:</strong> <span class="arithmatex">\(\mathbf{r} = [x, y, z]\)</span></td>
+<td><strong>State vector:</strong> <span class="arithmatex">\(\|\psi\rangle\)</span></td>
+</tr>
+<tr>
+<td><strong>Expressed using basis:</strong> <span class="arithmatex">\(\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z\)</span></td>
+<td><strong>Expressed using basis:</strong> <span class="arithmatex">\(\|\psi\rangle = \int \psi(x) \|x\rangle dx\)</span></td>
+</tr>
+<tr>
+<td><strong>Basis vectors:</strong> <span class="arithmatex">\(\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z\)</span> (3 of them)</td>
+<td><strong>Basis vectors:</strong> <span class="arithmatex">\(\|x\rangle\)</span> (one for each <span class="arithmatex">\(x \in \mathbb{R}\)</span>, infinitely many)</td>
+</tr>
+<tr>
+<td><strong>Coordinates:</strong> <span class="arithmatex">\(x, y, z\)</span> (numbers)</td>
+<td><strong>Coordinates:</strong> <span class="arithmatex">\(\psi(x)\)</span> (the wavefunction!)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="the-big-difference-what-were-representing">The Big Difference: What We're Representing<a class="headerlink" href="#the-big-difference-what-were-representing" title="Permanent link">&para;</a></h3>
+<p><strong>Classical mechanics:</strong>
+- <strong>Thing:</strong> Position of a particle
+- <strong>Representation:</strong> <span class="arithmatex">\(\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z\)</span>
+- <strong>Basis vectors:</strong> <span class="arithmatex">\(\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z\)</span> (spatial directions)</p>
+<p><strong>Quantum mechanics:</strong>
+- <strong>Thing:</strong> State of a particle
+- <strong>Representation:</strong> <span class="arithmatex">\(|\psi\rangle = \int \psi(x) |x\rangle dx\)</span>
+- <strong>Basis vectors:</strong> <span class="arithmatex">\(|x\rangle\)</span> (not spatial directions, but quantum states!)</p>
+<p><strong>Key insight:</strong> In QM, <span class="arithmatex">\(|x\rangle\)</span> doesn't represent "the direction x" in space. It represents <strong>the quantum state "particle is at position x"</strong>.</p>
+<hr />
+<h3 id="concrete-example-finite-case-first">Concrete Example: Finite Case First<a class="headerlink" href="#concrete-example-finite-case-first" title="Permanent link">&para;</a></h3>
+<p>Let's make this super concrete with a qubit:</p>
+<p><strong>Basis vectors (the "axes"):</strong>
+- <span class="arithmatex">\(|0\rangle = [1, 0]\)</span>
+- <span class="arithmatex">\(|1\rangle = [0, 1]\)</span></p>
+<p>These are linearly independent, just like <span class="arithmatex">\(\mathbf{e}_x\)</span> and <span class="arithmatex">\(\mathbf{e}_y\)</span>!</p>
+<p><strong>State (the thing we're analyzing):</strong>
+$<span class="arithmatex">\(|\psi\rangle = \frac{1}{\sqrt{2}}|0\rangle + \frac{1}{\sqrt{2}}|1\rangle = \frac{1}{\sqrt{2}}\begin{bmatrix} 1 \\ 1 \end{bmatrix}\)</span>$</p>
+<p><strong>Is <span class="arithmatex">\(|\psi\rangle\)</span> a basis vector?</strong> NO! It's a <strong>combination</strong> of basis vectors, like <span class="arithmatex">\(\mathbf{v} = 3\mathbf{e}_x + 4\mathbf{e}_y\)</span>.</p>
+<hr />
+<h3 id="now-the-infinite-case">Now the Infinite Case<a class="headerlink" href="#now-the-infinite-case" title="Permanent link">&para;</a></h3>
+<p><strong>Basis vectors (the "axes"):</strong>
+- <span class="arithmatex">\(|x\rangle\)</span> for every <span class="arithmatex">\(x \in \mathbb{R}\)</span></p>
+<p><strong>State (the thing we're analyzing):</strong>
+$<span class="arithmatex">\(|\psi\rangle = \int_{-\infty}^{\infty} \psi(x) \, |x\rangle \, dx\)</span>$</p>
+<p>where <span class="arithmatex">\(\psi(x) = \langle x | \psi \rangle\)</span> are the coordinates (wavefunction).</p>
+<p><strong>Is <span class="arithmatex">\(|\psi\rangle\)</span> a basis vector?</strong> NO! It's a <strong>continuous combination</strong> of basis vectors <span class="arithmatex">\(|x\rangle\)</span>.</p>
+<hr />
+<h3 id="classical-vs-quantum-interpretation">Classical vs. Quantum Interpretation<a class="headerlink" href="#classical-vs-quantum-interpretation" title="Permanent link">&para;</a></h3>
+<p><strong>Common expectation:</strong> "An arbitrary position x should be expressible in terms of chosen basis vectors."</p>
+<p><strong>Classical mechanics (YES):</strong> Position <span class="arithmatex">\(\mathbf{r}\)</span> is expressed as <span class="arithmatex">\(\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z\)</span>.</p>
+<p><strong>Quantum mechanics (DIFFERENT!):</strong> We're not expressing positions—we're expressing <strong>states</strong>!</p>
+<p>The state <span class="arithmatex">\(|\psi\rangle\)</span> is expressed in the position basis as:
+$<span class="arithmatex">\(|\psi\rangle = \int \psi(x) |x\rangle dx\)</span>$</p>
+<p><strong>The basis vectors <span class="arithmatex">\(|x\rangle\)</span> are NOT expressing positions—they ARE quantum states</strong> (states of "definitely at position x").</p>
+<hr />
+<h3 id="why-this-is-confusing">Why This Is Confusing<a class="headerlink" href="#why-this-is-confusing" title="Permanent link">&para;</a></h3>
+<p>The notation <span class="arithmatex">\(|x\rangle\)</span> looks like it should mean "position x", but it actually means:</p>
+<blockquote>
+<p><strong>"The quantum state where the particle is definitely located at position x"</strong></p>
+</blockquote>
+<p>So <span class="arithmatex">\(|x\rangle\)</span> is not a point in space—it's a <strong>vector in Hilbert space</strong> representing a specific quantum state.</p>
+<p><strong>Better notation (if we could redesign QM):</strong>
+- <span class="arithmatex">\(|x\rangle\)</span> → <span class="arithmatex">\(|\text{definitely at } x\rangle\)</span> (clearer!)</p>
+<p>But physicists use <span class="arithmatex">\(|x\rangle\)</span> as shorthand.</p>
+<hr />
+<h3 id="summary-classical-vs-quantum-representation">Summary: Classical vs. Quantum Representation<a class="headerlink" href="#summary-classical-vs-quantum-representation" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Classical Mechanics</th>
+<th>Quantum Mechanics</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>What we represent</strong></td>
+<td>Position of particle</td>
+<td>State of particle</td>
+</tr>
+<tr>
+<td><strong>The thing</strong></td>
+<td><span class="arithmatex">\(\mathbf{r}\)</span> (position vector)</td>
+<td><span class="arithmatex">\(\|\psi\rangle\)</span> (state vector)</td>
+</tr>
+<tr>
+<td><strong>Basis vectors</strong></td>
+<td><span class="arithmatex">\(\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z\)</span></td>
+<td><span class="arithmatex">\(\|x\rangle\)</span> for each <span class="arithmatex">\(x \in \mathbb{R}\)</span></td>
+</tr>
+<tr>
+<td><strong>What basis vectors mean</strong></td>
+<td>Spatial directions</td>
+<td>Quantum states ("at position x")</td>
+</tr>
+<tr>
+<td><strong>Number of basis vectors</strong></td>
+<td>3 (in 3D space)</td>
+<td>Infinite (one per position)</td>
+</tr>
+<tr>
+<td><strong>Representation</strong></td>
+<td><span class="arithmatex">\(\mathbf{r} = x\mathbf{e}_x + y\mathbf{e}_y + z\mathbf{e}_z\)</span></td>
+<td><span class="arithmatex">\(\|\psi\rangle = \int \psi(x) \|x\rangle dx\)</span></td>
+</tr>
+<tr>
+<td><strong>Coordinates</strong></td>
+<td><span class="arithmatex">\(x, y, z\)</span> (position components)</td>
+<td><span class="arithmatex">\(\psi(x)\)</span> (wavefunction)</td>
+</tr>
+<tr>
+<td><strong>"Is position a basis vector?"</strong></td>
+<td>No, position uses basis vectors</td>
+<td>No, <span class="arithmatex">\(\|x\rangle\)</span> IS a basis vector</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key takeaway:</strong>
+- Classical: Position <span class="arithmatex">\(\mathbf{r}\)</span> <strong>is expressed using</strong> basis vectors <span class="arithmatex">\(\mathbf{e}_x, \mathbf{e}_y, \mathbf{e}_z\)</span>
+- Quantum: Basis vector <span class="arithmatex">\(|x\rangle\)</span> <strong>represents the state</strong> "particle at position x"</p>
+<p><strong>This is why quantum mechanics feels weird!</strong> We're not representing positions anymore—we're representing <strong>states</strong>, and the basis vectors themselves encode "where the particle is."</p>
+<hr />
+<h3 id="key-distinction-now-clear">Key Distinction (Now Clear!)<a class="headerlink" href="#key-distinction-now-clear" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>State</strong> <span class="arithmatex">\(|\psi\rangle\)</span> = The quantum system itself (basis-independent)<br />
+<strong>Wavefunction</strong> <span class="arithmatex">\(\psi(x)\)</span> = Coordinate representation in position basis</p>
+</blockquote>
+<h3 id="summary-table">Summary Table<a class="headerlink" href="#summary-table" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>What It Is</th>
+<th>Analogy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>State vector</strong> <span class="arithmatex">\(\lvert\psi\rangle\)</span></td>
+<td>The quantum system (abstract)</td>
+<td>The geometric vector <span class="arithmatex">\(\mathbf{v}\)</span></td>
+</tr>
+<tr>
+<td><strong>Wavefunction</strong> <span class="arithmatex">\(\psi(x)\)</span></td>
+<td>Coordinate representation</td>
+<td>Cartesian coordinates <span class="arithmatex">\([3, 4, 0]\)</span></td>
+</tr>
+<tr>
+<td><strong>Inner product</strong> <span class="arithmatex">\(\langle x \lvert \psi \rangle\)</span></td>
+<td>Component in direction <span class="arithmatex">\(\lvert x\rangle\)</span></td>
+<td>How much of <span class="arithmatex">\(\mathbf{v}\)</span> is in <span class="arithmatex">\(x\)</span>-direction?</td>
+</tr>
+<tr>
+<td><strong>Different basis</strong></td>
+<td>Different coordinate system</td>
+<td>Cartesian vs. polar</td>
+</tr>
+<tr>
+<td><strong>Same state, different wavefunction</strong></td>
+<td>Same <span class="arithmatex">\(\lvert\psi\rangle\)</span>, different basis</td>
+<td>Same <span class="arithmatex">\(\mathbf{v}\)</span>, different coordinates</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why this matters for GRL:</strong></p>
+<p>In GRL, the reinforcement field <span class="arithmatex">\(Q^+(z)\)</span> is like a wavefunction—it's the <strong>coordinate representation</strong> of a state vector in RKHS, expressed in the kernel-induced basis <span class="arithmatex">\(\{k(z_i, \cdot)\}\)</span>.</p>
+<p>This maps cleanly onto RKHS language, as we'll see in Section 5.</p>
+<hr />
+<h2 id="2-what-does-the-wavefunction-represent">2. What Does the Wavefunction Represent?<a class="headerlink" href="#2-what-does-the-wavefunction-represent" title="Permanent link">&para;</a></h2>
+<p>The wavefunction does <strong>not</strong> represent:</p>
+<ul>
+<li>❌ A probability</li>
+<li>❌ A physical wave in space</li>
+<li>❌ Ignorance in the Bayesian sense</li>
+</ul>
+<p>Instead, it represents <strong>probability amplitudes</strong>.</p>
+<h3 id="the-born-rule">The Born Rule<a class="headerlink" href="#the-born-rule" title="Permanent link">&para;</a></h3>
+<p>The Born rule tells us how to extract observable predictions:</p>
+<div class="arithmatex">\[p(x) = |\psi(x)|^2\]</div>
+<p><strong>Key properties:</strong>
+- <span class="arithmatex">\(\psi(x)\)</span> can be <strong>positive, negative, or complex</strong>
+- Interference arises because amplitudes add <em>before</em> squaring
+- Probabilities are <strong>derived</strong>, not primitive</p>
+<h3 id="the-fundamental-move">The Fundamental Move<a class="headerlink" href="#the-fundamental-move" title="Permanent link">&para;</a></h3>
+<p>This is the single most important structural move quantum mechanics makes:</p>
+<blockquote>
+<p><strong>QM is not a probabilistic theory.</strong><br />
+<strong>It is an amplitude theory from which probabilities are derived.</strong></p>
+</blockquote>
+<p>This alone justifies:</p>
+<ul>
+<li>Spectral methods</li>
+<li>Interference-like effects</li>
+<li>Superposition-based reasoning</li>
+</ul>
+<p>—without invoking physics mysticism.</p>
+<hr />
+<h2 id="3-why-one-state-many-wavefunctions">3. Why "One State, Many Wavefunctions"?<a class="headerlink" href="#3-why-one-state-many-wavefunctions" title="Permanent link">&para;</a></h2>
+<p>From the examples above, you've seen that <strong>one state</strong> <span class="arithmatex">\(|\psi\rangle\)</span> can have <strong>different coordinate representations</strong> depending on the basis.</p>
+<p>This is why physicists sometimes say "the wavefunction" (singular) and sometimes "wavefunctions" (plural):</p>
+<h3 id="singular-the-wavefunction">Singular: "The Wavefunction"<a class="headerlink" href="#singular-the-wavefunction" title="Permanent link">&para;</a></h3>
+<p>When we say "<strong>the</strong> wavefunction," we usually mean:</p>
+<blockquote>
+<p>The position-basis representation <span class="arithmatex">\(\psi(x) = \langle x | \psi \rangle\)</span></p>
+</blockquote>
+<p>This is the most common choice because position is directly measurable.</p>
+<h3 id="plural-different-wavefunctions">Plural: "Different Wavefunctions"<a class="headerlink" href="#plural-different-wavefunctions" title="Permanent link">&para;</a></h3>
+<p>When we say "<strong>different</strong> wavefunctions," we mean different basis representations of the same state:</p>
+<p><strong>Position basis:</strong>
+$<span class="arithmatex">\(\psi(x) = \langle x | \psi \rangle \quad \text{(position wavefunction)}\)</span>$</p>
+<p><strong>Momentum basis:</strong>
+$<span class="arithmatex">\(\tilde{\psi}(p) = \langle p | \psi \rangle \quad \text{(momentum wavefunction)}\)</span>$</p>
+<p><strong>Energy basis:</strong>
+$<span class="arithmatex">\(c_n = \langle E_n | \psi \rangle \quad \text{(energy amplitudes)}\)</span>$</p>
+<p>These are <strong>not different physical states</strong>—they are <strong>different coordinate charts on the same object</strong>, like Cartesian vs. polar coordinates for the same vector.</p>
+<h3 id="connection-to-grl">Connection to GRL<a class="headerlink" href="#connection-to-grl" title="Permanent link">&para;</a></h3>
+<p>In GRL, when we talk about "wavefunction-like amplitude fields," we mean:</p>
+<p>The reinforcement field <span class="arithmatex">\(Q^+(z)\)</span> is <strong>one representation</strong> of the state in RKHS, specifically the representation in the kernel-induced basis <span class="arithmatex">\(\{k(z_i, \cdot)\}\)</span>.</p>
+<p>We could also express the same state in different bases (e.g., Fourier basis, wavelet basis), just like quantum states have position and momentum representations.</p>
+<hr />
+<h2 id="4-operators-observables-and-prediction">4. Operators, Observables, and Prediction<a class="headerlink" href="#4-operators-observables-and-prediction" title="Permanent link">&para;</a></h2>
+<p>In quantum mechanics, <strong>nothing observable comes directly from the wavefunction</strong>.</p>
+<p>All predictions are mediated by <strong>operators</strong>.</p>
+<h3 id="observables-as-hermitian-operators">Observables as Hermitian Operators<a class="headerlink" href="#observables-as-hermitian-operators" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Observables are Hermitian operators <span class="arithmatex">\(\hat{O}\)</span></li>
+<li>Expected value:</li>
+</ul>
+<div class="arithmatex">\[\langle O \rangle = \langle \psi | \hat{O} | \psi \rangle\]</div>
+<h3 id="measurement-probabilities">Measurement Probabilities<a class="headerlink" href="#measurement-probabilities" title="Permanent link">&para;</a></h3>
+<p>Measurement probabilities arise from projection operators:</p>
+<div class="arithmatex">\[p(o) = |\hat{P}_o |\psi\rangle|^2\]</div>
+<h3 id="the-workflow">The Workflow<a class="headerlink" href="#the-workflow" title="Permanent link">&para;</a></h3>
+<p>Quantum mechanics follows this structure:</p>
+<blockquote>
+<p><strong>state</strong> → <strong>operator</strong> → <strong>expectation / distribution</strong></p>
+</blockquote>
+<p><strong>Not:</strong></p>
+<blockquote>
+<p>state → probability</p>
+</blockquote>
+<p>This is a deep conceptual alignment with GRL's formulation.</p>
+<hr />
+<h2 id="5-mapping-back-to-grl-state-vs-representation">5. Mapping Back to GRL: State vs. Representation<a class="headerlink" href="#5-mapping-back-to-grl-state-vs-representation" title="Permanent link">&para;</a></h2>
+<p>Let's translate each component with discipline.</p>
+<h3 id="a-what-corresponds-to-the-quantum-state">(a) What Corresponds to the Quantum State?<a class="headerlink" href="#a-what-corresponds-to-the-quantum-state" title="Permanent link">&para;</a></h3>
+<p>In GRL, the reinforcement field is:</p>
+<div class="arithmatex">\[Q^+(\cdot) = \sum_i w_i \, k(z_i, \cdot)\]</div>
+<p>This is best interpreted as:</p>
+<blockquote>
+<p><strong>The GRL state is the entire reinforcement field as an element of RKHS</strong></p>
+</blockquote>
+<p>That is:</p>
+<div class="arithmatex">\[Q^+ \in \mathcal{H}_k\]</div>
+<p>This is the analogue of <span class="arithmatex">\(|\psi\rangle\)</span>, <strong>not</strong> of <span class="arithmatex">\(\psi(x)\)</span>.</p>
+<h3 id="b-what-corresponds-to-the-wavefunction">(b) What Corresponds to the Wavefunction?<a class="headerlink" href="#b-what-corresponds-to-the-wavefunction" title="Permanent link">&para;</a></h3>
+<p>The wavefunction analogue appears <strong>only after choosing a query point</strong>.</p>
+<p>Given a "query configuration" <span class="arithmatex">\(z = (s, \theta)\)</span>, the scalar:</p>
+<div class="arithmatex">\[Q^+(z) = \langle Q^+, k(z,\cdot) \rangle_{\mathcal{H}_k}\]</div>
+<p>is exactly analogous to:</p>
+<div class="arithmatex">\[\psi(x) = \langle x | \psi \rangle\]</div>
+<h3 id="summary-of-the-mapping">Summary of the Mapping<a class="headerlink" href="#summary-of-the-mapping" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Quantum Mechanics</th>
+<th>GRL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>State vector <span class="arithmatex">\(\|\psi\rangle \in \mathcal{H}\)</span></td>
+<td>Reinforcement field <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span></td>
+</tr>
+<tr>
+<td>Wavefunction <span class="arithmatex">\(\psi(x) = \langle x \| \psi \rangle\)</span></td>
+<td>Value at query <span class="arithmatex">\(Q^+(z) = \langle Q^+, k(z,\cdot) \rangle\)</span></td>
+</tr>
+<tr>
+<td>Position basis <span class="arithmatex">\(\|x\rangle\)</span></td>
+<td>Kernel basis <span class="arithmatex">\(k(z, \cdot)\)</span></td>
+</tr>
+<tr>
+<td>Probability <span class="arithmatex">\(p(x) = \|\psi(x)\|^2\)</span></td>
+<td>Policy <span class="arithmatex">\(\pi(a\|s) \propto \exp(\beta Q^+(s,a))\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key insight:</strong>
+- <span class="arithmatex">\(Q^+\)</span> is the state
+- <span class="arithmatex">\(Q^+(z)\)</span> is the <em>coordinate representation</em> of that state in the kernel-induced basis</p>
+<hr />
+<h2 id="6-one-reinforcement-field-or-many">6. One Reinforcement Field or Many?<a class="headerlink" href="#6-one-reinforcement-field-or-many" title="Permanent link">&para;</a></h2>
+<p>Now we can answer this precisely.</p>
+<h3 id="strict-answer">Strict Answer<a class="headerlink" href="#strict-answer" title="Permanent link">&para;</a></h3>
+<p>There is <strong>one reinforcement field state</strong> <span class="arithmatex">\(Q^+\)</span>.</p>
+<p>But there are <strong>many induced wavefunction-like representations</strong>, depending on:</p>
+<ul>
+<li>Which subspace you project onto</li>
+<li>Which action slice you fix</li>
+<li>Which kernel basis you query</li>
+<li>Which abstraction level you operate at</li>
+</ul>
+<h3 id="examples-of-different-representations">Examples of Different Representations<a class="headerlink" href="#examples-of-different-representations" title="Permanent link">&para;</a></h3>
+<p><strong>Fixing state <span class="arithmatex">\(s\)</span>:</strong> <span class="arithmatex">\(Q^+(s, \cdot)\)</span> → action-amplitude field</p>
+<p><strong>Fixing action parameters <span class="arithmatex">\(\theta\)</span>:</strong> <span class="arithmatex">\(Q^+(\cdot, \theta)\)</span> → state-amplitude field</p>
+<p><strong>Projecting onto a concept subspace:</strong> → concept-level amplitude field</p>
+<p><strong>Marginalizing over actions:</strong> <span class="arithmatex">\(V(s) = \mathbb{E}_\theta[Q^+(s, \theta)]\)</span> → state value function</p>
+<p>All of these are <strong>representations</strong>, not distinct states.</p>
+<p><strong>This mirrors quantum mechanics exactly.</strong></p>
+<hr />
+<h2 id="7-implications-for-concept-discovery-section-v">7. Implications for Concept Discovery (Section V)<a class="headerlink" href="#7-implications-for-concept-discovery-section-v" title="Permanent link">&para;</a></h2>
+<p>This interpretation does important conceptual work:</p>
+<h3 id="what-concepts-are">What Concepts Are<a class="headerlink" href="#what-concepts-are" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Functional clusters are <strong>not mixtures of policies</strong></li>
+<li>They are <strong>coherent subspaces of a single state</strong></li>
+<li>Spectral clustering identifies <strong>approximate eigenstates</strong></li>
+<li>Hierarchies correspond to <strong>coarse-graining of observables</strong></li>
+</ul>
+<h3 id="concept-formation-as-spectral-decomposition">Concept Formation as Spectral Decomposition<a class="headerlink" href="#concept-formation-as-spectral-decomposition" title="Permanent link">&para;</a></h3>
+<p>Concept formation becomes:</p>
+<blockquote>
+<p>Identifying stable subspaces under the action of GRL's implicit operators</p>
+</blockquote>
+<p>This is <strong>far stronger</strong> than "kernel clustering" in the usual ML sense.</p>
+<h3 id="connection-to-part-ii">Connection to Part II<a class="headerlink" href="#connection-to-part-ii" title="Permanent link">&para;</a></h3>
+<p>Part II (Emergent Structure &amp; Spectral Abstraction) leverages this:</p>
+<ul>
+<li>Spectral methods reveal the natural decomposition of <span class="arithmatex">\(Q^+\)</span></li>
+<li>Eigenmodes of the kernel matrix are "concept basis states"</li>
+<li>Hierarchical structure emerges from nested spectral decompositions</li>
+</ul>
+<hr />
+<h2 id="8-refined-terminology">8. Refined Terminology<a class="headerlink" href="#8-refined-terminology" title="Permanent link">&para;</a></h2>
+<p>Based on this analysis, we should refine our language.</p>
+<h3 id="instead-of">Instead of:<a class="headerlink" href="#instead-of" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>"The reinforcement field is a wavefunction over augmented state-action space."</p>
+</blockquote>
+<h3 id="use">Use:<a class="headerlink" href="#use" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>"The reinforcement field is a <strong>state vector in RKHS</strong>, whose projections onto kernel-induced bases yield <strong>wavefunction-like amplitude fields</strong> over augmented state-action space."</p>
+</blockquote>
+<p><strong>Why this is better:</strong>
+- Distinguishes state (abstract) from representation (coordinate)
+- Prevents over-interpretation
+- Preserves the structural claim
+- Aligns precisely with quantum mechanics terminology</p>
+<hr />
+<h2 id="9-what-this-opens-up">9. What This Opens Up<a class="headerlink" href="#9-what-this-opens-up" title="Permanent link">&para;</a></h2>
+<p>Once this is conceptually clean, several things become almost unavoidable:</p>
+<h3 id="for-theory-part-ii">For Theory (Part II)<a class="headerlink" href="#for-theory-part-ii" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Section V-C:</strong> Frame concepts as approximately invariant subspaces</li>
+<li><strong>Hierarchies:</strong> Nested spectral decompositions</li>
+<li><strong>World models:</strong> Operators acting on the GRL state</li>
+<li><strong>Complex RKHS:</strong> Introduces phase (not just probability)</li>
+<li><strong>Interference:</strong> Meaningful without metaphysics</li>
+</ul>
+<h3 id="for-implementation">For Implementation<a class="headerlink" href="#for-implementation" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Query the reinforcement field at different points → different "wavefunctions"</li>
+<li>Spectral decomposition reveals concept structure</li>
+<li>Projections onto subspaces enable hierarchical reasoning</li>
+<li>Phase relationships (in complex RKHS) encode temporal/contextual structure</li>
+</ul>
+<h3 id="for-understanding">For Understanding<a class="headerlink" href="#for-understanding" title="Permanent link">&para;</a></h3>
+<p>Nothing here requires claiming GRL <em>is</em> quantum mechanics.</p>
+<p><strong>Only that it lives in the same mathematical universe.</strong></p>
+<p>That's not mysticism—it's functional analysis doing what it always does.</p>
+<hr />
+<h2 id="10-next-steps-what-operators-does-grl-define">10. Next Steps: What Operators Does GRL Define?<a class="headerlink" href="#10-next-steps-what-operators-does-grl-define" title="Permanent link">&para;</a></h2>
+<p>The natural next move is to formalize <strong>which operators GRL implicitly defines</strong>, because that's where the analogy becomes productive rather than decorative.</p>
+<h3 id="candidate-operators-in-grl">Candidate Operators in GRL<a class="headerlink" href="#candidate-operators-in-grl" title="Permanent link">&para;</a></h3>
+<p><strong>1. Value Functional</strong>
+$<span class="arithmatex">\(\hat{V}: Q^+ \mapsto \mathbb{E}_\theta[Q^+(\cdot, \theta)]\)</span>$</p>
+<p><strong>2. MemoryUpdate as State Transition</strong>
+$<span class="arithmatex">\(\hat{M}: Q^+_t \mapsto Q^+_{t+1}\)</span>$</p>
+<p><strong>3. Concept Projection</strong>
+$<span class="arithmatex">\(\hat{P}_c: Q^+ \mapsto \text{proj}_{\text{concept}_c}(Q^+)\)</span>$</p>
+<p><strong>4. Action Selection</strong>
+$<span class="arithmatex">\(\hat{A}: (Q^+, s) \mapsto \theta^* = \arg\max_\theta Q^+(s, \theta)\)</span>$</p>
+<p>Each of these operators acts on the reinforcement field state, producing either:</p>
+<ul>
+<li>Another state (state transition)</li>
+<li>An expectation value (observable)</li>
+<li>A projection (reduced representation)</li>
+</ul>
+<p><strong>This is exactly how observables work in quantum mechanics.</strong></p>
+<hr />
+<h2 id="11-summary">11. Summary<a class="headerlink" href="#11-summary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>What is the wavefunction?</td>
+<td>Coordinate representation of a state vector in a chosen basis</td>
+</tr>
+<tr>
+<td>What does it represent?</td>
+<td>Probability amplitudes (not probabilities directly)</td>
+</tr>
+<tr>
+<td>Why "one" wavefunction?</td>
+<td>One state, many representations (different bases)</td>
+</tr>
+<tr>
+<td>What is the GRL state?</td>
+<td>The reinforcement field <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span></td>
+</tr>
+<tr>
+<td>What is the GRL "wavefunction"?</td>
+<td>The value <span class="arithmatex">\(Q^+(z)\)</span> at a query point (coordinate representation)</td>
+</tr>
+<tr>
+<td>One field or many?</td>
+<td>One state, many projections (action-fields, state-fields, concept-fields)</td>
+</tr>
+<tr>
+<td>What does this enable?</td>
+<td>Spectral methods, interference, hierarchical concepts, operator formalism</td>
+</tr>
+</tbody>
+</table>
+<h3 id="the-core-insight">The Core Insight<a class="headerlink" href="#the-core-insight" title="Permanent link">&para;</a></h3>
+<p><strong>Quantum mechanics and GRL share the same mathematical structure:</strong></p>
+<ul>
+<li>State = vector in Hilbert space</li>
+<li>Observations = inner products</li>
+<li>Probabilities = derived from amplitudes</li>
+<li>Dynamics = operators on the state</li>
+<li>Structure = revealed by spectral decomposition</li>
+</ul>
+<p>This is not analogy—it is <strong>mathematical identity</strong>.</p>
+<hr />
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<h3 id="within-this-tutorial">Within This Tutorial<a class="headerlink" href="#within-this-tutorial" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Previous</strong>: <a href="../01-rkhs-quantum-parallel/">RKHS and Quantum Mechanics: A Structural Parallel</a></li>
+<li><strong>Next</strong>: <a href="02-complex-rkhs.md">Complex-Valued RKHS</a></li>
+<li><strong>Part II</strong> (forthcoming): Spectral methods and concept discovery</li>
+</ul>
+<h3 id="quantum-mechanics-foundations">Quantum Mechanics Foundations<a class="headerlink" href="#quantum-mechanics-foundations" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Dirac, P. A. M. (1930). <em>The Principles of Quantum Mechanics</em>. Oxford.</li>
+<li>Ballentine, L. E. (1998). <em>Quantum Mechanics: A Modern Development</em>. World Scientific.</li>
+<li>Nielsen &amp; Chuang (2010). <em>Quantum Computation and Quantum Information</em>. Cambridge.</li>
+</ul>
+<h3 id="rkhs-and-functional-analysis">RKHS and Functional Analysis<a class="headerlink" href="#rkhs-and-functional-analysis" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Reed &amp; Simon (1980). <em>Functional Analysis</em>. Academic Press.</li>
+<li>Berlinet &amp; Thomas-Agnan (2004). <em>Reproducing Kernel Hilbert Spaces in Probability and Statistics</em>. Springer.</li>
+</ul>
+<h3 id="grl-original-paper">GRL Original Paper<a class="headerlink" href="#grl-original-paper" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Chiu &amp; Huber (2022). Generalized Reinforcement Learning. <a href="https://arxiv.org/abs/2208.04822">arXiv:2208.04822</a></li>
+</ul>
+<hr />
+<p><strong>Last Updated:</strong> January 12, 2026</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

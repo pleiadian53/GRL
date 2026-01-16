@@ -1,0 +1,4068 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/quantum_inspired/05-concept-projections-and-measurements/">
+      
+      
+        <link rel="prev" href="../04-action-and-state-fields/">
+      
+      
+        <link rel="next" href="../06-agent-state-and-belief-evolution/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>05: Concept Projections - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-5-concept-subspaces-projections-and-measurement-theory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              05: Concept Projections
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03a-least-action-principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/06-memory-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/07a-continuous-policy-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01a-wavefunction-interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-from-spectral-clustering-to-concept-subspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. From Spectral Clustering to Concept Subspaces
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. From Spectral Clustering to Concept Subspaces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-problem-with-clusters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem with Clusters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-grl-approach-functional-clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The GRL Approach: Functional Clustering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concepts-as-subspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concepts as Subspaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-subspaces-not-clusters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Subspaces, Not Clusters?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-projection-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Projection Operators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Projection Operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-intuition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Intuition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#computational-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Computational Form
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-concept-activation-observables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Concept Activation: Observables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Concept Activation: Observables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-measurement-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Measurement Question
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-activation-observable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Activation Observable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-quantum-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to Quantum Mechanics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-concept-conditioned-representations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Concept-Conditioned Representations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Concept-Conditioned Representations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#projected-field-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projected Field Values
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-conditioned-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept-Conditioned Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-wavefunction-per-concept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action Wavefunction per Concept
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-hierarchical-composition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Hierarchical Composition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Hierarchical Composition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nested-subspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nested Subspaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hierarchical-projection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hierarchical Projection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activation-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Activation Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compositional-activation-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compositional Activation Tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-spectral-discovery-of-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Spectral Discovery of Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Spectral Discovery of Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-concept-subspace-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm: Concept Subspace Extraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adaptive-concept-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adaptive Concept Discovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-concept-dynamics-and-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Concept Dynamics and Evolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Concept Dynamics and Evolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#temporal-concept-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal Concept Activation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-transition-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Transition Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-practical-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Practical Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Practical Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-1-concept-conditioned-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 1: Concept-Conditioned Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-2-hierarchical-action-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 2: Hierarchical Action Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-3-concept-based-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 3: Concept-Based Transfer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-connection-to-existing-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Connection to Existing Work
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Connection to Existing Work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eigenoptions-machado-et-al-2017" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eigenoptions (Machado et al., 2017)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#successor-features-barreto-et-al-2017" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Successor Features (Barreto et al., 2017)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#affordances-gibson-1979-khetarpal-et-al-2020" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Affordances (Gibson, 1979; Khetarpal et al., 2020)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-implications-for-part-ii-of-tutorial-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Implications for Part II of Tutorial Paper
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Implications for Part II of Tutorial Paper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-status-of-section-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Status of Section V
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-this-chapter-provides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Chapter Provides
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structure-for-extended-section-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structure for Extended Section V
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-contributions-of-this-chapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Contributions of This Chapter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-this-enables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Enables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Further Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#within-this-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Within This Series
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grl-tutorials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL Tutorials
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-literature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Literature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-path-integrals-and-action-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-from-spectral-clustering-to-concept-subspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. From Spectral Clustering to Concept Subspaces
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. From Spectral Clustering to Concept Subspaces">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-problem-with-clusters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem with Clusters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-grl-approach-functional-clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The GRL Approach: Functional Clustering
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concepts-as-subspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concepts as Subspaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-subspaces-not-clusters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Subspaces, Not Clusters?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-projection-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Projection Operators
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Projection Operators">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-intuition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Intuition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#computational-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Computational Form
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-concept-activation-observables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Concept Activation: Observables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Concept Activation: Observables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-measurement-question" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Measurement Question
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-activation-observable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Activation Observable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#properties_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Properties
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connection-to-quantum-mechanics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to Quantum Mechanics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-concept-conditioned-representations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Concept-Conditioned Representations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Concept-Conditioned Representations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#projected-field-values" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projected Field Values
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-conditioned-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept-Conditioned Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#action-wavefunction-per-concept" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Action Wavefunction per Concept
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-hierarchical-composition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Hierarchical Composition
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Hierarchical Composition">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nested-subspaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nested Subspaces
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hierarchical-projection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hierarchical Projection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activation-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Activation Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compositional-activation-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compositional Activation Tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-spectral-discovery-of-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Spectral Discovery of Concepts
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Spectral Discovery of Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-concept-subspace-extraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm: Concept Subspace Extraction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-this-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Works
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adaptive-concept-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adaptive Concept Discovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-concept-dynamics-and-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Concept Dynamics and Evolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Concept Dynamics and Evolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#temporal-concept-activation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Temporal Concept Activation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-transition-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Transition Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concept-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concept Persistence
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-practical-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Practical Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Practical Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-1-concept-conditioned-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 1: Concept-Conditioned Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-2-hierarchical-action-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 2: Hierarchical Action Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-3-concept-based-transfer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 3: Concept-Based Transfer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-connection-to-existing-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Connection to Existing Work
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Connection to Existing Work">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#eigenoptions-machado-et-al-2017" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Eigenoptions (Machado et al., 2017)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#successor-features-barreto-et-al-2017" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Successor Features (Barreto et al., 2017)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#affordances-gibson-1979-khetarpal-et-al-2020" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Affordances (Gibson, 1979; Khetarpal et al., 2020)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-implications-for-part-ii-of-tutorial-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Implications for Part II of Tutorial Paper
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Implications for Part II of Tutorial Paper">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#current-status-of-section-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current Status of Section V
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-this-chapter-provides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Chapter Provides
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#structure-for-extended-section-v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structure for Extended Section V
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-contributions-of-this-chapter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Contributions of This Chapter
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-this-enables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What This Enables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Further Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#within-this-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Within This Series
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grl-tutorials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL Tutorials
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-literature" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Literature
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/quantum_inspired/05-concept-projections-and-measurements.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-5-concept-subspaces-projections-and-measurement-theory">Chapter 5: Concept Subspaces, Projections, and Measurement Theory<a class="headerlink" href="#chapter-5-concept-subspaces-projections-and-measurement-theory" title="Permanent link">&para;</a></h1>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>In <a href="../04-action-and-state-fields/">Chapter 4</a>, we saw how one state <span class="arithmatex">\(Q^+\)</span> gives rise to multiple coordinate representations by projecting onto different subspaces (action slices, state slices).</p>
+<p>But all those projections were <strong>pointwise</strong>—we projected onto individual basis elements <span class="arithmatex">\(k(z, \cdot)\)</span>.</p>
+<p><strong>Natural question:</strong> Can we project onto <strong>multi-dimensional subspaces</strong> discovered by spectral analysis?</p>
+<p><strong>Answer:</strong> Yes! And this gives us a rigorous framework for <strong>concepts</strong> in reinforcement learning.</p>
+<p>This chapter develops:</p>
+<ul>
+<li><strong>Concepts as invariant subspaces</strong> (not clusters)</li>
+<li><strong>Projection operators</strong> for concept activation</li>
+<li><strong>Measurement theory</strong> connecting to quantum mechanics</li>
+<li><strong>Hierarchical composition</strong> via nested subspaces</li>
+<li><strong>Practical algorithms</strong> for concept-driven learning</li>
+</ul>
+<p><strong>This formalizes Part II (Emergent Structure &amp; Spectral Abstraction) of the GRL tutorial paper.</strong></p>
+<hr />
+<h2 id="1-from-spectral-clustering-to-concept-subspaces">1. From Spectral Clustering to Concept Subspaces<a class="headerlink" href="#1-from-spectral-clustering-to-concept-subspaces" title="Permanent link">&para;</a></h2>
+<h3 id="the-problem-with-clusters">The Problem with Clusters<a class="headerlink" href="#the-problem-with-clusters" title="Permanent link">&para;</a></h3>
+<p><strong>Traditional clustering</strong> (k-means, hierarchical, spectral) produces:</p>
+<ul>
+<li><strong>Discrete assignments:</strong> Point <span class="arithmatex">\(x\)</span> belongs to cluster <span class="arithmatex">\(k\)</span></li>
+<li><strong>Hard boundaries:</strong> Sharp transitions between clusters</li>
+<li><strong>No smooth interpolation:</strong> Can't blend concepts</li>
+</ul>
+<p><strong>This doesn't match how concepts work in cognition or RL!</strong></p>
+<hr />
+<h3 id="the-grl-approach-functional-clustering">The GRL Approach: Functional Clustering<a class="headerlink" href="#the-grl-approach-functional-clustering" title="Permanent link">&para;</a></h3>
+<p><strong>Section V of the original paper</strong> introduces spectral clustering in RKHS:</p>
+<ol>
+<li>Compute kernel matrix <span class="arithmatex">\(K_{ij} = k(z_i, z_j)\)</span></li>
+<li>Eigendecomposition: <span class="arithmatex">\(K = \Phi \Lambda \Phi^T\)</span></li>
+<li>Cluster eigenvectors by similarity</li>
+<li>Eigenmodes = "concepts"</li>
+</ol>
+<p><strong>But what does this mean mathematically?</strong></p>
+<hr />
+<h3 id="concepts-as-subspaces">Concepts as Subspaces<a class="headerlink" href="#concepts-as-subspaces" title="Permanent link">&para;</a></h3>
+<p><strong>Key insight:</strong> Each cluster of eigenvectors defines a <strong>subspace</strong> in RKHS.</p>
+<p><strong>Formal definition:</strong></p>
+<p>Let <span class="arithmatex">\(\{\phi_{k,1}, \phi_{k,2}, \ldots, \phi_{k,m_k}\}\)</span> be eigenvectors in cluster <span class="arithmatex">\(k\)</span>.</p>
+<p><strong>Concept <span class="arithmatex">\(k\)</span> is the subspace:</strong></p>
+<div class="arithmatex">\[\mathcal{C}_k = \text{span}\{\phi_{k,1}, \phi_{k,2}, \ldots, \phi_{k,m_k}\} \subset \mathcal{H}_k\]</div>
+<p><strong>Properties:</strong></p>
+<ul>
+<li><span class="arithmatex">\(\mathcal{C}_k\)</span> is a linear subspace of the RKHS</li>
+<li>Dimension: <span class="arithmatex">\(\dim(\mathcal{C}_k) = m_k\)</span></li>
+<li>Orthogonal decomposition: <span class="arithmatex">\(\mathcal{H}_k = \bigoplus_k \mathcal{C}_k \oplus \mathcal{C}_{\perp}\)</span></li>
+</ul>
+<hr />
+<h3 id="why-subspaces-not-clusters">Why Subspaces, Not Clusters?<a class="headerlink" href="#why-subspaces-not-clusters" title="Permanent link">&para;</a></h3>
+<p><strong>Subspaces give you:</strong></p>
+<ol>
+<li><strong>Smooth activation:</strong> Degree of membership, not binary</li>
+<li><strong>Compositionality:</strong> Combine multiple concepts</li>
+<li><strong>Interpolation:</strong> Blend between concepts</li>
+<li><strong>Hierarchy:</strong> Nested subspaces = hierarchical concepts</li>
+<li><strong>Operators:</strong> Well-defined projection and measurement</li>
+</ol>
+<p><strong>Clusters only give you:</strong> Hard assignments.</p>
+<hr />
+<h2 id="2-projection-operators">2. Projection Operators<a class="headerlink" href="#2-projection-operators" title="Permanent link">&para;</a></h2>
+<h3 id="definition">Definition<a class="headerlink" href="#definition" title="Permanent link">&para;</a></h3>
+<p>For concept subspace <span class="arithmatex">\(\mathcal{C}_k\)</span> with orthonormal basis <span class="arithmatex">\(\{\phi_{k,i}\}_{i=1}^{m_k}\)</span>:</p>
+<p><strong>Projection operator:</strong></p>
+<div class="arithmatex">\[P_k: \mathcal{H}_k \to \mathcal{C}_k\]</div>
+<div class="arithmatex">\[P_k f = \sum_{i=1}^{m_k} \langle f, \phi_{k,i} \rangle_{\mathcal{H}_k} \phi_{k,i}\]</div>
+<p><strong>For the reinforcement field:</strong></p>
+<div class="arithmatex">\[P_k Q^+ = \sum_{i=1}^{m_k} \langle Q^+, \phi_{k,i} \rangle_{\mathcal{H}_k} \phi_{k,i}\]</div>
+<hr />
+<h3 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h3>
+<p><strong>1. Idempotence:</strong></p>
+<div class="arithmatex">\[P_k^2 = P_k\]</div>
+<p>(Projecting twice = projecting once)</p>
+<p><strong>2. Orthogonality:</strong></p>
+<div class="arithmatex">\[P_k P_\ell = 0 \quad \text{for } k \neq \ell\]</div>
+<p>(Different concepts are orthogonal)</p>
+<p><strong>3. Completeness:</strong></p>
+<div class="arithmatex">\[\sum_k P_k + P_{\perp} = I\]</div>
+<p>(Concepts span the full space)</p>
+<p><strong>4. Self-adjoint:</strong></p>
+<div class="arithmatex">\[\langle P_k f, g \rangle = \langle f, P_k g \rangle\]</div>
+<p>(Symmetric inner product)</p>
+<p><strong>These are exactly the properties of quantum mechanical projection operators!</strong></p>
+<hr />
+<h3 id="visual-intuition">Visual Intuition<a class="headerlink" href="#visual-intuition" title="Permanent link">&para;</a></h3>
+<p>In 3D, projecting onto a plane:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>         Q⁺ (state)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>          •
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>         /|\
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        / | \
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>       /  |  \
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>      /   |   \  ← projection
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>     /____|____\ 
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    plane (concept subspace)
+</span></code></pre></div>
+<p><span class="arithmatex">\(P_k Q^+\)</span> is the "shadow" of <span class="arithmatex">\(Q^+\)</span> on the concept subspace.</p>
+<hr />
+<h3 id="computational-form">Computational Form<a class="headerlink" href="#computational-form" title="Permanent link">&para;</a></h3>
+<p><strong>Given:</strong>
+- Reinforcement field: <span class="arithmatex">\(Q^+ = \sum_i w_i k(z_i, \cdot)\)</span>
+- Concept basis: <span class="arithmatex">\(\{\phi_{k,1}, \ldots, \phi_{k,m_k}\}\)</span></p>
+<p><strong>Compute projection:</strong></p>
+<div class="arithmatex">\[P_k Q^+ = \sum_{j=1}^{m_k} \underbrace{\left(\sum_i w_i \langle k(z_i, \cdot), \phi_{k,j} \rangle\right)}_{\text{coefficient } c_{k,j}} \phi_{k,j}\]</div>
+<p><strong>In matrix form:</strong> <span class="arithmatex">\(\mathbf{c}_k = \mathbf{K} \mathbf{w}\)</span> where:</p>
+<ul>
+<li><span class="arithmatex">\(K_{ji} = \langle k(z_i, \cdot), \phi_{k,j} \rangle\)</span></li>
+<li><span class="arithmatex">\(\mathbf{w} = [w_1, \ldots, w_N]^T\)</span></li>
+</ul>
+<hr />
+<h2 id="3-concept-activation-observables">3. Concept Activation: Observables<a class="headerlink" href="#3-concept-activation-observables" title="Permanent link">&para;</a></h2>
+<h3 id="the-measurement-question">The Measurement Question<a class="headerlink" href="#the-measurement-question" title="Permanent link">&para;</a></h3>
+<p>Given field <span class="arithmatex">\(Q^+\)</span> and concept <span class="arithmatex">\(k\)</span>, we want to measure:</p>
+<blockquote>
+<p>"How strongly does the current field activate this concept?"</p>
+</blockquote>
+<p><strong>This is exactly the quantum measurement problem!</strong></p>
+<hr />
+<h3 id="concept-activation-observable">Concept Activation Observable<a class="headerlink" href="#concept-activation-observable" title="Permanent link">&para;</a></h3>
+<p><strong>Definition:</strong></p>
+<div class="arithmatex">\[A_k = \|P_k Q^+\|_{\mathcal{H}_k}^2\]</div>
+<p><strong>Expanded form:</strong></p>
+<div class="arithmatex">\[A_k = \langle P_k Q^+, P_k Q^+ \rangle_{\mathcal{H}_k} = \sum_{i=1}^{m_k} |\langle Q^+, \phi_{k,i} \rangle|^2\]</div>
+<p><strong>Interpretation:</strong> Sum of squared projections onto concept basis vectors.</p>
+<hr />
+<h3 id="properties_1">Properties<a class="headerlink" href="#properties_1" title="Permanent link">&para;</a></h3>
+<p><strong>1. Non-negativity:</strong></p>
+<div class="arithmatex">\[A_k \geq 0\]</div>
+<p><strong>2. Boundedness:</strong></p>
+<div class="arithmatex">\[\sum_k A_k \leq \|Q^+\|^2\]</div>
+<p>(Total activation bounded by field strength)</p>
+<p><strong>3. Normalized activation:</strong></p>
+<div class="arithmatex">\[\tilde{A}_k = \frac{A_k}{\sum_\ell A_\ell + \|P_{\perp} Q^+\|^2}\]</div>
+<p>gives a probability-like distribution over concepts.</p>
+<p><strong>4. Continuity:</strong></p>
+<p><span class="arithmatex">\(A_k\)</span> varies smoothly as <span class="arithmatex">\(Q^+\)</span> evolves—no discrete jumps!</p>
+<hr />
+<h3 id="connection-to-quantum-mechanics">Connection to Quantum Mechanics<a class="headerlink" href="#connection-to-quantum-mechanics" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Quantum Mechanics</th>
+<th>GRL Concepts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Observable <span class="arithmatex">\(\hat{O}\)</span></td>
+<td>Projection operator <span class="arithmatex">\(P_k\)</span></td>
+</tr>
+<tr>
+<td>Eigenspace <span class="arithmatex">\(\mathcal{H}_\lambda\)</span></td>
+<td>Concept subspace <span class="arithmatex">\(\mathcal{C}_k\)</span></td>
+</tr>
+<tr>
+<td>State <span class="arithmatex">\(\|\psi\rangle\)</span></td>
+<td>Field <span class="arithmatex">\(Q^+\)</span></td>
+</tr>
+<tr>
+<td>Measurement outcome</td>
+<td>Concept activation <span class="arithmatex">\(A_k\)</span></td>
+</tr>
+<tr>
+<td>Born rule: <span class="arithmatex">\(p = \|\langle \lambda \| \psi \rangle\|^2\)</span></td>
+<td>Activation: <span class="arithmatex">\(A_k = \|P_k Q^+\|^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>This is not an analogy—it's the same mathematical structure!</strong></p>
+<hr />
+<h2 id="4-concept-conditioned-representations">4. Concept-Conditioned Representations<a class="headerlink" href="#4-concept-conditioned-representations" title="Permanent link">&para;</a></h2>
+<h3 id="projected-field-values">Projected Field Values<a class="headerlink" href="#projected-field-values" title="Permanent link">&para;</a></h3>
+<p><strong>Standard field evaluation:</strong></p>
+<div class="arithmatex">\[Q^+(z) = \langle Q^+, k(z, \cdot) \rangle_{\mathcal{H}_k}\]</div>
+<p><strong>Concept-conditioned evaluation:</strong></p>
+<div class="arithmatex">\[Q^+_k(z) = \langle P_k Q^+, k(z, \cdot) \rangle_{\mathcal{H}_k}\]</div>
+<p><strong>Interpretation:</strong> Value at <span class="arithmatex">\(z\)</span> according to concept <span class="arithmatex">\(k\)</span> only.</p>
+<hr />
+<h3 id="concept-conditioned-policy">Concept-Conditioned Policy<a class="headerlink" href="#concept-conditioned-policy" title="Permanent link">&para;</a></h3>
+<p><strong>Standard policy:</strong></p>
+<div class="arithmatex">\[\pi(a|s) \propto \exp(\beta Q^+(s, a))\]</div>
+<p><strong>Concept-conditioned policy:</strong></p>
+<div class="arithmatex">\[\pi_k(a|s) \propto \exp(\beta Q^+_k(s, a))\]</div>
+<p><strong>Use case:</strong> Different concepts induce different policies
+- Concept "explore" → high entropy policy
+- Concept "exploit" → peaked policy
+- Concept "avoid" → negative values</p>
+<hr />
+<h3 id="action-wavefunction-per-concept">Action Wavefunction per Concept<a class="headerlink" href="#action-wavefunction-per-concept" title="Permanent link">&para;</a></h3>
+<p>From <a href="../04-action-and-state-fields/">Chapter 4</a>, we had action wavefunction <span class="arithmatex">\(\psi_s(a) = Q^+(s, a)\)</span>.</p>
+<p><strong>Concept-specific action wavefunction:</strong></p>
+<div class="arithmatex">\[\psi_{s,k}(a) = Q^+_k(s, a)\]</div>
+<p><strong>Interpretation:</strong> Action landscape at state <span class="arithmatex">\(s\)</span> according to concept <span class="arithmatex">\(k\)</span>.</p>
+<p><strong>Visual:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Full field:     ψ_s(a)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                  ***
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>                 *****
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Concept 1:      ψ_{s,1}(a)
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>                  *
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                 ***
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>                (sharp peak)
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>Concept 2:      ψ_{s,2}(a)
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>                *****
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>               *******
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>              (broad support)
+</span></code></pre></div>
+<p>Different concepts emphasize different action modes!</p>
+<hr />
+<h2 id="5-hierarchical-composition">5. Hierarchical Composition<a class="headerlink" href="#5-hierarchical-composition" title="Permanent link">&para;</a></h2>
+<h3 id="nested-subspaces">Nested Subspaces<a class="headerlink" href="#nested-subspaces" title="Permanent link">&para;</a></h3>
+<p><strong>Key idea:</strong> Concepts can be hierarchical via <strong>nested subspaces</strong>.</p>
+<p><strong>Example:</strong></p>
+<div class="arithmatex">\[\mathcal{C}_1 \supset \mathcal{C}_{1,1} \supset \mathcal{C}_{1,1,1}\]</div>
+<p><strong>Interpretation:</strong>
+- <span class="arithmatex">\(\mathcal{C}_1\)</span>: "Locomotion" (coarse)
+- <span class="arithmatex">\(\mathcal{C}_{1,1}\)</span>: "Forward motion" (medium)
+- <span class="arithmatex">\(\mathcal{C}_{1,1,1}\)</span>: "Running" (fine)</p>
+<hr />
+<h3 id="hierarchical-projection">Hierarchical Projection<a class="headerlink" href="#hierarchical-projection" title="Permanent link">&para;</a></h3>
+<p><strong>Level 1 (coarse):</strong></p>
+<div class="arithmatex">\[Q^+_{\text{coarse}} = P_1 Q^+\]</div>
+<p><strong>Level 2 (medium):</strong></p>
+<div class="arithmatex">\[Q^+_{\text{medium}} = P_{1,1} (P_1 Q^+)\]</div>
+<p><strong>Level 3 (fine):</strong></p>
+<div class="arithmatex">\[Q^+_{\text{fine}} = P_{1,1,1} (P_{1,1} (P_1 Q^+))\]</div>
+<p><strong>Note:</strong> Because of nesting, <span class="arithmatex">\(P_{1,1,1} P_{1,1} P_1 = P_{1,1,1}\)</span>.</p>
+<hr />
+<h3 id="activation-hierarchy">Activation Hierarchy<a class="headerlink" href="#activation-hierarchy" title="Permanent link">&para;</a></h3>
+<p><strong>Coarse activation:</strong></p>
+<div class="arithmatex">\[A_1 = \|P_1 Q^+\|^2\]</div>
+<p><strong>Medium activation (given coarse):</strong></p>
+<div class="arithmatex">\[A_{1,1|1} = \frac{\|P_{1,1} Q^+\|^2}{\|P_1 Q^+\|^2}\]</div>
+<p><strong>Fine activation (given medium):</strong></p>
+<div class="arithmatex">\[A_{1,1,1|1,1} = \frac{\|P_{1,1,1} Q^+\|^2}{\|P_{1,1} Q^+\|^2}\]</div>
+<p><strong>Interpretation:</strong> Conditional activations down the hierarchy.</p>
+<hr />
+<h3 id="compositional-activation-tree">Compositional Activation Tree<a class="headerlink" href="#compositional-activation-tree" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>                Q⁺
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>                 |
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>        ┌────────┼────────┐
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        │        │        │
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>       P₁       P₂       P₃
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>       0.6      0.3      0.1
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        |
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    ┌───┼───┐
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    │   │   │
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>  P₁,₁ P₁,₂ P₁,₃
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>  0.4  0.3  0.3
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    |
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>  ┌─┼─┐
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>P₁,₁,₁ P₁,₁,₂
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a> 0.7    0.3
+</span></code></pre></div>
+<p><strong>Reading:</strong> 
+- 60% activation in concept 1
+- Within concept 1, 40% in sub-concept 1.1
+- Within 1.1, 70% in sub-sub-concept 1.1.1</p>
+<p><strong>This is a continuous hierarchy, not a discrete tree!</strong></p>
+<hr />
+<h2 id="6-spectral-discovery-of-concepts">6. Spectral Discovery of Concepts<a class="headerlink" href="#6-spectral-discovery-of-concepts" title="Permanent link">&para;</a></h2>
+<h3 id="algorithm-concept-subspace-extraction">Algorithm: Concept Subspace Extraction<a class="headerlink" href="#algorithm-concept-subspace-extraction" title="Permanent link">&para;</a></h3>
+<p><strong>Input:</strong> Kernel matrix <span class="arithmatex">\(K \in \mathbb{R}^{N \times N}\)</span>, number of concepts <span class="arithmatex">\(C\)</span></p>
+<p><strong>Step 1: Eigendecomposition</strong></p>
+<div class="arithmatex">\[K = \Phi \Lambda \Phi^T\]</div>
+<p>where <span class="arithmatex">\(\Lambda = \text{diag}(\lambda_1, \ldots, \lambda_N)\)</span> with <span class="arithmatex">\(\lambda_1 \geq \lambda_2 \geq \cdots\)</span>.</p>
+<p><strong>Step 2: Select Top Eigenvectors</strong></p>
+<p>Keep top <span class="arithmatex">\(M\)</span> eigenvectors: <span class="arithmatex">\(\{\phi_1, \ldots, \phi_M\}\)</span> (e.g., <span class="arithmatex">\(M = 50\)</span>).</p>
+<p><strong>Step 3: Cluster Eigenvectors</strong></p>
+<p>Apply k-means (or other clustering) to eigenvector matrix <span class="arithmatex">\(\Phi_M \in \mathbb{R}^{N \times M}\)</span> to get <span class="arithmatex">\(C\)</span> clusters.</p>
+<p><strong>Step 4: Define Concept Subspaces</strong></p>
+<p>For cluster <span class="arithmatex">\(k\)</span> containing eigenvectors <span class="arithmatex">\(\{\phi_{i_1}, \ldots, \phi_{i_{m_k}}\}\)</span>:</p>
+<div class="arithmatex">\[\mathcal{C}_k = \text{span}\{\phi_{i_1}, \ldots, \phi_{i_{m_k}}\}\]</div>
+<p><strong>Output:</strong> Concept subspaces <span class="arithmatex">\(\{\mathcal{C}_1, \ldots, \mathcal{C}_C\}\)</span></p>
+<hr />
+<h3 id="why-this-works">Why This Works<a class="headerlink" href="#why-this-works" title="Permanent link">&para;</a></h3>
+<p><strong>Intuition:</strong> Eigenvectors of the kernel matrix capture <strong>modes of variation</strong> in the augmented space.</p>
+<p><strong>Eigenvectors with similar profiles</strong> → related functional patterns → same concept.</p>
+<p><strong>Mathematical justification:</strong>
+- Kernel PCA identifies principal components
+- Clustering groups related components
+- Subspaces capture multi-dimensional concepts</p>
+<hr />
+<h3 id="adaptive-concept-discovery">Adaptive Concept Discovery<a class="headerlink" href="#adaptive-concept-discovery" title="Permanent link">&para;</a></h3>
+<p><strong>Instead of fixed <span class="arithmatex">\(C\)</span>, use adaptive methods:</strong></p>
+<p><strong>Gap heuristic:</strong> Choose <span class="arithmatex">\(C\)</span> where eigenvalue gap is large:</p>
+<div class="arithmatex">\[\lambda_C \gg \lambda_{C+1}\]</div>
+<p><strong>Information criterion:</strong> Minimize BIC or AIC for cluster count.</p>
+<p><strong>Stability:</strong> Use consensus clustering across multiple runs.</p>
+<hr />
+<h2 id="7-concept-dynamics-and-evolution">7. Concept Dynamics and Evolution<a class="headerlink" href="#7-concept-dynamics-and-evolution" title="Permanent link">&para;</a></h2>
+<h3 id="temporal-concept-activation">Temporal Concept Activation<a class="headerlink" href="#temporal-concept-activation" title="Permanent link">&para;</a></h3>
+<p>As the agent learns, <span class="arithmatex">\(Q^+(t)\)</span> evolves, so concept activation changes:</p>
+<div class="arithmatex">\[A_k(t) = \|P_k Q^+(t)\|^2\]</div>
+<p><strong>This gives interpretable learning curves:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Activation
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  ^
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  | Concept 1 (exploration)
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>  | ────╮
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>  |     ╰─────────────────
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>  |
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>  | Concept 2 (exploitation)
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>  |       ╭─────────────
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>  | ──────╯
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>  +-----------------------&gt; time
+</span></code></pre></div>
+<p>"Agent transitioned from exploratory to exploitative concept."</p>
+<hr />
+<h3 id="concept-transition-matrix">Concept Transition Matrix<a class="headerlink" href="#concept-transition-matrix" title="Permanent link">&para;</a></h3>
+<p><strong>Define concept dominance:</strong> <span class="arithmatex">\(c(t) = \arg\max_k A_k(t)\)</span></p>
+<p><strong>Transition matrix:</strong> <span class="arithmatex">\(T_{k\ell} = P(c(t+1) = \ell | c(t) = k)\)</span></p>
+<p><strong>This reveals concept dynamics without discrete states!</strong></p>
+<hr />
+<h3 id="concept-persistence">Concept Persistence<a class="headerlink" href="#concept-persistence" title="Permanent link">&para;</a></h3>
+<p><strong>Measure stability:</strong> How long does a concept remain dominant?</p>
+<div class="arithmatex">\[\tau_k = \mathbb{E}[\text{time concept } k \text{ stays active}]\]</div>
+<p><strong>Persistent concepts</strong> = stable strategies<br />
+<strong>Transient concepts</strong> = exploratory phases</p>
+<hr />
+<h2 id="8-practical-algorithms">8. Practical Algorithms<a class="headerlink" href="#8-practical-algorithms" title="Permanent link">&para;</a></h2>
+<h3 id="algorithm-1-concept-conditioned-policy">Algorithm 1: Concept-Conditioned Policy<a class="headerlink" href="#algorithm-1-concept-conditioned-policy" title="Permanent link">&para;</a></h3>
+<p><strong>Input:</strong> State <span class="arithmatex">\(s\)</span>, concept weights <span class="arithmatex">\(\{\alpha_k\}\)</span></p>
+<p><strong>Step 1:</strong> Compute concept-conditioned fields:</p>
+<div class="arithmatex">\[Q^+_k(s, a) = \langle P_k Q^+, k((s,a), \cdot) \rangle\]</div>
+<p><strong>Step 2:</strong> Weighted combination:</p>
+<div class="arithmatex">\[Q^+_{\text{mix}}(s, a) = \sum_k \alpha_k Q^+_k(s, a)\]</div>
+<p><strong>Step 3:</strong> Policy:</p>
+<div class="arithmatex">\[\pi(a|s) \propto \exp(\beta Q^+_{\text{mix}}(s, a))\]</div>
+<p><strong>Use case:</strong> Mix exploration and exploitation by adjusting <span class="arithmatex">\(\alpha_k\)</span>.</p>
+<hr />
+<h3 id="algorithm-2-hierarchical-action-selection">Algorithm 2: Hierarchical Action Selection<a class="headerlink" href="#algorithm-2-hierarchical-action-selection" title="Permanent link">&para;</a></h3>
+<p><strong>Input:</strong> State <span class="arithmatex">\(s\)</span>, hierarchy depth <span class="arithmatex">\(D\)</span></p>
+<p><strong>Level 1:</strong> Select coarse concept:</p>
+<div class="arithmatex">\[c_1 = \arg\max_k A_k\]</div>
+<p><strong>Level 2:</strong> Select medium concept within <span class="arithmatex">\(c_1\)</span>:</p>
+<div class="arithmatex">\[c_2 = \arg\max_{\ell \in c_1} A_{\ell|c_1}\]</div>
+<p><strong>...</strong></p>
+<p><strong>Level D:</strong> Select action using fine concept:</p>
+<div class="arithmatex">\[a^* = \arg\max_a Q^+_{c_D}(s, a)\]</div>
+<p><strong>Benefit:</strong> Hierarchical decision-making with interpretable intermediate choices.</p>
+<hr />
+<h3 id="algorithm-3-concept-based-transfer">Algorithm 3: Concept-Based Transfer<a class="headerlink" href="#algorithm-3-concept-based-transfer" title="Permanent link">&para;</a></h3>
+<p><strong>Source task:</strong></p>
+<ol>
+<li>Learn concept subspaces <span class="arithmatex">\(\{\mathcal{C}_k^{\text{source}}\}\)</span></li>
+<li>Store projection operators <span class="arithmatex">\(\{P_k^{\text{source}}\}\)</span></li>
+</ol>
+<p><strong>Target task:</strong></p>
+<ol>
+<li>Initialize field: <span class="arithmatex">\(Q^+_{\text{target}} = 0\)</span></li>
+<li>
+<p>For each experience <span class="arithmatex">\((s, a, r)\)</span>:</p>
+</li>
+<li>
+<p>Project particle onto source concepts:
+     $<span class="arithmatex">\(z_{\text{concept}} = \sum_k P_k^{\text{source}} k((s,a), \cdot)\)</span>$</p>
+</li>
+<li>Update field using projected basis</li>
+</ol>
+<p><strong>Why this works:</strong> Concepts capture abstract structure that transfers across tasks.</p>
+<hr />
+<h2 id="9-connection-to-existing-work">9. Connection to Existing Work<a class="headerlink" href="#9-connection-to-existing-work" title="Permanent link">&para;</a></h2>
+<h3 id="eigenoptions-machado-et-al-2017">Eigenoptions (Machado et al., 2017)<a class="headerlink" href="#eigenoptions-machado-et-al-2017" title="Permanent link">&para;</a></h3>
+<p><strong>Eigenoptions:</strong> Use eigenvectors of state transition graph as options (skills).</p>
+<p><strong>GRL concepts:</strong> Use eigenvectors of kernel matrix as concept subspaces.</p>
+<p><strong>Similarities:</strong>
+- Both use spectral methods
+- Both identify "natural" structures</p>
+<p><strong>Differences:</strong>
+- Eigenoptions: single eigenvector = one option (discrete)
+- GRL concepts: subspace of eigenvectors = one concept (continuous)
+- Eigenoptions: hard assignment
+- GRL concepts: soft activation</p>
+<p><strong>GRL generalizes eigenoptions to continuous, compositional representations.</strong></p>
+<hr />
+<h3 id="successor-features-barreto-et-al-2017">Successor Features (Barreto et al., 2017)<a class="headerlink" href="#successor-features-barreto-et-al-2017" title="Permanent link">&para;</a></h3>
+<p><strong>Successor features:</strong> Represent value function as inner product <span class="arithmatex">\(V(s) = \langle \psi(s), w \rangle\)</span>.</p>
+<p><strong>GRL concepts:</strong> Represent field as projection <span class="arithmatex">\(Q^+ = \sum_k P_k Q^+\)</span>.</p>
+<p><strong>Similarities:</strong>
+- Both use linear combinations
+- Both enable transfer</p>
+<p><strong>Differences:</strong>
+- Successor features: fixed basis (state features)
+- GRL concepts: learned basis (eigenvectors)
+- Successor features: flat structure
+- GRL concepts: hierarchical structure</p>
+<hr />
+<h3 id="affordances-gibson-1979-khetarpal-et-al-2020">Affordances (Gibson, 1979; Khetarpal et al., 2020)<a class="headerlink" href="#affordances-gibson-1979-khetarpal-et-al-2020" title="Permanent link">&para;</a></h3>
+<p><strong>Affordance:</strong> What actions are possible in a state?</p>
+<p><strong>GRL state wavefunction</strong> <span class="arithmatex">\(\phi_a(s)\)</span> (from Chapter 4) <strong>is a learned affordance map!</strong></p>
+<p><strong>Concept-conditioned affordances:</strong></p>
+<div class="arithmatex">\[\phi_{a,k}(s) = \langle P_k Q^+, k((s,a), \cdot) \rangle\]</div>
+<p>shows affordances from perspective of concept <span class="arithmatex">\(k\)</span>.</p>
+<hr />
+<h2 id="10-implications-for-part-ii-of-tutorial-paper">10. Implications for Part II of Tutorial Paper<a class="headerlink" href="#10-implications-for-part-ii-of-tutorial-paper" title="Permanent link">&para;</a></h2>
+<h3 id="current-status-of-section-v">Current Status of Section V<a class="headerlink" href="#current-status-of-section-v" title="Permanent link">&para;</a></h3>
+<p><strong>Original paper Section V:</strong>
+- Introduces spectral clustering idea
+- Shows empirical results
+- Demonstrates emergent concepts</p>
+<p><strong>What's missing:</strong>
+- Formal definition of concepts (beyond "clusters")
+- Operational semantics (what do you do with concepts?)
+- Connection to learning algorithms</p>
+<hr />
+<h3 id="what-this-chapter-provides">What This Chapter Provides<a class="headerlink" href="#what-this-chapter-provides" title="Permanent link">&para;</a></h3>
+<p><strong>Formalization:</strong>
+- Concepts = subspaces <span class="arithmatex">\(\mathcal{C}_k \subset \mathcal{H}_k\)</span>
+- Activation = observable <span class="arithmatex">\(A_k = \|P_k Q^+\|^2\)</span>
+- Hierarchy = nested subspaces</p>
+<p><strong>Operations:</strong>
+- Project field onto concepts: <span class="arithmatex">\(P_k Q^+\)</span>
+- Condition policy on concepts: <span class="arithmatex">\(\pi_k(a|s)\)</span>
+- Compose concepts hierarchically</p>
+<p><strong>Algorithms:</strong>
+- Concept discovery (spectral + clustering)
+- Concept-conditioned learning
+- Hierarchical transfer</p>
+<hr />
+<h3 id="structure-for-extended-section-v">Structure for Extended Section V<a class="headerlink" href="#structure-for-extended-section-v" title="Permanent link">&para;</a></h3>
+<p><strong>Proposed outline:</strong></p>
+<p><strong>V-A. Motivation</strong>
+- Why functional clustering?
+- Limitations of discrete concepts</p>
+<p><strong>V-B. Concept Subspaces</strong>
+- Definition via eigenspaces
+- Projection operators
+- This chapter's formalism</p>
+<p><strong>V-C. Spectral Discovery</strong>
+- Algorithm
+- Adaptive selection
+- Stability analysis</p>
+<p><strong>V-D. Concept Dynamics</strong>
+- Activation evolution
+- Transition patterns
+- Persistence measures</p>
+<p><strong>V-E. Hierarchical Composition</strong>
+- Nested subspaces
+- Multi-level activation
+- Compositional policies</p>
+<p><strong>V-F. Empirical Results</strong>
+- Concept discovery in benchmark tasks
+- Activation curves
+- Transfer experiments</p>
+<p><strong>V-G. Connections</strong>
+- Eigenoptions, successor features, affordances
+- Relation to hierarchical RL literature</p>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<h3 id="key-contributions-of-this-chapter">Key Contributions of This Chapter<a class="headerlink" href="#key-contributions-of-this-chapter" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Concepts as Subspaces</strong></li>
+<li>Not clusters, but linear subspaces <span class="arithmatex">\(\mathcal{C}_k \subset \mathcal{H}_k\)</span></li>
+<li>
+<p>Enables smooth, compositional representations</p>
+</li>
+<li>
+<p><strong>Projection Operators</strong></p>
+</li>
+<li>Formal definition: <span class="arithmatex">\(P_k: \mathcal{H}_k \to \mathcal{C}_k\)</span></li>
+<li>Properties: idempotent, orthogonal, complete</li>
+<li>
+<p>Connection to QM measurement theory</p>
+</li>
+<li>
+<p><strong>Concept Activation Observables</strong></p>
+</li>
+<li>Measure: <span class="arithmatex">\(A_k = \|P_k Q^+\|^2\)</span></li>
+<li>Smooth evolution, no discrete jumps</li>
+<li>
+<p>Interpretable learning curves</p>
+</li>
+<li>
+<p><strong>Hierarchical Composition</strong></p>
+</li>
+<li>Nested subspaces: <span class="arithmatex">\(\mathcal{C}_1 \supset \mathcal{C}_{1,1} \supset \cdots\)</span></li>
+<li>Conditional activation at each level</li>
+<li>
+<p>Natural multi-scale representation</p>
+</li>
+<li>
+<p><strong>Practical Algorithms</strong></p>
+</li>
+<li>Spectral discovery</li>
+<li>Concept-conditioned policies</li>
+<li>Hierarchical action selection</li>
+<li>Transfer learning</li>
+</ol>
+<hr />
+<h3 id="key-equations">Key Equations<a class="headerlink" href="#key-equations" title="Permanent link">&para;</a></h3>
+<p><strong>Projection operator:</strong></p>
+<div class="arithmatex">\[P_k Q^+ = \sum_{i=1}^{m_k} \langle Q^+, \phi_{k,i} \rangle_{\mathcal{H}_k} \phi_{k,i}\]</div>
+<p><strong>Concept activation:</strong></p>
+<div class="arithmatex">\[A_k = \|P_k Q^+\|_{\mathcal{H}_k}^2 = \sum_{i=1}^{m_k} |\langle Q^+, \phi_{k,i} \rangle|^2\]</div>
+<p><strong>Concept-conditioned field:</strong></p>
+<div class="arithmatex">\[Q^+_k(z) = \langle P_k Q^+, k(z, \cdot) \rangle_{\mathcal{H}_k}\]</div>
+<p><strong>Hierarchical activation:</strong></p>
+<div class="arithmatex">\[A_{k,\ell|k} = \frac{\|P_{k,\ell} Q^+\|^2}{\|P_k Q^+\|^2}\]</div>
+<hr />
+<h3 id="what-this-enables">What This Enables<a class="headerlink" href="#what-this-enables" title="Permanent link">&para;</a></h3>
+<p><strong>Theoretical:</strong>
+- Rigorous concept formalism
+- Quantum measurement theory connection
+- Hierarchical composition framework</p>
+<p><strong>Practical:</strong>
+- Interpretable learning (activation curves)
+- Hierarchical policies (multi-level decisions)
+- Transfer learning (concept basis)
+- Compositional strategies (concept mixing)</p>
+<p><strong>For Part II:</strong>
+- Mathematical foundation for Section V
+- Operational algorithms
+- Clear connection to QM</p>
+<hr />
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<h3 id="within-this-series">Within This Series<a class="headerlink" href="#within-this-series" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="../01a-wavefunction-interpretation/">Chapter 1a</a>:</strong> State Vector vs. Wavefunction</li>
+<li><strong><a href="../02-rkhs-basis-and-amplitudes/">Chapter 2</a>:</strong> RKHS Basis and Amplitudes</li>
+<li><strong><a href="../04-action-and-state-fields/">Chapter 4</a>:</strong> Action and State Projections</li>
+</ul>
+<h3 id="grl-tutorials">GRL Tutorials<a class="headerlink" href="#grl-tutorials" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="../../tutorials/02-rkhs-foundations/">Tutorial Chapter 2</a>:</strong> RKHS Foundations</li>
+<li><strong><a href="../../tutorials/04-reinforcement-field/">Tutorial Chapter 4</a>:</strong> Reinforcement Field</li>
+<li><strong>Part II (planned):</strong> Emergent Structure &amp; Spectral Abstraction</li>
+</ul>
+<h3 id="related-literature">Related Literature<a class="headerlink" href="#related-literature" title="Permanent link">&para;</a></h3>
+<p><strong>Spectral Methods in RL:</strong>
+- Machado et al. (2017). "A Laplacian Framework for Option Discovery in Reinforcement Learning." <em>ICML</em>.
+- Mahadevan &amp; Maggioni (2007). "Proto-value Functions: A Laplacian Framework." <em>ICML</em>.</p>
+<p><strong>Hierarchical RL:</strong>
+- Sutton et al. (1999). "Between MDPs and semi-MDPs: A Framework for Temporal Abstraction."
+- Bacon et al. (2017). "The Option-Critic Architecture." <em>AAAI</em>.</p>
+<p><strong>Transfer Learning:</strong>
+- Barreto et al. (2017). "Successor Features for Transfer in Reinforcement Learning." <em>NIPS</em>.
+- Taylor &amp; Stone (2009). "Transfer Learning for Reinforcement Learning Domains: A Survey."</p>
+<p><strong>Quantum Measurement Theory:</strong>
+- von Neumann, J. (1932). <em>Mathematical Foundations of Quantum Mechanics</em>.
+- Peres, A. (1993). <em>Quantum Theory: Concepts and Methods</em>. Kluwer.</p>
+<p><strong>Functional Data Analysis:</strong>
+- Ramsay &amp; Silverman (2005). <em>Functional Data Analysis</em>. Springer.</p>
+<hr />
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<p><strong>For Research:</strong>
+1. Implement spectral concept discovery algorithm
+2. Test concept-conditioned policies on benchmarks
+3. Develop hierarchical composition framework
+4. Apply to transfer learning problems</p>
+<p><strong>For Tutorial Paper (Part II):</strong>
+1. Integrate this formalism into Section V
+2. Add concept activation visualizations
+3. Show hierarchical decomposition examples
+4. Connect to experimental results</p>
+<p><strong>For Extensions (Papers A/B/C):</strong>
+- <strong>Paper B:</strong> "Hierarchical Reinforcement Learning via Concept Subspace Projections"
+- <strong>Paper C:</strong> "Transfer Learning with Functional Concept Bases"</p>
+<hr />
+<p><strong>Last Updated:</strong> January 14, 2026</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

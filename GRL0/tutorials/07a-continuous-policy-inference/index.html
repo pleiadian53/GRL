@@ -1,0 +1,4032 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/tutorials/07a-continuous-policy-inference/">
+      
+      
+        <link rel="prev" href="../07-rf-sarsa/">
+      
+      
+        <link rel="next" href="../../quantum_inspired/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Ch 7a: Continuous Policy Inference - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-07a-beyond-discrete-actions-continuous-policy-inference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ch 7a: Continuous Policy Inference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03a-least-action-principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-memory-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-problem-discrete-actions-as-a-bottleneck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The Problem: Discrete Actions as a Bottleneck
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. The Problem: Discrete Actions as a Bottleneck">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-where-discrete-actions-enter-rf-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Where Discrete Actions Enter RF-SARSA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-why-this-is-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Why This Is Limiting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-the-sarsa-constraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 The SARSA Constraint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-solution-1-continuous-sarsa-via-langevin-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Solution 1: Continuous SARSA via Langevin Sampling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Solution 1: Continuous SARSA via Langevin Sampling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-langevin-dynamics-refresher-from-chapter-03a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Langevin Dynamics Refresher (from Chapter 03a)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-continuous-rf-sarsa-modified-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Continuous RF-SARSA: Modified Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-how-to-update-q-without-discrete-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 How to Update Q Without Discrete Actions?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-algorithm-continuous-rf-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Algorithm: Continuous RF-SARSA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-advantages-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Advantages and Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-solution-2-actor-critic-in-rkhs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Solution 2: Actor-Critic in RKHS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Solution 2: Actor-Critic in RKHS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-actor-critic-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The Actor-Critic Framework
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-grl-actor-critic-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 GRL Actor-Critic Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-advantages-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Advantages and Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-solution-3-learned-action-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Solution 3: Learned Action Embeddings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Solution 3: Learned Action Embeddings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-the-embedding-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 The Embedding Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-contrastive-action-embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Contrastive Action Embedding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-joint-learning-embedding-value-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Joint Learning: Embedding + Value Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-advantages-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Advantages and Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-solution-4-hierarchical-action-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Solution 4: Hierarchical Action Discovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Solution 4: Hierarchical Action Discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-the-clustering-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 The Clustering Approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-algorithm-sketch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Algorithm Sketch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-options-framework-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Options Framework Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-advantages-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Advantages and Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-solution-5-direct-optimization-on-the-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Solution 5: Direct Optimization on the Field
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Solution 5: Direct Optimization on the Field">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-field-based-policy-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Field-Based Policy Gradient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Challenges
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-alternative-learning-mechanisms-beyond-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Alternative Learning Mechanisms Beyond SARSA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Alternative Learning Mechanisms Beyond SARSA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-q-learning-in-rkhs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Q-Learning in RKHS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-model-based-dyna-style-planning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Model-Based: Dyna-Style Planning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-successor-representations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Successor Representations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-practical-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Practical Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Practical Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-decision-tree-which-approach-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Decision Tree: Which Approach to Use?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-hybrid-approach-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Hybrid Approach (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-implementation-continuous-rf-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Implementation: Continuous RF-SARSA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-the-discrete-action-bottleneck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 The Discrete Action Bottleneck
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-five-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Five Solutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-practical-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Practical Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#104-beyond-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 Beyond SARSA
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-open-research-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Open Research Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-problem-discrete-actions-as-a-bottleneck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The Problem: Discrete Actions as a Bottleneck
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. The Problem: Discrete Actions as a Bottleneck">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-where-discrete-actions-enter-rf-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Where Discrete Actions Enter RF-SARSA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-why-this-is-limiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Why This Is Limiting
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-the-sarsa-constraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 The SARSA Constraint
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-solution-1-continuous-sarsa-via-langevin-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Solution 1: Continuous SARSA via Langevin Sampling
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Solution 1: Continuous SARSA via Langevin Sampling">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-langevin-dynamics-refresher-from-chapter-03a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Langevin Dynamics Refresher (from Chapter 03a)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-continuous-rf-sarsa-modified-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Continuous RF-SARSA: Modified Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-how-to-update-q-without-discrete-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 How to Update Q Without Discrete Actions?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-algorithm-continuous-rf-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 Algorithm: Continuous RF-SARSA
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-advantages-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Advantages and Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-solution-2-actor-critic-in-rkhs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Solution 2: Actor-Critic in RKHS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Solution 2: Actor-Critic in RKHS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-actor-critic-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The Actor-Critic Framework
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-grl-actor-critic-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 GRL Actor-Critic Algorithm
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-pseudocode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Pseudocode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-advantages-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Advantages and Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-solution-3-learned-action-embeddings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Solution 3: Learned Action Embeddings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Solution 3: Learned Action Embeddings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-the-embedding-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 The Embedding Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-contrastive-action-embedding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Contrastive Action Embedding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-joint-learning-embedding-value-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Joint Learning: Embedding + Value Function
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-advantages-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Advantages and Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-solution-4-hierarchical-action-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Solution 4: Hierarchical Action Discovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Solution 4: Hierarchical Action Discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-the-clustering-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 The Clustering Approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-algorithm-sketch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Algorithm Sketch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-options-framework-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Options Framework Connection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-advantages-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Advantages and Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-solution-5-direct-optimization-on-the-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Solution 5: Direct Optimization on the Field
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Solution 5: Direct Optimization on the Field">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-field-based-policy-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Field-Based Policy Gradient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-challenges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Challenges
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-alternative-learning-mechanisms-beyond-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Alternative Learning Mechanisms Beyond SARSA
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Alternative Learning Mechanisms Beyond SARSA">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-q-learning-in-rkhs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Q-Learning in RKHS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-model-based-dyna-style-planning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Model-Based: Dyna-Style Planning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-successor-representations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Successor Representations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-practical-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Practical Recommendations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Practical Recommendations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-decision-tree-which-approach-to-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Decision Tree: Which Approach to Use?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-hybrid-approach-recommended" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Hybrid Approach (Recommended)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-implementation-continuous-rf-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Implementation: Continuous RF-SARSA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="10. Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#101-the-discrete-action-bottleneck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.1 The Discrete Action Bottleneck
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#102-five-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.2 Five Solutions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#103-practical-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.3 Practical Recommendations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#104-beyond-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10.4 Beyond SARSA
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-open-research-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Open Research Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/tutorials/07a-continuous-policy-inference.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-07a-beyond-discrete-actions-continuous-policy-inference">Chapter 07a: Beyond Discrete Actions — Continuous Policy Inference<a class="headerlink" href="#chapter-07a-beyond-discrete-actions-continuous-policy-inference" title="Permanent link">&para;</a></h1>
+<p><strong>Purpose</strong>: Address the discrete action bottleneck and explore fully continuous GRL formulations<br />
+<strong>Prerequisites</strong>: Chapter 07 (RF-SARSA)<br />
+<strong>Key Concepts</strong>: Continuous action spaces, Langevin sampling, actor-critic in RKHS, action discovery, learned embeddings</p>
+<hr />
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Chapter 7 presented RF-SARSA as the core learning algorithm for GRL. However, the algorithm as specified has a <strong>critical limitation</strong> that constrains its applicability:</p>
+<p><strong>The Discrete Action Assumption</strong>: RF-SARSA requires a finite set of primitive actions <span class="arithmatex">\(\mathcal{A} = \{a^{(1)}, \ldots, a^{(n)}\}\)</span> to query the field <span class="arithmatex">\(Q^+(s, a^{(i)})\)</span> during policy inference.</p>
+<p>This creates two problems:</p>
+<ol>
+<li><strong>Manual Action Design</strong>: Requires hand-crafted mapping <span class="arithmatex">\(f_{A^+}: a^{(i)} \mapsto x_a^{(i)}\)</span> from primitive actions to parametric representation</li>
+<li><strong>Scalability</strong>: For high-dimensional action parameters <span class="arithmatex">\(\theta \in \mathbb{R}^{d_a}\)</span>, enumerating all actions is intractable</li>
+</ol>
+<p><strong>Example</strong>: In the 2D navigation domain (original GRL paper):</p>
+<ul>
+<li>Primitive actions: move in 12 directions (like a clock: 0°, 30°, 60°, ..., 330°)</li>
+<li>Manual mapping: each direction → angle <span class="arithmatex">\(\theta \in [0, 2\pi)\)</span></li>
+<li><strong>Limitation</strong>: What if optimal action is at angle <span class="arithmatex">\(\pi/7 \approx 25.7°\)</span> (not in the discrete set)?</li>
+</ul>
+<p><strong>This chapter explores solutions</strong> that eliminate discrete actions entirely, enabling <strong>fully continuous</strong> policy inference in parametric action spaces.</p>
+<hr />
+<h2 id="1-the-problem-discrete-actions-as-a-bottleneck">1. The Problem: Discrete Actions as a Bottleneck<a class="headerlink" href="#1-the-problem-discrete-actions-as-a-bottleneck" title="Permanent link">&para;</a></h2>
+<h3 id="11-where-discrete-actions-enter-rf-sarsa">1.1 Where Discrete Actions Enter RF-SARSA<a class="headerlink" href="#11-where-discrete-actions-enter-rf-sarsa" title="Permanent link">&para;</a></h3>
+<p>In Algorithm 2 (Chapter 7), discrete actions appear in two places:</p>
+<p><strong>Step 6: Field-Based Action Evaluation</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>For each a^(i) ∈ A:
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    Form z^(i) = (s, x_a^(i))
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    Query Q+(z^(i)) via GPR
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Select a via Boltzmann policy
+</span></code></pre></div></p>
+<p><strong>Step 10: Primitive SARSA Update</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>δ = r + γ Q(s&#39;, a&#39;) - Q(s, a)
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Q(s, a) ← Q(s, a) + α δ
+</span></code></pre></div></p>
+<p>Both steps assume <span class="arithmatex">\(a \in \mathcal{A}\)</span> is <strong>discrete</strong>.</p>
+<hr />
+<h3 id="12-why-this-is-limiting">1.2 Why This Is Limiting<a class="headerlink" href="#12-why-this-is-limiting" title="Permanent link">&para;</a></h3>
+<p><strong>Problem 1: Manual Feature Engineering</strong></p>
+<p>The mapping <span class="arithmatex">\(f_{A^+}: a \mapsto x_a\)</span> must be designed by hand:</p>
+<ul>
+<li>2D navigation: direction → angle</li>
+<li>Robotic reaching: discrete waypoints → joint angles</li>
+<li>Continuous control: requires discretizing continuous action space</li>
+</ul>
+<p><strong>This defeats the purpose</strong> of parametric actions—you still need domain expertise!</p>
+<p><strong>Problem 2: Curse of Dimensionality</strong></p>
+<p>For high-dimensional actions <span class="arithmatex">\(\theta \in \mathbb{R}^{d_a}\)</span>:</p>
+<ul>
+<li>Discretizing each dimension with <span class="arithmatex">\(k\)</span> values → <span class="arithmatex">\(k^{d_a}\)</span> primitive actions</li>
+<li>Example: <span class="arithmatex">\(d_a = 10\)</span>, <span class="arithmatex">\(k = 10\)</span> → <span class="arithmatex">\(10^{10}\)</span> actions (intractable!)</li>
+</ul>
+<p><strong>Problem 3: Suboptimal Actions</strong></p>
+<p>Optimal action might lie <strong>between</strong> discrete choices:</p>
+<ul>
+<li>Discrete set: <span class="arithmatex">\(\{30°, 45°, 60°\}\)</span></li>
+<li>Optimal: <span class="arithmatex">\(42°\)</span> (not representable!)</li>
+</ul>
+<hr />
+<h3 id="13-the-sarsa-constraint">1.3 The SARSA Constraint<a class="headerlink" href="#13-the-sarsa-constraint" title="Permanent link">&para;</a></h3>
+<p>Why does RF-SARSA use discrete actions? <strong>Because SARSA does</strong>.</p>
+<p><strong>Original SARSA</strong> (Rummery &amp; Niranjan, 1994):
+$<span class="arithmatex">\(Q(s, a) \leftarrow Q(s, a) + \alpha [r + \gamma Q(s', a') - Q(s, a)]\)</span>$</p>
+<p>This assumes <span class="arithmatex">\(a, a'\)</span> are <strong>indexable</strong> (discrete) so you can store <span class="arithmatex">\(Q(s, a)\)</span> in a table or lookup structure.</p>
+<p><strong>For continuous actions</strong> <span class="arithmatex">\(\theta \in \mathbb{R}^{d_a}\)</span>, you can't index <span class="arithmatex">\(Q(s, \theta)\)</span> this way!</p>
+<hr />
+<h2 id="2-solution-1-continuous-sarsa-via-langevin-sampling">2. Solution 1: Continuous SARSA via Langevin Sampling<a class="headerlink" href="#2-solution-1-continuous-sarsa-via-langevin-sampling" title="Permanent link">&para;</a></h2>
+<p><strong>Key insight</strong>: We don't need primitive actions—we can sample directly from the continuous field <span class="arithmatex">\(Q^+(s, \theta)\)</span> using <strong>gradient-based sampling</strong>.</p>
+<h3 id="21-langevin-dynamics-refresher-from-chapter-03a">2.1 Langevin Dynamics Refresher (from Chapter 03a)<a class="headerlink" href="#21-langevin-dynamics-refresher-from-chapter-03a" title="Permanent link">&para;</a></h3>
+<p>Recall from the least action principle that optimal actions follow gradient flow:</p>
+<div class="arithmatex">\[\theta_{t+1} = \theta_t + \epsilon \nabla_\theta Q^+(s, \theta_t) + \sqrt{2\epsilon\lambda} \, \xi_t\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(\nabla_\theta Q^+(s, \theta)\)</span> = gradient of field w.r.t. action parameters (via Riesz representer, Chapter 04a)</li>
+<li><span class="arithmatex">\(\lambda\)</span> = temperature (exploration)</li>
+<li><span class="arithmatex">\(\xi_t \sim \mathcal{N}(0, I)\)</span> = Gaussian noise</li>
+</ul>
+<p><strong>This is Langevin Monte Carlo</strong> sampling from the Boltzmann distribution <span class="arithmatex">\(\pi(\theta | s) \propto \exp(Q^+(s, \theta) / \lambda)\)</span>.</p>
+<p><strong>Advantage</strong>: No discrete action set needed! Sample <span class="arithmatex">\(\theta\)</span> directly from the field.</p>
+<hr />
+<h3 id="22-continuous-rf-sarsa-modified-algorithm">2.2 Continuous RF-SARSA: Modified Algorithm<a class="headerlink" href="#22-continuous-rf-sarsa-modified-algorithm" title="Permanent link">&para;</a></h3>
+<p>Replace discrete action enumeration with continuous sampling:</p>
+<p><strong>Original (discrete) RF-SARSA:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>For each a^(i) ∈ A:
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    Query Q+(s, a^(i))
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>Select a ~ Boltzmann(Q+)
+</span></code></pre></div></p>
+<p><strong>Continuous RF-SARSA:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Initialize θ_0 randomly (or from heuristic)
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>For k = 1 to K_sample:
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    Compute ∇_θ Q+(s, θ_{k-1})  [via Riesz representer]
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    θ_k ← θ_{k-1} + ε ∇_θ Q+(s, θ_{k-1}) + √(2ελ) ξ_k
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Return θ_K
+</span></code></pre></div></p>
+<p><strong>Key change</strong>: Action inference becomes <strong>gradient-based optimization</strong> on the field.</p>
+<hr />
+<h3 id="23-how-to-update-q-without-discrete-actions">2.3 How to Update Q Without Discrete Actions?<a class="headerlink" href="#23-how-to-update-q-without-discrete-actions" title="Permanent link">&para;</a></h3>
+<p><strong>Problem</strong>: SARSA update requires <span class="arithmatex">\(Q(s, a)\)</span> as a scalar, but now <span class="arithmatex">\(\theta\)</span> is continuous.</p>
+<p><strong>Solution 1: Function Approximation</strong> (Standard Approach)</p>
+<p>Use a parametric function approximator (e.g., neural network):
+$<span class="arithmatex">\(Q_w(s, \theta)\)</span>$</p>
+<p>Update via gradient descent:
+$<span class="arithmatex">\(w \leftarrow w - \alpha \nabla_w [Q_w(s, \theta) - (r + \gamma Q_w(s', \theta'))]^2\)</span>$</p>
+<p><strong>But wait—this is just deep RL!</strong> We've abandoned the particle-based field representation.</p>
+<p><strong>Solution 2: Particle-Based Continuous SARSA</strong> (GRL Way)</p>
+<p>Keep the particle representation <span class="arithmatex">\(Q^+(z) = \sum_i w_i k(z, z_i)\)</span> but eliminate primitive <span class="arithmatex">\(Q(s, a)\)</span> table.</p>
+<p><strong>Modified update</strong>:</p>
+<ol>
+<li>Sample action: <span class="arithmatex">\(\theta \sim \pi(\cdot | s)\)</span> via Langevin</li>
+<li>Execute: observe <span class="arithmatex">\(r\)</span>, <span class="arithmatex">\(s'\)</span></li>
+<li>Sample next action: <span class="arithmatex">\(\theta' \sim \pi(\cdot | s')\)</span> via Langevin</li>
+<li><strong>Compute TD target directly from field</strong>:
+   $<span class="arithmatex">\(\delta = r + \gamma Q^+(s', \theta') - Q^+(s, \theta)\)</span>$</li>
+<li>Form particle: <span class="arithmatex">\(\omega = ((s, \theta), r + \gamma Q^+(s', \theta'))\)</span> (bootstrap target, not table Q)</li>
+<li>MemoryUpdate: <span class="arithmatex">\(\Omega \leftarrow \text{MemoryUpdate}(\omega, \delta, k, \tau, \Omega)\)</span></li>
+</ol>
+<p><strong>Key difference</strong>: No primitive <span class="arithmatex">\(Q(s, a)\)</span> table! TD target computed <strong>directly</strong> from field queries.</p>
+<hr />
+<h3 id="24-algorithm-continuous-rf-sarsa">2.4 Algorithm: Continuous RF-SARSA<a class="headerlink" href="#24-algorithm-continuous-rf-sarsa" title="Permanent link">&para;</a></h3>
+<p><strong>Inputs:</strong>
+- Kernel <span class="arithmatex">\(k(\cdot, \cdot; \theta)\)</span>
+- Langevin step size <span class="arithmatex">\(\epsilon\)</span>, temperature <span class="arithmatex">\(\lambda\)</span>
+- Number of Langevin steps <span class="arithmatex">\(K_{\text{sample}}\)</span>
+- TD learning rate <span class="arithmatex">\(\alpha\)</span> (for particle weight updates)
+- Discount <span class="arithmatex">\(\gamma\)</span>, association threshold <span class="arithmatex">\(\tau\)</span></p>
+<p><strong>Initialization:</strong>
+- Particle memory <span class="arithmatex">\(\Omega \leftarrow \emptyset\)</span>
+- Kernel hyperparameters <span class="arithmatex">\(\theta\)</span> (via ARD or prior)</p>
+<p><strong>For each episode:</strong></p>
+<ol>
+<li>Observe initial state <span class="arithmatex">\(s_0\)</span></li>
+</ol>
+<p><strong>For each step <span class="arithmatex">\(t\)</span>:</strong></p>
+<ol>
+<li>
+<p><strong>Action sampling via Langevin</strong>:</p>
+</li>
+<li>
+<p>Initialize <span class="arithmatex">\(\theta_0\)</span> randomly or from heuristic</p>
+</li>
+<li>For <span class="arithmatex">\(k = 1, \ldots, K_{\text{sample}}\)</span>:
+     $<span class="arithmatex">\(\nabla_\theta Q^+(s_t, \theta_{k-1}) = \sum_{i=1}^N w_i \nabla_\theta k((s_t, \theta_{k-1}), z_i)\)</span>$
+     $<span class="arithmatex">\(\theta_k \leftarrow \theta_{k-1} + \epsilon \nabla_\theta Q^+(s_t, \theta_{k-1}) + \sqrt{2\epsilon\lambda} \, \xi_k\)</span>$</li>
+<li>
+<p>Set <span class="arithmatex">\(\theta_t \leftarrow \theta_{K_{\text{sample}}}\)</span></p>
+</li>
+<li>
+<p><strong>Execute action</strong>:</p>
+</li>
+<li>
+<p>Execute <span class="arithmatex">\(\theta_t\)</span> in environment</p>
+</li>
+<li>
+<p>Observe <span class="arithmatex">\(r_t\)</span>, <span class="arithmatex">\(s_{t+1}\)</span></p>
+</li>
+<li>
+<p><strong>Next action sampling</strong>:</p>
+</li>
+<li>
+<p>Repeat step 2 for <span class="arithmatex">\(s_{t+1}\)</span> to get <span class="arithmatex">\(\theta_{t+1}\)</span></p>
+</li>
+<li>
+<p><strong>Field-based TD update</strong>:</p>
+</li>
+<li>
+<p>Query field: <span class="arithmatex">\(Q_t^+ \leftarrow Q^+(s_t, \theta_t)\)</span>, <span class="arithmatex">\(Q_{t+1}^+ \leftarrow Q^+(s_{t+1}, \theta_{t+1})\)</span></p>
+</li>
+<li>Compute TD error: <span class="arithmatex">\(\delta_t \leftarrow r_t + \gamma Q_{t+1}^+ - Q_t^+\)</span></li>
+<li>
+<p>Form TD target: <span class="arithmatex">\(y_t \leftarrow r_t + \gamma Q_{t+1}^+\)</span> (bootstrap from field)</p>
+</li>
+<li>
+<p><strong>Particle reinforcement</strong>:</p>
+</li>
+<li>
+<p>Form particle: <span class="arithmatex">\(\omega_t \leftarrow ((s_t, \theta_t), y_t)\)</span></p>
+</li>
+<li>
+<p>Update memory: <span class="arithmatex">\(\Omega \leftarrow \text{MemoryUpdate}(\omega_t, \delta_t, k, \tau, \Omega)\)</span></p>
+</li>
+<li>
+<p><strong>Periodic ARD</strong>:</p>
+</li>
+<li>
+<p>Every <span class="arithmatex">\(T\)</span> steps, update kernel hyperparameters <span class="arithmatex">\(\theta\)</span> via ARD on <span class="arithmatex">\(\Omega\)</span></p>
+</li>
+</ol>
+<p><strong>Repeat until terminal.</strong></p>
+<hr />
+<h3 id="25-advantages-and-limitations">2.5 Advantages and Limitations<a class="headerlink" href="#25-advantages-and-limitations" title="Permanent link">&para;</a></h3>
+<p><strong>✅ Advantages</strong>:</p>
+<ol>
+<li><strong>No manual action mapping</strong>: <span class="arithmatex">\(\theta\)</span> is sampled directly from field</li>
+<li><strong>Fully continuous</strong>: No discretization of action space</li>
+<li><strong>Principled</strong>: Langevin sampling from Boltzmann distribution (Chapter 03a)</li>
+<li><strong>Natural exploration</strong>: Temperature <span class="arithmatex">\(\lambda\)</span> controls stochasticity</li>
+</ol>
+<p><strong>⚠️ Limitations</strong>:</p>
+<ol>
+<li><strong>Gradient computation</strong>: Requires <span class="arithmatex">\(\nabla_\theta k(z, z')\)</span> (analytic or autodiff)</li>
+<li><strong>Langevin convergence</strong>: Need <span class="arithmatex">\(K_{\text{sample}}\)</span> steps per action (slower)</li>
+<li><strong>Local optima</strong>: Gradient descent can get stuck (non-convex <span class="arithmatex">\(Q^+\)</span>)</li>
+<li><strong>No primitive Q-table</strong>: Loses SARSA's tabular grounding</li>
+</ol>
+<p><strong>When to use</strong>: High-dimensional continuous actions where discrete enumeration is impossible.</p>
+<hr />
+<h2 id="3-solution-2-actor-critic-in-rkhs">3. Solution 2: Actor-Critic in RKHS<a class="headerlink" href="#3-solution-2-actor-critic-in-rkhs" title="Permanent link">&para;</a></h2>
+<p><strong>Idea</strong>: Decouple policy (actor) from value function (critic), as in standard actor-critic methods.</p>
+<h3 id="31-the-actor-critic-framework">3.1 The Actor-Critic Framework<a class="headerlink" href="#31-the-actor-critic-framework" title="Permanent link">&para;</a></h3>
+<p><strong>Actor</strong>: Parametric policy <span class="arithmatex">\(\pi_\phi(\theta | s)\)</span>
+- Could be Gaussian: <span class="arithmatex">\(\pi_\phi(\theta | s) = \mathcal{N}(\mu_\phi(s), \sigma_\phi(s))\)</span>
+- Trained via policy gradient</p>
+<p><strong>Critic</strong>: Value function <span class="arithmatex">\(Q^+(s, \theta)\)</span> in RKHS (as before)
+- Trained via TD learning (using particles)</p>
+<p><strong>Advantage</strong>: Policy is flexible, efficient to sample; critic provides value estimates for learning.</p>
+<hr />
+<h3 id="32-grl-actor-critic-algorithm">3.2 GRL Actor-Critic Algorithm<a class="headerlink" href="#32-grl-actor-critic-algorithm" title="Permanent link">&para;</a></h3>
+<p><strong>Modifications to RF-SARSA:</strong></p>
+<p><strong>Action selection</strong> (no Langevin needed):</p>
+<ul>
+<li>Sample from actor: <span class="arithmatex">\(\theta_t \sim \pi_\phi(\cdot | s_t)\)</span></li>
+<li>Fast sampling (single forward pass)</li>
+</ul>
+<p><strong>Critic update</strong> (unchanged):</p>
+<ul>
+<li>Particle-based TD: <span class="arithmatex">\(\delta_t = r_t + \gamma Q^+(s_{t+1}, \theta_{t+1}) - Q^+(s_t, \theta_t)\)</span></li>
+<li>MemoryUpdate as before</li>
+</ul>
+<p><strong>Actor update</strong> (policy gradient):</p>
+<ul>
+<li>Compute advantage: <span class="arithmatex">\(A_t = Q^+(s_t, \theta_t) - V(s_t)\)</span> where <span class="arithmatex">\(V(s) = \mathbb{E}_{\theta \sim \pi_\phi}[Q^+(s, \theta)]\)</span></li>
+<li>Update policy: <span class="arithmatex">\(\phi \leftarrow \phi + \beta \nabla_\phi \log \pi_\phi(\theta_t | s_t) A_t\)</span></li>
+</ul>
+<hr />
+<h3 id="33-pseudocode">3.3 Pseudocode<a class="headerlink" href="#33-pseudocode" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">GRL_ActorCritic</span><span class="p">:</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actor_net</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">actor</span> <span class="o">=</span> <span class="n">actor_net</span>  <span class="c1"># Neural network: s → μ(s), σ(s)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Critic: particle memory Ω</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>  <span class="c1"># Critic learning rate</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>  <span class="c1"># Actor learning rate</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="n">tau</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">sample_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample action from actor policy.&quot;&quot;&quot;</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="k">return</span> <span class="n">theta</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">critic_predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Predict Q+(s, θ) via GPR on particles.&quot;&quot;&quot;</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">])</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>            <span class="k">return</span> <span class="mf">0.0</span>
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>        <span class="k">return</span> <span class="n">gpr_predict</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">)</span>
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s_next</span><span class="p">,</span> <span class="n">theta_next</span><span class="p">):</span>
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Actor-critic update.&quot;&quot;&quot;</span>
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>        <span class="c1"># Critic TD update</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a>        <span class="n">Q_current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">critic_predict</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>        <span class="n">Q_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">critic_predict</span><span class="p">(</span><span class="n">s_next</span><span class="p">,</span> <span class="n">theta_next</span><span class="p">)</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>        <span class="n">delta</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">Q_next</span> <span class="o">-</span> <span class="n">Q_current</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>        <span class="c1"># Particle reinforcement (critic)</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a>        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">])</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>        <span class="n">y</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">Q_next</span>  <span class="c1"># TD target</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a>        <span class="n">particle</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="n">memory_update</span><span class="p">(</span><span class="n">particle</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">)</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>        <span class="c1"># Actor policy gradient</span>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a>        <span class="c1"># Advantage: A = Q(s,θ) - V(s)</span>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>        <span class="c1"># For simplicity, use TD error as advantage (A ≈ δ)</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>        <span class="n">log_prob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>  <span class="c1"># log π_φ(θ|s)</span>
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>        <span class="n">actor_loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">log_prob</span> <span class="o">*</span> <span class="n">delta</span>  <span class="c1"># Policy gradient</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">actor</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">actor_loss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h3 id="34-advantages-and-limitations">3.4 Advantages and Limitations<a class="headerlink" href="#34-advantages-and-limitations" title="Permanent link">&para;</a></h3>
+<p><strong>✅ Advantages</strong>:</p>
+<ol>
+<li><strong>Efficient sampling</strong>: No Langevin iterations, single forward pass</li>
+<li><strong>Flexible policy</strong>: Can model complex distributions (multimodal, correlations)</li>
+<li><strong>Standard framework</strong>: Leverages decades of actor-critic research</li>
+<li><strong>Scalable</strong>: Neural networks handle high-dimensional states/actions</li>
+</ol>
+<p><strong>⚠️ Limitations</strong>:</p>
+<ol>
+<li><strong>Parametric policy</strong>: Loses non-parametric flexibility of particle-based field</li>
+<li><strong>Two learning systems</strong>: Actor and critic can be unstable (common in AC methods)</li>
+<li><strong>Hyperparameters</strong>: Requires tuning learning rates, network architectures</li>
+<li><strong>Divergence risk</strong>: Policy and value can diverge without careful tuning</li>
+</ol>
+<p><strong>When to use</strong>: High-dimensional, complex policies where sampling efficiency matters.</p>
+<hr />
+<h2 id="4-solution-3-learned-action-embeddings">4. Solution 3: Learned Action Embeddings<a class="headerlink" href="#4-solution-3-learned-action-embeddings" title="Permanent link">&para;</a></h2>
+<p><strong>Idea</strong>: Instead of hand-designing <span class="arithmatex">\(f_{A^+}: a \mapsto x_a\)</span>, <strong>learn</strong> the embedding jointly with the value function.</p>
+<h3 id="41-the-embedding-problem">4.1 The Embedding Problem<a class="headerlink" href="#41-the-embedding-problem" title="Permanent link">&para;</a></h3>
+<p><strong>Original GRL</strong>: Requires manual mapping from primitive actions to parametric representation.</p>
+<p><strong>Example</strong> (2D navigation):</p>
+<ul>
+<li>Primitive: "move North"</li>
+<li>Manual embedding: North → angle <span class="arithmatex">\(\theta = \pi/2\)</span></li>
+</ul>
+<p><strong>Question</strong>: Can we learn this mapping automatically?</p>
+<p><strong>Answer</strong>: Yes! Use contrastive learning or auto-encoder.</p>
+<hr />
+<h3 id="42-contrastive-action-embedding">4.2 Contrastive Action Embedding<a class="headerlink" href="#42-contrastive-action-embedding" title="Permanent link">&para;</a></h3>
+<p><strong>Objective</strong>: Embed actions such that:</p>
+<ul>
+<li>Similar actions (similar outcomes) → close in embedding space</li>
+<li>Dissimilar actions → far apart</li>
+</ul>
+<p><strong>Training</strong>:</p>
+<ol>
+<li>Collect transitions: <span class="arithmatex">\((s, a, s')\)</span></li>
+<li>Define similarity: <span class="arithmatex">\(\text{sim}(a, a') = \exp(-\|s' - s''\|^2)\)</span> where <span class="arithmatex">\(s', s''\)</span> are outcomes</li>
+<li>Learn embedding: <span class="arithmatex">\(f_\psi: a \mapsto x_a\)</span> such that <span class="arithmatex">\(\|x_a - x_{a'}\|^2 \propto -\log \text{sim}(a, a')\)</span></li>
+</ol>
+<p><strong>Loss</strong> (InfoNCE-style):
+$<span class="arithmatex">\(\mathcal{L}_{\text{embed}} = -\log \frac{\exp(\langle f_\psi(a), f_\psi(a^+) \rangle / \tau)}{\sum_{a^-} \exp(\langle f_\psi(a), f_\psi(a^-) \rangle / \tau)}\)</span>$</p>
+<p>where <span class="arithmatex">\(a^+\)</span> is a positive pair (similar action), <span class="arithmatex">\(a^-\)</span> are negatives.</p>
+<hr />
+<h3 id="43-joint-learning-embedding-value-function">4.3 Joint Learning: Embedding + Value Function<a class="headerlink" href="#43-joint-learning-embedding-value-function" title="Permanent link">&para;</a></h3>
+<p><strong>Algorithm</strong>:</p>
+<ol>
+<li><strong>Initialization</strong>: Random embedding <span class="arithmatex">\(f_\psi\)</span></li>
+<li><strong>Collect experience</strong>: <span class="arithmatex">\((s, a, r, s')\)</span></li>
+<li><strong>Embed actions</strong>: <span class="arithmatex">\(x_a \leftarrow f_\psi(a)\)</span>, <span class="arithmatex">\(x_{a'} \leftarrow f_\psi(a')\)</span></li>
+<li><strong>TD update</strong>: Standard RF-SARSA using embedded actions</li>
+<li><strong>Embedding update</strong>: Contrastive loss based on <span class="arithmatex">\((a, a')\)</span> pairs with similar outcomes</li>
+<li><strong>Repeat</strong></li>
+</ol>
+<p><strong>Key insight</strong>: Embedding evolves to make TD learning easier—actions with similar values cluster in embedding space!</p>
+<hr />
+<h3 id="44-advantages-and-limitations">4.4 Advantages and Limitations<a class="headerlink" href="#44-advantages-and-limitations" title="Permanent link">&para;</a></h3>
+<p><strong>✅ Advantages</strong>:</p>
+<ol>
+<li><strong>No manual design</strong>: Embedding learned from data</li>
+<li><strong>Adaptive</strong>: Embedding adapts to task (reward structure)</li>
+<li><strong>Discovers structure</strong>: May reveal latent action properties</li>
+</ol>
+<p><strong>⚠️ Limitations</strong>:</p>
+<ol>
+<li><strong>Requires experience</strong>: Need data to learn embedding</li>
+<li><strong>Non-stationarity</strong>: Embedding changes as policy improves (moving target)</li>
+<li><strong>Computational cost</strong>: Joint optimization is complex</li>
+</ol>
+<p><strong>When to use</strong>: When action space structure is unknown, or manual embedding is infeasible.</p>
+<hr />
+<h2 id="5-solution-4-hierarchical-action-discovery">5. Solution 4: Hierarchical Action Discovery<a class="headerlink" href="#5-solution-4-hierarchical-action-discovery" title="Permanent link">&para;</a></h2>
+<p><strong>Idea</strong>: Let the agent <strong>discover</strong> a discrete action set automatically by clustering in action parameter space.</p>
+<h3 id="51-the-clustering-approach">5.1 The Clustering Approach<a class="headerlink" href="#51-the-clustering-approach" title="Permanent link">&para;</a></h3>
+<p><strong>Step 1</strong>: Start with continuous action parameter space <span class="arithmatex">\(\mathbb{R}^{d_a}\)</span></p>
+<p><strong>Step 2</strong>: After initial exploration, cluster observed action parameters:</p>
+<ul>
+<li>Use k-means, GMM, or DBSCAN on <span class="arithmatex">\(\{\theta_i\}\)</span> from particle memory</li>
+<li>Cluster centers become "discovered actions"</li>
+</ul>
+<p><strong>Step 3</strong>: Use discovered actions as discrete set for RF-SARSA</p>
+<p><strong>Step 4</strong>: Periodically re-cluster as policy evolves</p>
+<hr />
+<h3 id="52-algorithm-sketch">5.2 Algorithm Sketch<a class="headerlink" href="#52-algorithm-sketch" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">discover_actions</span><span class="p">(</span><span class="n">particles</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Discover discrete actions via clustering.&quot;&quot;&quot;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="c1"># Extract action parameters from particle memory</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">theta_set</span> <span class="o">=</span> <span class="p">[</span><span class="n">z</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">state</span><span class="p">):]</span> <span class="k">for</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span> <span class="ow">in</span> <span class="n">particles</span><span class="p">]</span>  <span class="c1"># z = (s, θ)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="c1"># Cluster in action space</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">KMeans</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="n">n_clusters</span><span class="p">)</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>    <span class="n">kmeans</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">theta_set</span><span class="p">)</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>    <span class="c1"># Cluster centers = discovered actions</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="n">discovered_actions</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">cluster_centers_</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>    <span class="k">return</span> <span class="n">discovered_actions</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="c1"># In RF-SARSA loop:</span>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="k">if</span> <span class="n">episode</span> <span class="o">%</span> <span class="n">T_discovery</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="n">A_discovered</span> <span class="o">=</span> <span class="n">discover_actions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>    <span class="c1"># Use A_discovered as discrete action set for next T_discovery episodes</span>
+</span></code></pre></div>
+<hr />
+<h3 id="53-options-framework-connection">5.3 Options Framework Connection<a class="headerlink" href="#53-options-framework-connection" title="Permanent link">&para;</a></h3>
+<p>This is closely related to the <strong>options framework</strong> (Sutton et al., 1999):</p>
+<ul>
+<li><strong>Options</strong>: Temporally extended actions (subpolicies)</li>
+<li><strong>GRL version</strong>: Discovered action clusters become "options"</li>
+<li>Can learn hierarchical policies: high-level chooses option, low-level executes</li>
+</ul>
+<hr />
+<h3 id="54-advantages-and-limitations">5.4 Advantages and Limitations<a class="headerlink" href="#54-advantages-and-limitations" title="Permanent link">&para;</a></h3>
+<p><strong>✅ Advantages</strong>:</p>
+<ol>
+<li><strong>Automatic</strong>: No manual action design</li>
+<li><strong>Data-driven</strong>: Discovers actions that matter for the task</li>
+<li><strong>Hierarchical</strong>: Enables multi-level policies</li>
+</ol>
+<p><strong>⚠️ Limitations</strong>:</p>
+<ol>
+<li><strong>Requires exploration</strong>: Need diverse data to cluster well</li>
+<li><strong>K selection</strong>: How many clusters? (hyperparameter)</li>
+<li><strong>Non-stationary</strong>: Discovered actions change over time</li>
+</ol>
+<p><strong>When to use</strong>: Complex action spaces where structure is unknown, or hierarchical RL is beneficial.</p>
+<hr />
+<h2 id="6-solution-5-direct-optimization-on-the-field">6. Solution 5: Direct Optimization on the Field<a class="headerlink" href="#6-solution-5-direct-optimization-on-the-field" title="Permanent link">&para;</a></h2>
+<p><strong>Most radical solution</strong>: Eliminate TD learning entirely! Directly optimize the field <span class="arithmatex">\(Q^+\)</span> via gradient ascent on expected return.</p>
+<h3 id="61-field-based-policy-gradient">6.1 Field-Based Policy Gradient<a class="headerlink" href="#61-field-based-policy-gradient" title="Permanent link">&para;</a></h3>
+<p><strong>Objective</strong>: Maximize expected return
+$<span class="arithmatex">\(J(\Omega) = \mathbb{E}_{\tau \sim \pi_\Omega}[\sum_{t=0}^T r_t]\)</span>$</p>
+<p>where <span class="arithmatex">\(\pi_\Omega\)</span> is the policy induced by field <span class="arithmatex">\(Q^+(\cdot; \Omega)\)</span> (e.g., via Langevin sampling).</p>
+<p><strong>Gradient</strong>:
+$<span class="arithmatex">\(\nabla_\Omega J = \mathbb{E}_{\tau}[\sum_{t=0}^T \nabla_\Omega \log \pi_\Omega(\theta_t | s_t) R_t]\)</span>$</p>
+<p>where <span class="arithmatex">\(R_t = \sum_{t'=t}^T r_{t'}\)</span> is the return from time <span class="arithmatex">\(t\)</span>.</p>
+<p><strong>Update</strong>: Gradient ascent on particle memory:</p>
+<ul>
+<li>Add particles where policy needs reinforcement</li>
+<li>Remove particles where policy is suboptimal</li>
+<li>Adjust weights to increase expected return</li>
+</ul>
+<hr />
+<h3 id="62-challenges">6.2 Challenges<a class="headerlink" href="#62-challenges" title="Permanent link">&para;</a></h3>
+<p><strong>Problem 1</strong>: Computing <span class="arithmatex">\(\nabla_\Omega \log \pi_\Omega(\theta | s)\)</span> is non-trivial—policy is implicit (via GPR + Langevin).</p>
+<p><strong>Problem 2</strong>: High variance (standard policy gradient issue).</p>
+<p><strong>Solution</strong>: Use <strong>score matching</strong> or <strong>diffusion models</strong> to learn <span class="arithmatex">\(\nabla_\theta \log \pi(\theta | s)\)</span> directly.</p>
+<p><strong>This is an active research direction!</strong> (Connect to modern diffusion-based RL: Diffusion-QL, Diffuser, Decision Diffusion, etc.)</p>
+<hr />
+<h2 id="7-alternative-learning-mechanisms-beyond-sarsa">7. Alternative Learning Mechanisms Beyond SARSA<a class="headerlink" href="#7-alternative-learning-mechanisms-beyond-sarsa" title="Permanent link">&para;</a></h2>
+<h3 id="71-q-learning-in-rkhs">7.1 Q-Learning in RKHS<a class="headerlink" href="#71-q-learning-in-rkhs" title="Permanent link">&para;</a></h3>
+<p><strong>Replace</strong> SARSA's on-policy update with Q-learning's off-policy update:</p>
+<p><strong>Original SARSA</strong>:
+$<span class="arithmatex">\(\delta = r + \gamma Q(s', a') - Q(s, a) \quad \text{(uses actual next action } a'\text{)}\)</span>$</p>
+<p><strong>Q-Learning</strong>:
+$<span class="arithmatex">\(\delta = r + \gamma \max_{a'} Q(s', a') - Q(s, a) \quad \text{(uses max over actions)}\)</span>$</p>
+<p><strong>For continuous actions</strong>: Replace <span class="arithmatex">\(\max_{a'}\)</span> with optimization:
+$<span class="arithmatex">\(\theta^* = \arg\max_\theta Q^+(s', \theta)\)</span>$</p>
+<p>Use gradient ascent or Langevin sampling to find <span class="arithmatex">\(\theta^*\)</span>.</p>
+<p><strong>Advantage</strong>: Off-policy (can reuse experience, more sample-efficient).</p>
+<p><strong>Limitation</strong>: Still requires optimization at each step (costly).</p>
+<hr />
+<h3 id="72-model-based-dyna-style-planning">7.2 Model-Based: Dyna-Style Planning<a class="headerlink" href="#72-model-based-dyna-style-planning" title="Permanent link">&para;</a></h3>
+<p><strong>Idea</strong>: Use particle memory as a forward model, perform planning.</p>
+<p><strong>Dyna-Q analog for GRL</strong>:</p>
+<ol>
+<li><strong>Direct learning</strong>: Update <span class="arithmatex">\(\Omega\)</span> from real experience (as in RF-SARSA)</li>
+<li><strong>Model learning</strong>: Particles encode transitions <span class="arithmatex">\((s, \theta) \to (r, s')\)</span></li>
+<li><strong>Planning</strong>: Simulate trajectories using particle memory</li>
+<li>Query <span class="arithmatex">\(Q^+(s, \theta)\)</span> to predict <span class="arithmatex">\(r\)</span></li>
+<li>Use GP to predict <span class="arithmatex">\(s'\)</span> (if we model transition dynamics)</li>
+<li>Perform TD updates on simulated experience</li>
+</ol>
+<p><strong>Advantage</strong>: Sample efficiency (real experience + simulated).</p>
+<p><strong>Limitation</strong>: Requires modeling <span class="arithmatex">\(p(s' | s, \theta)\)</span>, not just <span class="arithmatex">\(Q^+\)</span>.</p>
+<hr />
+<h3 id="73-successor-representations">7.3 Successor Representations<a class="headerlink" href="#73-successor-representations" title="Permanent link">&para;</a></h3>
+<p><strong>Idea</strong>: Decouple environment dynamics from reward.</p>
+<p><strong>Successor representation</strong>:
+$<span class="arithmatex">\(\psi(s, \theta) = \mathbb{E}[\sum_{t=0}^\infty \gamma^t \phi(s_t) \mid s_0 = s, \theta_0 = \theta]\)</span>$</p>
+<p>where <span class="arithmatex">\(\phi(s)\)</span> are state features.</p>
+<p><strong>Value function</strong>:
+$<span class="arithmatex">\(Q^+(s, \theta) = \psi(s, \theta)^\top w\)</span>$</p>
+<p>where <span class="arithmatex">\(w\)</span> are reward weights.</p>
+<p><strong>Advantage</strong>: Transfer learning (reuse <span class="arithmatex">\(\psi\)</span> for new reward functions <span class="arithmatex">\(w\)</span>).</p>
+<p><strong>GRL connection</strong>: Can represent <span class="arithmatex">\(\psi\)</span> via particles in RKHS!</p>
+<hr />
+<h2 id="8-practical-recommendations">8. Practical Recommendations<a class="headerlink" href="#8-practical-recommendations" title="Permanent link">&para;</a></h2>
+<h3 id="81-decision-tree-which-approach-to-use">8.1 Decision Tree: Which Approach to Use?<a class="headerlink" href="#81-decision-tree-which-approach-to-use" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>Is action space discrete with &lt; 100 actions?
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>├─ YES → Use original RF-SARSA (Chapter 7)
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>└─ NO → Is action dimensionality high (d_a &gt; 5)?
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    ├─ YES → Use Actor-Critic in RKHS (Solution 2)
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    │        Efficient sampling, scalable
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    └─ NO → Is gradient computation feasible?
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        ├─ YES → Use Continuous RF-SARSA with Langevin (Solution 1)
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>        │        Principled, no extra networks
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>        └─ NO → Use Learned Embeddings (Solution 3) or
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>                 Hierarchical Discovery (Solution 4)
+</span></code></pre></div>
+<hr />
+<h3 id="82-hybrid-approach-recommended">8.2 Hybrid Approach (Recommended)<a class="headerlink" href="#82-hybrid-approach-recommended" title="Permanent link">&para;</a></h3>
+<p><strong>Best of both worlds</strong>: Combine solutions!</p>
+<p><strong>Stage 1: Exploration</strong> (Episodes 1-100)
+- Use Langevin sampling (Solution 1) for pure exploration
+- Build diverse particle memory</p>
+<p><strong>Stage 2: Discovery</strong> (Episodes 100-200)
+- Cluster actions (Solution 4) to find structure
+- Use discovered discrete actions for efficiency</p>
+<p><strong>Stage 3: Exploitation</strong> (Episodes 200+)
+- Use Actor-Critic (Solution 2) with structured embedding
+- Fine-tune via continuous Langevin when needed</p>
+<hr />
+<h2 id="9-implementation-continuous-rf-sarsa">9. Implementation: Continuous RF-SARSA<a class="headerlink" href="#9-implementation-continuous-rf-sarsa" title="Permanent link">&para;</a></h2>
+<p>Here's a complete implementation of Solution 1:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">ContinuousRFSARSA</span><span class="p">:</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;RF-SARSA without discrete actions: pure Langevin sampling.&quot;&quot;&quot;</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">lambda_temp</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">K_sample</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> 
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>                 <span class="n">gamma</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">T_ard</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>  <span class="c1"># Langevin step size</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_temp</span> <span class="o">=</span> <span class="n">lambda_temp</span>  <span class="c1"># Temperature</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">K_sample</span> <span class="o">=</span> <span class="n">K_sample</span>  <span class="c1"># Langevin iterations</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">gamma</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">tau</span> <span class="o">=</span> <span class="n">tau</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">T_ard</span> <span class="o">=</span> <span class="n">T_ard</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># (z, y) pairs</span>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">t_ard</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">q_plus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Query Q+(s, θ) via GPR.&quot;&quot;&quot;</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a>            <span class="k">return</span> <span class="mf">0.0</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24" href="#__codelineno-7-24"></a>        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">])</span>
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25" href="#__codelineno-7-25"></a>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26" href="#__codelineno-7-26"></a>        <span class="c1"># GP prediction (assuming precomputed alpha coefficients)</span>
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27" href="#__codelineno-7-27"></a>        <span class="n">k_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">])</span>
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28" href="#__codelineno-7-28"></a>        <span class="k">return</span> <span class="n">k_vec</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_gpr</span>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29" href="#__codelineno-7-29"></a>
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30" href="#__codelineno-7-30"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">grad_q_plus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">):</span>
+</span><span id="__span-7-31"><a id="__codelineno-7-31" name="__codelineno-7-31" href="#__codelineno-7-31"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute ∇_θ Q+(s, θ) via Riesz representer.&quot;&quot;&quot;</span>
+</span><span id="__span-7-32"><a id="__codelineno-7-32" name="__codelineno-7-32" href="#__codelineno-7-32"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-7-33"><a id="__codelineno-7-33" name="__codelineno-7-33" href="#__codelineno-7-33"></a>            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+</span><span id="__span-7-34"><a id="__codelineno-7-34" name="__codelineno-7-34" href="#__codelineno-7-34"></a>
+</span><span id="__span-7-35"><a id="__codelineno-7-35" name="__codelineno-7-35" href="#__codelineno-7-35"></a>        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">])</span>
+</span><span id="__span-7-36"><a id="__codelineno-7-36" name="__codelineno-7-36" href="#__codelineno-7-36"></a>        <span class="n">d_s</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span id="__span-7-37"><a id="__codelineno-7-37" name="__codelineno-7-37" href="#__codelineno-7-37"></a>
+</span><span id="__span-7-38"><a id="__codelineno-7-38" name="__codelineno-7-38" href="#__codelineno-7-38"></a>        <span class="c1"># Gradient via kernel derivatives</span>
+</span><span id="__span-7-39"><a id="__codelineno-7-39" name="__codelineno-7-39" href="#__codelineno-7-39"></a>        <span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+</span><span id="__span-7-40"><a id="__codelineno-7-40" name="__codelineno-7-40" href="#__codelineno-7-40"></a>        <span class="k">for</span> <span class="p">(</span><span class="n">z_i</span><span class="p">,</span> <span class="n">q_i</span><span class="p">),</span> <span class="n">alpha_i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha_gpr</span><span class="p">):</span>
+</span><span id="__span-7-41"><a id="__codelineno-7-41" name="__codelineno-7-41" href="#__codelineno-7-41"></a>            <span class="c1"># ∂k(z, z_i)/∂θ (assuming RBF kernel)</span>
+</span><span id="__span-7-42"><a id="__codelineno-7-42" name="__codelineno-7-42" href="#__codelineno-7-42"></a>            <span class="n">diff</span> <span class="o">=</span> <span class="n">z</span> <span class="o">-</span> <span class="n">z_i</span>
+</span><span id="__span-7-43"><a id="__codelineno-7-43" name="__codelineno-7-43" href="#__codelineno-7-43"></a>            <span class="n">k_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">z_i</span><span class="p">)</span>
+</span><span id="__span-7-44"><a id="__codelineno-7-44" name="__codelineno-7-44" href="#__codelineno-7-44"></a>            <span class="n">grad_k</span> <span class="o">=</span> <span class="o">-</span><span class="n">diff</span><span class="p">[</span><span class="n">d_s</span><span class="p">:]</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">lengthscale</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">k_val</span>
+</span><span id="__span-7-45"><a id="__codelineno-7-45" name="__codelineno-7-45" href="#__codelineno-7-45"></a>            <span class="n">grad</span> <span class="o">+=</span> <span class="n">alpha_i</span> <span class="o">*</span> <span class="n">grad_k</span>
+</span><span id="__span-7-46"><a id="__codelineno-7-46" name="__codelineno-7-46" href="#__codelineno-7-46"></a>
+</span><span id="__span-7-47"><a id="__codelineno-7-47" name="__codelineno-7-47" href="#__codelineno-7-47"></a>        <span class="k">return</span> <span class="n">grad</span>
+</span><span id="__span-7-48"><a id="__codelineno-7-48" name="__codelineno-7-48" href="#__codelineno-7-48"></a>
+</span><span id="__span-7-49"><a id="__codelineno-7-49" name="__codelineno-7-49" href="#__codelineno-7-49"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">sample_action_langevin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+</span><span id="__span-7-50"><a id="__codelineno-7-50" name="__codelineno-7-50" href="#__codelineno-7-50"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Sample action via Langevin dynamics on Q+ field.&quot;&quot;&quot;</span>
+</span><span id="__span-7-51"><a id="__codelineno-7-51" name="__codelineno-7-51" href="#__codelineno-7-51"></a>        <span class="c1"># Initialize randomly</span>
+</span><span id="__span-7-52"><a id="__codelineno-7-52" name="__codelineno-7-52" href="#__codelineno-7-52"></a>        <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_dim</span><span class="p">)</span>
+</span><span id="__span-7-53"><a id="__codelineno-7-53" name="__codelineno-7-53" href="#__codelineno-7-53"></a>
+</span><span id="__span-7-54"><a id="__codelineno-7-54" name="__codelineno-7-54" href="#__codelineno-7-54"></a>        <span class="c1"># Langevin iterations</span>
+</span><span id="__span-7-55"><a id="__codelineno-7-55" name="__codelineno-7-55" href="#__codelineno-7-55"></a>        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">K_sample</span><span class="p">):</span>
+</span><span id="__span-7-56"><a id="__codelineno-7-56" name="__codelineno-7-56" href="#__codelineno-7-56"></a>            <span class="n">grad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_q_plus</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+</span><span id="__span-7-57"><a id="__codelineno-7-57" name="__codelineno-7-57" href="#__codelineno-7-57"></a>            <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">*</span> <span class="n">grad</span> <span class="o">+</span> \
+</span><span id="__span-7-58"><a id="__codelineno-7-58" name="__codelineno-7-58" href="#__codelineno-7-58"></a>                    <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_temp</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_dim</span><span class="p">)</span>
+</span><span id="__span-7-59"><a id="__codelineno-7-59" name="__codelineno-7-59" href="#__codelineno-7-59"></a>
+</span><span id="__span-7-60"><a id="__codelineno-7-60" name="__codelineno-7-60" href="#__codelineno-7-60"></a>        <span class="k">return</span> <span class="n">theta</span>
+</span><span id="__span-7-61"><a id="__codelineno-7-61" name="__codelineno-7-61" href="#__codelineno-7-61"></a>
+</span><span id="__span-7-62"><a id="__codelineno-7-62" name="__codelineno-7-62" href="#__codelineno-7-62"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s_next</span><span class="p">,</span> <span class="n">theta_next</span><span class="p">):</span>
+</span><span id="__span-7-63"><a id="__codelineno-7-63" name="__codelineno-7-63" href="#__codelineno-7-63"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Continuous RF-SARSA update.&quot;&quot;&quot;</span>
+</span><span id="__span-7-64"><a id="__codelineno-7-64" name="__codelineno-7-64" href="#__codelineno-7-64"></a>        <span class="c1"># Query field for TD</span>
+</span><span id="__span-7-65"><a id="__codelineno-7-65" name="__codelineno-7-65" href="#__codelineno-7-65"></a>        <span class="n">Q_current</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_plus</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+</span><span id="__span-7-66"><a id="__codelineno-7-66" name="__codelineno-7-66" href="#__codelineno-7-66"></a>        <span class="n">Q_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q_plus</span><span class="p">(</span><span class="n">s_next</span><span class="p">,</span> <span class="n">theta_next</span><span class="p">)</span>
+</span><span id="__span-7-67"><a id="__codelineno-7-67" name="__codelineno-7-67" href="#__codelineno-7-67"></a>
+</span><span id="__span-7-68"><a id="__codelineno-7-68" name="__codelineno-7-68" href="#__codelineno-7-68"></a>        <span class="c1"># TD error</span>
+</span><span id="__span-7-69"><a id="__codelineno-7-69" name="__codelineno-7-69" href="#__codelineno-7-69"></a>        <span class="n">delta</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">Q_next</span> <span class="o">-</span> <span class="n">Q_current</span>
+</span><span id="__span-7-70"><a id="__codelineno-7-70" name="__codelineno-7-70" href="#__codelineno-7-70"></a>
+</span><span id="__span-7-71"><a id="__codelineno-7-71" name="__codelineno-7-71" href="#__codelineno-7-71"></a>        <span class="c1"># TD target (bootstrap from field, not from Q-table!)</span>
+</span><span id="__span-7-72"><a id="__codelineno-7-72" name="__codelineno-7-72" href="#__codelineno-7-72"></a>        <span class="n">y</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">Q_next</span>
+</span><span id="__span-7-73"><a id="__codelineno-7-73" name="__codelineno-7-73" href="#__codelineno-7-73"></a>
+</span><span id="__span-7-74"><a id="__codelineno-7-74" name="__codelineno-7-74" href="#__codelineno-7-74"></a>        <span class="c1"># Form particle</span>
+</span><span id="__span-7-75"><a id="__codelineno-7-75" name="__codelineno-7-75" href="#__codelineno-7-75"></a>        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">])</span>
+</span><span id="__span-7-76"><a id="__codelineno-7-76" name="__codelineno-7-76" href="#__codelineno-7-76"></a>        <span class="n">particle</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span><span id="__span-7-77"><a id="__codelineno-7-77" name="__codelineno-7-77" href="#__codelineno-7-77"></a>
+</span><span id="__span-7-78"><a id="__codelineno-7-78" name="__codelineno-7-78" href="#__codelineno-7-78"></a>        <span class="c1"># MemoryUpdate</span>
+</span><span id="__span-7-79"><a id="__codelineno-7-79" name="__codelineno-7-79" href="#__codelineno-7-79"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">particles</span> <span class="o">=</span> <span class="n">memory_update</span><span class="p">(</span><span class="n">particle</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tau</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">)</span>
+</span><span id="__span-7-80"><a id="__codelineno-7-80" name="__codelineno-7-80" href="#__codelineno-7-80"></a>
+</span><span id="__span-7-81"><a id="__codelineno-7-81" name="__codelineno-7-81" href="#__codelineno-7-81"></a>        <span class="c1"># Periodic ARD</span>
+</span><span id="__span-7-82"><a id="__codelineno-7-82" name="__codelineno-7-82" href="#__codelineno-7-82"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">t_ard</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span id="__span-7-83"><a id="__codelineno-7-83" name="__codelineno-7-83" href="#__codelineno-7-83"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">t_ard</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">T_ard</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-7-84"><a id="__codelineno-7-84" name="__codelineno-7-84" href="#__codelineno-7-84"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">update_kernel_hyperparameters</span><span class="p">()</span>
+</span><span id="__span-7-85"><a id="__codelineno-7-85" name="__codelineno-7-85" href="#__codelineno-7-85"></a>
+</span><span id="__span-7-86"><a id="__codelineno-7-86" name="__codelineno-7-86" href="#__codelineno-7-86"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">update_kernel_hyperparameters</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-7-87"><a id="__codelineno-7-87" name="__codelineno-7-87" href="#__codelineno-7-87"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Run ARD to update kernel lengthscales.&quot;&quot;&quot;</span>
+</span><span id="__span-7-88"><a id="__codelineno-7-88" name="__codelineno-7-88" href="#__codelineno-7-88"></a>        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+</span><span id="__span-7-89"><a id="__codelineno-7-89" name="__codelineno-7-89" href="#__codelineno-7-89"></a>            <span class="k">return</span>  <span class="c1"># Need sufficient data</span>
+</span><span id="__span-7-90"><a id="__codelineno-7-90" name="__codelineno-7-90" href="#__codelineno-7-90"></a>
+</span><span id="__span-7-91"><a id="__codelineno-7-91" name="__codelineno-7-91" href="#__codelineno-7-91"></a>        <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">])</span>
+</span><span id="__span-7-92"><a id="__codelineno-7-92" name="__codelineno-7-92" href="#__codelineno-7-92"></a>        <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">particles</span><span class="p">])</span>
+</span><span id="__span-7-93"><a id="__codelineno-7-93" name="__codelineno-7-93" href="#__codelineno-7-93"></a>
+</span><span id="__span-7-94"><a id="__codelineno-7-94" name="__codelineno-7-94" href="#__codelineno-7-94"></a>        <span class="c1"># Fit GP with ARD</span>
+</span><span id="__span-7-95"><a id="__codelineno-7-95" name="__codelineno-7-95" href="#__codelineno-7-95"></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegressor</span>
+</span><span id="__span-7-96"><a id="__codelineno-7-96" name="__codelineno-7-96" href="#__codelineno-7-96"></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">RBF</span>
+</span><span id="__span-7-97"><a id="__codelineno-7-97" name="__codelineno-7-97" href="#__codelineno-7-97"></a>
+</span><span id="__span-7-98"><a id="__codelineno-7-98" name="__codelineno-7-98" href="#__codelineno-7-98"></a>        <span class="n">kernel</span> <span class="o">=</span> <span class="n">RBF</span><span class="p">(</span><span class="n">length_scale</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">length_scale_bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e2</span><span class="p">))</span>
+</span><span id="__span-7-99"><a id="__codelineno-7-99" name="__codelineno-7-99" href="#__codelineno-7-99"></a>        <span class="n">gp</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
+</span><span id="__span-7-100"><a id="__codelineno-7-100" name="__codelineno-7-100" href="#__codelineno-7-100"></a>        <span class="n">gp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+</span><span id="__span-7-101"><a id="__codelineno-7-101" name="__codelineno-7-101" href="#__codelineno-7-101"></a>
+</span><span id="__span-7-102"><a id="__codelineno-7-102" name="__codelineno-7-102" href="#__codelineno-7-102"></a>        <span class="c1"># Update kernel</span>
+</span><span id="__span-7-103"><a id="__codelineno-7-103" name="__codelineno-7-103" href="#__codelineno-7-103"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">set_lengthscales</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">length_scale</span><span class="p">)</span>
+</span><span id="__span-7-104"><a id="__codelineno-7-104" name="__codelineno-7-104" href="#__codelineno-7-104"></a>
+</span><span id="__span-7-105"><a id="__codelineno-7-105" name="__codelineno-7-105" href="#__codelineno-7-105"></a>        <span class="c1"># Recompute GPR coefficients</span>
+</span><span id="__span-7-106"><a id="__codelineno-7-106" name="__codelineno-7-106" href="#__codelineno-7-106"></a>        <span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+</span><span id="__span-7-107"><a id="__codelineno-7-107" name="__codelineno-7-107" href="#__codelineno-7-107"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">alpha_gpr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">K</span> <span class="o">+</span> <span class="mf">1e-6</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">Z</span><span class="p">)),</span> <span class="n">q</span><span class="p">)</span>
+</span><span id="__span-7-108"><a id="__codelineno-7-108" name="__codelineno-7-108" href="#__codelineno-7-108"></a>
+</span><span id="__span-7-109"><a id="__codelineno-7-109" name="__codelineno-7-109" href="#__codelineno-7-109"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">n_episodes</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+</span><span id="__span-7-110"><a id="__codelineno-7-110" name="__codelineno-7-110" href="#__codelineno-7-110"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Training loop.&quot;&quot;&quot;</span>
+</span><span id="__span-7-111"><a id="__codelineno-7-111" name="__codelineno-7-111" href="#__codelineno-7-111"></a>        <span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_episodes</span><span class="p">):</span>
+</span><span id="__span-7-112"><a id="__codelineno-7-112" name="__codelineno-7-112" href="#__codelineno-7-112"></a>            <span class="n">s</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</span><span id="__span-7-113"><a id="__codelineno-7-113" name="__codelineno-7-113" href="#__codelineno-7-113"></a>            <span class="n">theta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_action_langevin</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span id="__span-7-114"><a id="__codelineno-7-114" name="__codelineno-7-114" href="#__codelineno-7-114"></a>
+</span><span id="__span-7-115"><a id="__codelineno-7-115" name="__codelineno-7-115" href="#__codelineno-7-115"></a>            <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="__span-7-116"><a id="__codelineno-7-116" name="__codelineno-7-116" href="#__codelineno-7-116"></a>            <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+</span><span id="__span-7-117"><a id="__codelineno-7-117" name="__codelineno-7-117" href="#__codelineno-7-117"></a>                <span class="c1"># Execute</span>
+</span><span id="__span-7-118"><a id="__codelineno-7-118" name="__codelineno-7-118" href="#__codelineno-7-118"></a>                <span class="n">s_next</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+</span><span id="__span-7-119"><a id="__codelineno-7-119" name="__codelineno-7-119" href="#__codelineno-7-119"></a>
+</span><span id="__span-7-120"><a id="__codelineno-7-120" name="__codelineno-7-120" href="#__codelineno-7-120"></a>                <span class="c1"># Next action</span>
+</span><span id="__span-7-121"><a id="__codelineno-7-121" name="__codelineno-7-121" href="#__codelineno-7-121"></a>                <span class="n">theta_next</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sample_action_langevin</span><span class="p">(</span><span class="n">s_next</span><span class="p">)</span>
+</span><span id="__span-7-122"><a id="__codelineno-7-122" name="__codelineno-7-122" href="#__codelineno-7-122"></a>
+</span><span id="__span-7-123"><a id="__codelineno-7-123" name="__codelineno-7-123" href="#__codelineno-7-123"></a>                <span class="c1"># Update</span>
+</span><span id="__span-7-124"><a id="__codelineno-7-124" name="__codelineno-7-124" href="#__codelineno-7-124"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s_next</span><span class="p">,</span> <span class="n">theta_next</span><span class="p">)</span>
+</span><span id="__span-7-125"><a id="__codelineno-7-125" name="__codelineno-7-125" href="#__codelineno-7-125"></a>
+</span><span id="__span-7-126"><a id="__codelineno-7-126" name="__codelineno-7-126" href="#__codelineno-7-126"></a>                <span class="c1"># Advance</span>
+</span><span id="__span-7-127"><a id="__codelineno-7-127" name="__codelineno-7-127" href="#__codelineno-7-127"></a>                <span class="n">s</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">s_next</span><span class="p">,</span> <span class="n">theta_next</span>
+</span><span id="__span-7-128"><a id="__codelineno-7-128" name="__codelineno-7-128" href="#__codelineno-7-128"></a>
+</span><span id="__span-7-129"><a id="__codelineno-7-129" name="__codelineno-7-129" href="#__codelineno-7-129"></a>            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Episode </span><span class="si">{</span><span class="n">episode</span><span class="si">}</span><span class="s2">: Total reward = </span><span class="si">{</span><span class="n">env</span><span class="o">.</span><span class="n">episode_return</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="10-summary">10. Summary<a class="headerlink" href="#10-summary" title="Permanent link">&para;</a></h2>
+<h3 id="101-the-discrete-action-bottleneck">10.1 The Discrete Action Bottleneck<a class="headerlink" href="#101-the-discrete-action-bottleneck" title="Permanent link">&para;</a></h3>
+<p>RF-SARSA (Chapter 7) requires discrete primitive actions, creating limitations:</p>
+<ul>
+<li>Manual action mapping needed</li>
+<li>Curse of dimensionality for high-d actions</li>
+<li>Suboptimal actions (discrete approximation of continuous space)</li>
+</ul>
+<h3 id="102-five-solutions">10.2 Five Solutions<a class="headerlink" href="#102-five-solutions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Solution</th>
+<th>Key Idea</th>
+<th>Advantages</th>
+<th>Limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. Continuous SARSA</strong></td>
+<td>Langevin sampling on field</td>
+<td>Principled, no manual design</td>
+<td>Gradient computation, convergence</td>
+</tr>
+<tr>
+<td><strong>2. Actor-Critic in RKHS</strong></td>
+<td>Parametric policy + particle critic</td>
+<td>Efficient sampling, scalable</td>
+<td>Parametric policy, instability risk</td>
+</tr>
+<tr>
+<td><strong>3. Learned Embeddings</strong></td>
+<td>Learn action representation jointly</td>
+<td>Adaptive, discovers structure</td>
+<td>Non-stationary, requires experience</td>
+</tr>
+<tr>
+<td><strong>4. Hierarchical Discovery</strong></td>
+<td>Cluster actions automatically</td>
+<td>Data-driven, enables hierarchy</td>
+<td>K selection, non-stationary</td>
+</tr>
+<tr>
+<td><strong>5. Direct Optimization</strong></td>
+<td>Policy gradient on field</td>
+<td>No TD needed</td>
+<td>High variance, complex</td>
+</tr>
+</tbody>
+</table>
+<h3 id="103-practical-recommendations">10.3 Practical Recommendations<a class="headerlink" href="#103-practical-recommendations" title="Permanent link">&para;</a></h3>
+<p><strong>For most problems</strong>: Start with <strong>Continuous SARSA</strong> (Solution 1) or <strong>Actor-Critic</strong> (Solution 2).</p>
+<p><strong>Hybrid approach</strong>: Combine exploration (Langevin) → discovery (clustering) → exploitation (actor-critic).</p>
+<h3 id="104-beyond-sarsa">10.4 Beyond SARSA<a class="headerlink" href="#104-beyond-sarsa" title="Permanent link">&para;</a></h3>
+<p>Alternative learning mechanisms:</p>
+<ul>
+<li><strong>Q-Learning in RKHS</strong>: Off-policy, sample-efficient</li>
+<li><strong>Dyna-style planning</strong>: Model-based, simulate with particles</li>
+<li><strong>Successor representations</strong>: Transfer learning across reward functions</li>
+</ul>
+<hr />
+<h2 id="11-key-takeaways">11. Key Takeaways<a class="headerlink" href="#11-key-takeaways" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p><strong>Original RF-SARSA has a discrete action bottleneck</strong> requiring manual mapping <span class="arithmatex">\(f_{A^+}\)</span></p>
+</li>
+<li>
+<p><strong>Continuous SARSA via Langevin</strong> eliminates discrete actions entirely—sample directly from field</p>
+</li>
+<li>
+<p><strong>Actor-Critic in RKHS</strong> combines efficiency (neural network policy) with non-parametric critic (particles)</p>
+</li>
+<li>
+<p><strong>Learned embeddings</strong> remove manual design—discover action structure from data</p>
+</li>
+<li>
+<p><strong>Hierarchical discovery</strong> via clustering enables data-driven action spaces</p>
+</li>
+<li>
+<p><strong>SARSA is not the only way</strong>—Q-learning, model-based, policy gradients all viable</p>
+</li>
+<li>
+<p><strong>The least action principle</strong> (Chapter 03a) provides theoretical foundation for Langevin-based continuous RL</p>
+</li>
+</ol>
+<hr />
+<h2 id="12-open-research-questions">12. Open Research Questions<a class="headerlink" href="#12-open-research-questions" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p><strong>Convergence theory for continuous RF-SARSA</strong>: Does Langevin + TD converge? Under what conditions?</p>
+</li>
+<li>
+<p><strong>Optimal exploration in continuous actions</strong>: How to balance Langevin temperature vs. ARD adaptation?</p>
+</li>
+<li>
+<p><strong>Sparse particle representations</strong>: Can we maintain performance with fewer particles in continuous action spaces?</p>
+</li>
+<li>
+<p><strong>Hierarchical GRL</strong>: How to discover and learn action hierarchies automatically?</p>
+</li>
+<li>
+<p><strong>Transfer learning</strong>: Can learned action embeddings transfer across tasks?</p>
+</li>
+</ol>
+<hr />
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<p><strong>Continuous Action RL</strong>:</p>
+<ul>
+<li>Lillicrap, T. P., et al. (2016). "Continuous control with deep reinforcement learning" (DDPG). <em>ICLR</em>.</li>
+<li>Haarnoja, T., et al. (2018). "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor" (SAC). <em>ICML</em>.</li>
+</ul>
+<p><strong>Langevin Dynamics for RL</strong>:</p>
+<ul>
+<li>Levine, S. (2018). "Reinforcement learning and control as probabilistic inference: Tutorial and review." <em>arXiv:1805.00909</em>.</li>
+<li>Ajay, A., et al. (2023). "Is conditional generative modeling all you need for decision making?" <em>ICLR</em> (Diffusion-QL).</li>
+</ul>
+<p><strong>Action Embeddings</strong>:</p>
+<ul>
+<li>van den Oord, A., Li, Y., &amp; Vinyals, O. (2018). "Representation learning with contrastive predictive coding." <em>arXiv:1807.03748</em>.</li>
+<li>Kipf, T., et al. (2020). "Contrastive learning of structured world models." <em>ICLR</em>.</li>
+</ul>
+<p><strong>Options Framework</strong>:</p>
+<ul>
+<li>Sutton, R. S., Precup, D., &amp; Singh, S. (1999). "Between MDPs and semi-MDPs: A framework for temporal abstraction in reinforcement learning." <em>Artificial Intelligence</em>.</li>
+</ul>
+<hr />
+<p><strong><a href="../07-rf-sarsa/">← Back to Chapter 07: RF-SARSA</a></strong> | <strong><a href="">Next: Chapter 08 →</a></strong></p>
+<p><strong><a href="../03a-least-action-principle/">Related: Chapter 03a - Least Action Principle</a></strong> | <strong><a href="../04a-riesz-representer/">Related: Chapter 04a - Riesz Representer</a></strong></p>
+<hr />
+<p><strong>Last Updated</strong>: January 14, 2026</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

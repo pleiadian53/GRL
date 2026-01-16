@@ -1,0 +1,4287 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/tutorials/06-memory-update/">
+      
+      
+        <link rel="prev" href="../05-particle-memory/">
+      
+      
+        <link rel="next" href="../06a-advanced-memory-dynamics/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Ch 6: MemoryUpdate - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-6-memoryupdate-the-agents-belief-transition" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ch 6: MemoryUpdate
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03a-least-action-principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-chapter-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Chapter Matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem-how-should-an-agent-update-its-beliefs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem: How Should an Agent Update Its Beliefs?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Problem: How Should an Agent Update Its Beliefs?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traditional-rl-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traditional RL Approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grl-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL Approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-memoryupdate-does-conceptual-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What MemoryUpdate Does (Conceptual View)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What MemoryUpdate Does (Conceptual View)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-particle-instantiation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Particle Instantiation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-geometric-association" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Geometric Association
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-energy-functional-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Energy Functional Maintenance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Memory Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algorithm-1-memoryupdate-formal-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 1: MemoryUpdate (Formal Specification)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Algorithm 1: MemoryUpdate (Formal Specification)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm Steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#line-by-line-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Line-by-Line Interpretation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Line-by-Line Interpretation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-particle-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Particle Construction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-kernel-association" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Kernel Association
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-energy-contribution-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Energy Contribution Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-memory-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Memory Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-association-driven-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Association-Driven Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-memory-regularization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Memory Regularization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-1d-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Example: 1D Navigation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Worked Example: 1D Navigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Experience
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-Step Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Changed?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-memoryupdate-is-instrumental-not-just-representational" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why MemoryUpdate Is Instrumental (Not Just Representational)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why MemoryUpdate Is Instrumental (Not Just Representational)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-memoryupdate-enables-policy-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. MemoryUpdate Enables Policy Inference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-memoryupdate-implements-reinforcement-propagation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. MemoryUpdate Implements Reinforcement Propagation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-memoryupdate-induces-soft-state-transitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. MemoryUpdate Induces Soft State Transitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-memoryupdate-is-the-pomdp-belief-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. MemoryUpdate Is the POMDP Belief Update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-to-other-grl-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to Other GRL Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection to Other GRL Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memoryupdate-reinforcement-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MemoryUpdate + Reinforcement Field
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memoryupdate-particle-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MemoryUpdate + Particle Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memoryupdate-rf-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MemoryUpdate + RF-SARSA
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-misconceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Misconceptions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Misconceptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#misconception-1-memoryupdate-is-just-experience-replay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Misconception 1: "MemoryUpdate Is Just Experience Replay"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misconception-2-kernel-association-is-just-nearest-neighbor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Misconception 2: "Kernel Association Is Just Nearest-Neighbor"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misconception-3-memoryupdate-only-affects-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Misconception 3: "MemoryUpdate Only Affects Memory"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misconception-4-step-5-association-driven-adjustment-is-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Misconception 4: "Step 5 (Association-Driven Adjustment) Is Optional"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-computational-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Computational Complexity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-hyperparameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Hyperparameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-implementation-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Implementation Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualization-field-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualization: Field Evolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Visualization: Field Evolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initial-state-2-particles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial State (2 particles)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-new-experience-3-particles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        After New Experience (3 particles)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memoryupdate-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MemoryUpdate Is...
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#looking-ahead" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Looking Ahead
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Further Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#within-this-tutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Within This Tutorial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-chapters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Chapters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Topics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#original-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Original Paper
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07a-continuous-policy-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-this-chapter-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why This Chapter Matters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-problem-how-should-an-agent-update-its-beliefs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Problem: How Should an Agent Update Its Beliefs?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Problem: How Should an Agent Update Its Beliefs?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#traditional-rl-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Traditional RL Approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grl-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL Approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-memoryupdate-does-conceptual-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What MemoryUpdate Does (Conceptual View)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What MemoryUpdate Does (Conceptual View)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-particle-instantiation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Particle Instantiation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-geometric-association" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Geometric Association
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-energy-functional-maintenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Energy Functional Maintenance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-memory-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Memory Management
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algorithm-1-memoryupdate-formal-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm 1: MemoryUpdate (Formal Specification)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Algorithm 1: MemoryUpdate (Formal Specification)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#algorithm-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Algorithm Steps
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#line-by-line-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Line-by-Line Interpretation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Line-by-Line Interpretation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-particle-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Particle Construction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-kernel-association" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Kernel Association
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-energy-contribution-initialization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Energy Contribution Initialization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-memory-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Memory Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-association-driven-adjustment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Association-Driven Adjustment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-memory-regularization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Memory Regularization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#worked-example-1d-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Worked Example: 1D Navigation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Worked Example: 1D Navigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#new-experience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        New Experience
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-by-step-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step-by-Step Execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#what-changed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Changed?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-memoryupdate-is-instrumental-not-just-representational" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why MemoryUpdate Is Instrumental (Not Just Representational)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why MemoryUpdate Is Instrumental (Not Just Representational)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-memoryupdate-enables-policy-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. MemoryUpdate Enables Policy Inference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-memoryupdate-implements-reinforcement-propagation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. MemoryUpdate Implements Reinforcement Propagation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-memoryupdate-induces-soft-state-transitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. MemoryUpdate Induces Soft State Transitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-memoryupdate-is-the-pomdp-belief-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. MemoryUpdate Is the POMDP Belief Update
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#connection-to-other-grl-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection to Other GRL Components
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Connection to Other GRL Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memoryupdate-reinforcement-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MemoryUpdate + Reinforcement Field
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memoryupdate-particle-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MemoryUpdate + Particle Memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#memoryupdate-rf-sarsa" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MemoryUpdate + RF-SARSA
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-misconceptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common Misconceptions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Misconceptions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#misconception-1-memoryupdate-is-just-experience-replay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Misconception 1: "MemoryUpdate Is Just Experience Replay"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misconception-2-kernel-association-is-just-nearest-neighbor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Misconception 2: "Kernel Association Is Just Nearest-Neighbor"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misconception-3-memoryupdate-only-affects-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Misconception 3: "MemoryUpdate Only Affects Memory"
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#misconception-4-step-5-association-driven-adjustment-is-optional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Misconception 4: "Step 5 (Association-Driven Adjustment) Is Optional"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-computational-complexity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Computational Complexity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-hyperparameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Hyperparameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-implementation-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Implementation Tips
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualization-field-evolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualization: Field Evolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Visualization: Field Evolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initial-state-2-particles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initial State (2 particles)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-new-experience-3-particles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        After New Experience (3 particles)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#memoryupdate-is" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MemoryUpdate Is...
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-takeaways" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Takeaways
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#looking-ahead" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Looking Ahead
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Further Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#within-this-tutorial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Within This Tutorial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#next-chapters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Chapters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Topics
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#original-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Original Paper
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/tutorials/06-memory-update.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-6-memoryupdate-the-agents-belief-transition">Chapter 6: MemoryUpdate — The Agent's Belief Transition<a class="headerlink" href="#chapter-6-memoryupdate-the-agents-belief-transition" title="Permanent link">&para;</a></h1>
+<p><strong>Purpose:</strong> Understand how GRL agents evolve their understanding of the world<br />
+<strong>Prerequisites:</strong> Chapters 4 (Reinforcement Field), 5 (Particle Memory)<br />
+<strong>Key Concepts:</strong> Belief update, particle evolution, kernel association, functional memory</p>
+<hr />
+<h2 id="why-this-chapter-matters">Why This Chapter Matters<a class="headerlink" href="#why-this-chapter-matters" title="Permanent link">&para;</a></h2>
+<p>In Chapter 5, we learned that <strong>memory is a functional representation</strong>—a weighted set of experience particles that induce a reinforcement field.</p>
+<p>But how does this representation <strong>change</strong> as the agent experiences new things?</p>
+<p>This chapter introduces <strong>Algorithm 1: MemoryUpdate</strong>—the core mechanism that:</p>
+<ul>
+<li>Converts new experiences into particles</li>
+<li>Associates them with existing knowledge</li>
+<li>Reshapes the energy landscape</li>
+<li>Maintains a tractable particle set</li>
+</ul>
+<p><strong>Critical insight:</strong></p>
+<blockquote>
+<p>MemoryUpdate is not just "memory management"—it is the <strong>belief-state transition operator</strong> of GRL, expressed in RKHS rather than probability space.</p>
+</blockquote>
+<p>Everything downstream (policy inference, reinforcement propagation, soft transitions, POMDP) emerges from this single operation.</p>
+<hr />
+<h2 id="the-problem-how-should-an-agent-update-its-beliefs">The Problem: How Should an Agent Update Its Beliefs?<a class="headerlink" href="#the-problem-how-should-an-agent-update-its-beliefs" title="Permanent link">&para;</a></h2>
+<h3 id="traditional-rl-approach">Traditional RL Approach<a class="headerlink" href="#traditional-rl-approach" title="Permanent link">&para;</a></h3>
+<p>In standard RL, when the agent observes <span class="arithmatex">\((s_t, a_t, r_t, s_{t+1})\)</span>, it updates:</p>
+<ol>
+<li>
+<p><strong>Value function</strong> via Bellman backup:
+   $<span class="arithmatex">\(Q(s, a) \leftarrow Q(s, a) + \alpha [r + \gamma \max_{a'} Q(s', a') - Q(s, a)]\)</span>$</p>
+</li>
+<li>
+<p><strong>Experience buffer</strong> (if using replay):
+   $<span class="arithmatex">\(\text{buffer} \leftarrow \text{buffer} \cup \{(s, a, r, s')\}\)</span>$</p>
+</li>
+<li>
+<p><strong>Policy</strong> (if policy gradient):
+   $<span class="arithmatex">\(\theta \leftarrow \theta + \alpha \nabla_\theta \log \pi_\theta(a|s) \cdot A(s, a)\)</span>$</p>
+</li>
+</ol>
+<p>These are <strong>three separate operations</strong> on <strong>three separate structures</strong>.</p>
+<h3 id="grl-approach">GRL Approach<a class="headerlink" href="#grl-approach" title="Permanent link">&para;</a></h3>
+<p>In GRL, when the agent observes <span class="arithmatex">\((s_t, \theta_t, r_t)\)</span> (remember: actions are parameters <span class="arithmatex">\(\theta\)</span>), it performs <strong>one operation</strong>:</p>
+<div class="arithmatex">\[\text{MemoryUpdate}: \mathcal{M} \rightarrow \mathcal{M}'\]</div>
+<p>This single operation <strong>simultaneously</strong>:</p>
+<ul>
+<li>Updates the agent's belief about the value landscape</li>
+<li>Incorporates new experience into memory</li>
+<li>Reshapes the policy (implicitly, via the field)</li>
+<li>Maintains uncertainty representation</li>
+</ul>
+<p><strong>How?</strong> By operating at the <strong>functional level</strong> in RKHS, not the parametric level.</p>
+<hr />
+<h2 id="what-memoryupdate-does-conceptual-view">What MemoryUpdate Does (Conceptual View)<a class="headerlink" href="#what-memoryupdate-does-conceptual-view" title="Permanent link">&para;</a></h2>
+<p>Before diving into the algorithm, let's understand its four core operations:</p>
+<h3 id="1-particle-instantiation">1. Particle Instantiation<a class="headerlink" href="#1-particle-instantiation" title="Permanent link">&para;</a></h3>
+<p><strong>What:</strong> Convert experience <span class="arithmatex">\((s_t, \theta_t, r_t)\)</span> into an augmented state-action particle</p>
+<div class="arithmatex">\[z_{new} = (s_t, \theta_t)\]</div>
+<p><strong>Why:</strong> This particle is a <strong>hypothesis</strong> about what matters—a point in augmented space where something significant happened.</p>
+<p><strong>Not:</strong> Just storing a tuple. The particle becomes a <strong>functional basis element</strong> in RKHS.</p>
+<hr />
+<h3 id="2-geometric-association">2. Geometric Association<a class="headerlink" href="#2-geometric-association" title="Permanent link">&para;</a></h3>
+<p><strong>What:</strong> Compute how similar the new experience is to existing particles</p>
+<div class="arithmatex">\[a_i = k(z_{new}, z_i) \quad \text{for each } z_i \in \mathcal{M}\]</div>
+<p>where <span class="arithmatex">\(k(\cdot, \cdot)\)</span> is the RKHS kernel over augmented space.</p>
+<p><strong>Why:</strong> This determines:</p>
+<ul>
+<li>How much the new experience <strong>confirms</strong> existing beliefs</li>
+<li>How far its influence should <strong>spread</strong> in the landscape</li>
+<li>Which particles should be <strong>adjusted</strong> in response</li>
+</ul>
+<p><strong>Not:</strong> Nearest-neighbor lookup. Association is <strong>soft</strong>, <strong>global</strong>, and <strong>geometry-aware</strong>.</p>
+<hr />
+<h3 id="3-energy-functional-maintenance">3. Energy Functional Maintenance<a class="headerlink" href="#3-energy-functional-maintenance" title="Permanent link">&para;</a></h3>
+<p><strong>What:</strong> Assign a weight <span class="arithmatex">\(w_{new}\)</span> to the new particle, and optionally adjust weights of associated particles</p>
+<div class="arithmatex">\[w_{new} = g(r_t, \{a_i\})\]</div>
+<p>where <span class="arithmatex">\(g(\cdot)\)</span> maps reinforcement evidence to an energy contribution.</p>
+<p><strong>Why:</strong> Particle weights determine the shape of the energy landscape:</p>
+<div class="arithmatex">\[E(z) = -Q^+(z) = -\sum_i w_i k(z_i, z)\]</div>
+<p>Adjusting weights <strong>reshapes</strong> this landscape to reflect new evidence.</p>
+<p><strong>Not:</strong> Direct value update. We're modifying the <strong>functional representation</strong>, not tabular entries.</p>
+<hr />
+<h3 id="4-memory-management">4. Memory Management<a class="headerlink" href="#4-memory-management" title="Permanent link">&para;</a></h3>
+<p><strong>What:</strong> Prune, merge, or decay particles to maintain bounded complexity</p>
+<p><strong>Why:</strong> Without this, the particle set grows unboundedly and computational cost explodes.</p>
+<p><strong>How:</strong>
+- Attenuate particles with small <span class="arithmatex">\(|w_i|\)</span> (low evidence)
+- Merge particles with high mutual similarity (redundant)
+- Discard particles below relevance threshold (forgetting)</p>
+<p><strong>Not:</strong> Simple replay buffer eviction. This is <strong>functional regularization</strong> + <strong>model selection</strong>.</p>
+<hr />
+<h2 id="algorithm-1-memoryupdate-formal-specification">Algorithm 1: MemoryUpdate (Formal Specification)<a class="headerlink" href="#algorithm-1-memoryupdate-formal-specification" title="Permanent link">&para;</a></h2>
+<p>Now let's see the actual algorithm with precise notation.</p>
+<hr />
+<h3 id="input">Input<a class="headerlink" href="#input" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\mathcal{M}\)</span></td>
+<td>Current particle memory</td>
+<td><span class="arithmatex">\(\{(z_i, w_i)\}_{i=1}^N\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(z_i = (s_i, \theta_i)\)</span></td>
+<td>Augmented state-action particle</td>
+<td><span class="arithmatex">\(z_i \in \mathcal{Z} = \mathcal{S} \times \Theta\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(w_i\)</span></td>
+<td>Particle weight (energy contribution)</td>
+<td><span class="arithmatex">\(w_i \in \mathbb{R}\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\((s_t, \theta_t, r_t)\)</span></td>
+<td>New experience tuple</td>
+<td><span class="arithmatex">\((s_t, \theta_t) \in \mathcal{Z}, r_t \in \mathbb{R}\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(k(\cdot, \cdot)\)</span></td>
+<td>RKHS kernel over augmented space</td>
+<td><span class="arithmatex">\(k: \mathcal{Z} \times \mathcal{Z} \to \mathbb{R}\)</span></td>
+</tr>
+</tbody>
+</table>
+<h3 id="output">Output<a class="headerlink" href="#output" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\mathcal{M}'\)</span></td>
+<td>Updated particle memory</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="algorithm-steps">Algorithm Steps<a class="headerlink" href="#algorithm-steps" title="Permanent link">&para;</a></h3>
+<p><strong>Step 1: Particle Construction</strong></p>
+<p>Form the new augmented particle:</p>
+<div class="arithmatex">\[z_{new} = (s_t, \theta_t)\]</div>
+<hr />
+<p><strong>Step 2: Kernel-Based Association</strong></p>
+<p>For each existing particle <span class="arithmatex">\(z_i \in \mathcal{M}\)</span>, compute similarity:</p>
+<div class="arithmatex">\[a_i = k(z_{new}, z_i)\]</div>
+<p>This creates an <strong>association vector</strong>:</p>
+<div class="arithmatex">\[\mathbf{a} = [a_1, a_2, \ldots, a_N]^T\]</div>
+<hr />
+<p><strong>Step 3: Energy Contribution Initialization</strong></p>
+<p>Assign an initial weight to <span class="arithmatex">\(z_{new}\)</span>, proportional to the reinforcement signal:</p>
+<div class="arithmatex">\[w_{new} = g(r_t, \mathbf{a})\]</div>
+<p><strong>Common choices for <span class="arithmatex">\(g(\cdot)\)</span>:</strong></p>
+<ol>
+<li><strong>Direct reinforcement:</strong> <span class="arithmatex">\(w_{new} = r_t\)</span></li>
+<li><strong>Normalized:</strong> <span class="arithmatex">\(w_{new} = \frac{r_t}{\sum_i a_i + \epsilon}\)</span></li>
+<li><strong>Novelty-weighted:</strong> <span class="arithmatex">\(w_{new} = r_t \cdot (1 - \max_i a_i)\)</span></li>
+</ol>
+<p>The paper uses option 1 (direct) for simplicity, but options 2-3 can improve performance.</p>
+<hr />
+<p><strong>Step 4: Memory Integration</strong></p>
+<p>Insert the new particle into memory:</p>
+<div class="arithmatex">\[\mathcal{M} \leftarrow \mathcal{M} \cup \{(z_{new}, w_{new})\}\]</div>
+<p>At this point, the energy functional becomes:</p>
+<div class="arithmatex">\[E(z) = -\sum_{i=1}^{N} w_i k(z_i, z) - w_{new} k(z_{new}, z)\]</div>
+<hr />
+<p><strong>Step 5: Association-Driven Adjustment</strong> (Optional)</p>
+<p>For particles with strong association (<span class="arithmatex">\(a_i &gt; \varepsilon\)</span>), adjust their weights:</p>
+<div class="arithmatex">\[w_i \leftarrow w_i + \lambda \cdot a_i \cdot w_{new}\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(\lambda \in [0, 1]\)</span> controls propagation strength</li>
+<li><span class="arithmatex">\(a_i\)</span> determines how much particle <span class="arithmatex">\(i\)</span> should respond</li>
+<li><span class="arithmatex">\(w_{new}\)</span> provides the signal to propagate</li>
+</ul>
+<p><strong>Interpretation:</strong> New evidence <strong>propagates geometrically</strong> to related experiences, enabling generalization without Bellman backups.</p>
+<hr />
+<p><strong>Step 6: Memory Regularization</strong></p>
+<p>Apply one or more of the following:</p>
+<p><strong>a) Weight decay:</strong></p>
+<div class="arithmatex">\[w_i \leftarrow \gamma_w \cdot w_i \quad \text{for all } i\]</div>
+<p>where <span class="arithmatex">\(\gamma_w \in (0, 1]\)</span> (e.g., 0.99).</p>
+<p><strong>b) Particle merging:</strong></p>
+<p>If <span class="arithmatex">\(k(z_i, z_j) &gt; \tau_{merge}\)</span> for some pair <span class="arithmatex">\((i, j)\)</span>:</p>
+<div class="arithmatex">\[z_{merged} = \frac{w_i z_i + w_j z_j}{w_i + w_j}, \quad w_{merged} = w_i + w_j\]</div>
+<p>Remove <span class="arithmatex">\((z_i, w_i)\)</span> and <span class="arithmatex">\((z_j, w_j)\)</span>; add <span class="arithmatex">\((z_{merged}, w_{merged})\)</span>.</p>
+<p><strong>c) Particle pruning:</strong></p>
+<p>Remove particles with <span class="arithmatex">\(|w_i| &lt; \tau_{prune}\)</span>.</p>
+<hr />
+<p><strong>Step 7: Return Updated Memory</strong></p>
+<div class="arithmatex">\[\text{return } \mathcal{M}'\]</div>
+<hr />
+<h2 id="line-by-line-interpretation">Line-by-Line Interpretation<a class="headerlink" href="#line-by-line-interpretation" title="Permanent link">&para;</a></h2>
+<p>Let's unpack what each step <strong>really means</strong> for the agent.</p>
+<h3 id="step-1-particle-construction">Step 1: Particle Construction<a class="headerlink" href="#step-1-particle-construction" title="Permanent link">&para;</a></h3>
+<p><strong>Plain language:</strong></p>
+<blockquote>
+<p>"This experience is a hypothesis about what actions matter in what states."</p>
+</blockquote>
+<p><strong>Why particle form?</strong></p>
+<p>Because in RKHS, every particle <span class="arithmatex">\(z_i\)</span> induces a <strong>kernel section</strong> <span class="arithmatex">\(k(z_i, \cdot)\)</span>—a function in <span class="arithmatex">\(\mathcal{H}_k\)</span> that carries influence throughout the augmented space.</p>
+<p><strong>Geometric view:</strong></p>
+<p>You're adding a "probe" into the value landscape—a point that will shape the field around it.</p>
+<hr />
+<h3 id="step-2-kernel-association">Step 2: Kernel Association<a class="headerlink" href="#step-2-kernel-association" title="Permanent link">&para;</a></h3>
+<p><strong>Plain language:</strong></p>
+<blockquote>
+<p>"How compatible is this experience with what I already believe?"</p>
+</blockquote>
+<p><strong>Not asking:</strong> "Is this the same state?" or "Is this the same action?"</p>
+<p><strong>Asking:</strong> "How much does this experience <strong>resonate</strong> with existing knowledge?"</p>
+<p><strong>Example (Gaussian RBF kernel):</strong></p>
+<div class="arithmatex">\[a_i = \exp\left(-\frac{\|z_{new} - z_i\|^2}{2\sigma^2}\right)\]</div>
+<ul>
+<li>If <span class="arithmatex">\(z_{new} \approx z_i\)</span>: <span class="arithmatex">\(a_i \approx 1\)</span> (high similarity)</li>
+<li>If <span class="arithmatex">\(z_{new}\)</span> far from <span class="arithmatex">\(z_i\)</span>: <span class="arithmatex">\(a_i \approx 0\)</span> (low similarity)</li>
+<li>Intermediate distances: <span class="arithmatex">\(a_i \in (0, 1)\)</span> (partial similarity)</li>
+</ul>
+<p>This is <strong>soft association</strong>—every particle contributes, weighted by distance.</p>
+<hr />
+<h3 id="step-3-energy-contribution-initialization">Step 3: Energy Contribution Initialization<a class="headerlink" href="#step-3-energy-contribution-initialization" title="Permanent link">&para;</a></h3>
+<p><strong>Plain language:</strong></p>
+<blockquote>
+<p>"How strongly should this experience shape the landscape?"</p>
+</blockquote>
+<p><strong>Not:</strong> "What is the value of <span class="arithmatex">\((s, a)\)</span>?"</p>
+<p><strong>But:</strong> "How much <strong>evidence</strong> does this experience provide?"</p>
+<p><strong>Sign matters:</strong>
+- If <span class="arithmatex">\(r_t &gt; 0\)</span>: <span class="arithmatex">\(w_{new} &gt; 0\)</span> → positive particle → <strong>attracts</strong> in field
+- If <span class="arithmatex">\(r_t &lt; 0\)</span>: <span class="arithmatex">\(w_{new} &lt; 0\)</span> → negative particle → <strong>repels</strong> in field</p>
+<p><strong>Magnitude matters:</strong>
+- Large <span class="arithmatex">\(|r_t|\)</span>: Strong influence
+- Small <span class="arithmatex">\(|r_t|\)</span>: Weak influence</p>
+<hr />
+<h3 id="step-4-memory-integration">Step 4: Memory Integration<a class="headerlink" href="#step-4-memory-integration" title="Permanent link">&para;</a></h3>
+<p><strong>Plain language:</strong></p>
+<blockquote>
+<p>"The agent's state of knowledge has changed."</p>
+</blockquote>
+<p>After this step, the energy functional is:</p>
+<div class="arithmatex">\[E(z) = -\sum_{i=1}^{N+1} w_i k(z_i, z)\]</div>
+<p>This is the <strong>new belief state</strong> of the agent—a functional representation of all experiences so far.</p>
+<p><strong>Key insight:</strong> Memory grows <strong>functionally</strong>, not discretely. The agent doesn't just "remember more tuples"—it maintains a richer <strong>functional prior</strong> for policy inference.</p>
+<hr />
+<h3 id="step-5-association-driven-adjustment">Step 5: Association-Driven Adjustment<a class="headerlink" href="#step-5-association-driven-adjustment" title="Permanent link">&para;</a></h3>
+<p><strong>Plain language:</strong></p>
+<blockquote>
+<p>"New evidence doesn't just affect the new particle—it propagates to related experiences."</p>
+</blockquote>
+<p>This is <strong>subtle and powerful</strong>.</p>
+<p><strong>Example:</strong></p>
+<p>Suppose:</p>
+<ul>
+<li>Agent has particle <span class="arithmatex">\(z_1 = (s_1, \theta_1)\)</span> with <span class="arithmatex">\(w_1 = +2.0\)</span></li>
+<li>New experience: <span class="arithmatex">\(z_{new} = (s_1, \theta_2)\)</span> with <span class="arithmatex">\(r_t = +3.0\)</span></li>
+<li>Association: <span class="arithmatex">\(a_1 = k(z_{new}, z_1) = 0.8\)</span> (high similarity)</li>
+</ul>
+<p>After Step 5:</p>
+<div class="arithmatex">\[w_1 \leftarrow 2.0 + \lambda \cdot 0.8 \cdot 3.0 = 2.0 + 2.4\lambda\]</div>
+<p>If <span class="arithmatex">\(\lambda = 0.5\)</span>, then <span class="arithmatex">\(w_1 = 3.2\)</span>.</p>
+<p><strong>Interpretation:</strong> The new positive experience at <span class="arithmatex">\(z_{new}\)</span> <strong>reinforces</strong> the nearby particle <span class="arithmatex">\(z_1\)</span>, even though they have different action parameters.</p>
+<p>This is how GRL <strong>generalizes without Bellman backups</strong>—evidence spreads through kernel geometry.</p>
+<hr />
+<h3 id="step-6-memory-regularization">Step 6: Memory Regularization<a class="headerlink" href="#step-6-memory-regularization" title="Permanent link">&para;</a></h3>
+<p><strong>Plain language:</strong></p>
+<blockquote>
+<p>"Keep the particle set tractable and adaptive."</p>
+</blockquote>
+<p><strong>Why each sub-operation matters:</strong></p>
+<p><strong>a) Weight decay:</strong>
+- Implements <strong>forgetting</strong> (older evidence matters less)
+- Prevents weight explosion
+- Allows adaptation in non-stationary environments</p>
+<p><strong>b) Particle merging:</strong>
+- Removes <strong>redundancy</strong> (two particles in nearly the same location)
+- Maintains <strong>functional expressiveness</strong> without wasting particles
+- Natural form of <strong>model compression</strong></p>
+<p><strong>c) Particle pruning:</strong>
+- Removes <strong>low-evidence particles</strong> (noise or outliers)
+- Bounds computational cost
+- Implements <strong>Occam's razor</strong> (prefer simpler representations)</p>
+<hr />
+<h2 id="worked-example-1d-navigation">Worked Example: 1D Navigation<a class="headerlink" href="#worked-example-1d-navigation" title="Permanent link">&para;</a></h2>
+<p>Let's see MemoryUpdate in action with a concrete example.</p>
+<h3 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>State space:</strong> <span class="arithmatex">\(\mathcal{S} = [0, 10]\)</span> (1D position)</li>
+<li><strong>Action space:</strong> <span class="arithmatex">\(\Theta = [-1, +1]\)</span> (velocity parameter)</li>
+<li><strong>Kernel:</strong> Gaussian RBF, <span class="arithmatex">\(k(z, z') = \exp(-\|z - z'\|^2 / 2)\)</span></li>
+<li><strong>Goal:</strong> <span class="arithmatex">\(s = 10\)</span> (reward <span class="arithmatex">\(r = +10\)</span>)</li>
+<li><strong>Current memory:</strong> <span class="arithmatex">\(\mathcal{M} = \{(z_1, w_1), (z_2, w_2)\}\)</span></li>
+</ul>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(z_1 = (8.0, +0.5)\)</span>, <span class="arithmatex">\(w_1 = +5.0\)</span></li>
+<li><span class="arithmatex">\(z_2 = (3.0, -0.3)\)</span>, <span class="arithmatex">\(w_2 = -2.0\)</span></li>
+</ul>
+<h3 id="new-experience">New Experience<a class="headerlink" href="#new-experience" title="Permanent link">&para;</a></h3>
+<p>Agent at <span class="arithmatex">\(s_t = 9.0\)</span>, takes action <span class="arithmatex">\(\theta_t = +0.8\)</span>, reaches goal, receives <span class="arithmatex">\(r_t = +10.0\)</span>.</p>
+<hr />
+<h3 id="step-by-step-execution">Step-by-Step Execution<a class="headerlink" href="#step-by-step-execution" title="Permanent link">&para;</a></h3>
+<p><strong>Step 1: Particle Construction</strong></p>
+<div class="arithmatex">\[z_{new} = (9.0, 0.8)\]</div>
+<hr />
+<p><strong>Step 2: Kernel Association</strong></p>
+<p>Compute similarity to existing particles:</p>
+<div class="arithmatex">\[a_1 = k(z_{new}, z_1) = k\Big((9.0, 0.8), (8.0, 0.5)\Big)\]</div>
+<p>Distance:</p>
+<div class="arithmatex">\[\|z_{new} - z_1\| = \sqrt{(9.0 - 8.0)^2 + (0.8 - 0.5)^2} = \sqrt{1.0 + 0.09} = 1.044\]</div>
+<p>Similarity:</p>
+<div class="arithmatex">\[a_1 = \exp(-1.044^2 / 2) = \exp(-0.545) \approx 0.58\]</div>
+<p>Similarly:</p>
+<div class="arithmatex">\[\|z_{new} - z_2\| = \sqrt{(9.0 - 3.0)^2 + (0.8 + 0.3)^2} = \sqrt{36 + 1.21} = 6.10\]</div>
+<div class="arithmatex">\[a_2 = \exp(-6.10^2 / 2) = \exp(-18.6) \approx 0.0\]</div>
+<p><strong>Association vector:</strong> <span class="arithmatex">\(\mathbf{a} = [0.58, 0.0]^T\)</span></p>
+<p><strong>Interpretation:</strong> The new experience is <strong>similar</strong> to <span class="arithmatex">\(z_1\)</span> (both near the goal with positive actions), but <strong>dissimilar</strong> to <span class="arithmatex">\(z_2\)</span> (far from goal, negative action).</p>
+<hr />
+<p><strong>Step 3: Energy Contribution</strong></p>
+<p>Using direct reinforcement:</p>
+<div class="arithmatex">\[w_{new} = r_t = +10.0\]</div>
+<hr />
+<p><strong>Step 4: Memory Integration</strong></p>
+<div class="arithmatex">\[\mathcal{M} \leftarrow \{(z_1, +5.0), (z_2, -2.0), (z_{new}, +10.0)\}\]</div>
+<p>Energy functional:</p>
+<div class="arithmatex">\[E(z) = -5.0 \cdot k(z, z_1) + 2.0 \cdot k(z, z_2) - 10.0 \cdot k(z, z_{new})\]</div>
+<p>(Recall: <span class="arithmatex">\(E = -Q^+\)</span>, so negative weights attract, positive repel in energy terms.)</p>
+<hr />
+<p><strong>Step 5: Association-Driven Adjustment</strong> (with <span class="arithmatex">\(\lambda = 0.5\)</span>)</p>
+<p>Only <span class="arithmatex">\(z_1\)</span> has significant association (<span class="arithmatex">\(a_1 = 0.58 &gt; \varepsilon\)</span>):</p>
+<div class="arithmatex">\[w_1 \leftarrow 5.0 + 0.5 \cdot 0.58 \cdot 10.0 = 5.0 + 2.9 = 7.9\]</div>
+<p>Updated memory:</p>
+<div class="arithmatex">\[\mathcal{M} = \{(z_1, +7.9), (z_2, -2.0), (z_{new}, +10.0)\}\]</div>
+<p><strong>Interpretation:</strong> The new positive experience <strong>reinforces</strong> <span class="arithmatex">\(z_1\)</span> because they're geometrically close—generalization via kernel association!</p>
+<hr />
+<p><strong>Step 6: Memory Regularization</strong> (simplified)</p>
+<p>Apply weight decay with <span class="arithmatex">\(\gamma_w = 0.99\)</span>:</p>
+<div class="arithmatex">\[w_1 \leftarrow 0.99 \cdot 7.9 = 7.82$$
+$$w_2 \leftarrow 0.99 \cdot (-2.0) = -1.98$$
+$$w_{new} \leftarrow 0.99 \cdot 10.0 = 9.90\]</div>
+<p>Final memory:</p>
+<div class="arithmatex">\[\mathcal{M}' = \{(z_1, +7.82), (z_2, -1.98), (z_{new}, +9.90)\}\]</div>
+<hr />
+<h3 id="what-changed">What Changed?<a class="headerlink" href="#what-changed" title="Permanent link">&para;</a></h3>
+<p><strong>Before MemoryUpdate:</strong></p>
+<p>Energy landscape had:</p>
+<ul>
+<li>Moderate attraction near <span class="arithmatex">\((8.0, 0.5)\)</span> (weight <span class="arithmatex">\(+5.0\)</span>)</li>
+<li>Weak repulsion near <span class="arithmatex">\((3.0, -0.3)\)</span> (weight <span class="arithmatex">\(-2.0\)</span>)</li>
+</ul>
+<p><strong>After MemoryUpdate:</strong></p>
+<p>Energy landscape has:</p>
+<ul>
+<li><strong>Stronger attraction</strong> near <span class="arithmatex">\((8.0, 0.5)\)</span> (weight <span class="arithmatex">\(+7.82\)</span>) ← reinforced by new evidence</li>
+<li>Still weak repulsion near <span class="arithmatex">\((3.0, -0.3)\)</span> (weight <span class="arithmatex">\(-1.98\)</span>) ← unchanged (no association)</li>
+<li><strong>Strong new attraction</strong> near <span class="arithmatex">\((9.0, 0.8)\)</span> (weight <span class="arithmatex">\(+9.90\)</span>) ← new high-value region</li>
+</ul>
+<p><strong>Policy implication:</strong> Agent will now strongly prefer positive velocities when near the goal (generalization from one good experience to a neighborhood!).</p>
+<hr />
+<h2 id="why-memoryupdate-is-instrumental-not-just-representational">Why MemoryUpdate Is Instrumental (Not Just Representational)<a class="headerlink" href="#why-memoryupdate-is-instrumental-not-just-representational" title="Permanent link">&para;</a></h2>
+<p>Earlier we said MemoryUpdate is the <strong>belief-state transition operator</strong>. Let's unpack why it's <strong>instrumental</strong> for everything downstream.</p>
+<h3 id="1-memoryupdate-enables-policy-inference">1. MemoryUpdate Enables Policy Inference<a class="headerlink" href="#1-memoryupdate-enables-policy-inference" title="Permanent link">&para;</a></h3>
+<p>The policy is defined as:</p>
+<div class="arithmatex">\[\pi(\theta | s) \propto \exp(\beta \cdot Q^+(s, \theta))\]</div>
+<p>But <span class="arithmatex">\(Q^+\)</span> is determined by particle memory:</p>
+<div class="arithmatex">\[Q^+(s, \theta) = \sum_i w_i k((s, \theta), z_i)\]</div>
+<p>So <strong>changing <span class="arithmatex">\(\mathcal{M}\)</span> directly changes the policy</strong>—no separate policy update needed.</p>
+<p><strong>Example from above:</strong> After the update, <span class="arithmatex">\(\pi(\theta | s=9)\)</span> will strongly favor <span class="arithmatex">\(\theta \approx +0.8\)</span> because <span class="arithmatex">\(w_{new} = +9.90\)</span> creates high <span class="arithmatex">\(Q^+\)</span> there.</p>
+<hr />
+<h3 id="2-memoryupdate-implements-reinforcement-propagation">2. MemoryUpdate Implements Reinforcement Propagation<a class="headerlink" href="#2-memoryupdate-implements-reinforcement-propagation" title="Permanent link">&para;</a></h3>
+<p>In traditional RL, reinforcement propagates via Bellman backups:</p>
+<div class="arithmatex">\[Q(s, a) \gets r + \gamma \max_{a'} Q(s', a')\]</div>
+<p>In GRL, reinforcement propagates via <strong>kernel association</strong> (Step 5):</p>
+<div class="arithmatex">\[w_i \leftarrow w_i + \lambda \cdot a_i \cdot w_{new}\]</div>
+<p><strong>Advantages:</strong>
+- <strong>Soft:</strong> Propagation strength depends on similarity <span class="arithmatex">\(a_i\)</span>
+- <strong>Global:</strong> All associated particles update simultaneously
+- <strong>Geometry-aware:</strong> Propagation respects the RKHS metric</p>
+<hr />
+<h3 id="3-memoryupdate-induces-soft-state-transitions">3. MemoryUpdate Induces Soft State Transitions<a class="headerlink" href="#3-memoryupdate-induces-soft-state-transitions" title="Permanent link">&para;</a></h3>
+<p>Classical RL assumes deterministic or explicitly stochastic state transitions:</p>
+<div class="arithmatex">\[s_{t+1} \sim P(\cdot | s_t, a_t)\]</div>
+<p>GRL has <strong>no explicit transition model</strong>. Instead, transitions are <strong>implicitly soft</strong> due to kernel overlap.</p>
+<p><strong>How?</strong></p>
+<p>When the agent observes <span class="arithmatex">\((s_t, \theta_t, r_t)\)</span>, it creates particle <span class="arithmatex">\(z_t = (s_t, \theta_t)\)</span>. This particle associates with <strong>multiple</strong> existing particles via <span class="arithmatex">\(a_i = k(z_t, z_i)\)</span>, each representing a different "hypothesis" about what state-action is relevant.</p>
+<p>The agent maintains <strong>belief over multiple hypotheses simultaneously</strong>—emergent uncertainty from geometry!</p>
+<hr />
+<h3 id="4-memoryupdate-is-the-pomdp-belief-update">4. MemoryUpdate Is the POMDP Belief Update<a class="headerlink" href="#4-memoryupdate-is-the-pomdp-belief-update" title="Permanent link">&para;</a></h3>
+<p>In a POMDP, belief updates follow:</p>
+<div class="arithmatex">\[b'(s') = \frac{O(o | s') \sum_s T(s' | s, a) b(s)}{\text{normalizer}}\]</div>
+<p>In GRL, particle memory <span class="arithmatex">\(\mathcal{M}\)</span> <strong>is</strong> the belief state:</p>
+<div class="arithmatex">\[b(z) \propto \sum_i w_i k(z, z_i)\]</div>
+<p>MemoryUpdate transitions:</p>
+<div class="arithmatex">\[b_t(z) \xrightarrow{\text{MemoryUpdate}} b_{t+1}(z)\]</div>
+<p>But instead of Bayesian filtering over a discrete state space, we're doing <strong>functional belief evolution in RKHS</strong>.</p>
+<p><strong>Key insight:</strong> POMDP structure emerges <strong>for free</strong> from the particle representation—no need to specify observation or transition models!</p>
+<hr />
+<h2 id="connection-to-other-grl-components">Connection to Other GRL Components<a class="headerlink" href="#connection-to-other-grl-components" title="Permanent link">&para;</a></h2>
+<p>Let's see how MemoryUpdate connects to the rest of the GRL framework.</p>
+<h3 id="memoryupdate-reinforcement-field">MemoryUpdate + Reinforcement Field<a class="headerlink" href="#memoryupdate-reinforcement-field" title="Permanent link">&para;</a></h3>
+<p><strong>Chapter 4:</strong> The reinforcement field is:</p>
+<div class="arithmatex">\[Q^+(z) = \sum_i w_i k(z_i, z)\]</div>
+<p><strong>MemoryUpdate modifies:</strong>
+- Particle locations <span class="arithmatex">\(\{z_i\}\)</span> (by adding new particles)
+- Particle weights <span class="arithmatex">\(\{w_i\}\)</span> (by adjusting in response to new evidence)</p>
+<p><strong>Result:</strong> The field <strong>reshapes</strong> to reflect new experience—peaks form in high-value regions, valleys in low-value regions.</p>
+<hr />
+<h3 id="memoryupdate-particle-memory">MemoryUpdate + Particle Memory<a class="headerlink" href="#memoryupdate-particle-memory" title="Permanent link">&para;</a></h3>
+<p><strong>Chapter 5:</strong> Memory is a <strong>functional representation</strong> of experience.</p>
+<p><strong>MemoryUpdate implements:</strong>
+- <strong>Dynamic basis expansion:</strong> Adding new particles = adding new basis functions
+- <strong>Weight adjustment:</strong> Changing the functional prior
+- <strong>Basis compression:</strong> Merging/pruning to maintain tractability</p>
+<p><strong>Result:</strong> Memory stays <strong>expressive</strong> (can represent complex fields) yet <strong>bounded</strong> (doesn't explode).</p>
+<hr />
+<h3 id="memoryupdate-rf-sarsa">MemoryUpdate + RF-SARSA<a class="headerlink" href="#memoryupdate-rf-sarsa" title="Permanent link">&para;</a></h3>
+<p><strong>Chapter 7 (next):</strong> RF-SARSA provides the <strong>reinforcement signal</strong> <span class="arithmatex">\(r_t\)</span> that enters MemoryUpdate.</p>
+<p><strong>Two-layer system:</strong>
+1. <strong>RF-SARSA (outer loop):</strong> Decides <em>what reinforcement signal</em> to send
+2. <strong>MemoryUpdate (inner loop):</strong> Reshapes the field in response</p>
+<p><strong>Analogy:</strong> RF-SARSA is the "teacher" providing feedback; MemoryUpdate is the "learner" updating beliefs.</p>
+<hr />
+<h2 id="common-misconceptions">Common Misconceptions<a class="headerlink" href="#common-misconceptions" title="Permanent link">&para;</a></h2>
+<h3 id="misconception-1-memoryupdate-is-just-experience-replay">Misconception 1: "MemoryUpdate Is Just Experience Replay"<a class="headerlink" href="#misconception-1-memoryupdate-is-just-experience-replay" title="Permanent link">&para;</a></h3>
+<p><strong>Reality:</strong> Experience replay stores tuples and samples them for training. MemoryUpdate converts experiences into <strong>functional basis elements</strong> that directly shape the value landscape.</p>
+<p><strong>Key difference:</strong> Replay is passive storage; MemoryUpdate is active belief evolution.</p>
+<hr />
+<h3 id="misconception-2-kernel-association-is-just-nearest-neighbor">Misconception 2: "Kernel Association Is Just Nearest-Neighbor"<a class="headerlink" href="#misconception-2-kernel-association-is-just-nearest-neighbor" title="Permanent link">&para;</a></h3>
+<p><strong>Reality:</strong> Kernel association is:</p>
+<ul>
+<li><strong>Soft:</strong> All particles contribute, weighted by similarity</li>
+<li><strong>Global:</strong> Associations computed with all particles simultaneously</li>
+<li><strong>Differentiable:</strong> Enables smooth generalization</li>
+</ul>
+<p>Nearest-neighbor is:</p>
+<ul>
+<li><strong>Hard:</strong> Only the closest point matters</li>
+<li><strong>Local:</strong> No information about the broader landscape</li>
+<li><strong>Discontinuous:</strong> Small changes in input cause jumps</li>
+</ul>
+<hr />
+<h3 id="misconception-3-memoryupdate-only-affects-memory">Misconception 3: "MemoryUpdate Only Affects Memory"<a class="headerlink" href="#misconception-3-memoryupdate-only-affects-memory" title="Permanent link">&para;</a></h3>
+<p><strong>Reality:</strong> MemoryUpdate <strong>simultaneously affects</strong>:</p>
+<ul>
+<li>The value landscape (via particle weights)</li>
+<li>The policy (via <span class="arithmatex">\(Q^+(s, \theta)\)</span>)</li>
+<li>Belief uncertainty (via particle diversity)</li>
+<li>Generalization (via kernel propagation)</li>
+</ul>
+<p>It's the <strong>state transition operator</strong> of the agent.</p>
+<hr />
+<h3 id="misconception-4-step-5-association-driven-adjustment-is-optional">Misconception 4: "Step 5 (Association-Driven Adjustment) Is Optional"<a class="headerlink" href="#misconception-4-step-5-association-driven-adjustment-is-optional" title="Permanent link">&para;</a></h3>
+<p><strong>Truth:</strong> Step 5 is optional <strong>in implementation</strong>, but it's <strong>conceptually central</strong> to GRL.</p>
+<p><strong>Why:</strong> Without Step 5, GRL reduces to kernel regression with independent samples. With Step 5, GRL becomes a <strong>belief propagation system</strong> where evidence spreads through geometry.</p>
+<p><strong>Recommendation:</strong> Include Step 5 for best performance, especially in continuous domains where generalization is critical.</p>
+<hr />
+<h2 id="practical-considerations">Practical Considerations<a class="headerlink" href="#practical-considerations" title="Permanent link">&para;</a></h2>
+<h3 id="1-computational-complexity">1. Computational Complexity<a class="headerlink" href="#1-computational-complexity" title="Permanent link">&para;</a></h3>
+<p><strong>Per update cost:</strong></p>
+<ul>
+<li><strong>Step 2 (Association):</strong> <span class="arithmatex">\(O(N)\)</span> kernel evaluations</li>
+<li><strong>Step 5 (Adjustment):</strong> <span class="arithmatex">\(O(N)\)</span> weight updates (if all <span class="arithmatex">\(a_i &gt; \varepsilon\)</span>)</li>
+<li><strong>Step 6 (Regularization):</strong> <span class="arithmatex">\(O(N^2)\)</span> for merging (pairwise comparison), <span class="arithmatex">\(O(N)\)</span> for pruning</li>
+</ul>
+<p><strong>Total:</strong> <span class="arithmatex">\(O(N)\)</span> for association + adjustment, <span class="arithmatex">\(O(N^2)\)</span> for merging.</p>
+<p><strong>Optimization:</strong>
+- Use <strong>sparse association:</strong> Only update particles with <span class="arithmatex">\(a_i &gt; \varepsilon\)</span>
+- Use <strong>KD-trees</strong> or <strong>ball trees</strong> to find high-association particles quickly
+- Merge periodically (every <span class="arithmatex">\(K\)</span> steps) rather than every update</p>
+<hr />
+<h3 id="2-hyperparameters">2. Hyperparameters<a class="headerlink" href="#2-hyperparameters" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Meaning</th>
+<th>Typical Range</th>
+<th>Effect of Increasing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\sigma\)</span> (kernel bandwidth)</td>
+<td>Similarity scale</td>
+<td><span class="arithmatex">\([0.1, 10]\)</span></td>
+<td>More particles associate (smoother field)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\lambda\)</span> (propagation)</td>
+<td>Step 5 coupling strength</td>
+<td><span class="arithmatex">\([0, 1]\)</span></td>
+<td>Stronger evidence propagation</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\gamma_w\)</span> (decay)</td>
+<td>Weight decay rate</td>
+<td><span class="arithmatex">\([0.95, 1.0]\)</span></td>
+<td>Faster forgetting</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\tau_{merge}\)</span></td>
+<td>Merge threshold</td>
+<td><span class="arithmatex">\([0.8, 0.99]\)</span></td>
+<td>More aggressive merging</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\tau_{prune}\)</span></td>
+<td>Prune threshold</td>
+<td><span class="arithmatex">\([0.01, 0.5]\)</span></td>
+<td>More aggressive pruning</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tuning guidance:</strong>
+- Start with <span class="arithmatex">\(\sigma \approx \text{characteristic state-action distance}\)</span>
+- Use <span class="arithmatex">\(\lambda = 0.5\)</span> as default (moderate propagation)
+- Set <span class="arithmatex">\(\gamma_w = 0.99\)</span> for stationary environments, <span class="arithmatex">\(0.95\)</span> for non-stationary
+- Tune <span class="arithmatex">\(\tau_{merge}\)</span> and <span class="arithmatex">\(\tau_{prune}\)</span> based on memory budget</p>
+<hr />
+<h3 id="3-implementation-tips">3. Implementation Tips<a class="headerlink" href="#3-implementation-tips" title="Permanent link">&para;</a></h3>
+<p><strong>Efficient kernel computation:</strong></p>
+<p>For Gaussian RBF:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">kernel</span><span class="p">(</span><span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="n">dist_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">z1</span> <span class="o">-</span> <span class="n">z2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">dist_sq</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+</span></code></pre></div>
+<p><strong>Sparse association:</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">update_memory</span><span class="p">(</span><span class="n">memory</span><span class="p">,</span> <span class="n">z_new</span><span class="p">,</span> <span class="n">r_t</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">lambda_prop</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="c1"># Step 2: Compute associations</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">associations</span> <span class="o">=</span> <span class="p">[</span><span class="n">kernel</span><span class="p">(</span><span class="n">z_new</span><span class="p">,</span> <span class="n">z_i</span><span class="p">)</span> <span class="k">for</span> <span class="n">z_i</span><span class="p">,</span> <span class="n">w_i</span> <span class="ow">in</span> <span class="n">memory</span><span class="p">]</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="c1"># Step 3: Initialize weight</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">w_new</span> <span class="o">=</span> <span class="n">r_t</span>  <span class="c1"># Direct reinforcement</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    <span class="c1"># Step 4: Add to memory</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>    <span class="n">memory</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">z_new</span><span class="p">,</span> <span class="n">w_new</span><span class="p">))</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="c1"># Step 5: Update associated particles (sparse)</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">a_i</span><span class="p">,</span> <span class="p">(</span><span class="n">z_i</span><span class="p">,</span> <span class="n">w_i</span><span class="p">))</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">associations</span><span class="p">,</span> <span class="n">memory</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])):</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>        <span class="k">if</span> <span class="n">a_i</span> <span class="o">&gt;</span> <span class="n">epsilon</span><span class="p">:</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>            <span class="n">memory</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">z_i</span><span class="p">,</span> <span class="n">w_i</span> <span class="o">+</span> <span class="n">lambda_prop</span> <span class="o">*</span> <span class="n">a_i</span> <span class="o">*</span> <span class="n">w_new</span><span class="p">)</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>    <span class="k">return</span> <span class="n">memory</span>
+</span></code></pre></div>
+<p><strong>Vectorized version:</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">update_memory_vectorized</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">z_new</span><span class="p">,</span> <span class="n">r_t</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">lambda_prop</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="sd">    Z: (N, d) array of particle locations</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="sd">    W: (N,) array of particle weights</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="sd">    z_new: (d,) new particle location</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="sd">    r_t: scalar reward</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>    <span class="c1"># Step 2: Compute all associations at once</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>    <span class="n">dists_sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">Z</span> <span class="o">-</span> <span class="n">z_new</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:])</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">dists_sq</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># (N,) association vector</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="c1"># Step 3 + 4: Add new particle</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="n">w_new</span> <span class="o">=</span> <span class="n">r_t</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">Z</span><span class="p">,</span> <span class="n">z_new</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]])</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">w_new</span><span class="p">)</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    <span class="c1"># Step 5: Update associated particles</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    <span class="n">W</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">lambda_prop</span> <span class="o">*</span> <span class="n">A</span> <span class="o">*</span> <span class="n">w_new</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>    <span class="k">return</span> <span class="n">Z</span><span class="p">,</span> <span class="n">W</span>
+</span></code></pre></div>
+<hr />
+<h2 id="visualization-field-evolution">Visualization: Field Evolution<a class="headerlink" href="#visualization-field-evolution" title="Permanent link">&para;</a></h2>
+<p>Let's see how the reinforcement field evolves through MemoryUpdate.</p>
+<h3 id="initial-state-2-particles">Initial State (2 particles)<a class="headerlink" href="#initial-state-2-particles" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Particle memory:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>  z_1 = (8.0, +0.5), w_1 = +5.0
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>  z_2 = (3.0, -0.3), w_2 = -2.0
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>Field Q^+(s, θ):
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>      θ
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    1 |           ⊕ (peak near z_1)
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    0 |------------------------
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>   -1 |     ⊖ (valley near z_2)
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>      |________________________
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>      0    3    6    9    10   s
+</span></code></pre></div>
+<p><strong>Legend:</strong>
+- ⊕ High value region (positive particle)
+- ⊖ Low value region (negative particle)</p>
+<hr />
+<h3 id="after-new-experience-3-particles">After New Experience (3 particles)<a class="headerlink" href="#after-new-experience-3-particles" title="Permanent link">&para;</a></h3>
+<p><strong>New experience:</strong> <span class="arithmatex">\((s=9, θ=0.8, r=+10)\)</span></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Particle memory:
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  z_1 = (8.0, +0.5), w_1 = +7.9  ← reinforced!
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>  z_2 = (3.0, -0.3), w_2 = -2.0  ← unchanged
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>  z_new = (9.0, +0.8), w_new = +10.0  ← new peak!
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>Field Q^+(s, θ):
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>      θ
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    1 |          ⊕⊕ (stronger peak, two nearby particles)
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    0 |------------------------
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>   -1 |     ⊖
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>      |________________________
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>      0    3    6    9    10   s
+</span></code></pre></div>
+<p><strong>What changed:</strong>
+- Peak near goal <strong>strengthened</strong> (two particles now: <span class="arithmatex">\(z_1\)</span> and <span class="arithmatex">\(z_{new}\)</span>)
+- Peak <strong>widened</strong> (kernel overlap creates broader attraction)
+- Policy will strongly prefer <span class="arithmatex">\(\theta \approx 0.5\)</span>-<span class="arithmatex">\(0.8\)</span> when <span class="arithmatex">\(s \approx 8\)</span>-<span class="arithmatex">\(9\)</span></p>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<h3 id="memoryupdate-is">MemoryUpdate Is...<a class="headerlink" href="#memoryupdate-is" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>What It Is</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Belief-state transition operator</strong></td>
+<td>Updates agent's functional representation of the world</td>
+</tr>
+<tr>
+<td><strong>RKHS operation</strong></td>
+<td>Adds basis functions, adjusts weights in function space</td>
+</tr>
+<tr>
+<td><strong>Generalization mechanism</strong></td>
+<td>Spreads evidence through kernel geometry</td>
+</tr>
+<tr>
+<td><strong>Functional regularizer</strong></td>
+<td>Maintains bounded, expressive particle sets</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-equations">Key Equations<a class="headerlink" href="#key-equations" title="Permanent link">&para;</a></h3>
+<p><strong>Energy functional after update:</strong></p>
+<div class="arithmatex">\[E(z) = -\sum_{i \in \mathcal{M}'} w_i k(z_i, z)\]</div>
+<p><strong>Association vector:</strong></p>
+<div class="arithmatex">\[a_i = k(z_{new}, z_i)\]</div>
+<p><strong>Association-driven weight update:</strong></p>
+<div class="arithmatex">\[w_i \leftarrow w_i + \lambda \cdot a_i \cdot w_{new}\]</div>
+<hr />
+<h2 id="key-takeaways">Key Takeaways<a class="headerlink" href="#key-takeaways" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>MemoryUpdate is not "just memory"</strong></li>
+<li>It's the agent's state transition operator</li>
+<li>
+<p>It simultaneously affects value, policy, and belief</p>
+</li>
+<li>
+<p><strong>Kernel association enables soft generalization</strong></p>
+</li>
+<li>Evidence spreads to geometrically similar experiences</li>
+<li>
+<p>No Bellman backups needed</p>
+</li>
+<li>
+<p><strong>Particles are functional bases</strong></p>
+</li>
+<li>Adding a particle = adding a basis function to RKHS</li>
+<li>
+<p>Adjusting weights = reshaping the field</p>
+</li>
+<li>
+<p><strong>Regularization is essential</strong></p>
+</li>
+<li>Without pruning/merging, complexity explodes</li>
+<li>
+<p>Implements forgetting and model selection</p>
+</li>
+<li>
+<p><strong>MemoryUpdate enables everything downstream</strong></p>
+</li>
+<li>Policy inference: via <span class="arithmatex">\(Q^+(s, \theta)\)</span> induced by particles</li>
+<li>Soft transitions: via kernel overlap</li>
+<li>POMDP: via functional belief representation</li>
+</ol>
+<hr />
+<h2 id="looking-ahead">Looking Ahead<a class="headerlink" href="#looking-ahead" title="Permanent link">&para;</a></h2>
+<p>In the next chapter, we'll introduce <strong>RF-SARSA</strong>—the algorithm that determines <em>what reinforcement signal</em> to send to MemoryUpdate.</p>
+<p><strong>Spoiler:</strong> RF-SARSA implements <strong>temporal-difference learning in RKHS</strong>, enabling the agent to bootstrap value estimates from the reinforcement field itself.</p>
+<p>Together, MemoryUpdate and RF-SARSA form a <strong>two-layer learning system</strong>:</p>
+<ul>
+<li><strong>RF-SARSA:</strong> Computes TD error in function space</li>
+<li><strong>MemoryUpdate:</strong> Reshapes the field in response</li>
+</ul>
+<p>This is how GRL learns without explicit value function approximation or policy gradients!</p>
+<hr />
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<h3 id="within-this-tutorial">Within This Tutorial<a class="headerlink" href="#within-this-tutorial" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Chapter 2</strong>: <a href="../02-rkhs-foundations/">RKHS Foundations</a> — Kernel inner products and function spaces</li>
+<li><strong>Chapter 4</strong>: <a href="../04-reinforcement-field/">Reinforcement Field</a> — The functional landscape shaped by particles</li>
+<li><strong>Chapter 4a</strong>: <a href="../04a-riesz-representer/">Riesz Representer</a> — Gradients in function space</li>
+<li><strong>Chapter 5</strong>: <a href="../05-particle-memory/">Particle Memory</a> — Memory as functional representation</li>
+</ul>
+<h3 id="next-chapters">Next Chapters<a class="headerlink" href="#next-chapters" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="../06a-advanced-memory-dynamics/">Chapter 6a</a></strong>: Advanced Memory Dynamics (supplement) — Practical improvements beyond hard thresholds</li>
+<li><strong>Chapter 7</strong>: RF-SARSA (next) — Temporal-difference learning in RKHS</li>
+<li><strong>Chapter 8</strong>: Soft State Transitions — Emergent uncertainty from kernel geometry</li>
+<li><strong>Chapter 9</strong>: POMDP Interpretation — Belief-based view of GRL</li>
+</ul>
+<h3 id="advanced-topics">Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permanent link">&para;</a></h3>
+<p>For principled alternatives to hard threshold <span class="arithmatex">\(\tau\)</span>:</p>
+<p><strong><a href="../06a-advanced-memory-dynamics/">Chapter 06a: Advanced Memory Dynamics →</a></strong></p>
+<p>Practical improvements:</p>
+<ul>
+<li><strong>Top-k Adaptive Neighbors</strong> — Density-aware, no global threshold</li>
+<li><strong>Surprise-Gated Consolidation</strong> — Data-driven, bounded memory growth</li>
+<li><strong>Hybrid Approach</strong> — Combines both methods</li>
+<li>Code examples and decision guides</li>
+</ul>
+<p>For full theoretical treatment:</p>
+<ul>
+<li><strong><a href="../../quantum_inspired/07-learning-the-field-beyond-gp/">Chapter 07: Learning Beyond GP</a></strong> — Alternative learning mechanisms</li>
+<li><strong><a href="../../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/">Chapter 08: Memory Dynamics</a></strong> — Formation, consolidation, retrieval operators</li>
+</ul>
+<h3 id="original-paper">Original Paper<a class="headerlink" href="#original-paper" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Section IV-A</strong>: Experience Association and Particle Evolution</li>
+<li><strong>Algorithm 1</strong>: MemoryUpdate (original specification)</li>
+</ul>
+<p><strong>arXiv:</strong> <a href="https://arxiv.org/abs/2208.04822">Generalized Reinforcement Learning: Experience Particles, Action Operator, Reinforcement Field, Memory Association, and Decision Concepts</a></p>
+<hr />
+<p><strong>Last Updated:</strong> January 14, 2026</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

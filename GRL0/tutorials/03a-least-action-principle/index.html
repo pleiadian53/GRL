@@ -1,0 +1,3296 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/tutorials/03a-least-action-principle/">
+      
+      
+        <link rel="prev" href="../03-energy-and-fitness/">
+      
+      
+        <link rel="next" href="../04-reinforcement-field/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Ch 3a: Least Action Principle - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-03a-the-principle-of-least-action-supplement" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Ch 3a: Least Action Principle
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-classical-mechanics-a-crash-course" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Classical Mechanics: A Crash Course
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Classical Mechanics: A Crash Course">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-the-action-functional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 The Action Functional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-the-euler-lagrange-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 The Euler-Lagrange Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-why-is-this-powerful" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Why Is This Powerful?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-from-physics-to-control-path-integral-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. From Physics to Control: Path Integral Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. From Physics to Control: Path Integral Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-control-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The Control Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-optimal-policy-from-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Optimal Policy from Action
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-the-cost-to-go-as-potential" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 The Cost-to-Go as "Potential"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-grls-boltzmann-policy-as-least-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. GRL's Boltzmann Policy as Least Action
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. GRL&#39;s Boltzmann Policy as Least Action">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-grl-action-functional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The GRL Action Functional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-why-the-boltzmann-policy-emerges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Why the Boltzmann Policy Emerges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-smooth-actions-from-kinetic-regularization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Smooth Actions from Kinetic Regularization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-implications-for-action-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Implications for Action Discovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Implications for Action Discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-beyond-fixed-action-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Beyond Fixed Action Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-gradient-flow-on-the-energy-landscape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Gradient Flow on the Energy Landscape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-neural-network-policies-as-action-minimizers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Neural Network Policies as Action Minimizers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-principled-policy-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Principled Policy Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Principled Policy Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-the-energy-based-learning-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 The Energy-Based Learning Objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-natural-gradient-on-the-policy-manifold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Natural Gradient on the Policy Manifold
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-smoothness-as-inductive-bias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Smoothness as Inductive Bias
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-connection-to-grls-core-ideas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Connection to GRL's Core Ideas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Connection to GRL&#39;s Core Ideas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-energy-function-chapter-03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Energy Function (Chapter 03)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-reinforcement-field-chapter-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Reinforcement Field (Chapter 04)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-memoryupdate-chapter-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 MemoryUpdate (Chapter 06)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-rf-sarsa-chapter-07-coming-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 RF-SARSA (Chapter 07, coming next)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-practical-implementation-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Practical Implementation Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Practical Implementation Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-choosing-the-temperature-lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Choosing the Temperature \(\lambda\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-implementing-gradient-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Implementing Gradient Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-kinetic-regularization-in-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Kinetic Regularization in Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-summary-why-least-action-matters-for-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Summary: Why Least Action Matters for GRL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-memory-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07a-continuous-policy-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-classical-mechanics-a-crash-course" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Classical Mechanics: A Crash Course
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Classical Mechanics: A Crash Course">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-the-action-functional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 The Action Functional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-the-euler-lagrange-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 The Euler-Lagrange Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-why-is-this-powerful" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Why Is This Powerful?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-from-physics-to-control-path-integral-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. From Physics to Control: Path Integral Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. From Physics to Control: Path Integral Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-control-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The Control Problem
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-optimal-policy-from-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 Optimal Policy from Action
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-the-cost-to-go-as-potential" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 The Cost-to-Go as "Potential"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-grls-boltzmann-policy-as-least-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. GRL's Boltzmann Policy as Least Action
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. GRL&#39;s Boltzmann Policy as Least Action">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-grl-action-functional" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The GRL Action Functional
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-why-the-boltzmann-policy-emerges" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Why the Boltzmann Policy Emerges
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-smooth-actions-from-kinetic-regularization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Smooth Actions from Kinetic Regularization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-implications-for-action-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Implications for Action Discovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Implications for Action Discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-beyond-fixed-action-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Beyond Fixed Action Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-gradient-flow-on-the-energy-landscape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Gradient Flow on the Energy Landscape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-neural-network-policies-as-action-minimizers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Neural Network Policies as Action Minimizers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-principled-policy-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Principled Policy Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Principled Policy Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-the-energy-based-learning-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 The Energy-Based Learning Objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-natural-gradient-on-the-policy-manifold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Natural Gradient on the Policy Manifold
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-smoothness-as-inductive-bias" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Smoothness as Inductive Bias
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-connection-to-grls-core-ideas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Connection to GRL's Core Ideas
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Connection to GRL&#39;s Core Ideas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-energy-function-chapter-03" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Energy Function (Chapter 03)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-reinforcement-field-chapter-04" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Reinforcement Field (Chapter 04)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-memoryupdate-chapter-06" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 MemoryUpdate (Chapter 06)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64-rf-sarsa-chapter-07-coming-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 RF-SARSA (Chapter 07, coming next)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-practical-implementation-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Practical Implementation Notes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Practical Implementation Notes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-choosing-the-temperature-lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Choosing the Temperature \(\lambda\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-implementing-gradient-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Implementing Gradient Flow
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-kinetic-regularization-in-loss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Kinetic Regularization in Loss
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-summary-why-least-action-matters-for-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Summary: Why Least Action Matters for GRL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/tutorials/03a-least-action-principle.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-03a-the-principle-of-least-action-supplement">Chapter 03a: The Principle of Least Action (Supplement)<a class="headerlink" href="#chapter-03a-the-principle-of-least-action-supplement" title="Permanent link">&para;</a></h1>
+<p><strong>Purpose</strong>: This supplement bridges classical physics and reinforcement learning, showing why GRL's energy-based formulation is not just convenient notation—it's a principled framework grounded in one of the most fundamental laws of physics: the <strong>principle of least action</strong>.</p>
+<p><strong>Why this matters for GRL</strong>:</p>
+<ul>
+<li>Explains why the Boltzmann policy <span class="arithmatex">\(\pi(\theta|s) \propto \exp(Q^+/\lambda)\)</span> emerges naturally</li>
+<li>Provides a principled way for agents to <strong>discover</strong> smooth, optimal actions (not just select from pre-defined sets)</li>
+<li>Connects modern RL to 300+ years of physics and optimal control theory</li>
+</ul>
+<hr />
+<h2 id="1-classical-mechanics-a-crash-course">1. Classical Mechanics: A Crash Course<a class="headerlink" href="#1-classical-mechanics-a-crash-course" title="Permanent link">&para;</a></h2>
+<h3 id="11-the-action-functional">1.1 The Action Functional<a class="headerlink" href="#11-the-action-functional" title="Permanent link">&para;</a></h3>
+<p>In classical mechanics, a particle doesn't "choose" its trajectory arbitrarily. Among all possible paths from point A to point B, nature selects the one that minimizes a quantity called the <strong>action</strong>.</p>
+<p><strong>The action functional</strong> <span class="arithmatex">\(S[\gamma]\)</span> assigns a real number to each possible trajectory <span class="arithmatex">\(\gamma(t)\)</span>:</p>
+<div class="arithmatex">\[S[\gamma] = \int_{t_0}^{t_f} L(q(t), \dot{q}(t), t) \, dt\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(L(q, \dot{q}, t)\)</span> = <strong>Lagrangian</strong> = Kinetic Energy - Potential Energy</li>
+<li><span class="arithmatex">\(q(t)\)</span> = position at time <span class="arithmatex">\(t\)</span></li>
+<li><span class="arithmatex">\(\dot{q}(t)\)</span> = velocity at time <span class="arithmatex">\(t\)</span></li>
+</ul>
+<p><strong>Principle of Least Action</strong>: The actual trajectory taken by the system is the one that makes <span class="arithmatex">\(S[\gamma]\)</span> <strong>stationary</strong> (usually a minimum).</p>
+<p><strong>Example: Free particle</strong></p>
+<p>For a particle of mass <span class="arithmatex">\(m\)</span> moving freely:</p>
+<div class="arithmatex">\[L = \frac{1}{2}m\dot{q}^2\]</div>
+<p>The action is:</p>
+<div class="arithmatex">\[S[\gamma] = \int_{t_0}^{t_f} \frac{1}{2}m\dot{q}^2 \, dt\]</div>
+<p><strong>Result</strong>: The trajectory that minimizes action is a straight line at constant velocity—Newton's first law emerges from a variational principle!</p>
+<hr />
+<h3 id="12-the-euler-lagrange-equations">1.2 The Euler-Lagrange Equations<a class="headerlink" href="#12-the-euler-lagrange-equations" title="Permanent link">&para;</a></h3>
+<p>Minimizing the action leads to the <strong>Euler-Lagrange equations</strong>:</p>
+<div class="arithmatex">\[\frac{d}{dt}\left(\frac{\partial L}{\partial \dot{q}}\right) - \frac{\partial L}{\partial q} = 0\]</div>
+<p>These are equivalent to Newton's equations of motion.</p>
+<p><strong>Example: Particle in potential</strong></p>
+<p>For <span class="arithmatex">\(L = \frac{1}{2}m\dot{q}^2 - V(q)\)</span>:</p>
+<div class="arithmatex">\[m\ddot{q} = -\frac{\partial V}{\partial q}\]</div>
+<p>This is Newton's second law: <span class="arithmatex">\(F = ma\)</span>.</p>
+<hr />
+<h3 id="13-why-is-this-powerful">1.3 Why Is This Powerful?<a class="headerlink" href="#13-why-is-this-powerful" title="Permanent link">&para;</a></h3>
+<p>The action principle is powerful because:</p>
+<ol>
+<li><strong>Unified framework</strong>: Works for all physical systems (mechanics, optics, quantum mechanics, field theory)</li>
+<li><strong>Coordinate-free</strong>: The action is independent of coordinate choices</li>
+<li><strong>Reveals conservation laws</strong>: Via Noether's theorem (symmetries ↔ conserved quantities)</li>
+<li><strong>Generalizes naturally</strong>: Extends to stochastic systems, optimal control, and RL</li>
+</ol>
+<hr />
+<h2 id="2-from-physics-to-control-path-integral-control">2. From Physics to Control: Path Integral Control<a class="headerlink" href="#2-from-physics-to-control-path-integral-control" title="Permanent link">&para;</a></h2>
+<h3 id="21-the-control-problem">2.1 The Control Problem<a class="headerlink" href="#21-the-control-problem" title="Permanent link">&para;</a></h3>
+<p>In optimal control, we want to find a trajectory that:</p>
+<ul>
+<li>Starts at state <span class="arithmatex">\(s_0\)</span></li>
+<li>Ends at goal state <span class="arithmatex">\(s_f\)</span> (or maximizes reward)</li>
+<li>Minimizes a cost functional</li>
+</ul>
+<p>Sound familiar? This is exactly an action minimization problem!</p>
+<p><strong>Control action functional</strong>:</p>
+<div class="arithmatex">\[S[\tau] = \int_{t_0}^{t_f} \left[ C(s_t, u_t) + \frac{1}{2\nu} \|u_t\|^2 \right] dt\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(C(s, u)\)</span> = instantaneous cost (like potential energy)</li>
+<li><span class="arithmatex">\(\frac{1}{2\nu} \|u_t\|^2\)</span> = control cost (like kinetic energy)</li>
+<li><span class="arithmatex">\(u_t\)</span> = control input at time <span class="arithmatex">\(t\)</span></li>
+<li><span class="arithmatex">\(\nu\)</span> = "temperature" parameter (exploration vs. exploitation)</li>
+</ul>
+<p><strong>The control Lagrangian</strong> is:</p>
+<div class="arithmatex">\[L(s, u) = -C(s, u) - \frac{1}{2\nu} \|u\|^2\]</div>
+<p>(Note the minus signs: we minimize cost, which is like maximizing negative cost)</p>
+<hr />
+<h3 id="22-optimal-policy-from-action">2.2 Optimal Policy from Action<a class="headerlink" href="#22-optimal-policy-from-action" title="Permanent link">&para;</a></h3>
+<p><strong>Key insight</strong> (Kappen 2005, Todorov 2009): The optimal stochastic policy is:</p>
+<div class="arithmatex">\[\pi^*(u|s) \propto \exp\left(-\frac{1}{\nu} S[s \to u]\right)\]</div>
+<p>where <span class="arithmatex">\(S[s \to u]\)</span> is the action along the optimal trajectory from <span class="arithmatex">\(s\)</span> when applying control <span class="arithmatex">\(u\)</span>.</p>
+<p><strong>This is a Boltzmann distribution over actions!</strong></p>
+<p>The policy naturally emerges from minimizing action, with temperature <span class="arithmatex">\(\nu\)</span> controlling the sharpness:</p>
+<ul>
+<li>High <span class="arithmatex">\(\nu\)</span> (high temperature) → More exploration, softer policy</li>
+<li>Low <span class="arithmatex">\(\nu\)</span> (low temperature) → More exploitation, sharper policy</li>
+</ul>
+<hr />
+<h3 id="23-the-cost-to-go-as-potential">2.3 The Cost-to-Go as "Potential"<a class="headerlink" href="#23-the-cost-to-go-as-potential" title="Permanent link">&para;</a></h3>
+<p>In path integral control, the <strong>cost-to-go</strong> (or value function) plays the role of potential energy:</p>
+<div class="arithmatex">\[V(s) = \min_{\tau} \mathbb{E}\left[\int_{t}^{\infty} C(s_\tau, u_\tau) d\tau \mid s_t = s\right]\]</div>
+<p>The optimal control is:</p>
+<div class="arithmatex">\[u^*(s) = -\nu \nabla_s \log \mathcal{Z}(s)\]</div>
+<p>where <span class="arithmatex">\(\mathcal{Z}(s)\)</span> is the "partition function" (sum over all trajectories).</p>
+<p><strong>This is gradient descent on an energy landscape!</strong></p>
+<hr />
+<h2 id="3-grls-boltzmann-policy-as-least-action">3. GRL's Boltzmann Policy as Least Action<a class="headerlink" href="#3-grls-boltzmann-policy-as-least-action" title="Permanent link">&para;</a></h2>
+<h3 id="31-the-grl-action-functional">3.1 The GRL Action Functional<a class="headerlink" href="#31-the-grl-action-functional" title="Permanent link">&para;</a></h3>
+<p>In GRL, we work in <strong>augmented state-action space</strong> <span class="arithmatex">\(z = (s, \theta)\)</span>. The natural action functional is:</p>
+<div class="arithmatex">\[S[\tau] = \int_{t_0}^{t_f} \left[ E(s_t, \theta_t) + \frac{1}{2\lambda} \|\dot{\theta}_t\|^2 \right] dt\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(E(s, \theta) = -Q^+(s, \theta)\)</span> = <strong>energy landscape</strong> (potential)</li>
+<li><span class="arithmatex">\(\|\dot{\theta}_t\|^2\)</span> = "kinetic energy" of action parameter changes</li>
+<li><span class="arithmatex">\(\lambda\)</span> = temperature (controls exploration)</li>
+</ul>
+<p><strong>The GRL Lagrangian</strong>:</p>
+<div class="arithmatex">\[L(s, \theta, \dot{\theta}) = -E(s, \theta) - \frac{1}{2\lambda} \|\dot{\theta}\|^2 = Q^+(s, \theta) - \frac{1}{2\lambda} \|\dot{\theta}\|^2\]</div>
+<p>This says: <strong>Good trajectories have high <span class="arithmatex">\(Q^+\)</span> (high reward potential) and smooth changes in action parameters</strong> (low kinetic cost).</p>
+<hr />
+<h3 id="32-why-the-boltzmann-policy-emerges">3.2 Why the Boltzmann Policy Emerges<a class="headerlink" href="#32-why-the-boltzmann-policy-emerges" title="Permanent link">&para;</a></h3>
+<p>From path integral control theory, the optimal policy is:</p>
+<div class="arithmatex">\[\pi^*(\theta|s) \propto \exp\left(-\frac{1}{\lambda} S[s \to \theta]\right)\]</div>
+<p>For a single-step decision (no trajectory dynamics), this simplifies to:</p>
+<div class="arithmatex">\[\pi^*(\theta|s) \propto \exp\left(-\frac{1}{\lambda} E(s, \theta)\right) = \exp\left(\frac{Q^+(s, \theta)}{\lambda}\right)\]</div>
+<p><strong>This is exactly GRL's Boltzmann policy!</strong></p>
+<p>It's not an ad-hoc choice—it's the optimal policy under the action minimization principle.</p>
+<hr />
+<h3 id="33-smooth-actions-from-kinetic-regularization">3.3 Smooth Actions from Kinetic Regularization<a class="headerlink" href="#33-smooth-actions-from-kinetic-regularization" title="Permanent link">&para;</a></h3>
+<p>The kinetic term <span class="arithmatex">\(\frac{1}{2\lambda}\|\dot{\theta}\|^2\)</span> penalizes rapid changes in action parameters.</p>
+<p><strong>Why this matters</strong>:</p>
+<ul>
+<li>Prevents jerky, discontinuous actions</li>
+<li>Encourages smooth, physically realizable trajectories</li>
+<li>Natural regularization (Occam's razor for actions)</li>
+</ul>
+<p><strong>Example: Robotic reaching</strong></p>
+<p>Without kinetic penalty: Agent might command wild, discontinuous joint torques
+With kinetic penalty: Agent learns smooth, human-like reaching motions</p>
+<p><strong>In GRL</strong>: The kernel function <span class="arithmatex">\(k(z, z')\)</span> implicitly encodes this smoothness preference!</p>
+<div class="arithmatex">\[k((s, \theta), (s', \theta')) = k_s(s, s') \cdot k_\theta(\theta, \theta')\]</div>
+<p>A smooth kernel (e.g., RBF) ensures that nearby actions have similar <span class="arithmatex">\(Q^+\)</span> values, effectively implementing the kinetic penalty.</p>
+<hr />
+<h2 id="4-implications-for-action-discovery">4. Implications for Action Discovery<a class="headerlink" href="#4-implications-for-action-discovery" title="Permanent link">&para;</a></h2>
+<h3 id="41-beyond-fixed-action-sets">4.1 Beyond Fixed Action Sets<a class="headerlink" href="#41-beyond-fixed-action-sets" title="Permanent link">&para;</a></h3>
+<p>Traditional RL assumes a fixed action space:</p>
+<ul>
+<li><strong>Discrete</strong>: <span class="arithmatex">\(\mathcal{A} = \{a_1, a_2, \ldots, a_n\}\)</span></li>
+<li><strong>Continuous</strong>: <span class="arithmatex">\(\mathcal{A} = \mathbb{R}^d\)</span> with pre-defined parameterization</li>
+</ul>
+<p><strong>GRL with least action</strong>: Actions are <strong>discovered</strong> by minimizing the action functional.</p>
+<p>The agent learns:</p>
+<ol>
+<li><strong>What actions are smooth</strong> (low kinetic cost)</li>
+<li><strong>What actions are effective</strong> (high <span class="arithmatex">\(Q^+\)</span>, low energy)</li>
+<li><strong>How to balance exploration and exploitation</strong> (<span class="arithmatex">\(\lambda\)</span> temperature)</li>
+</ol>
+<p><strong>No pre-defined action repertoire needed!</strong></p>
+<hr />
+<h3 id="42-gradient-flow-on-the-energy-landscape">4.2 Gradient Flow on the Energy Landscape<a class="headerlink" href="#42-gradient-flow-on-the-energy-landscape" title="Permanent link">&para;</a></h3>
+<p>From the Euler-Lagrange equations, the optimal trajectory satisfies:</p>
+<div class="arithmatex">\[\lambda \ddot{\theta}_t = -\nabla_\theta E(s_t, \theta_t) + \sqrt{2\lambda} \, \xi_t\]</div>
+<p>where <span class="arithmatex">\(\xi_t\)</span> is Brownian noise (from stochasticity).</p>
+<p><strong>In the overdamped limit</strong> (high friction), this becomes:</p>
+<div class="arithmatex">\[\dot{\theta}_t = -\nabla_\theta E(s_t, \theta_t) + \sqrt{2\lambda} \, \xi_t = \nabla_\theta Q^+(s_t, \theta_t) + \sqrt{2\lambda} \, \xi_t\]</div>
+<p><strong>This is Langevin dynamics!</strong></p>
+<ul>
+<li><strong>Deterministic part</strong>: Follow the gradient of <span class="arithmatex">\(Q^+\)</span> uphill (toward high-value actions)</li>
+<li><strong>Stochastic part</strong>: Explore via temperature-controlled noise</li>
+<li><strong>Result</strong>: Agent naturally discovers smooth, high-value action trajectories</li>
+</ul>
+<hr />
+<h3 id="43-neural-network-policies-as-action-minimizers">4.3 Neural Network Policies as Action Minimizers<a class="headerlink" href="#43-neural-network-policies-as-action-minimizers" title="Permanent link">&para;</a></h3>
+<p>When implementing GRL with a neural network <span class="arithmatex">\(Q_\phi(s, \theta)\)</span>:</p>
+<p><strong>Policy optimization becomes</strong>:</p>
+<div class="arithmatex">\[\theta_t \sim \pi_\phi(\theta|s_t) = \frac{\exp(Q_\phi(s_t, \theta)/\lambda)}{\int \exp(Q_\phi(s_t, \theta')/\lambda) d\theta'}\]</div>
+<p><strong>Sampling via gradient flow</strong>:</p>
+<ol>
+<li>Initialize <span class="arithmatex">\(\theta_0\)</span> randomly or from heuristic</li>
+<li>Update: <span class="arithmatex">\(\theta_{t+1} = \theta_t + \alpha \nabla_\theta Q_\phi(s_t, \theta_t) + \sqrt{2\alpha\lambda} \, \epsilon_t\)</span></li>
+<li>Repeat until convergence</li>
+</ol>
+<p><strong>This is Langevin Monte Carlo sampling from the Boltzmann distribution!</strong></p>
+<p>The agent doesn't need a pre-defined action set—it <strong>samples actions from the energy landscape</strong> shaped by learning.</p>
+<hr />
+<h2 id="5-principled-policy-optimization">5. Principled Policy Optimization<a class="headerlink" href="#5-principled-policy-optimization" title="Permanent link">&para;</a></h2>
+<h3 id="51-the-energy-based-learning-objective">5.1 The Energy-Based Learning Objective<a class="headerlink" href="#51-the-energy-based-learning-objective" title="Permanent link">&para;</a></h3>
+<p>Given the least action principle, the natural learning objective is:</p>
+<p><strong>Minimize expected action over trajectories</strong>:</p>
+<div class="arithmatex">\[J(\phi) = \mathbb{E}_{\tau \sim \pi_\phi}\left[\int_0^T \left[E(s_t, \theta_t) + \frac{1}{2\lambda}\|\dot{\theta}_t\|^2\right] dt\right]\]</div>
+<p>subject to environment dynamics <span class="arithmatex">\(s_{t+1} = f(s_t, \theta_t, w_t)\)</span>.</p>
+<p><strong>In practice</strong> (episodic RL):</p>
+<div class="arithmatex">\[J(\phi) = \mathbb{E}_{\tau \sim \pi_\phi}\left[\sum_{t=0}^T \left[-r_t + \frac{1}{2\lambda}\|\theta_{t+1} - \theta_t\|^2\right]\right]\]</div>
+<p>This naturally balances:</p>
+<ul>
+<li><strong>Reward maximization</strong>: via <span class="arithmatex">\(-r_t\)</span> (minimize negative reward)</li>
+<li><strong>Action smoothness</strong>: via kinetic penalty</li>
+</ul>
+<hr />
+<h3 id="52-natural-gradient-on-the-policy-manifold">5.2 Natural Gradient on the Policy Manifold<a class="headerlink" href="#52-natural-gradient-on-the-policy-manifold" title="Permanent link">&para;</a></h3>
+<p>The least action principle also suggests using the <strong>natural gradient</strong> (Amari 1998):</p>
+<div class="arithmatex">\[\nabla_\phi^{\text{nat}} J = F^{-1} \nabla_\phi J\]</div>
+<p>where <span class="arithmatex">\(F\)</span> is the Fisher information matrix (the Riemannian metric on the policy space).</p>
+<p><strong>Why this is "natural"</strong>: It measures policy distance in terms of <strong>KL divergence</strong>, not Euclidean distance in parameter space.</p>
+<p><strong>Connection to action</strong>: The Fisher metric is the infinitesimal version of the action metric on the policy manifold.</p>
+<p><strong>Practical algorithms</strong>:</p>
+<ul>
+<li>TRPO (Trust Region Policy Optimization)</li>
+<li>PPO (Proximal Policy Optimization)</li>
+<li>Natural Actor-Critic</li>
+</ul>
+<p>All implicitly minimize action-like functionals!</p>
+<hr />
+<h3 id="53-smoothness-as-inductive-bias">5.3 Smoothness as Inductive Bias<a class="headerlink" href="#53-smoothness-as-inductive-bias" title="Permanent link">&para;</a></h3>
+<p>The kinetic term <span class="arithmatex">\(\frac{1}{2\lambda}\|\dot{\theta}\|^2\)</span> is an <strong>inductive bias</strong> favoring smooth policies.</p>
+<p><strong>Why this helps learning</strong>:</p>
+<ul>
+<li>Reduces sample complexity (smooth functions generalize better)</li>
+<li>Improves stability (prevents policy collapse)</li>
+<li>Encodes physical priors (real systems have inertia)</li>
+</ul>
+<p><strong>In GRL</strong>: This is naturally encoded by:</p>
+<ol>
+<li><strong>Kernel smoothness</strong>: RBF kernels enforce continuity</li>
+<li><strong>Particle memory</strong>: Weighted neighbors smooth the <span class="arithmatex">\(Q^+\)</span> estimate</li>
+<li><strong>MemoryUpdate propagation</strong>: <span class="arithmatex">\(\lambda_{\text{prop}}\)</span> controls local smoothing</li>
+</ol>
+<hr />
+<h2 id="6-connection-to-grls-core-ideas">6. Connection to GRL's Core Ideas<a class="headerlink" href="#6-connection-to-grls-core-ideas" title="Permanent link">&para;</a></h2>
+<h3 id="61-energy-function-chapter-03">6.1 Energy Function (Chapter 03)<a class="headerlink" href="#61-energy-function-chapter-03" title="Permanent link">&para;</a></h3>
+<p>The energy <span class="arithmatex">\(E(z) = -Q^+(z)\)</span> is the <strong>potential</strong> in the action functional:</p>
+<div class="arithmatex">\[S[\tau] = \int \left[E(z_t) + \frac{1}{2\lambda}\|\dot{z}_t\|^2\right] dt\]</div>
+<p><strong>Why call it energy?</strong>
+- Consistent with physics (potential energy landscape)
+- Optimal trajectories minimize total energy + kinetic cost
+- Connects to statistical mechanics (Boltzmann distribution)</p>
+<hr />
+<h3 id="62-reinforcement-field-chapter-04">6.2 Reinforcement Field (Chapter 04)<a class="headerlink" href="#62-reinforcement-field-chapter-04" title="Permanent link">&para;</a></h3>
+<p>The reinforcement field <span class="arithmatex">\(Q^+: \mathcal{Z} \to \mathbb{R}\)</span> defines the <strong>potential energy landscape</strong>.</p>
+<p><strong>From least action perspective</strong>:</p>
+<ul>
+<li>High <span class="arithmatex">\(Q^+\)</span> regions: Low potential energy, attractors</li>
+<li>Low <span class="arithmatex">\(Q^+\)</span> regions: High potential energy, repellers</li>
+<li>Gradient <span class="arithmatex">\(\nabla Q^+\)</span>: Force field guiding action selection</li>
+</ul>
+<p><strong>The field emerges from particles</strong> (Chapter 05), which act like "mass distributions" creating the energy landscape.</p>
+<hr />
+<h3 id="63-memoryupdate-chapter-06">6.3 MemoryUpdate (Chapter 06)<a class="headerlink" href="#63-memoryupdate-chapter-06" title="Permanent link">&para;</a></h3>
+<p>MemoryUpdate modifies the particle ensemble, which <strong>reshapes the energy landscape</strong>.</p>
+<p><strong>From least action perspective</strong>:</p>
+<ul>
+<li>Adding particle <span class="arithmatex">\((z_{\text{new}}, w_{\text{new}})\)</span>: Creates a potential well at <span class="arithmatex">\(z_{\text{new}}\)</span></li>
+<li>Propagating weights: Smooths the landscape (kinetic regularization)</li>
+<li>Hard threshold <span class="arithmatex">\(\epsilon\)</span>: Limits influence radius (finite-range potential)</li>
+</ul>
+<p><strong>The updated field</strong> <span class="arithmatex">\(Q^+_{\text{new}}\)</span> guides future action selection via gradient flow.</p>
+<hr />
+<h3 id="64-rf-sarsa-chapter-07-coming-next">6.4 RF-SARSA (Chapter 07, coming next)<a class="headerlink" href="#64-rf-sarsa-chapter-07-coming-next" title="Permanent link">&para;</a></h3>
+<p>RF-SARSA implements <strong>temporal difference learning</strong> on the energy landscape.</p>
+<p><strong>From least action perspective</strong>:</p>
+<ul>
+<li>TD error: Mismatch between predicted and actual action along trajectory</li>
+<li>Weight update: Adjusts potential to make future trajectories optimal</li>
+<li>Exploration (<span class="arithmatex">\(\lambda\)</span>): Temperature for Langevin sampling</li>
+</ul>
+<p><strong>The algorithm</strong> is performing <strong>stochastic gradient descent on the expected action</strong> over trajectories!</p>
+<hr />
+<h2 id="7-practical-implementation-notes">7. Practical Implementation Notes<a class="headerlink" href="#7-practical-implementation-notes" title="Permanent link">&para;</a></h2>
+<h3 id="71-choosing-the-temperature-lambda">7.1 Choosing the Temperature <span class="arithmatex">\(\lambda\)</span><a class="headerlink" href="#71-choosing-the-temperature-lambda" title="Permanent link">&para;</a></h3>
+<p>The temperature <span class="arithmatex">\(\lambda\)</span> controls exploration:</p>
+<p><strong>High <span class="arithmatex">\(\lambda\)</span> (hot)</strong>:</p>
+<ul>
+<li>Broad distribution over actions</li>
+<li>More exploration</li>
+<li>Good early in learning</li>
+</ul>
+<p><strong>Low <span class="arithmatex">\(\lambda\)</span> (cold)</strong>:</p>
+<ul>
+<li>Peaked distribution (near-greedy)</li>
+<li>More exploitation</li>
+<li>Good after convergence</li>
+</ul>
+<p><strong>Typical schedule</strong>: Exponential decay <span class="arithmatex">\(\lambda_t = \lambda_0 \cdot \alpha^t\)</span> with <span class="arithmatex">\(\alpha \approx 0.99\)</span>.</p>
+<hr />
+<h3 id="72-implementing-gradient-flow">7.2 Implementing Gradient Flow<a class="headerlink" href="#72-implementing-gradient-flow" title="Permanent link">&para;</a></h3>
+<p><strong>For continuous action parameters</strong> <span class="arithmatex">\(\theta \in \mathbb{R}^d\)</span>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">sample_action_langevin</span><span class="p">(</span><span class="n">Q_field</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">theta_init</span><span class="p">,</span> <span class="n">lambda_temp</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample action via Langevin dynamics on Q+ landscape.&quot;&quot;&quot;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta_init</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>        <span class="c1"># Compute gradient of Q+ w.r.t. theta</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="n">grad_Q</span> <span class="o">=</span> <span class="n">Q_field</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>  <span class="c1"># ∇_θ Q+(s, θ)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>        <span class="c1"># Langevin update</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">+</span> <span class="n">step_size</span> <span class="o">*</span> <span class="n">grad_Q</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">step_size</span> <span class="o">*</span> <span class="n">lambda_temp</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="o">*</span><span class="n">theta</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="k">return</span> <span class="n">theta</span>
+</span></code></pre></div>
+<p><strong>Practical note</strong>: For high-dimensional <span class="arithmatex">\(\theta\)</span>, use <strong>Metropolis-adjusted Langevin</strong> (MALA) for better convergence.</p>
+<hr />
+<h3 id="73-kinetic-regularization-in-loss">7.3 Kinetic Regularization in Loss<a class="headerlink" href="#73-kinetic-regularization-in-loss" title="Permanent link">&para;</a></h3>
+<p><strong>When training a neural network</strong> <span class="arithmatex">\(Q_\phi(s, \theta)\)</span>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">compute_loss</span><span class="p">(</span><span class="n">Q_phi</span><span class="p">,</span> <span class="n">trajectories</span><span class="p">,</span> <span class="n">lambda_temp</span><span class="p">,</span> <span class="n">lambda_kinetic</span><span class="p">):</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute action-based loss.&quot;&quot;&quot;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="p">:</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>            <span class="n">s_t</span><span class="p">,</span> <span class="n">theta_t</span><span class="p">,</span> <span class="n">r_t</span> <span class="o">=</span> <span class="n">tau</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>            <span class="n">s_tp1</span><span class="p">,</span> <span class="n">theta_tp1</span><span class="p">,</span> <span class="n">r_tp1</span> <span class="o">=</span> <span class="n">tau</span><span class="p">[</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>            <span class="c1"># Energy term: negative reward</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>            <span class="n">loss</span> <span class="o">+=</span> <span class="o">-</span><span class="n">r_t</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>            <span class="c1"># Kinetic term: smoothness penalty</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>            <span class="n">loss</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambda_kinetic</span><span class="p">))</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">theta_tp1</span> <span class="o">-</span> <span class="n">theta_t</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>            <span class="c1"># TD error (coming in Chapter 07)</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>            <span class="n">Q_current</span> <span class="o">=</span> <span class="n">Q_phi</span><span class="p">(</span><span class="n">s_t</span><span class="p">,</span> <span class="n">theta_t</span><span class="p">)</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>            <span class="n">Q_next</span> <span class="o">=</span> <span class="n">Q_phi</span><span class="p">(</span><span class="n">s_tp1</span><span class="p">,</span> <span class="n">theta_tp1</span><span class="p">)</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>            <span class="n">td_error</span> <span class="o">=</span> <span class="n">r_t</span> <span class="o">+</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">Q_next</span> <span class="o">-</span> <span class="n">Q_current</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>            <span class="n">loss</span> <span class="o">+=</span> <span class="n">td_error</span><span class="o">**</span><span class="mi">2</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>    <span class="k">return</span> <span class="n">loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">trajectories</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="8-summary-why-least-action-matters-for-grl">8. Summary: Why Least Action Matters for GRL<a class="headerlink" href="#8-summary-why-least-action-matters-for-grl" title="Permanent link">&para;</a></h2>
+<p><strong>Physics justification</strong>:</p>
+<ul>
+<li>Energy-based formulation is not arbitrary—it's grounded in fundamental physics</li>
+<li>Boltzmann policy emerges naturally from action minimization</li>
+<li>Smooth trajectories are optimal, not just convenient</li>
+</ul>
+<p><strong>Algorithmic benefits</strong>:</p>
+<ul>
+<li>Principled exploration via temperature <span class="arithmatex">\(\lambda\)</span></li>
+<li>Natural regularization via kinetic penalty</li>
+<li>Gradient-based action discovery (no fixed action sets needed)</li>
+</ul>
+<p><strong>Theoretical depth</strong>:</p>
+<ul>
+<li>Connects RL to 300+ years of physics and optimal control</li>
+<li>Provides a unified framework (discrete, continuous, hybrid actions)</li>
+<li>Opens path to advanced techniques (natural gradients, Riemannian optimization)</li>
+</ul>
+<p><strong>Next steps</strong>:</p>
+<ul>
+<li><strong>Chapter 07: RF-SARSA</strong> — How to learn <span class="arithmatex">\(Q^+\)</span> via temporal differences</li>
+<li><strong>Quantum-Inspired Chapter 09</strong> — Path integrals and Feynman's formulation</li>
+</ul>
+<hr />
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<p><strong>Path Integral Control</strong>:</p>
+<ul>
+<li>Kappen, H. J. (2005). "Path integrals and symmetry breaking for optimal control theory." <em>Journal of Statistical Mechanics</em>.</li>
+<li>Todorov, E. (2009). "Efficient computation of optimal actions." <em>PNAS</em>.</li>
+<li>Theodorou, E., Buchli, J., &amp; Schaal, S. (2010). "A generalized path integral control approach to reinforcement learning." <em>JMLR</em>.</li>
+</ul>
+<p><strong>Variational Principles</strong>:</p>
+<ul>
+<li>Goldstein, H., Poole, C., &amp; Safko, J. (2002). <em>Classical Mechanics</em> (3<sup>rd</sup> ed.), Chapter 2.</li>
+<li>Landau, L. D., &amp; Lifshitz, E. M. (1976). <em>Mechanics</em> (3<sup>rd</sup> ed.), Chapter 2.</li>
+</ul>
+<p><strong>Natural Gradients &amp; Policy Optimization</strong>:</p>
+<ul>
+<li>Amari, S. (1998). "Natural gradient works efficiently in learning." <em>Neural Computation</em>.</li>
+<li>Schulman, J., et al. (2015). "Trust region policy optimization." <em>ICML</em>.</li>
+</ul>
+<hr />
+<p><strong><a href="../03-energy-and-fitness/">← Back to Chapter 03: Energy and Fitness</a></strong> | <strong><a href="../04-reinforcement-field/">Next: Chapter 04 →</a></strong></p>
+<p><strong><a href="../../quantum_inspired/09-path-integrals-and-action-principles/">Related: Quantum-Inspired Chapter 09 - Path Integrals</a></strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

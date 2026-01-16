@@ -1,0 +1,4472 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/implementation/">
+      
+      
+        <link rel="prev" href="../quantum_inspired/09-path-integrals-and-action-principles/">
+      
+      
+        <link rel="next" href="../recovering_classical_rl/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Implementation Guide - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#grl-v0-implementation-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Implementation Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/03a-least-action-principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/06-memory-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/07a-continuous-policy-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Specifications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-1-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 1: Representation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-2-reinforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 2: Reinforcement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-3-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 3: Inference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-4-abstraction-part-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 4: Abstraction (Part II)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#demonstration-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demonstration Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supporting-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-priorities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Priorities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Priorities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#priority-1-particle-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 1: Particle Memory ⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-2-kernel-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 2: Kernel Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-3-memoryupdate-algorithm-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 3: MemoryUpdate (Algorithm 1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-4-rf-sarsa-algorithm-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 4: RF-SARSA (Algorithm 2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-5-policy-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 5: Policy Inference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-6-soft-state-transitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 6: Soft State Transitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-7-2d-navigation-domain-critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 7: 2D Navigation Domain ⭐⭐ Critical
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-ii-priorities-after-part-i-validated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part II Priorities (After Part I Validated)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part II Priorities (After Part I Validated)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#priority-8-spectral-clustering-part-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 8: Spectral Clustering (Part II)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-9-concept-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 9: Concept Discovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-10-concept-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 10: Concept Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-11-concept-conditioned-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 11: Concept-Conditioned Policies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2d-navigation-domain-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2D Navigation Domain Specification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2D Navigation Domain Specification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain Description
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenarios-from-original-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenarios (From Original Paper)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproduction-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproduction Goals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#professional-enhancement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Professional Enhancement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment Plan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-interface-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Interface Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-domains-beyond-2d-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Application Domains Beyond 2D Navigation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Application Domains Beyond 2D Navigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#philosophy-grl-as-a-generalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Philosophy: GRL as a Generalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-application-domains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority Application Domains
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recovering-classical-rl-a-bridge-to-adoption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recovering Classical RL: A Bridge to Adoption
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm-fine-tuning-as-a-grl-application-exploratory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLM Fine-tuning as a GRL Application (Exploratory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-simulation-package-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Simulation Package Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategic-roadmap-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategic Roadmap Update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-deployment-priority-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Deployment (Priority 7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Standards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quality Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-i-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part I Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-ii-validation-after-part-i" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part II Validation (After Part I)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2d-navigation-demo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2D Navigation Demo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-specifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Specifications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Specifications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-infrastructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Infrastructure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-1-representation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 1: Representation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-2-reinforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 2: Reinforcement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-3-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 3: Inference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#layer-4-abstraction-part-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layer 4: Abstraction (Part II)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#demonstration-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Demonstration Environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supporting-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supporting Components
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-priorities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Priorities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation Priorities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#priority-1-particle-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 1: Particle Memory ⭐
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-2-kernel-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 2: Kernel Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-3-memoryupdate-algorithm-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 3: MemoryUpdate (Algorithm 1)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-4-rf-sarsa-algorithm-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 4: RF-SARSA (Algorithm 2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-5-policy-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 5: Policy Inference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-6-soft-state-transitions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 6: Soft State Transitions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-7-2d-navigation-domain-critical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 7: 2D Navigation Domain ⭐⭐ Critical
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#part-ii-priorities-after-part-i-validated" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part II Priorities (After Part I Validated)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Part II Priorities (After Part I Validated)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#priority-8-spectral-clustering-part-ii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 8: Spectral Clustering (Part II)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-9-concept-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 9: Concept Discovery
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-10-concept-hierarchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 10: Concept Hierarchy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-11-concept-conditioned-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority 11: Concept-Conditioned Policies
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2d-navigation-domain-specification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2D Navigation Domain Specification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2D Navigation Domain Specification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Domain Description
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenarios-from-original-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scenarios (From Original Paper)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproduction-goals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproduction Goals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#professional-enhancement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Professional Enhancement
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deployment-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment Plan
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-interface-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Interface Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#application-domains-beyond-2d-navigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Application Domains Beyond 2D Navigation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Application Domains Beyond 2D Navigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#philosophy-grl-as-a-generalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Philosophy: GRL as a Generalization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#priority-application-domains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority Application Domains
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recovering-classical-rl-a-bridge-to-adoption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recovering Classical RL: A Bridge to Adoption
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#llm-fine-tuning-as-a-grl-application-exploratory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LLM Fine-tuning as a GRL Application (Exploratory)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#environment-simulation-package-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Simulation Package Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategic-roadmap-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategic Roadmap Update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#success-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Success Metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#code-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Structure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#core-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Dependencies
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-deployment-priority-7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Deployment (Priority 7)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quality-standards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quality Standards
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quality Standards">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#code-quality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Code Quality
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-i-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part I Validation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#part-ii-validation-after-part-i" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Part II Validation (After Part I)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2d-navigation-demo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2D Navigation Demo
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/implementation/README.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="grl-v0-implementation-guide">GRL-v0 Implementation Guide<a class="headerlink" href="#grl-v0-implementation-guide" title="Permanent link">&para;</a></h1>
+<p><strong>Purpose</strong>: Technical specifications for implementing GRL-v0<br />
+<strong>Audience</strong>: Developers ready to implement GRL<br />
+<strong>Prerequisites</strong>: Familiarity with tutorial chapters</p>
+<hr />
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This directory provides implementation specifications for GRL-v0. Each component is documented with:</p>
+<ul>
+<li>Theoretical foundation</li>
+<li>Interface design</li>
+<li>Implementation details</li>
+<li>Testing strategy</li>
+</ul>
+<hr />
+<h2 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h2>
+<p>GRL-v0 is organized into <strong>four layers</strong> spanning both Part I (Reinforcement Fields) and Part II (Emergent Structure):</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>┌─────────────────────────────────────────────────────────────────┐
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>│         Layer 4: Abstraction (Part II: Emergent Structure)      │
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│  ┌─────────────────────────┐  ┌─────────────────────────────┐  │
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│  │  Spectral Clustering    │  │   Concept Hierarchy         │  │
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│  │  (Functional clusters)  │  │  (Multi-level abstraction)  │  │
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│  └─────────────────────────┘  └─────────────────────────────┘  │
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>├─────────────────────────────────────────────────────────────────┤
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│         Layer 3: Inference (Part I: Reinforcement Fields)       │
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│  ┌─────────────────────────┐  ┌─────────────────────────────┐  │
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│  │    Policy Inference     │  │   Soft State Transitions    │  │
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│  │  (Energy minimization)  │  │  (Distributed successors)   │  │
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│  └─────────────────────────┘  └─────────────────────────────┘  │
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>├─────────────────────────────────────────────────────────────────┤
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│         Layer 2: Reinforcement (Part I: Reinforcement Fields)   │
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│  ┌─────────────────────────┐  ┌─────────────────────────────┐  │
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│  │      RF-SARSA           │  │      MemoryUpdate           │  │
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>│  │  (Two-layer TD system)  │  │  (Belief transition)        │  │
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│  └─────────────────────────┘  └─────────────────────────────┘  │
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>├─────────────────────────────────────────────────────────────────┤
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>│         Layer 1: Representation (Part I: Reinforcement Fields)  │
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>│  ┌─────────────────────────┐  ┌─────────────────────────────┐  │
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│  │    Particle Memory      │  │     Kernel Functions        │  │
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│  │   (Belief state Ω)      │  │     (RKHS geometry)         │  │
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>│  └─────────────────────────┘  └─────────────────────────────┘  │
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>└─────────────────────────────────────────────────────────────────┘
+</span></code></pre></div>
+<p><strong>Part I (Layers 1-3)</strong>: Particle-based learning, reinforcement fields, belief-state inference</p>
+<p><strong>Part II (Layer 4)</strong>: Emergent structure discovery, spectral concept formation, hierarchical control</p>
+<p><em>Based on:</em> <a href="../../references/GRL-v0.pdf">Section V of the original paper</a> (Chiu &amp; Huber, 2022)</p>
+<hr />
+<h2 id="implementation-specifications">Implementation Specifications<a class="headerlink" href="#implementation-specifications" title="Permanent link">&para;</a></h2>
+<h3 id="core-infrastructure">Core Infrastructure<a class="headerlink" href="#core-infrastructure" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Component</th>
+<th>Priority</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00</td>
+<td>Implementation Overview</td>
+<td>-</td>
+<td>⏳ Planned</td>
+</tr>
+<tr>
+<td>01</td>
+<td>Architecture Design</td>
+<td>-</td>
+<td>⏳ Planned</td>
+</tr>
+</tbody>
+</table>
+<h3 id="layer-1-representation">Layer 1: Representation<a class="headerlink" href="#layer-1-representation" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Component</th>
+<th>Priority</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>02</td>
+<td>Particle Memory</td>
+<td>⭐ 1</td>
+<td>⏳ Planned</td>
+</tr>
+<tr>
+<td>03</td>
+<td>Kernel Functions</td>
+<td>⭐ 2</td>
+<td>⏳ Planned</td>
+</tr>
+</tbody>
+</table>
+<h3 id="layer-2-reinforcement">Layer 2: Reinforcement<a class="headerlink" href="#layer-2-reinforcement" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Component</th>
+<th>Priority</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>04</td>
+<td>MemoryUpdate Algorithm</td>
+<td>⭐ 3</td>
+<td>⏳ Planned</td>
+</tr>
+<tr>
+<td>05</td>
+<td>RF-SARSA Algorithm</td>
+<td>⭐ 4</td>
+<td>⏳ Planned</td>
+</tr>
+</tbody>
+</table>
+<h3 id="layer-3-inference">Layer 3: Inference<a class="headerlink" href="#layer-3-inference" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Component</th>
+<th>Priority</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>06</td>
+<td>Policy Inference</td>
+<td>⭐ 5</td>
+<td>⏳ Planned</td>
+</tr>
+<tr>
+<td>07</td>
+<td>Soft State Transitions</td>
+<td>⭐ 6</td>
+<td>⏳ Planned</td>
+</tr>
+</tbody>
+</table>
+<h3 id="layer-4-abstraction-part-ii">Layer 4: Abstraction (Part II)<a class="headerlink" href="#layer-4-abstraction-part-ii" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Component</th>
+<th>Priority</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>08</td>
+<td>Spectral Clustering</td>
+<td>🔬 1</td>
+<td>⏳ Planned</td>
+</tr>
+<tr>
+<td>09</td>
+<td>Concept Discovery</td>
+<td>🔬 2</td>
+<td>⏳ Planned</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Concept Hierarchy</td>
+<td>🔬 3</td>
+<td>⏳ Planned</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Concept-Conditioned Policies</td>
+<td>🔬 4</td>
+<td>⏳ Planned</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> Part II implementation begins after Part I is validated (see Priority 7 below)</p>
+<h3 id="demonstration-environment">Demonstration Environment<a class="headerlink" href="#demonstration-environment" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Component</th>
+<th>Priority</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12</td>
+<td>2D Navigation Domain</td>
+<td>⭐⭐ 7</td>
+<td>⏳ Planned</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> This is the primary environment for validating and demonstrating GRL-v0</p>
+<h3 id="supporting-components">Supporting Components<a class="headerlink" href="#supporting-components" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Spec</th>
+<th>Component</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>13</td>
+<td>Environment Interface</td>
+<td>⏳ Planned</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Visualization Tools</td>
+<td>⏳ Planned</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Testing Strategy</td>
+<td>⏳ Planned</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Experiment Protocols</td>
+<td>⏳ Planned</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="implementation-priorities">Implementation Priorities<a class="headerlink" href="#implementation-priorities" title="Permanent link">&para;</a></h2>
+<h3 id="priority-1-particle-memory">Priority 1: Particle Memory ⭐<a class="headerlink" href="#priority-1-particle-memory" title="Permanent link">&para;</a></h3>
+<p><strong>Why first</strong>: This IS the agent state. Everything else depends on it.</p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Particle storage: <code>[(z_i, w_i)]</code></li>
+<li>Energy queries: <code>E(z) = -Σ w_i k(z, z_i)</code></li>
+<li>Association: Find similar particles</li>
+<li>Management: Add, merge, prune</li>
+</ul>
+<h3 id="priority-2-kernel-functions">Priority 2: Kernel Functions<a class="headerlink" href="#priority-2-kernel-functions" title="Permanent link">&para;</a></h3>
+<p><strong>Why second</strong>: Defines geometry of augmented space.</p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>RBF kernel with ARD</li>
+<li>Augmented kernel: <code>k((s,θ), (s',θ'))</code></li>
+<li>Gradient computation</li>
+<li>Hyperparameter adaptation</li>
+</ul>
+<h3 id="priority-3-memoryupdate-algorithm-1">Priority 3: MemoryUpdate (Algorithm 1)<a class="headerlink" href="#priority-3-memoryupdate-algorithm-1" title="Permanent link">&para;</a></h3>
+<p><strong>Why third</strong>: The belief-state transition operator.</p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Particle instantiation</li>
+<li>Kernel-based association</li>
+<li>Weight propagation</li>
+<li>Regularization</li>
+</ul>
+<h3 id="priority-4-rf-sarsa-algorithm-2">Priority 4: RF-SARSA (Algorithm 2)<a class="headerlink" href="#priority-4-rf-sarsa-algorithm-2" title="Permanent link">&para;</a></h3>
+<p><strong>Why fourth</strong>: Provides reinforcement signals.</p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Primitive SARSA layer</li>
+<li>Field GP layer</li>
+<li>Two-layer coupling</li>
+<li>ARD updates</li>
+</ul>
+<h3 id="priority-5-policy-inference">Priority 5: Policy Inference<a class="headerlink" href="#priority-5-policy-inference" title="Permanent link">&para;</a></h3>
+<p><strong>Why fifth</strong>: How actions are selected.</p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Energy-based selection</li>
+<li>Boltzmann sampling</li>
+<li>Greedy mode</li>
+<li>Gradient-based optimization (optional)</li>
+</ul>
+<h3 id="priority-6-soft-state-transitions">Priority 6: Soft State Transitions<a class="headerlink" href="#priority-6-soft-state-transitions" title="Permanent link">&para;</a></h3>
+<p><strong>Why sixth</strong>: Emergent uncertainty from kernel overlap.</p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Distributed successor states</li>
+<li>Transition probability from kernel</li>
+<li>Implicit POMDP interpretation</li>
+<li>Uncertainty quantification</li>
+</ul>
+<h3 id="priority-7-2d-navigation-domain-critical">Priority 7: 2D Navigation Domain ⭐⭐ <strong>Critical</strong><a class="headerlink" href="#priority-7-2d-navigation-domain-critical" title="Permanent link">&para;</a></h3>
+<p><strong>Why seventh</strong>: Primary validation and demonstration environment.</p>
+<p><strong>Purpose</strong>:</p>
+<ol>
+<li><strong>Reproduce</strong> the original paper (Figure 4, Section VI)</li>
+<li><strong>Validate</strong> all Part I components in a controlled setting</li>
+<li><strong>Demonstrate</strong> GRL capabilities professionally</li>
+</ol>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Continuous 2D state space</li>
+<li>Parametric movement actions (direction, magnitude)</li>
+<li>Obstacles, walls, and goals</li>
+<li>Energy landscape visualization</li>
+<li>Particle memory visualization</li>
+<li>Trajectory recording</li>
+</ul>
+<p><strong>Deployment Goals</strong>:</p>
+<ul>
+<li><strong>Reproducibility</strong>: Match original paper results</li>
+<li><strong>Professionalism</strong>: Publication-quality figures and demos</li>
+<li>
+<p><strong>Accessibility</strong>: </p>
+</li>
+<li>
+<p>Python API for programmatic use</p>
+</li>
+<li>Interactive web interface for exploration</li>
+<li>Jupyter notebook tutorials</li>
+<li><strong>Extensibility</strong>: Easy to add new scenarios</li>
+</ul>
+<p>See: <a href="#2d-navigation-domain-specification">2D Navigation Specification</a> below</p>
+<hr />
+<h2 id="part-ii-priorities-after-part-i-validated">Part II Priorities (After Part I Validated)<a class="headerlink" href="#part-ii-priorities-after-part-i-validated" title="Permanent link">&para;</a></h2>
+<h3 id="priority-8-spectral-clustering-part-ii">Priority 8: Spectral Clustering (Part II)<a class="headerlink" href="#priority-8-spectral-clustering-part-ii" title="Permanent link">&para;</a></h3>
+<p><strong>Why first in Part II</strong>: Foundation for concept discovery.</p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Kernel matrix construction from particle memory</li>
+<li>Eigendecomposition</li>
+<li>Cluster identification</li>
+<li>Concept subspace projection (from quantum-inspired Chapter 05)</li>
+</ul>
+<h3 id="priority-9-concept-discovery">Priority 9: Concept Discovery<a class="headerlink" href="#priority-9-concept-discovery" title="Permanent link">&para;</a></h3>
+<p><strong>Why second</strong>: Automated structure learning.</p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Functional similarity metrics</li>
+<li>Automatic concept identification</li>
+<li>Concept naming/labeling</li>
+<li>Validation metrics</li>
+</ul>
+<h3 id="priority-10-concept-hierarchy">Priority 10: Concept Hierarchy<a class="headerlink" href="#priority-10-concept-hierarchy" title="Permanent link">&para;</a></h3>
+<p><strong>Why third</strong>: Multi-level abstraction.</p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Nested subspace structure</li>
+<li>Hierarchical composition</li>
+<li>Transfer across concepts</li>
+<li>Visualization</li>
+</ul>
+<h3 id="priority-11-concept-conditioned-policies">Priority 11: Concept-Conditioned Policies<a class="headerlink" href="#priority-11-concept-conditioned-policies" title="Permanent link">&para;</a></h3>
+<p><strong>Why fourth</strong>: Use discovered structure.</p>
+<p><strong>Key Features</strong>:</p>
+<ul>
+<li>Policy per concept</li>
+<li>Concept-gated execution</li>
+<li>Hierarchical planning</li>
+<li>Abstract reasoning</li>
+</ul>
+<hr />
+<h2 id="2d-navigation-domain-specification">2D Navigation Domain Specification<a class="headerlink" href="#2d-navigation-domain-specification" title="Permanent link">&para;</a></h2>
+<h3 id="overview_1">Overview<a class="headerlink" href="#overview_1" title="Permanent link">&para;</a></h3>
+<p>The <strong>2D Navigation Domain</strong> is the primary environment for GRL-v0 validation and demonstration. Originally introduced in the paper (Figure 4, Section VI), we aim to:</p>
+<ol>
+<li><strong>Reproduce</strong> existing results with high fidelity</li>
+<li><strong>Enhance</strong> the domain to professional standards</li>
+<li><strong>Deploy</strong> as an accessible, interactive demonstration</li>
+</ol>
+<hr />
+<h3 id="domain-description">Domain Description<a class="headerlink" href="#domain-description" title="Permanent link">&para;</a></h3>
+<p><strong>State Space</strong>: <span class="arithmatex">\(\mathcal{S} = [0, L_x] \times [0, L_y]\)</span> (continuous 2D position)</p>
+<p><strong>Action Space</strong>: <span class="arithmatex">\(\mathcal{A} = \{(\theta, v) : \theta \in [0, 2\pi), v \in [0, v_{\max}]\}\)</span>
+- <span class="arithmatex">\(\theta\)</span>: Direction angle
+- <span class="arithmatex">\(v\)</span>: Speed magnitude</p>
+<p><strong>Augmented Space</strong>: <span class="arithmatex">\(\mathcal{Z} = \mathcal{S} \times \mathcal{A}\)</span> (4D continuous)</p>
+<p><strong>Dynamics</strong>:
+$<span class="arithmatex">\(s_{t+1} = s_t + v \cdot (\cos\theta, \sin\theta) \cdot \Delta t\)</span>$</p>
+<p><strong>Obstacles</strong>: Polygonal or circular regions (configurable)</p>
+<p><strong>Goals</strong>: Target positions with rewards</p>
+<hr />
+<h3 id="scenarios-from-original-paper">Scenarios (From Original Paper)<a class="headerlink" href="#scenarios-from-original-paper" title="Permanent link">&para;</a></h3>
+<p><strong>Scenario 1</strong>: Simple goal-reaching
+- Single goal, no obstacles
+- Validate basic particle memory and policy inference</p>
+<p><strong>Scenario 2</strong>: Navigation with obstacles
+- Multiple obstacles (replicating Figure 4)
+- Demonstrate smooth navigation around barriers
+- Show energy landscape and particle distribution</p>
+<p><strong>Scenario 3</strong>: Multi-goal task
+- Multiple goals with different rewards
+- Demonstrate action-state duality
+- Show concept emergence (if Part II implemented)</p>
+<hr />
+<h3 id="reproduction-goals">Reproduction Goals<a class="headerlink" href="#reproduction-goals" title="Permanent link">&para;</a></h3>
+<p><strong>Figure 4 Recreation</strong>:</p>
+<ul>
+<li>Exact environment setup from paper</li>
+<li>Energy landscape visualization</li>
+<li>Particle memory visualization</li>
+<li>Learned trajectory comparison</li>
+</ul>
+<p><strong>Quantitative Metrics</strong>:</p>
+<ul>
+<li>Success rate (reaching goal)</li>
+<li>Path efficiency (vs. optimal)</li>
+<li>Collision rate (with obstacles)</li>
+<li>Learning curves (episodes to convergence)</li>
+</ul>
+<p><strong>Qualitative Assessment</strong>:</p>
+<ul>
+<li>Smooth, natural trajectories</li>
+<li>Efficient obstacle avoidance</li>
+<li>Energy landscape interpretability</li>
+</ul>
+<hr />
+<h3 id="professional-enhancement">Professional Enhancement<a class="headerlink" href="#professional-enhancement" title="Permanent link">&para;</a></h3>
+<p><strong>Visual Quality</strong>:</p>
+<ul>
+<li>Publication-ready figures (vector graphics)</li>
+<li>Interactive animations (mp4/gif)</li>
+<li>Real-time rendering (60 FPS)</li>
+<li>
+<p>Multiple view modes:</p>
+</li>
+<li>
+<p>Top-down environment view</p>
+</li>
+<li>Energy landscape heatmap</li>
+<li>Particle distribution overlay</li>
+<li>Trajectory history</li>
+</ul>
+<p><strong>Code Quality</strong>:</p>
+<ul>
+<li>Modular, extensible design</li>
+<li>Configuration files (YAML/JSON)</li>
+<li>Logging and metrics</li>
+<li>Reproducible random seeds</li>
+</ul>
+<p><strong>Documentation</strong>:</p>
+<ul>
+<li>API reference</li>
+<li>Tutorial notebooks</li>
+<li>Example scripts</li>
+<li>Performance benchmarks</li>
+</ul>
+<hr />
+<h3 id="deployment-plan">Deployment Plan<a class="headerlink" href="#deployment-plan" title="Permanent link">&para;</a></h3>
+<h4 id="phase-1-core-implementation">Phase 1: Core Implementation<a class="headerlink" href="#phase-1-core-implementation" title="Permanent link">&para;</a></h4>
+<p><strong>Components</strong>:</p>
+<ul>
+<li>Environment class (<code>Nav2DEnv</code>)</li>
+<li>Rendering engine</li>
+<li>Action space handling</li>
+<li>Reward function</li>
+</ul>
+<p><strong>Deliverables</strong>:</p>
+<ul>
+<li>Python package installable via pip</li>
+<li>Basic visualization</li>
+<li>Unit tests</li>
+</ul>
+<h4 id="phase-2-grl-integration">Phase 2: GRL Integration<a class="headerlink" href="#phase-2-grl-integration" title="Permanent link">&para;</a></h4>
+<p><strong>Components</strong>:</p>
+<ul>
+<li>Particle memory integration</li>
+<li>MemoryUpdate in navigation loop</li>
+<li>RF-SARSA training</li>
+<li>Energy landscape computation</li>
+</ul>
+<p><strong>Deliverables</strong>:</p>
+<ul>
+<li>Training scripts</li>
+<li>Evaluation scripts</li>
+<li>Experiment configs</li>
+</ul>
+<h4 id="phase-3-professional-demo">Phase 3: Professional Demo<a class="headerlink" href="#phase-3-professional-demo" title="Permanent link">&para;</a></h4>
+<p><strong>Components</strong>:</p>
+<ul>
+<li>Interactive Jupyter notebooks</li>
+<li>Web-based interface (Flask/FastAPI + React)</li>
+<li>Video demonstrations</li>
+<li>Benchmark suite</li>
+</ul>
+<p><strong>Deliverables</strong>:</p>
+<ul>
+<li>Hosted web demo (e.g., Hugging Face Spaces, Streamlit)</li>
+<li>Tutorial video</li>
+<li>Blog post</li>
+</ul>
+<hr />
+<h3 id="web-interface-features">Web Interface Features<a class="headerlink" href="#web-interface-features" title="Permanent link">&para;</a></h3>
+<p><strong>Interactive Controls</strong>:</p>
+<ul>
+<li>Place obstacles (drag-and-drop)</li>
+<li>Set goal positions</li>
+<li>Adjust GRL hyperparameters (kernel bandwidth, temperature)</li>
+<li>Start/stop/reset simulation</li>
+</ul>
+<p><strong>Visualizations</strong>:</p>
+<ul>
+<li>Real-time agent movement</li>
+<li>Energy landscape evolution</li>
+<li>Particle memory growth</li>
+<li>Learning curves</li>
+</ul>
+<p><strong>Export</strong>:</p>
+<ul>
+<li>Save trajectories</li>
+<li>Download figures</li>
+<li>Export particle memory</li>
+</ul>
+<p><strong>Sharing</strong>:</p>
+<ul>
+<li>Permalink to configurations</li>
+<li>Embed in documentation</li>
+<li>Public gallery of scenarios</li>
+</ul>
+<hr />
+<h3 id="api-design">API Design<a class="headerlink" href="#api-design" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">grl.envs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Nav2DEnv</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">grl.agents</span><span class="w"> </span><span class="kn">import</span> <span class="n">GRLAgent</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Create environment</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">env</span> <span class="o">=</span> <span class="n">Nav2DEnv</span><span class="p">(</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">obstacles</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">},</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;polygon&quot;</span><span class="p">,</span> <span class="s2">&quot;vertices&quot;</span><span class="p">:</span> <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]},</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="p">],</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="n">goal</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">),</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>    <span class="n">goal_reward</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">)</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="c1"># Create GRL agent</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">agent</span> <span class="o">=</span> <span class="n">GRLAgent</span><span class="p">(</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>    <span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;rbf&quot;</span><span class="p">,</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>    <span class="n">lengthscale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>    <span class="n">temperature</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="p">)</span>
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="c1"># Training loop</span>
+</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_episodes</span><span class="p">):</span>
+</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>    <span class="n">state</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>    <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>
+</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>    <span class="k">while</span> <span class="ow">not</span> <span class="n">done</span><span class="p">:</span>
+</span><span id="__span-1-28"><a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>        <span class="n">action</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">act</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+</span><span id="__span-1-29"><a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>        <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+</span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>        <span class="n">agent</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">next_state</span><span class="p">)</span>
+</span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>        <span class="n">state</span> <span class="o">=</span> <span class="n">next_state</span>
+</span><span id="__span-1-32"><a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>
+</span><span id="__span-1-33"><a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>    <span class="c1"># Visualize</span>
+</span><span id="__span-1-34"><a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>    <span class="k">if</span> <span class="n">episode</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span><span id="__span-1-35"><a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>        <span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">show_particles</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_energy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-1-36"><a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>        <span class="n">agent</span><span class="o">.</span><span class="n">save_memory</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;memory_ep</span><span class="si">{</span><span class="n">episode</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">)</span>
+</span><span id="__span-1-37"><a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>
+</span><span id="__span-1-38"><a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a><span class="c1"># Evaluate</span>
+</span><span id="__span-1-39"><a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a><span class="n">success_rate</span><span class="p">,</span> <span class="n">avg_path_length</span> <span class="o">=</span> <span class="n">evaluate</span><span class="p">(</span><span class="n">agent</span><span class="p">,</span> <span class="n">env</span><span class="p">,</span> <span class="n">num_trials</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h3 id="timeline">Timeline<a class="headerlink" href="#timeline" title="Permanent link">&para;</a></h3>
+<p><strong>Week 1-2</strong>: Core environment implementation
+<strong>Week 3-4</strong>: GRL integration and training
+<strong>Week 5-6</strong>: Visualization and demos
+<strong>Week 7-8</strong>: Web interface and deployment
+<strong>Week 9-10</strong>: Documentation and tutorials</p>
+<p><strong>Target</strong>: Complete professional 2D navigation demo by <strong>March 2026</strong></p>
+<hr />
+<h2 id="application-domains-beyond-2d-navigation">Application Domains Beyond 2D Navigation<a class="headerlink" href="#application-domains-beyond-2d-navigation" title="Permanent link">&para;</a></h2>
+<h3 id="philosophy-grl-as-a-generalization">Philosophy: GRL as a Generalization<a class="headerlink" href="#philosophy-grl-as-a-generalization" title="Permanent link">&para;</a></h3>
+<p><strong>Key Insight</strong>: Traditional RL is a <strong>special case</strong> of GRL when:</p>
+<ul>
+<li>Action space is discrete → GRL with fixed parametric mappings</li>
+<li>Action space is finite → GRL with finite operator set</li>
+<li>Q-learning → GRL with trivial augmentation (state only)</li>
+</ul>
+<p><strong>Strategic Goal</strong>: Demonstrate that GRL <strong>subsumes</strong> classical RL, including modern applications like:</p>
+<ul>
+<li><strong>RLHF for LLMs</strong> (Reinforcement Learning from Human Feedback)</li>
+<li><strong>PPO/SAC for continuous control</strong></li>
+<li><strong>DQN for discrete actions</strong></li>
+<li><strong>Actor-critic methods</strong></li>
+</ul>
+<p>This positions GRL not as "another RL algorithm" but as a <strong>unifying framework</strong> that recovers existing methods as special cases while enabling new capabilities.</p>
+<hr />
+<h3 id="priority-application-domains">Priority Application Domains<a class="headerlink" href="#priority-application-domains" title="Permanent link">&para;</a></h3>
+<h4 id="tier-1-validation-environments-demonstrate-correctness"><strong>Tier 1: Validation Environments</strong> (Demonstrate Correctness)<a class="headerlink" href="#tier-1-validation-environments-demonstrate-correctness" title="Permanent link">&para;</a></h4>
+<p><strong>Goal</strong>: Show GRL recovers classical RL results</p>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Type</th>
+<th>Classical Baseline</th>
+<th>GRL Advantage</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>2D Navigation</strong></td>
+<td>Continuous control</td>
+<td>N/A (novel)</td>
+<td>Smooth generalization</td>
+<td>⏳ Priority 7</td>
+</tr>
+<tr>
+<td><strong>CartPole</strong></td>
+<td>Discrete control</td>
+<td>DQN</td>
+<td>Continuous action variant</td>
+<td>📋 Planned</td>
+</tr>
+<tr>
+<td><strong>Pendulum</strong></td>
+<td>Continuous control</td>
+<td>DDPG, SAC</td>
+<td>Parametric torque</td>
+<td>📋 Planned</td>
+</tr>
+<tr>
+<td><strong>MuJoCo Ant</strong></td>
+<td>Robotics</td>
+<td>PPO, SAC</td>
+<td>Compositional gaits</td>
+<td>📋 Planned</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h4 id="tier-2-strategic-environments-demonstrate-generality"><strong>Tier 2: Strategic Environments</strong> (Demonstrate Generality)<a class="headerlink" href="#tier-2-strategic-environments-demonstrate-generality" title="Permanent link">&para;</a></h4>
+<p><strong>Goal</strong>: Show GRL applies to modern RL problems, including LLMs</p>
+<p><strong>Note:</strong> These are <strong>theoretical connections</strong> with potential future implementations. Each would require significant engineering effort.</p>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Type</th>
+<th>Why Important</th>
+<th>Theoretical Connection</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>LLM Fine-tuning (RLHF)</strong></td>
+<td>Discrete (tokens)</td>
+<td>Massive industry relevance</td>
+<td>Token selection as discrete action, PPO as special case</td>
+<td>🔬 Exploratory</td>
+</tr>
+<tr>
+<td><strong>Prompt Optimization</strong></td>
+<td>Discrete sequences</td>
+<td>Growing field</td>
+<td>Parametric prompt generation in embedding space</td>
+<td>🔬 Exploratory</td>
+</tr>
+<tr>
+<td><strong>Molecule Design</strong></td>
+<td>Graph generation</td>
+<td>Drug discovery</td>
+<td>Parametric molecule operators</td>
+<td>🔬 Exploratory</td>
+</tr>
+<tr>
+<td><strong>Neural Architecture Search</strong></td>
+<td>Discrete choices</td>
+<td>AutoML</td>
+<td>Compositional architecture operators</td>
+<td>🔬 Exploratory</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Primary Value</strong>: Demonstrating that GRL <strong>theoretically generalizes</strong> existing methods used in commercially relevant problems (RLHF, prompt tuning, etc.)</p>
+<p><strong>Implementation Reality</strong>: These are <strong>massive undertakings</strong> comparable to full research projects. They serve as:</p>
+<ul>
+<li>Motivation for why GRL matters</li>
+<li>Future directions if resources/collaborators available</li>
+<li>Examples in theoretical justification documents</li>
+</ul>
+<hr />
+<h4 id="tier-3-novel-environments-demonstrate-unique-capabilities"><strong>Tier 3: Novel Environments</strong> (Demonstrate Unique Capabilities)<a class="headerlink" href="#tier-3-novel-environments-demonstrate-unique-capabilities" title="Permanent link">&para;</a></h4>
+<p><strong>Goal</strong>: Show what GRL enables that classical RL cannot do easily</p>
+<table>
+<thead>
+<tr>
+<th>Domain</th>
+<th>Type</th>
+<th>Novel Capability</th>
+<th>Why GRL Shines</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Physics Simulation</strong></td>
+<td>Continuous fields</td>
+<td>Apply force fields, not point forces</td>
+<td>Operator actions on state space</td>
+<td>📋 Planned</td>
+</tr>
+<tr>
+<td><strong>Fluid Control</strong></td>
+<td>PDE-governed</td>
+<td>Manipulate flow fields</td>
+<td>Field operators, neural operators</td>
+<td>📋 Planned</td>
+</tr>
+<tr>
+<td><strong>Image Editing</strong></td>
+<td>High-dim continuous</td>
+<td>Parametric transformations</td>
+<td>Smooth action manifolds</td>
+<td>📋 Planned</td>
+</tr>
+<tr>
+<td><strong>Multi-Robot Coordination</strong></td>
+<td>Continuous, multi-agent</td>
+<td>Compositional team behaviors</td>
+<td>Operator algebra</td>
+<td>📋 Planned</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="recovering-classical-rl-a-bridge-to-adoption">Recovering Classical RL: A Bridge to Adoption<a class="headerlink" href="#recovering-classical-rl-a-bridge-to-adoption" title="Permanent link">&para;</a></h3>
+<p><strong>Document</strong>: <code>docs/GRL0/recovering_classical_rl.md</code> (to be created)</p>
+<p><strong>Purpose</strong>: Show step-by-step how classical RL algorithms emerge from GRL as special cases</p>
+<p><strong>Contents</strong>:</p>
+<ol>
+<li><strong>Q-learning from GRL</strong></li>
+<li>Discrete action space as fixed parametric mapping</li>
+<li>Particle memory as replay buffer</li>
+<li>
+<p>TD update as special case of MemoryUpdate</p>
+</li>
+<li>
+<p><strong>DQN from GRL</strong></p>
+</li>
+<li>Neural network Q-function as continuous approximation of particle field</li>
+<li>Experience replay as particle subsampling</li>
+<li>
+<p>Target networks as delayed MemoryUpdate</p>
+</li>
+<li>
+<p><strong>Policy Gradient (REINFORCE) from GRL</strong></p>
+</li>
+<li>Boltzmann policy from energy landscape</li>
+<li>Score function gradient as field gradient</li>
+<li>
+<p>Baseline as energy normalization</p>
+</li>
+<li>
+<p><strong>Actor-Critic (PPO, SAC) from GRL</strong></p>
+</li>
+<li>Actor = policy inference from field</li>
+<li>Critic = reinforcement field itself</li>
+<li>
+<p>Entropy regularization as temperature parameter</p>
+</li>
+<li>
+<p><strong>RLHF for LLMs from GRL</strong></p>
+</li>
+<li>Token selection as discrete action</li>
+<li>Reward model as energy function</li>
+<li>PPO update as special case of RF-SARSA</li>
+</ol>
+<p><strong>Impact</strong>: This document becomes the <strong>key reference</strong> for convincing classical RL researchers that GRL is not alien, but a natural generalization.</p>
+<hr />
+<h3 id="llm-fine-tuning-as-a-grl-application-exploratory">LLM Fine-tuning as a GRL Application (Exploratory)<a class="headerlink" href="#llm-fine-tuning-as-a-grl-application-exploratory" title="Permanent link">&para;</a></h3>
+<p><strong>Status</strong>: Theoretical connection established, implementation exploratory</p>
+<p><strong>Why This Is Interesting</strong>: </p>
+<ul>
+<li><strong>Relevance</strong>: RLHF is used for ChatGPT, Claude, Llama, Gemini</li>
+<li><strong>Familiarity</strong>: Most ML researchers understand this problem</li>
+<li><strong>Validation</strong>: If GRL generalizes RLHF theoretically, it validates the framework's breadth</li>
+</ul>
+<hr />
+<h4 id="theoretical-formulation">Theoretical Formulation<a class="headerlink" href="#theoretical-formulation" title="Permanent link">&para;</a></h4>
+<p><strong>State</strong>: <span class="arithmatex">\(s_t\)</span> = (prompt, partial response up to token <span class="arithmatex">\(t\)</span>)</p>
+<p><strong>Action</strong>: <span class="arithmatex">\(a_t \in \mathcal{V}\)</span> where <span class="arithmatex">\(\mathcal{V}\)</span> = vocabulary (discrete)</p>
+<p><strong>GRL View</strong>: </p>
+<ul>
+<li>Augmented space: <span class="arithmatex">\((s_t, \theta_t)\)</span> where <span class="arithmatex">\(\theta_t\)</span> represents token choice</li>
+<li>Particle memory: stores (prompt, response, reward) experiences</li>
+<li>Reinforcement field: <span class="arithmatex">\(Q^+(s_t, \theta_t)\)</span> over semantic embedding</li>
+<li>Policy inference: Sample from Boltzmann over <span class="arithmatex">\(Q^+\)</span></li>
+</ul>
+<p><strong>Key Insight</strong>: Standard RLHF (PPO) is GRL with:</p>
+<ul>
+<li>Discrete action space (tokens)</li>
+<li>Neural network approximation of field</li>
+<li>On-policy sampling</li>
+</ul>
+<p><strong>This theoretical connection is documented in:</strong> <a href="../recovering_classical_rl/">Recovering Classical RL from GRL</a></p>
+<hr />
+<h4 id="potential-grl-advantages-theoretical">Potential GRL Advantages (Theoretical)<a class="headerlink" href="#potential-grl-advantages-theoretical" title="Permanent link">&para;</a></h4>
+<ul>
+<li><strong>Off-policy learning</strong>: Particle memory could enable experience replay</li>
+<li><strong>Smooth generalization</strong>: Nearby prompts might share value via kernel</li>
+<li><strong>Uncertainty</strong>: Sparse particles could indicate high uncertainty</li>
+<li><strong>Interpretability</strong>: Energy landscape over prompt space</li>
+</ul>
+<p><strong>However</strong>: These advantages are speculative without empirical validation.</p>
+<hr />
+<h4 id="implementation-reality">Implementation Reality<a class="headerlink" href="#implementation-reality" title="Permanent link">&para;</a></h4>
+<p><strong>Challenges</strong>:</p>
+<ol>
+<li><strong>Infrastructure</strong>: Requires reward model training, human feedback data, preference datasets</li>
+<li><strong>Computational cost</strong>: LLM fine-tuning is expensive (even GPT-2)</li>
+<li><strong>Comparison difficulty</strong>: Matching PPO requires careful hyperparameter tuning</li>
+<li><strong>Integration</strong>: Modern RLHF uses TRL, transformers, accelerate — non-trivial to integrate</li>
+<li><strong>Validation</strong>: Showing clear advantages requires extensive controlled experiments</li>
+</ol>
+<p><strong>Estimated Effort</strong>: 6-12 months of focused work with GPU resources</p>
+<p><strong>When to Pursue</strong>:</p>
+<ul>
+<li>✅ After GRL validated on simpler environments (2D Nav, classical RL)</li>
+<li>✅ If collaborators or funding available</li>
+<li>✅ If clear path to demonstrating advantages</li>
+<li>✅ If access to human feedback datasets</li>
+</ul>
+<p><strong>Realistic First Step</strong> (if pursued):</p>
+<ul>
+<li>Toy RLHF-like problem (small vocabulary, simple preference task)</li>
+<li>Not real LLM, but demonstrates GRL can handle discrete sequential choices</li>
+<li>Fast iteration, low compute cost</li>
+</ul>
+<hr />
+<h3 id="environment-simulation-package-structure">Environment Simulation Package Structure<a class="headerlink" href="#environment-simulation-package-structure" title="Permanent link">&para;</a></h3>
+<p>Given the scope of applications, we'll need a well-organized environment package:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>src/grl/envs/
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>├── __init__.py
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>├── base_env.py                 # GRL environment interface
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>│
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>├── validation/                 # Tier 1: Classical RL baselines
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│   ├── nav2d.py               # 2D navigation (Priority 7)
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>│   ├── cartpole.py            # Discrete control
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>│   ├── pendulum.py            # Continuous control
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>│   └── mujoco_envs.py         # Robotics (Ant, Humanoid)
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>│
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>├── strategic/                  # Tier 2: Modern RL applications
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>│   ├── llm_finetuning.py      # 🔥 RLHF for LLMs (High Priority)
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>│   ├── prompt_optimization.py  # Prompt tuning
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>│   ├── molecule_design.py      # Drug discovery
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>│   └── nas.py                  # Neural Architecture Search
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>│
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>├── novel/                      # Tier 3: GRL-native applications
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>│   ├── physics_sim.py          # Force field control
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>│   ├── fluid_control.py        # PDE-governed systems
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>│   ├── image_editing.py        # Parametric image transforms
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>│   └── multi_robot.py          # Multi-agent coordination
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>│
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>├── wrappers/                   # Adapters for existing environments
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>│   ├── gym_wrapper.py          # OpenAI Gym → GRL
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>│   ├── gymnasium_wrapper.py    # Gymnasium → GRL
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>│   ├── dm_control_wrapper.py   # DeepMind Control → GRL
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a>│   └── rlhf_wrapper.py         # TRL/transformers → GRL
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a>│
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>└── scenarios/                  # Predefined configurations
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>    ├── paper_scenarios.py      # Scenarios from original paper
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>    ├── benchmark_suite.py      # Standard benchmarks
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>    └── tutorials.py            # Teaching examples
+</span></code></pre></div>
+<p><strong>Key Design Principle</strong>: </p>
+<ul>
+<li><strong>Wrappers</strong> allow GRL to be applied to <strong>any existing RL environment</strong></li>
+<li><strong>Native environments</strong> showcase GRL's unique capabilities</li>
+<li><strong>Scenarios</strong> provide reproducible experiments</li>
+</ul>
+<hr />
+<h3 id="strategic-roadmap-update">Strategic Roadmap Update<a class="headerlink" href="#strategic-roadmap-update" title="Permanent link">&para;</a></h3>
+<p><strong>Phase 1 (Q1 2026)</strong>: Foundation ⭐⭐⭐
+- Complete Part I tutorial
+- Implement core GRL components
+- ✅ 2D Navigation validated</p>
+<p><strong>Phase 2 (Q2 2026)</strong>: Classical RL Recovery ⭐⭐
+- Implement wrappers (Gym, Gymnasium)
+- Reproduce DQN on CartPole
+- Reproduce SAC on Pendulum
+- <strong>Document</strong>: "Recovering Classical RL from GRL" ✅ Complete
+- <strong>Paper A</strong> submission</p>
+<p><strong>Phase 3 (Q3-Q4 2026)</strong>: Novel Contributions ⭐
+- Amplitude-based RL (if promising)
+- MDL consolidation
+- Concept-based mixture of experts
+- <strong>Papers B &amp; C</strong> submissions</p>
+<p><strong>Future Directions</strong> (No timeline):</p>
+<ul>
+<li><strong>Theoretical articles</strong>: Justify how RLHF, prompt optimization, molecule design are special cases</li>
+<li><strong>Implementation</strong>: If resources/collaborators available, pick 1-2 strategic applications</li>
+<li><strong>Novel applications</strong>: Physics simulation, multi-robot coordination (GRL-native capabilities)</li>
+</ul>
+<hr />
+<h3 id="success-metrics">Success Metrics<a class="headerlink" href="#success-metrics" title="Permanent link">&para;</a></h3>
+<p><strong>Technical</strong> (Achievable):</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 2D Navigation demo complete with professional web interface</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> GRL recovers DQN/SAC results on classical benchmarks (±5% performance)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Classical RL wrappers work with existing environments</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Documentation complete and accessible</li>
+</ul>
+<p><strong>Research</strong> (Achievable):</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Part I tutorial complete (Chapters 0-10)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Part II foundation (concept subspaces formalized)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> "Recovering Classical RL" document demonstrates generality</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Paper A submitted (operator formalism)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> 1-2 papers on novel contributions (amplitude-based RL or MDL consolidation)</li>
+</ul>
+<p><strong>Adoption</strong> (Aspirational):</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> GitHub stars: 100+ (realistic), 1000+ (stretch)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> External users beyond our lab</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Cited in other papers</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Conference workshop or tutorial (if invited)</li>
+</ul>
+<p><strong>Strategic Applications</strong> (Aspirational, No Timeline):</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Theoretical articles justify RLHF/prompt-opt as special cases</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> If resources available: implement 1-2 strategic applications</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Industry partnerships (if opportunities arise)</li>
+</ul>
+<hr />
+<h2 id="code-structure">Code Structure<a class="headerlink" href="#code-structure" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>src/grl/
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>├── __init__.py
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>├── core/
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>│   ├── particle_memory.py          # Priority 1: Particle state
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>│   ├── kernels.py                  # Priority 2: RKHS geometry
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>│   └── soft_transitions.py         # Priority 6: Emergent uncertainty
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>├── algorithms/
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>│   ├── memory_update.py            # Priority 3: Belief transition
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>│   ├── rf_sarsa.py                 # Priority 4: TD learning
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>│   └── policy_inference.py         # Priority 5: Action selection
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>├── concepts/                        # Part II: Emergent Structure
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>│   ├── spectral_clustering.py      # Priority 8: Functional clustering
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>│   ├── concept_discovery.py        # Priority 9: Automated structure
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>│   ├── concept_hierarchy.py        # Priority 10: Multi-level abstraction
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>│   └── concept_policies.py         # Priority 11: Hierarchical control
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>├── envs/
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>│   ├── nav2d.py                    # Priority 7: 2D Navigation Domain
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>│   ├── scenarios.py                # Predefined scenarios (Figure 4)
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>│   └── base_env.py                 # Environment interface
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>├── agents/
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>│   ├── grl_agent.py                # Complete GRL agent
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>│   └── evaluation.py               # Agent evaluation tools
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>├── utils/
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>│   ├── config.py                   # Configuration management
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>│   ├── reproducibility.py          # Random seeds, determinism
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>│   └── metrics.py                  # Performance metrics
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>├── visualization/
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>│   ├── energy_landscape.py         # Energy field heatmaps
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>│   ├── particle_viz.py             # Particle memory plots
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>│   ├── trajectory_viz.py           # Agent trajectories
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>│   └── concept_viz.py              # Concept subspace plots (Part II)
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>└── web/                            # Web deployment (Priority 7)
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>    ├── api.py                      # FastAPI backend
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>    ├── static/                     # Frontend assets
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>    └── templates/                  # HTML templates
+</span></code></pre></div>
+<hr />
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h2>
+<h3 id="core-dependencies">Core Dependencies<a class="headerlink" href="#core-dependencies" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>torch &gt;= 2.0              # Neural operators, gradient computation
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>numpy &gt;= 1.24             # Numerical operations
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>scipy &gt;= 1.10             # Scientific computing, optimization
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>gpytorch &gt;= 1.10          # Gaussian processes (optional)
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>scikit-learn &gt;= 1.3       # Spectral clustering (Part II)
+</span></code></pre></div>
+<h3 id="visualization">Visualization<a class="headerlink" href="#visualization" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>matplotlib &gt;= 3.7         # Static plots
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>seaborn &gt;= 0.12          # Statistical visualization
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>plotly &gt;= 5.14           # Interactive plots
+</span></code></pre></div>
+<h3 id="web-deployment-priority-7">Web Deployment (Priority 7)<a class="headerlink" href="#web-deployment-priority-7" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>fastapi &gt;= 0.104         # Backend API
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>uvicorn &gt;= 0.24          # ASGI server
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>pydantic &gt;= 2.4          # Data validation
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>jinja2 &gt;= 3.1            # Templating
+</span></code></pre></div>
+<h3 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>pytest &gt;= 7.4            # Testing
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>black &gt;= 23.9            # Code formatting
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>mypy &gt;= 1.6              # Type checking
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>sphinx &gt;= 7.2            # Documentation
+</span></code></pre></div>
+<hr />
+<h2 id="quality-standards">Quality Standards<a class="headerlink" href="#quality-standards" title="Permanent link">&para;</a></h2>
+<h3 id="code-quality">Code Quality<a class="headerlink" href="#code-quality" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> All public functions have docstrings (NumPy style)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Type hints throughout (Python 3.10+)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Unit test coverage &gt; 80%</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> No linting errors (black, mypy, flake8)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Examples run without modification</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Math notation matches paper</li>
+</ul>
+<h3 id="part-i-validation">Part I Validation<a class="headerlink" href="#part-i-validation" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Reproduce original paper results (Figure 4)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> MemoryUpdate converges</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> RF-SARSA learns effectively</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Energy landscapes are smooth</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Particle memory grows/prunes correctly</li>
+</ul>
+<h3 id="part-ii-validation-after-part-i">Part II Validation (After Part I)<a class="headerlink" href="#part-ii-validation-after-part-i" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Spectral clustering identifies meaningful concepts</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Concept hierarchy is interpretable</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Concept-conditioned policies improve performance</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Transfer learning across concepts works</li>
+</ul>
+<h3 id="2d-navigation-demo">2D Navigation Demo<a class="headerlink" href="#2d-navigation-demo" title="Permanent link">&para;</a></h3>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Web interface is responsive and intuitive</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Visualizations render at 60 FPS</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> All scenarios from paper work</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Export/sharing functionality works</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Tutorial notebooks are clear and complete</li>
+</ul>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p><strong>GRL-v0 Implementation</strong> spans:</p>
+<ul>
+<li><strong>Part I</strong> (Layers 1-3): Particle-based reinforcement fields</li>
+<li><strong>Part II</strong> (Layer 4): Emergent structure and concept discovery</li>
+<li><strong>Demonstration</strong>: Professional 2D navigation domain with web deployment</li>
+</ul>
+<p><strong>Priority Order</strong>:</p>
+<ol>
+<li>Part I foundations (Priorities 1-6)</li>
+<li>2D Navigation validation (Priority 7) ⭐⭐ <strong>Critical milestone</strong></li>
+<li>Part II extensions (Priorities 8-11)</li>
+<li>Additional environments and experiments</li>
+</ol>
+<p><strong>Target</strong>: Complete 2D navigation demo by <strong>March 2026</strong></p>
+<p><strong>See also</strong>: <a href="../../ROADMAP/">Research Roadmap</a> for broader research plan</p>
+<hr />
+<p><strong>Last Updated</strong>: January 14, 2026</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

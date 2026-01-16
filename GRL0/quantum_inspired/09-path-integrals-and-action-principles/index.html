@@ -1,0 +1,3446 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/quantum_inspired/09-path-integrals-and-action-principles/">
+      
+      
+        <link rel="prev" href="../08-memory-dynamics-formation-consolidation-retrieval/">
+      
+      
+        <link rel="next" href="../../implementation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>09: Path Integrals - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-09-path-integrals-and-action-principles" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              09: Path Integrals
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03a-least-action-principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/06-memory-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/07a-continuous-policy-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01a-wavefunction-interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-concept-projections-and-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-feynmans-path-integral-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Feynman's Path Integral Formulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Feynman&#39;s Path Integral Formulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-from-schrodinger-to-path-integrals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 From Schrödinger to Path Integrals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-key-differences-from-classical-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Key Differences from Classical Action
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-the-imaginary-time-wick-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 The Imaginary Time (Wick Rotation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-stochastic-control-as-imaginary-time-qm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Stochastic Control as Imaginary Time QM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Stochastic Control as Imaginary Time QM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-feynman-kac-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The Feynman-Kac Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-the-hjb-equation-as-schrodinger-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 The HJB Equation as Schrödinger Equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-grls-path-integral-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. GRL's Path Integral Formulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. GRL&#39;s Path Integral Formulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-grl-action-functional-revisited" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The GRL Action Functional (Revisited)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-boltzmann-policy-as-path-integral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The Boltzmann Policy as Path Integral
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-soft-state-transitions-revisited" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Soft State Transitions Revisited
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-complex-valued-grl-enabling-true-interference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Complex-Valued GRL: Enabling True Interference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Complex-Valued GRL: Enabling True Interference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-motivation-real-vs-complex-amplitudes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Motivation: Real vs. Complex Amplitudes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-complex-rkhs-chapter-03-revisited" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Complex RKHS (Chapter 03 Revisited)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-example-double-slit-in-action-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Example: Double-Slit in Action Space
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-practical-path-integral-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Practical Path Integral Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Practical Path Integral Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-path-integral-policy-improvement-pi2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Path Integral Policy Improvement (PI²)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-grl-adaptation-particle-weighted-path-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 GRL Adaptation: Particle-Weighted Path Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-langevin-sampling-on-the-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Langevin Sampling on the Field
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-connection-to-quantum-measurement-chapter-05" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Connection to Quantum Measurement (Chapter 05)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Connection to Quantum Measurement (Chapter 05)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-concept-subspaces-as-measurement-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Concept Subspaces as Measurement Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-hierarchical-composition-via-path-integrals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Hierarchical Composition via Path Integrals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-advanced-topics-feynman-diagrams-for-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Advanced Topics: Feynman Diagrams for GRL?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Advanced Topics: Feynman Diagrams for GRL?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-perturbation-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Perturbation Theory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-instantons-and-rare-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Instantons and Rare Events
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-implementation-sketch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Implementation Sketch
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Implementation Sketch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-complex-valued-particle-weights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Complex-Valued Particle Weights
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-path-integral-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Path Integral Sampling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-interference-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Interference Visualization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-summary-why-path-integrals-matter-for-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Summary: Why Path Integrals Matter for GRL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-feynmans-path-integral-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Feynman's Path Integral Formulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Feynman&#39;s Path Integral Formulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-from-schrodinger-to-path-integrals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 From Schrödinger to Path Integrals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-key-differences-from-classical-action" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Key Differences from Classical Action
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-the-imaginary-time-wick-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 The Imaginary Time (Wick Rotation)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-stochastic-control-as-imaginary-time-qm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Stochastic Control as Imaginary Time QM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Stochastic Control as Imaginary Time QM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-feynman-kac-formula" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The Feynman-Kac Formula
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-the-hjb-equation-as-schrodinger-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 The HJB Equation as Schrödinger Equation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-grls-path-integral-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. GRL's Path Integral Formulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. GRL&#39;s Path Integral Formulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-the-grl-action-functional-revisited" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 The GRL Action Functional (Revisited)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-boltzmann-policy-as-path-integral" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The Boltzmann Policy as Path Integral
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-soft-state-transitions-revisited" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Soft State Transitions Revisited
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-complex-valued-grl-enabling-true-interference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Complex-Valued GRL: Enabling True Interference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Complex-Valued GRL: Enabling True Interference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-motivation-real-vs-complex-amplitudes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Motivation: Real vs. Complex Amplitudes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-complex-rkhs-chapter-03-revisited" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Complex RKHS (Chapter 03 Revisited)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-example-double-slit-in-action-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Example: Double-Slit in Action Space
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-practical-path-integral-algorithms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Practical Path Integral Algorithms
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Practical Path Integral Algorithms">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-path-integral-policy-improvement-pi2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Path Integral Policy Improvement (PI²)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-grl-adaptation-particle-weighted-path-integration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 GRL Adaptation: Particle-Weighted Path Integration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-langevin-sampling-on-the-field" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Langevin Sampling on the Field
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-connection-to-quantum-measurement-chapter-05" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Connection to Quantum Measurement (Chapter 05)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Connection to Quantum Measurement (Chapter 05)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-concept-subspaces-as-measurement-operators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Concept Subspaces as Measurement Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-hierarchical-composition-via-path-integrals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Hierarchical Composition via Path Integrals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-advanced-topics-feynman-diagrams-for-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Advanced Topics: Feynman Diagrams for GRL?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Advanced Topics: Feynman Diagrams for GRL?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-perturbation-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Perturbation Theory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-instantons-and-rare-events" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Instantons and Rare Events
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-implementation-sketch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Implementation Sketch
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Implementation Sketch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-complex-valued-particle-weights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Complex-Valued Particle Weights
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-path-integral-sampling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Path Integral Sampling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-interference-visualization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 Interference Visualization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-summary-why-path-integrals-matter-for-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Summary: Why Path Integrals Matter for GRL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/quantum_inspired/09-path-integrals-and-action-principles.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-09-path-integrals-and-action-principles">Chapter 09: Path Integrals and Action Principles<a class="headerlink" href="#chapter-09-path-integrals-and-action-principles" title="Permanent link">&para;</a></h1>
+<p><strong>Purpose</strong>: This chapter makes explicit the deep connection between GRL's energy-based formulation and quantum mechanics via <strong>Feynman's path integral formulation</strong>. While Chapter 03a introduced the least action principle from a classical control perspective, here we explore the quantum mechanical version and its implications for amplitude-based learning.</p>
+<p><strong>Key insight</strong>: Just as quantum mechanics can be formulated via path integrals over complex-valued amplitudes, GRL can be extended to a path integral formulation over <strong>complex-valued reinforcement fields</strong>, enabling interference effects and richer policy representations.</p>
+<hr />
+<h2 id="1-feynmans-path-integral-formulation">1. Feynman's Path Integral Formulation<a class="headerlink" href="#1-feynmans-path-integral-formulation" title="Permanent link">&para;</a></h2>
+<h3 id="11-from-schrodinger-to-path-integrals">1.1 From Schrödinger to Path Integrals<a class="headerlink" href="#11-from-schrodinger-to-path-integrals" title="Permanent link">&para;</a></h3>
+<p>In standard quantum mechanics, the state evolves via the <strong>Schrödinger equation</strong>:</p>
+<div class="arithmatex">\[i\hbar \frac{\partial}{\partial t}|\psi(t)\rangle = \hat{H}|\psi(t)\rangle\]</div>
+<p>Feynman showed this is equivalent to <strong>summing over all possible paths</strong>:</p>
+<div class="arithmatex">\[\langle x_f | e^{-i\hat{H}T/\hbar} | x_i \rangle = \int \mathcal{D}[x(t)] \, e^{iS[x(t)]/\hbar}\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(S[x(t)] = \int_0^T L(x, \dot{x}, t) dt\)</span> = <strong>action functional</strong></li>
+<li><span class="arithmatex">\(L = T - V\)</span> = Lagrangian (kinetic - potential energy)</li>
+<li><span class="arithmatex">\(\hbar\)</span> = Planck's constant (sets the scale)</li>
+</ul>
+<p><strong>Interpretation</strong>: 
+The probability amplitude to go from <span class="arithmatex">\(x_i\)</span> to <span class="arithmatex">\(x_f\)</span> is the <strong>sum over all paths</strong>, each weighted by <span class="arithmatex">\(e^{iS/\hbar}\)</span>.</p>
+<hr />
+<h3 id="12-key-differences-from-classical-action">1.2 Key Differences from Classical Action<a class="headerlink" href="#12-key-differences-from-classical-action" title="Permanent link">&para;</a></h3>
+<p><strong>Classical mechanics</strong>: One path minimizes action
+- <span class="arithmatex">\(\delta S = 0\)</span> → Euler-Lagrange equations
+- Deterministic trajectory</p>
+<p><strong>Quantum mechanics</strong>: All paths contribute
+- <span class="arithmatex">\(\text{Amplitude} = \sum_{\text{paths}} e^{iS/\hbar}\)</span>
+- <strong>Interference</strong> between paths (constructive/destructive)
+- Paths near the classical trajectory dominate (stationary phase)</p>
+<p><strong>Why complex amplitudes?</strong>
+- Phase <span class="arithmatex">\(e^{iS/\hbar}\)</span> encodes action along path
+- Allows <strong>interference</strong>: paths can cancel or reinforce
+- Recovers classical limit as <span class="arithmatex">\(\hbar \to 0\)</span> (only minimal action path survives)</p>
+<hr />
+<h3 id="13-the-imaginary-time-wick-rotation">1.3 The Imaginary Time (Wick Rotation)<a class="headerlink" href="#13-the-imaginary-time-wick-rotation" title="Permanent link">&para;</a></h3>
+<p><strong>Key trick</strong>: Replace <span class="arithmatex">\(t \to -i\tau\)</span> (imaginary time):</p>
+<div class="arithmatex">\[e^{-i\hat{H}t/\hbar} \to e^{-\hat{H}\tau/\hbar}\]</div>
+<p><strong>Path integral becomes</strong>:</p>
+<div class="arithmatex">\[\langle x_f | e^{-\hat{H}\tau/\hbar} | x_i \rangle = \int \mathcal{D}[x(\tau)] \, e^{-S_E[x(\tau)]/\hbar}\]</div>
+<p>where <span class="arithmatex">\(S_E\)</span> is the <strong>Euclidean action</strong> (with sign flip).</p>
+<p><strong>Why this matters for RL</strong>:</p>
+<ul>
+<li>Real exponentials <span class="arithmatex">\(e^{-S_E/\hbar}\)</span> (no oscillations!)</li>
+<li>Becomes a <strong>probability distribution</strong> (after normalization)</li>
+<li>This is the statistical mechanics / thermodynamics connection</li>
+<li><strong>Temperature</strong> <span class="arithmatex">\(\beta = 1/(k_B T)\)</span> plays the role of <span class="arithmatex">\(1/\hbar\)</span></li>
+</ul>
+<hr />
+<h2 id="2-stochastic-control-as-imaginary-time-qm">2. Stochastic Control as Imaginary Time QM<a class="headerlink" href="#2-stochastic-control-as-imaginary-time-qm" title="Permanent link">&para;</a></h2>
+<h3 id="21-the-feynman-kac-formula">2.1 The Feynman-Kac Formula<a class="headerlink" href="#21-the-feynman-kac-formula" title="Permanent link">&para;</a></h3>
+<p>The <strong>Feynman-Kac formula</strong> connects:</p>
+<ul>
+<li>Quantum mechanics (path integrals)</li>
+<li>Stochastic processes (Brownian motion)</li>
+<li>Parabolic PDEs (diffusion equations)</li>
+</ul>
+<p><strong>For RL</strong>: The optimal value function satisfies:</p>
+<div class="arithmatex">\[V(s) = -\nu \log \mathbb{E}_{\text{paths}}\left[e^{-\frac{1}{\nu}\int_0^\infty C(s_t, u_t) dt}\right]\]</div>
+<p>This is a path integral over trajectories with cost functional <span class="arithmatex">\(C\)</span>!</p>
+<p><strong>Explicitly</strong>:</p>
+<div class="arithmatex">\[e^{-V(s)/\nu} = \int \mathcal{D}[\tau] \, e^{-\frac{1}{\nu}\int_0^\infty C(s_t, u_t) dt}\]</div>
+<p><strong>Comparison to QM</strong>:</p>
+<table>
+<thead>
+<tr>
+<th>Quantum Mechanics</th>
+<th>Stochastic Control</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\hbar\)</span> (Planck's constant)</td>
+<td><span class="arithmatex">\(\nu\)</span> (temperature)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\psi(x)\)</span> (wavefunction)</td>
+<td><span class="arithmatex">\(e^{-V(s)/\nu}\)</span> (value function)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\hat{H}\)</span> (Hamiltonian)</td>
+<td><span class="arithmatex">\(\hat{H}_{\text{HJB}}\)</span> (Hamilton-Jacobi-Bellman)</td>
+</tr>
+<tr>
+<td>Schrödinger equation</td>
+<td>Diffusion equation</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="22-the-hjb-equation-as-schrodinger-equation">2.2 The HJB Equation as Schrödinger Equation<a class="headerlink" href="#22-the-hjb-equation-as-schrodinger-equation" title="Permanent link">&para;</a></h3>
+<p>The <strong>Hamilton-Jacobi-Bellman (HJB)</strong> equation for optimal control:</p>
+<div class="arithmatex">\[-\frac{\partial V}{\partial t} = \min_u \left[C(s, u) + \nabla V \cdot f(s, u) + \frac{\nu}{2}\nabla^2 V\right]\]</div>
+<p><strong>In imaginary time QM</strong>, the Schrödinger equation becomes:</p>
+<div class="arithmatex">\[-\frac{\partial \psi}{\partial \tau} = -\frac{\hbar}{2m}\nabla^2 \psi + V(x)\psi\]</div>
+<p><strong>With</strong> <span class="arithmatex">\(\psi = e^{-V/\nu}\)</span>, these are <strong>isomorphic</strong>!</p>
+<table>
+<thead>
+<tr>
+<th>HJB</th>
+<th>Schrödinger (imaginary time)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(V(s, t)\)</span></td>
+<td><span class="arithmatex">\(-\nu \log \psi(x, \tau)\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(C(s, u)\)</span></td>
+<td>Potential <span class="arithmatex">\(V(x)\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\nu\)</span></td>
+<td><span class="arithmatex">\(\hbar\)</span></td>
+</tr>
+<tr>
+<td>Diffusion term</td>
+<td>Kinetic energy <span class="arithmatex">\(-\frac{\hbar}{2m}\nabla^2\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>This is not just an analogy—it's a mathematical equivalence!</strong></p>
+<hr />
+<h2 id="3-grls-path-integral-formulation">3. GRL's Path Integral Formulation<a class="headerlink" href="#3-grls-path-integral-formulation" title="Permanent link">&para;</a></h2>
+<h3 id="31-the-grl-action-functional-revisited">3.1 The GRL Action Functional (Revisited)<a class="headerlink" href="#31-the-grl-action-functional-revisited" title="Permanent link">&para;</a></h3>
+<p>In augmented space <span class="arithmatex">\(z = (s, \theta)\)</span>, the action along trajectory <span class="arithmatex">\(\tau = \{z_t\}\)</span> is:</p>
+<div class="arithmatex">\[S_{\text{GRL}}[\tau] = \int_0^T \left[E(z_t) + \frac{1}{2\lambda}\|\dot{z}_t\|^2\right] dt\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(E(z) = -Q^+(z)\)</span> = energy</li>
+<li><span class="arithmatex">\(\lambda\)</span> = temperature (exploration parameter)</li>
+</ul>
+<p><strong>Path integral formulation</strong>:</p>
+<div class="arithmatex">\[\mathcal{Z}(z_i, z_f; T) = \int \mathcal{D}[\tau] \, e^{-S_{\text{GRL}}[\tau]/\lambda}\]</div>
+<p>This is the <strong>partition function</strong> summing over all trajectories from <span class="arithmatex">\(z_i\)</span> to <span class="arithmatex">\(z_f\)</span> in time <span class="arithmatex">\(T\)</span>.</p>
+<hr />
+<h3 id="32-the-boltzmann-policy-as-path-integral">3.2 The Boltzmann Policy as Path Integral<a class="headerlink" href="#32-the-boltzmann-policy-as-path-integral" title="Permanent link">&para;</a></h3>
+<p><strong>Single-step decision</strong> (instantaneous action selection):</p>
+<div class="arithmatex">\[\pi(\theta|s) = \frac{e^{-E(s,\theta)/\lambda}}{\int e^{-E(s,\theta')/\lambda} d\theta'} = \frac{e^{Q^+(s,\theta)/\lambda}}{\int e^{Q^+(s,\theta')/\lambda} d\theta'}\]</div>
+<p><strong>Multi-step trajectory</strong>:</p>
+<div class="arithmatex">\[\pi[\tau | s_0] \propto e^{-S_{\text{GRL}}[\tau]/\lambda}\]</div>
+<p>This says: <strong>The probability of a trajectory is proportional to <span class="arithmatex">\(\exp(-\text{action}/\lambda)\)</span></strong>.</p>
+<p><strong>In QM language</strong>: This is the <strong>Boltzmann weight</strong> of the trajectory in imaginary time.</p>
+<hr />
+<h3 id="33-soft-state-transitions-revisited">3.3 Soft State Transitions Revisited<a class="headerlink" href="#33-soft-state-transitions-revisited" title="Permanent link">&para;</a></h3>
+<p>In Chapter 01a (Wavefunction Interpretation), we noted that GRL induces <strong>soft state transitions</strong> due to kernel overlap.</p>
+<p><strong>Path integral perspective</strong>: </p>
+<ul>
+<li>Each trajectory contributes to the transition amplitude</li>
+<li>Kernel <span class="arithmatex">\(k(z, z')\)</span> encodes <strong>transition amplitude</strong> between configurations</li>
+<li>Overlap creates <strong>interference-like effects</strong> (constructive/destructive reinforcement)</li>
+</ul>
+<p><strong>Formally</strong>, the transition kernel is:</p>
+<div class="arithmatex">\[P(s_{t+1}, \theta_{t+1} | s_t, \theta_t) = \frac{1}{\mathcal{Z}}\int \mathcal{D}[\text{paths}] \, e^{-S[\text{path}]/\lambda}\]</div>
+<p>where paths connect <span class="arithmatex">\((s_t, \theta_t)\)</span> to <span class="arithmatex">\((s_{t+1}, \theta_{t+1})\)</span>.</p>
+<p><strong>This is a path integral!</strong> The "softness" comes from summing over all possible intermediate trajectories.</p>
+<hr />
+<h2 id="4-complex-valued-grl-enabling-true-interference">4. Complex-Valued GRL: Enabling True Interference<a class="headerlink" href="#4-complex-valued-grl-enabling-true-interference" title="Permanent link">&para;</a></h2>
+<h3 id="41-motivation-real-vs-complex-amplitudes">4.1 Motivation: Real vs. Complex Amplitudes<a class="headerlink" href="#41-motivation-real-vs-complex-amplitudes" title="Permanent link">&para;</a></h3>
+<p><strong>Current GRL</strong> (Chapters 01-08):</p>
+<ul>
+<li>Real-valued <span class="arithmatex">\(Q^+(z)\)</span></li>
+<li>Boltzmann weights <span class="arithmatex">\(e^{Q^+/\lambda}\)</span> are always positive</li>
+<li>No true interference (only additive contributions)</li>
+</ul>
+<p><strong>Complex-valued extension</strong>:</p>
+<ul>
+<li><span class="arithmatex">\(Q^+(z) \in \mathbb{C}\)</span> (complex reinforcement field)</li>
+<li>Amplitudes <span class="arithmatex">\(\psi(z) = e^{i\phi(z)}\)</span> where <span class="arithmatex">\(\phi(z) = Q^+(z)/\hbar_{\text{eff}}\)</span></li>
+<li><strong>Phase</strong> <span class="arithmatex">\(\phi(z)\)</span> enables interference</li>
+</ul>
+<p><strong>Why complex?</strong>
+- <strong>Interference</strong>: Paths can destructively interfere (cancel out)
+- <strong>Richer representations</strong>: Phase encodes additional structure
+- <strong>Quantum-inspired exploration</strong>: "Tunneling" through barriers</p>
+<hr />
+<h3 id="42-complex-rkhs-chapter-03-revisited">4.2 Complex RKHS (Chapter 03 Revisited)<a class="headerlink" href="#42-complex-rkhs-chapter-03-revisited" title="Permanent link">&para;</a></h3>
+<p>From <strong>Chapter 03: Complex-Valued RKHS</strong>, we can extend GRL to complex functions:</p>
+<div class="arithmatex">\[Q^+: \mathcal{Z} \to \mathbb{C}\]</div>
+<p>with complex kernel <span class="arithmatex">\(k: \mathcal{Z} \times \mathcal{Z} \to \mathbb{C}\)</span> (sesquilinear).</p>
+<p><strong>Path integral with complex action</strong>:</p>
+<div class="arithmatex">\[\mathcal{Z}(z_i, z_f) = \int \mathcal{D}[\tau] \, e^{iS_{\text{complex}}[\tau]/\hbar_{\text{eff}}}\]</div>
+<p>where <span class="arithmatex">\(S_{\text{complex}}[\tau] = \int [Q^+(z_t) + \frac{i}{2\hbar_{\text{eff}}}\|\dot{z}_t\|^2] dt\)</span>.</p>
+<p><strong>Probability</strong> (Born rule):</p>
+<div class="arithmatex">\[P(\tau) = \frac{|\mathcal{Z}_\tau|^2}{\sum_{\tau'} |\mathcal{Z}_{\tau'}|^2}\]</div>
+<p><strong>This allows paths to interfere!</strong></p>
+<hr />
+<h3 id="43-example-double-slit-in-action-space">4.3 Example: Double-Slit in Action Space<a class="headerlink" href="#43-example-double-slit-in-action-space" title="Permanent link">&para;</a></h3>
+<p><strong>Setup</strong>: Two discrete actions <span class="arithmatex">\(\theta_A\)</span> and <span class="arithmatex">\(\theta_B\)</span> both lead to the same next state <span class="arithmatex">\(s'\)</span>.</p>
+<p><strong>Classical GRL</strong> (real <span class="arithmatex">\(Q^+\)</span>):</p>
+<div class="arithmatex">\[P(s') = P(s' | \theta_A)P(\theta_A) + P(s' | \theta_B)P(\theta_B)\]</div>
+<p>(Incoherent sum, no interference)</p>
+<p><strong>Complex GRL</strong>:</p>
+<div class="arithmatex">\[\text{Amplitude}(s') = \psi(s' | \theta_A) + \psi(s' | \theta_B)\]</div>
+<div class="arithmatex">\[P(s') = |\text{Amplitude}(s')|^2 = |\psi(s'|\theta_A) + \psi(s'|\theta_B)|^2\]</div>
+<p><strong>Expanding</strong>:</p>
+<div class="arithmatex">\[P(s') = |\psi(s'|\theta_A)|^2 + |\psi(s'|\theta_B)|^2 + 2\text{Re}[\psi^*(s'|\theta_A)\psi(s'|\theta_B)]\]</div>
+<p>The last term is the <strong>interference term</strong>! It can be positive (constructive) or negative (destructive).</p>
+<p><strong>Interpretation</strong>:</p>
+<ul>
+<li>If phases align: <span class="arithmatex">\(\psi(s'|\theta_A)\)</span> and <span class="arithmatex">\(\psi(s'|\theta_B)\)</span> reinforce → higher <span class="arithmatex">\(P(s')\)</span></li>
+<li>If phases oppose: They cancel → lower <span class="arithmatex">\(P(s')\)</span></li>
+<li>This allows the agent to <strong>suppress undesirable state transitions</strong></li>
+</ul>
+<hr />
+<h2 id="5-practical-path-integral-algorithms">5. Practical Path Integral Algorithms<a class="headerlink" href="#5-practical-path-integral-algorithms" title="Permanent link">&para;</a></h2>
+<h3 id="51-path-integral-policy-improvement-pi2">5.1 Path Integral Policy Improvement (PI²)<a class="headerlink" href="#51-path-integral-policy-improvement-pi2" title="Permanent link">&para;</a></h3>
+<p><strong>Algorithm</strong> (Theodorou et al., 2010):</p>
+<ol>
+<li>
+<p><strong>Rollout</strong>: Sample <span class="arithmatex">\(K\)</span> noisy trajectories around current policy
+   $<span class="arithmatex">\(\tau_k \sim \pi(\cdot | s_t) + \epsilon_k, \quad k = 1, \ldots, K\)</span>$</p>
+</li>
+<li>
+<p><strong>Compute costs</strong>: <span class="arithmatex">\(S_k = \int_0^T C(s_t^{(k)}, u_t^{(k)}) dt\)</span></p>
+</li>
+<li>
+<p><strong>Weight trajectories</strong>: <span class="arithmatex">\(w_k = \frac{e^{-S_k/\lambda}}{\sum_{j=1}^K e^{-S_j/\lambda}}\)</span></p>
+</li>
+<li>
+<p><strong>Update policy</strong>: <span class="arithmatex">\(\pi_{\text{new}}(u|s) = \sum_{k=1}^K w_k \, \delta(u - u_k)\)</span></p>
+</li>
+</ol>
+<p><strong>This is empirical path integration!</strong></p>
+<hr />
+<h3 id="52-grl-adaptation-particle-weighted-path-integration">5.2 GRL Adaptation: Particle-Weighted Path Integration<a class="headerlink" href="#52-grl-adaptation-particle-weighted-path-integration" title="Permanent link">&para;</a></h3>
+<p><strong>For GRL</strong>:</p>
+<ol>
+<li>
+<p><strong>Particle memory</strong>: <span class="arithmatex">\(\{(z_i, w_i)\}\)</span> defines <span class="arithmatex">\(Q^+(z)\)</span></p>
+</li>
+<li>
+<p><strong>Trajectory rollout</strong>: From state <span class="arithmatex">\(s_t\)</span>, sample <span class="arithmatex">\(K\)</span> action sequences:
+   $<span class="arithmatex">\(\{\theta_t^{(k)}, \theta_{t+1}^{(k)}, \ldots\}_{k=1}^K\)</span>$</p>
+</li>
+<li>
+<p><strong>Compute cumulative return</strong>: 
+   $<span class="arithmatex">\(R_k = \sum_{\tau=t}^T r_\tau^{(k)}\)</span>$</p>
+</li>
+<li>
+<p><strong>Path action</strong>:
+   $<span class="arithmatex">\(S_k = -R_k + \frac{1}{2\lambda}\sum_{\tau} \|\theta_{\tau+1}^{(k)} - \theta_\tau^{(k)}\|^2\)</span>$</p>
+</li>
+<li>
+<p><strong>Weight paths</strong>: <span class="arithmatex">\(w_k \propto e^{-S_k/\lambda}\)</span></p>
+</li>
+<li>
+<p><strong>Update particles</strong>: Add/modify particles along high-weight paths</p>
+</li>
+</ol>
+<p><strong>Key difference from PI²</strong>: GRL uses particle memory to encode <span class="arithmatex">\(Q^+\)</span>, not parametric policy.</p>
+<hr />
+<h3 id="53-langevin-sampling-on-the-field">5.3 Langevin Sampling on the Field<a class="headerlink" href="#53-langevin-sampling-on-the-field" title="Permanent link">&para;</a></h3>
+<p><strong>For continuous action spaces</strong>, sample actions via Langevin dynamics:</p>
+<div class="arithmatex">\[\theta_{k+1} = \theta_k + \epsilon \nabla_\theta Q^+(s, \theta_k) + \sqrt{2\epsilon\lambda} \, \xi_k\]</div>
+<p>where <span class="arithmatex">\(\xi_k \sim \mathcal{N}(0, I)\)</span>.</p>
+<p><strong>This is gradient flow on the reinforcement field!</strong></p>
+<p><strong>Path integral view</strong>: </p>
+<ul>
+<li>Each Langevin trajectory is a sample from the path integral</li>
+<li>Multiple samples approximate <span class="arithmatex">\(\mathcal{Z}(z_i, z_f)\)</span></li>
+<li>Action selection = finding high-probability paths</li>
+</ul>
+<hr />
+<h2 id="6-connection-to-quantum-measurement-chapter-05">6. Connection to Quantum Measurement (Chapter 05)<a class="headerlink" href="#6-connection-to-quantum-measurement-chapter-05" title="Permanent link">&para;</a></h2>
+<h3 id="61-concept-subspaces-as-measurement-operators">6.1 Concept Subspaces as Measurement Operators<a class="headerlink" href="#61-concept-subspaces-as-measurement-operators" title="Permanent link">&para;</a></h3>
+<p>From <strong>Chapter 05: Concept Projections and Measurements</strong>, concepts are subspaces <span class="arithmatex">\(\mathcal{H}_c \subset \mathcal{H}\)</span> with projection operator <span class="arithmatex">\(\hat{P}_c\)</span>.</p>
+<p><strong>Path integral interpretation</strong>:</p>
+<ul>
+<li>Measuring concept <span class="arithmatex">\(c\)</span> = projecting trajectory onto <span class="arithmatex">\(\mathcal{H}_c\)</span></li>
+<li>Post-measurement state: <span class="arithmatex">\(|\psi'\rangle = \hat{P}_c |\psi\rangle / \|\hat{P}_c |\psi\rangle\|\)</span></li>
+<li>Measurement collapses the path integral to concept-compatible paths</li>
+</ul>
+<p><strong>Formally</strong>, after measuring <span class="arithmatex">\(c\)</span>:</p>
+<div class="arithmatex">\[\mathcal{Z}_c(z_i, z_f) = \int_{\tau \in \mathcal{H}_c} \mathcal{D}[\tau] \, e^{-S[\tau]/\lambda}\]</div>
+<p>This is a <strong>conditional path integral</strong> over concept-consistent trajectories.</p>
+<hr />
+<h3 id="62-hierarchical-composition-via-path-integrals">6.2 Hierarchical Composition via Path Integrals<a class="headerlink" href="#62-hierarchical-composition-via-path-integrals" title="Permanent link">&para;</a></h3>
+<p><strong>Nested concepts</strong> <span class="arithmatex">\(\mathcal{H}_{c_1} \subset \mathcal{H}_{c_2}\)</span> define a hierarchy.</p>
+<p><strong>Path integral view</strong>:</p>
+<ul>
+<li>Low-level concept <span class="arithmatex">\(c_1\)</span>: Paths stay in local subspace</li>
+<li>High-level concept <span class="arithmatex">\(c_2\)</span>: Paths stay in larger subspace</li>
+<li>Transition <span class="arithmatex">\(c_1 \to c_1'\)</span>: Path integral between subspaces</li>
+</ul>
+<p><strong>This is exactly how quantum mechanics handles multi-scale dynamics!</strong></p>
+<p>Example: Molecular dynamics
+- Electronic states (fast, local paths)
+- Nuclear motion (slow, global paths)
+- Born-Oppenheimer approximation: Separate path integrals</p>
+<p><strong>In GRL</strong>: </p>
+<ul>
+<li>Low-level: Action parameter trajectories</li>
+<li>High-level: Concept activation trajectories</li>
+<li>Spectral methods: Identify slow vs. fast modes</li>
+</ul>
+<hr />
+<h2 id="7-advanced-topics-feynman-diagrams-for-grl">7. Advanced Topics: Feynman Diagrams for GRL?<a class="headerlink" href="#7-advanced-topics-feynman-diagrams-for-grl" title="Permanent link">&para;</a></h2>
+<h3 id="71-perturbation-theory">7.1 Perturbation Theory<a class="headerlink" href="#71-perturbation-theory" title="Permanent link">&para;</a></h3>
+<p>In QM, <strong>Feynman diagrams</strong> represent terms in the perturbative expansion of path integrals.</p>
+<p><strong>For GRL</strong>, could we develop a diagrammatic expansion?</p>
+<p><strong>Idea</strong>:</p>
+<ul>
+<li>Vertices: MemoryUpdate operations (particle creation/modification)</li>
+<li>Edges: Kernel interactions (particle propagation)</li>
+<li>Loops: Circular dependencies in belief update</li>
+</ul>
+<p><strong>This is speculative</strong>, but could formalize:</p>
+<ul>
+<li>How perturbations propagate through memory</li>
+<li>Which particles are "entangled" (strongly coupled)</li>
+<li>Computational complexity of belief updates</li>
+</ul>
+<hr />
+<h3 id="72-instantons-and-rare-events">7.2 Instantons and Rare Events<a class="headerlink" href="#72-instantons-and-rare-events" title="Permanent link">&para;</a></h3>
+<p>In QM, <strong>instantons</strong> are classical solutions to the Euclidean equations of motion that dominate tunneling.</p>
+<p><strong>For GRL</strong>:</p>
+<ul>
+<li>Instanton = rare, high-cost trajectory that dramatically changes <span class="arithmatex">\(Q^+\)</span></li>
+<li>Example: Discovering a shortcut in navigation (low probability, high reward)</li>
+<li><strong>Instanton calculus</strong>: Approximate path integral by saddle points</li>
+</ul>
+<p><strong>Practical use</strong>:</p>
+<ul>
+<li>Identify critical experiences (instantons) for learning</li>
+<li>Prioritize replay of high-impact trajectories</li>
+<li>Understand exploration-exploitation via tunneling rates</li>
+</ul>
+<hr />
+<h2 id="8-implementation-sketch">8. Implementation Sketch<a class="headerlink" href="#8-implementation-sketch" title="Permanent link">&para;</a></h2>
+<h3 id="81-complex-valued-particle-weights">8.1 Complex-Valued Particle Weights<a class="headerlink" href="#81-complex-valued-particle-weights" title="Permanent link">&para;</a></h3>
+<p><strong>Extend particles</strong> to complex weights:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ComplexParticle</span><span class="p">:</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">w_real</span><span class="p">,</span> <span class="n">w_imag</span><span class="p">):</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span>  <span class="c1"># Augmented state (s, θ)</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="n">w_real</span><span class="p">,</span> <span class="n">w_imag</span><span class="p">)</span>  <span class="c1"># Complex weight</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">phase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">angle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">magnitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span>
+</span></code></pre></div>
+<p><strong>Complex kernel</strong>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">complex_kernel</span><span class="p">(</span><span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">,</span> <span class="n">length_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">phase_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Complex-valued RBF kernel with phase.&quot;&quot;&quot;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">z1</span> <span class="o">-</span> <span class="n">z2</span><span class="p">)</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">magnitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">dist</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">length_scale</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">phase</span> <span class="o">=</span> <span class="n">phase_scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">z1</span> <span class="o">-</span> <span class="n">z2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">z1</span><span class="p">))</span>  <span class="c1"># Example phase</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="k">return</span> <span class="n">magnitude</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">phase</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h3 id="82-path-integral-sampling">8.2 Path Integral Sampling<a class="headerlink" href="#82-path-integral-sampling" title="Permanent link">&para;</a></h3>
+<p><strong>Sample action via path integral</strong>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">sample_action_path_integral</span><span class="p">(</span><span class="n">particles</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">lambda_temp</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Sample action using path integral over trajectories.&quot;&quot;&quot;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">theta_samples</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    <span class="n">weights</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>        <span class="c1"># Sample candidate action</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>        <span class="n">theta</span> <span class="o">=</span> <span class="n">sample_from_prior</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>        <span class="c1"># Compute path action</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>        <span class="n">S</span> <span class="o">=</span> <span class="n">compute_action</span><span class="p">(</span><span class="n">particles</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">lambda_temp</span><span class="p">)</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>        <span class="c1"># Boltzmann weight</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">S</span> <span class="o">/</span> <span class="n">lambda_temp</span><span class="p">)</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>        <span class="n">theta_samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>        <span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>    <span class="c1"># Normalize</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a>    <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>    <span class="n">weights</span> <span class="o">/=</span> <span class="n">weights</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a>    <span class="c1"># Sample from weighted distribution</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">theta_samples</span><span class="p">),</span> <span class="n">p</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a>    <span class="k">return</span> <span class="n">theta_samples</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="k">def</span><span class="w"> </span><span class="nf">compute_action</span><span class="p">(</span><span class="n">particles</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">lambda_temp</span><span class="p">):</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute action for single-step decision.&quot;&quot;&quot;</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a>    <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a>    <span class="c1"># Energy term (from particles)</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a>    <span class="n">Q_plus</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">real</span> <span class="o">*</span> <span class="n">kernel</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">particles</span><span class="p">)</span>
+</span><span id="__span-2-33"><a id="__codelineno-2-33" name="__codelineno-2-33" href="#__codelineno-2-33"></a>    <span class="n">E</span> <span class="o">=</span> <span class="o">-</span><span class="n">Q_plus</span>
+</span><span id="__span-2-34"><a id="__codelineno-2-34" name="__codelineno-2-34" href="#__codelineno-2-34"></a>
+</span><span id="__span-2-35"><a id="__codelineno-2-35" name="__codelineno-2-35" href="#__codelineno-2-35"></a>    <span class="c1"># Kinetic term (assume small step)</span>
+</span><span id="__span-2-36"><a id="__codelineno-2-36" name="__codelineno-2-36" href="#__codelineno-2-36"></a>    <span class="n">kinetic</span> <span class="o">=</span> <span class="mf">0.0</span>  <span class="c1"># Simplified for single step</span>
+</span><span id="__span-2-37"><a id="__codelineno-2-37" name="__codelineno-2-37" href="#__codelineno-2-37"></a>
+</span><span id="__span-2-38"><a id="__codelineno-2-38" name="__codelineno-2-38" href="#__codelineno-2-38"></a>    <span class="k">return</span> <span class="n">E</span> <span class="o">+</span> <span class="n">kinetic</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">lambda_temp</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h3 id="83-interference-visualization">8.3 Interference Visualization<a class="headerlink" href="#83-interference-visualization" title="Permanent link">&para;</a></h3>
+<p><strong>Plot interference pattern</strong> in action space:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">plot_interference</span><span class="p">(</span><span class="n">particles</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">theta_min</span><span class="p">,</span> <span class="n">theta_max</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="mi">200</span><span class="p">):</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot real and imaginary parts of complex Q+.&quot;&quot;&quot;</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">theta_range</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">theta_min</span><span class="p">,</span> <span class="n">theta_max</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">Q_real</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">Q_imag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_points</span><span class="p">)</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">theta</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">theta_range</span><span class="p">):</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="n">Q_complex</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">w</span> <span class="o">*</span> <span class="n">complex_kernel</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">particles</span><span class="p">)</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>        <span class="n">Q_real</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q_complex</span><span class="o">.</span><span class="n">real</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>        <span class="n">Q_imag</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">Q_complex</span><span class="o">.</span><span class="n">imag</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta_range</span><span class="p">,</span> <span class="n">Q_real</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Re(Q+)&#39;</span><span class="p">)</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">)</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Real part&#39;</span><span class="p">)</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta_range</span><span class="p">,</span> <span class="n">Q_imag</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Im(Q+)&#39;</span><span class="p">)</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">)</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Imaginary part&#39;</span><span class="p">)</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>    <span class="n">prob</span> <span class="o">=</span> <span class="n">Q_real</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Q_imag</span><span class="o">**</span><span class="mi">2</span>  <span class="c1"># |ψ|^2</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">theta_range</span><span class="p">,</span> <span class="n">prob</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;|Q+|^2 (probability)&#39;</span><span class="p">)</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;θ&#39;</span><span class="p">)</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Probability density&#39;</span><span class="p">)</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></code></pre></div>
+<hr />
+<h2 id="9-summary-why-path-integrals-matter-for-grl">9. Summary: Why Path Integrals Matter for GRL<a class="headerlink" href="#9-summary-why-path-integrals-matter-for-grl" title="Permanent link">&para;</a></h2>
+<p><strong>Quantum mechanical foundation</strong>:</p>
+<ul>
+<li>GRL's Boltzmann policy is the imaginary-time path integral solution</li>
+<li>Not an analogy—a mathematical equivalence</li>
+<li>Connects RL to 70+ years of QM path integral techniques</li>
+</ul>
+<p><strong>Complex-valued extension</strong>:</p>
+<ul>
+<li>Enables true interference (constructive/destructive)</li>
+<li>Richer policy representations via phase</li>
+<li>Tunneling-like exploration through barriers</li>
+</ul>
+<p><strong>Practical algorithms</strong>:</p>
+<ul>
+<li>Path integral policy improvement (PI²)</li>
+<li>Langevin sampling as path integration</li>
+<li>Complex particle weights for interference</li>
+</ul>
+<p><strong>Future directions</strong>:</p>
+<ul>
+<li>Feynman diagrams for belief propagation</li>
+<li>Instanton calculus for rare events</li>
+<li>Hierarchical path integrals for concept composition</li>
+</ul>
+<p><strong>This completes the quantum-inspired trilogy</strong>:</p>
+<ol>
+<li><strong>Chapters 01-02</strong>: RKHS ↔ Hilbert space parallel</li>
+<li><strong>Chapters 03-08</strong>: Amplitude formulation and learning</li>
+<li><strong>Chapter 09</strong>: Path integrals as foundational formalism</li>
+</ol>
+<hr />
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<p><strong>Feynman Path Integrals</strong>:</p>
+<ul>
+<li>Feynman, R. P., &amp; Hibbs, A. R. (1965). <em>Quantum Mechanics and Path Integrals</em>. McGraw-Hill.</li>
+<li>Kleinert, H. (2009). <em>Path Integrals in Quantum Mechanics, Statistics, Polymer Physics, and Financial Markets</em> (5<sup>th</sup> ed.). World Scientific.</li>
+</ul>
+<p><strong>Path Integral Control</strong>:</p>
+<ul>
+<li>Kappen, H. J. (2005). "Path integrals and symmetry breaking for optimal control theory." <em>Journal of Statistical Mechanics</em>.</li>
+<li>Theodorou, E., Buchli, J., &amp; Schaal, S. (2010). "A generalized path integral control approach to reinforcement learning." <em>JMLR</em>.</li>
+<li>Levine, S. (2018). "Reinforcement learning and control as probabilistic inference: Tutorial and review." <em>arXiv:1805.00909</em>.</li>
+</ul>
+<p><strong>Quantum Computation &amp; ML</strong>:</p>
+<ul>
+<li>Schuld, M., &amp; Petruccione, F. (2018). <em>Supervised Learning with Quantum Computers</em>. Springer.</li>
+<li>Wittek, P. (2014). <em>Quantum Machine Learning</em>. Academic Press.</li>
+<li>Biamonte, J., et al. (2017). "Quantum machine learning." <em>Nature</em>, 549, 195-202.</li>
+</ul>
+<p><strong>Complex-Valued Neural Networks</strong>:</p>
+<ul>
+<li>Trabelsi, C., et al. (2018). "Deep complex networks." <em>ICLR</em>.</li>
+<li>Virtue, P., Yu, S. X., &amp; Lustig, M. (2017). "Better than real: Complex-valued neural nets for MRI fingerprinting." <em>ICIP</em>.</li>
+</ul>
+<hr />
+<p><strong><a href="../08-memory-dynamics-formation-consolidation-retrieval/">← Back to Chapter 08: Memory Dynamics</a></strong> | <strong><a href="../">Quantum-Inspired README</a></strong></p>
+<p><strong><a href="../../tutorials/03a-least-action-principle/">Related: Tutorial Chapter 03a - Least Action Principle</a></strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

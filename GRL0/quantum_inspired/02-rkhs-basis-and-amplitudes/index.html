@@ -1,0 +1,3557 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/quantum_inspired/02-rkhs-basis-and-amplitudes/">
+      
+      
+        <link rel="prev" href="../01a-wavefunction-interpretation/">
+      
+      
+        <link rel="next" href="../03-complex-rkhs/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>02: Basis and Amplitudes - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-2-rkhs-basis-kernel-amplitudes-and-why-grl-doesnt-need-normalization" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              02: Basis and Amplitudes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/03a-least-action-principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/06-memory-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/07a-continuous-policy-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01a-wavefunction-interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-rkhs-basis-kernel-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The RKHS Basis: Kernel Sections
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. The RKHS Basis: Kernel Sections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantum-mechanics-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantum Mechanics Review
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkhs-analogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RKHS Analogue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to-get-coordinates-evaluate-the-inner-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        To Get Coordinates: Evaluate the Inner Product
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#so-is-the-basis-determined-by-choosing-z" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        So Is the Basis Determined by Choosing \(z\)?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-kernel-amplitudes-overlap-without-probabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Kernel Amplitudes: Overlap Without Probabilities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Kernel Amplitudes: Overlap Without Probabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantum-mechanics-amplitudes-probabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantum Mechanics: Amplitudes → Probabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkhs-amplitudes-without-probabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RKHS: Amplitudes Without Probabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#but-grl-doesnt-need-this-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        But GRL Doesn't Need This Step
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-energy-based-models-unnormalized-scores-are-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Energy-Based Models: Unnormalized Scores Are Enough
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Energy-Based Models: Unnormalized Scores Are Enough">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-ebm-perspective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The EBM Perspective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grls-position-in-the-landscape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL's Position in the Landscape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-does-grl-sit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where Does GRL Sit?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-three-interpretations-one-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Three Interpretations, One Object
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Three Interpretations, One Object">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#perspective-1-hilbert-space-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perspective 1: Hilbert Space State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perspective-2-amplitude-field-qm-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perspective 2: Amplitude Field (QM-like)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perspective-3-energy-score-function-ebm-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perspective 3: Energy / Score Function (EBM-like)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-what-grl-does-and-doesnt-claim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. What GRL Does (and Doesn't) Claim
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. What GRL Does (and Doesn&#39;t) Claim">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grl-does-not-claim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL Does NOT Claim:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grl-does-claim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL DOES Claim:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-precise-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Precise Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-could-we-define-probabilities-optional-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Could We Define Probabilities? (Optional Extension)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Could We Define Probabilities? (Optional Extension)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-born-rule-on-kernel-amplitudes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Born Rule on Kernel Amplitudes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-boltzmann-distribution-what-grl-uses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Boltzmann Distribution (What GRL Uses)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-complex-valued-rkhs-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3: Complex-Valued RKHS (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-three-roles-of-choosing-a-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Three Roles of "Choosing a Point"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-why-this-matters-for-your-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Why This Matters for Your Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Why This Matters for Your Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conceptual-clarity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceptual Clarity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#future-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Extensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Implications
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Insights
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Equations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Further Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#within-this-tutorial-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Within This Tutorial Series
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#back-to-grl-tutorials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Back to GRL Tutorials
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-concept-projections-and-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../09-path-integrals-and-action-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#motivation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-rkhs-basis-kernel-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The RKHS Basis: Kernel Sections
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. The RKHS Basis: Kernel Sections">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantum-mechanics-review" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantum Mechanics Review
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkhs-analogue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RKHS Analogue
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#to-get-coordinates-evaluate-the-inner-product" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        To Get Coordinates: Evaluate the Inner Product
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#so-is-the-basis-determined-by-choosing-z" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        So Is the Basis Determined by Choosing \(z\)?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-kernel-amplitudes-overlap-without-probabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Kernel Amplitudes: Overlap Without Probabilities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Kernel Amplitudes: Overlap Without Probabilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantum-mechanics-amplitudes-probabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantum Mechanics: Amplitudes → Probabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rkhs-amplitudes-without-probabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RKHS: Amplitudes Without Probabilities
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#but-grl-doesnt-need-this-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        But GRL Doesn't Need This Step
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-energy-based-models-unnormalized-scores-are-enough" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Energy-Based Models: Unnormalized Scores Are Enough
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Energy-Based Models: Unnormalized Scores Are Enough">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-ebm-perspective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The EBM Perspective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grls-position-in-the-landscape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL's Position in the Landscape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#where-does-grl-sit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where Does GRL Sit?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-three-interpretations-one-object" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Three Interpretations, One Object
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Three Interpretations, One Object">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#perspective-1-hilbert-space-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perspective 1: Hilbert Space State
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perspective-2-amplitude-field-qm-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perspective 2: Amplitude Field (QM-like)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#perspective-3-energy-score-function-ebm-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Perspective 3: Energy / Score Function (EBM-like)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-what-grl-does-and-doesnt-claim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. What GRL Does (and Doesn't) Claim
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. What GRL Does (and Doesn&#39;t) Claim">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grl-does-not-claim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL Does NOT Claim:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grl-does-claim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GRL DOES Claim:
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-precise-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Precise Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-could-we-define-probabilities-optional-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Could We Define Probabilities? (Optional Extension)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Could We Define Probabilities? (Optional Extension)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-born-rule-on-kernel-amplitudes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1: Born Rule on Kernel Amplitudes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-boltzmann-distribution-what-grl-uses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2: Boltzmann Distribution (What GRL Uses)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-complex-valued-rkhs-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3: Complex-Valued RKHS (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-three-roles-of-choosing-a-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Three Roles of "Choosing a Point"
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-why-this-matters-for-your-framework" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Why This Matters for Your Framework
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Why This Matters for Your Framework">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#conceptual-clarity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conceptual Clarity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#future-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Extensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#practical-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Implications
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-insights" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Insights
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Equations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Further Reading
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Further Reading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#within-this-tutorial-series" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Within This Tutorial Series
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#back-to-grl-tutorials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Back to GRL Tutorials
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#related-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related Concepts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/quantum_inspired/02-rkhs-basis-and-amplitudes.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-2-rkhs-basis-kernel-amplitudes-and-why-grl-doesnt-need-normalization">Chapter 2: RKHS Basis, Kernel Amplitudes, and Why GRL Doesn't Need Normalization<a class="headerlink" href="#chapter-2-rkhs-basis-kernel-amplitudes-and-why-grl-doesnt-need-normalization" title="Permanent link">&para;</a></h1>
+<h2 id="motivation">Motivation<a class="headerlink" href="#motivation" title="Permanent link">&para;</a></h2>
+<p>In <a href="../01a-wavefunction-interpretation/">Chapter 1a</a>, we learned that quantum mechanics represents states in Hilbert space, with wavefunctions as coordinate representations in a chosen basis.</p>
+<p>In <a href="../01-rkhs-quantum-parallel/">Chapter 1</a>, we stated that GRL's reinforcement field <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span> is analogous to a quantum state, with the field value <span class="arithmatex">\(Q^+(z)\)</span> analogous to a wavefunction <span class="arithmatex">\(\psi(x)\)</span>.</p>
+<p>This raises three fundamental questions:</p>
+<ol>
+<li><strong>Basis:</strong> What is the "basis" in RKHS, and how is it chosen?</li>
+<li><strong>Amplitudes:</strong> How do kernel evaluations relate to probability amplitudes?</li>
+<li><strong>Probabilities:</strong> Does GRL need normalized probabilities like quantum mechanics?</li>
+</ol>
+<p>This chapter answers all three and reveals a surprising insight: <strong>GRL combines QM's amplitude geometry with energy-based models' unnormalized inference</strong>.</p>
+<hr />
+<h2 id="1-the-rkhs-basis-kernel-sections">1. The RKHS Basis: Kernel Sections<a class="headerlink" href="#1-the-rkhs-basis-kernel-sections" title="Permanent link">&para;</a></h2>
+<h3 id="quantum-mechanics-review">Quantum Mechanics Review<a class="headerlink" href="#quantum-mechanics-review" title="Permanent link">&para;</a></h3>
+<p>In QM, the position basis is:</p>
+<div class="arithmatex">\[\{|x\rangle : x \in \mathbb{R}\}\]</div>
+<p>Each <span class="arithmatex">\(|x\rangle\)</span> is a basis vector representing "particle definitely at position <span class="arithmatex">\(x\)</span>."</p>
+<p><strong>To get coordinates:</strong> Project the state <span class="arithmatex">\(|\psi\rangle\)</span> onto a basis vector:</p>
+<div class="arithmatex">\[\psi(x) = \langle x | \psi \rangle\]</div>
+<p><strong>Key insight:</strong> Choosing a specific <span class="arithmatex">\(x\)</span> doesn't define the whole basis—it <strong>selects one basis vector</strong> from the continuum.</p>
+<hr />
+<h3 id="rkhs-analogue">RKHS Analogue<a class="headerlink" href="#rkhs-analogue" title="Permanent link">&para;</a></h3>
+<p>In GRL, the RKHS <span class="arithmatex">\(\mathcal{H}_k\)</span> has an implicit basis (technically, a <strong>frame</strong>) given by <strong>kernel sections</strong>:</p>
+<div class="arithmatex">\[\{k(z, \cdot) : z \in \mathcal{Z}\}\]</div>
+<p>where <span class="arithmatex">\(\mathcal{Z} = \mathcal{S} \times \Theta\)</span> is the augmented state-action space.</p>
+<p><strong>What is <span class="arithmatex">\(k(z, \cdot)\)</span>?</strong></p>
+<p>For each point <span class="arithmatex">\(z \in \mathcal{Z}\)</span>, the function <span class="arithmatex">\(k(z, \cdot): \mathcal{Z} \to \mathbb{R}\)</span> is an element of <span class="arithmatex">\(\mathcal{H}_k\)</span>.</p>
+<p><strong>Analogy:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Quantum Mechanics</th>
+<th>GRL (RKHS)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\|x\rangle\)</span> = basis vector for position <span class="arithmatex">\(x\)</span></td>
+<td><span class="arithmatex">\(k(z, \cdot)\)</span> = basis vector (frame element) for point <span class="arithmatex">\(z\)</span></td>
+</tr>
+<tr>
+<td>Position basis: <span class="arithmatex">\(\{\|x\rangle : x \in \mathbb{R}\}\)</span></td>
+<td>Kernel basis: <span class="arithmatex">\(\{k(z, \cdot) : z \in \mathcal{Z}\}\)</span></td>
+</tr>
+<tr>
+<td>State: <span class="arithmatex">\(\|\psi\rangle \in \mathcal{H}\)</span></td>
+<td>State: <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span></td>
+</tr>
+<tr>
+<td>Wavefunction: <span class="arithmatex">\(\psi(x) = \langle x \| \psi \rangle\)</span></td>
+<td>Field value: <span class="arithmatex">\(Q^+(z) = \langle Q^+, k(z, \cdot) \rangle_{\mathcal{H}_k}\)</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="to-get-coordinates-evaluate-the-inner-product">To Get Coordinates: Evaluate the Inner Product<a class="headerlink" href="#to-get-coordinates-evaluate-the-inner-product" title="Permanent link">&para;</a></h3>
+<p>Given the state <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span> (determined by particles), to find its "coordinate" at query point <span class="arithmatex">\(z\)</span>:</p>
+<div class="arithmatex">\[Q^+(z) = \langle Q^+, k(z, \cdot) \rangle_{\mathcal{H}_k}\]</div>
+<p><strong>What's happening:</strong></p>
+<ol>
+<li>The <strong>state</strong> <span class="arithmatex">\(Q^+\)</span> is already fixed (by the particle memory)</li>
+<li>Choosing <span class="arithmatex">\(z\)</span> <strong>selects one frame element</strong> <span class="arithmatex">\(k(z, \cdot)\)</span></li>
+<li>The inner product gives the <strong>amplitude</strong> of <span class="arithmatex">\(Q^+\)</span> along that direction</li>
+</ol>
+<p><strong>This is structurally identical to</strong> <span class="arithmatex">\(\psi(x) = \langle x | \psi \rangle\)</span>!</p>
+<hr />
+<h3 id="so-is-the-basis-determined-by-choosing-z">So Is the Basis Determined by Choosing <span class="arithmatex">\(z\)</span>?<a class="headerlink" href="#so-is-the-basis-determined-by-choosing-z" title="Permanent link">&para;</a></h3>
+<p><strong>Short answer:</strong> Yes—but <strong>locally</strong>, not globally.</p>
+<p><strong>Long answer:</strong></p>
+<p>The kernel-induced basis <span class="arithmatex">\(\{k(z, \cdot)\}\)</span> exists for <strong>all</strong> <span class="arithmatex">\(z \in \mathcal{Z}\)</span>, just like the position basis exists for all <span class="arithmatex">\(x \in \mathbb{R}\)</span>.</p>
+<p>When you choose a specific <span class="arithmatex">\(z\)</span>:</p>
+<ul>
+<li>You're not "defining the basis"</li>
+<li>You're <strong>selecting which basis element</strong> to project onto</li>
+</ul>
+<p><strong>Analogy:</strong> Asking "What is <span class="arithmatex">\(\psi(3.2)\)</span>?" doesn't define the position basis—it just asks for the amplitude along the <span class="arithmatex">\(|3.2\rangle\)</span> direction.</p>
+<p>Same here: <span class="arithmatex">\(Q^+(z_0)\)</span> asks for the amplitude along the <span class="arithmatex">\(k(z_0, \cdot)\)</span> direction.</p>
+<hr />
+<h2 id="2-kernel-amplitudes-overlap-without-probabilities">2. Kernel Amplitudes: Overlap Without Probabilities<a class="headerlink" href="#2-kernel-amplitudes-overlap-without-probabilities" title="Permanent link">&para;</a></h2>
+<h3 id="quantum-mechanics-amplitudes-probabilities">Quantum Mechanics: Amplitudes → Probabilities<a class="headerlink" href="#quantum-mechanics-amplitudes-probabilities" title="Permanent link">&para;</a></h3>
+<p>In QM:</p>
+<p><strong>Primitive:</strong> Complex amplitude <span class="arithmatex">\(\psi(x)\)</span></p>
+<p><strong>Derived:</strong> Probability via Born rule</p>
+<div class="arithmatex">\[p(x) = |\psi(x)|^2\]</div>
+<p><strong>Normalization:</strong></p>
+<div class="arithmatex">\[\int_{-\infty}^{\infty} |\psi(x)|^2 dx = 1\]</div>
+<p><strong>Key point:</strong> Amplitude is fundamental; probability is derived by squaring and normalizing.</p>
+<hr />
+<h3 id="rkhs-amplitudes-without-probabilities">RKHS: Amplitudes Without Probabilities<a class="headerlink" href="#rkhs-amplitudes-without-probabilities" title="Permanent link">&para;</a></h3>
+<p>In RKHS, a kernel evaluation:</p>
+<div class="arithmatex">\[k(z_i, z) = \langle k(z_i, \cdot), k(z, \cdot) \rangle_{\mathcal{H}_k}\]</div>
+<p>already looks like an <strong>overlap amplitude</strong>!</p>
+<p><strong>But important differences:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Quantum Mechanics</th>
+<th>RKHS / GRL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Values</td>
+<td>Complex: <span class="arithmatex">\(\psi(x) \in \mathbb{C}\)</span></td>
+<td>Real: <span class="arithmatex">\(Q^+(z) \in \mathbb{R}\)</span></td>
+</tr>
+<tr>
+<td>Normalization</td>
+<td>Required: <span class="arithmatex">\(\int \|\psi(x)\|^2 dx = 1\)</span></td>
+<td>Not required</td>
+</tr>
+<tr>
+<td>Interpretation</td>
+<td>Probability amplitude</td>
+<td>Score / value / energy</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Could you normalize?</strong> Yes! You could define:</p>
+<div class="arithmatex">\[p(z) = \frac{|Q^+(z)|^2}{\int_{\mathcal{Z}} |Q^+(z')|^2 dz'}\]</div>
+<p>This is mathematically valid—<strong>and in fact, Born machines and quantum-inspired generative models do exactly this</strong>.</p>
+<hr />
+<h3 id="but-grl-doesnt-need-this-step">But GRL Doesn't Need This Step<a class="headerlink" href="#but-grl-doesnt-need-this-step" title="Permanent link">&para;</a></h3>
+<p><strong>Why not?</strong></p>
+<p>Because GRL uses <span class="arithmatex">\(Q^+(z)\)</span> for <strong>decision-making and control</strong>, not for sampling or probability estimation.</p>
+<p><strong>Policy inference:</strong></p>
+<div class="arithmatex">\[\pi(\theta | s) \propto \exp(\beta \, Q^+(s, \theta))\]</div>
+<p><strong>Action selection:</strong></p>
+<div class="arithmatex">\[\theta^* = \arg\max_\theta Q^+(s, \theta)\]</div>
+<p><strong>Both use relative values, not normalized probabilities.</strong></p>
+<p>This brings us to the third question...</p>
+<hr />
+<h2 id="3-energy-based-models-unnormalized-scores-are-enough">3. Energy-Based Models: Unnormalized Scores Are Enough<a class="headerlink" href="#3-energy-based-models-unnormalized-scores-are-enough" title="Permanent link">&para;</a></h2>
+<h3 id="the-ebm-perspective">The EBM Perspective<a class="headerlink" href="#the-ebm-perspective" title="Permanent link">&para;</a></h3>
+<p>Energy-based models (EBMs) define a probability distribution:</p>
+<div class="arithmatex">\[p(x) = \frac{1}{Z} \exp(-E(x))\]</div>
+<p>where <span class="arithmatex">\(Z = \int \exp(-E(x')) dx'\)</span> is the partition function.</p>
+<p><strong>The key insight:</strong></p>
+<blockquote>
+<p><strong>In practice, we never compute <span class="arithmatex">\(Z\)</span>!</strong></p>
+</blockquote>
+<p>Why? Because inference, optimization, and control only require <strong>relative energies</strong>:</p>
+<p><strong>Comparing two options:</strong></p>
+<div class="arithmatex">\[\frac{p(x_1)}{p(x_2)} = \frac{\exp(-E(x_1))}{\exp(-E(x_2))} = \exp(E(x_2) - E(x_1))\]</div>
+<p>The partition function <span class="arithmatex">\(Z\)</span> cancels out!</p>
+<p><strong>Optimization:</strong></p>
+<div class="arithmatex">\[x^* = \arg\min_x E(x)\]</div>
+<p>No normalization needed—just find the minimum.</p>
+<p><strong>Control:</strong></p>
+<div class="arithmatex">\[u^* = \arg\min_u E(x, u)\]</div>
+<p>Again, relative values are sufficient.</p>
+<hr />
+<h3 id="grls-position-in-the-landscape">GRL's Position in the Landscape<a class="headerlink" href="#grls-position-in-the-landscape" title="Permanent link">&para;</a></h3>
+<p>GRL does the same thing:</p>
+<p><strong>The field <span class="arithmatex">\(Q^+(z)\)</span></strong> acts as an <strong>unnormalized score</strong> / <strong>negative energy</strong>:</p>
+<div class="arithmatex">\[E(z) = -Q^+(z)\]</div>
+<p><strong>Policy (Boltzmann distribution):</strong></p>
+<div class="arithmatex">\[\pi(\theta | s) \propto \exp(\beta \, Q^+(s, \theta))\]</div>
+<p>No explicit normalization is computed—the policy is normalized implicitly when actions are sampled or probabilities are queried.</p>
+<p><strong>Optimization (greedy action):</strong></p>
+<div class="arithmatex">\[\theta^* = \arg\max_\theta Q^+(s, \theta)\]</div>
+<p>Only relative values matter.</p>
+<hr />
+<h3 id="where-does-grl-sit">Where Does GRL Sit?<a class="headerlink" href="#where-does-grl-sit" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>Primitive</th>
+<th>Normalized?</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Quantum Mechanics</strong></td>
+<td>Amplitude <span class="arithmatex">\(\psi(x)\)</span></td>
+<td>Yes (Born rule)</td>
+<td>Predictions about measurements</td>
+</tr>
+<tr>
+<td><strong>Born Machines</strong></td>
+<td>Amplitude <span class="arithmatex">\(\psi(x)\)</span></td>
+<td>Yes</td>
+<td>Generative modeling</td>
+</tr>
+<tr>
+<td><strong>Energy-Based Models</strong></td>
+<td>Energy <span class="arithmatex">\(E(x)\)</span></td>
+<td>No</td>
+<td>Optimization, inference</td>
+</tr>
+<tr>
+<td><strong>GRL</strong></td>
+<td>Field <span class="arithmatex">\(Q^+(z)\)</span></td>
+<td>No</td>
+<td>Control, decision-making</td>
+</tr>
+</tbody>
+</table>
+<p><strong>The key insight:</strong></p>
+<blockquote>
+<p><strong>GRL borrows the amplitude geometry from quantum mechanics<br />
+and the unnormalized inference logic from energy-based models.</strong></p>
+</blockquote>
+<p>This combination keeps GRL mathematically clean <strong>without forcing probability normalization</strong>.</p>
+<hr />
+<h2 id="4-three-interpretations-one-object">4. Three Interpretations, One Object<a class="headerlink" href="#4-three-interpretations-one-object" title="Permanent link">&para;</a></h2>
+<p>The reinforcement field <span class="arithmatex">\(Q^+\)</span> can be viewed from three complementary perspectives:</p>
+<h3 id="perspective-1-hilbert-space-state">Perspective 1: Hilbert Space State<a class="headerlink" href="#perspective-1-hilbert-space-state" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[Q^+ \in \mathcal{H}_k\]</div>
+<p>A vector in the RKHS, determined by particle memory:</p>
+<div class="arithmatex">\[Q^+ = \sum_{i=1}^N w_i \, k(z_i, \cdot)\]</div>
+<p><strong>This is the abstract object</strong>—basis-independent.</p>
+<hr />
+<h3 id="perspective-2-amplitude-field-qm-like">Perspective 2: Amplitude Field (QM-like)<a class="headerlink" href="#perspective-2-amplitude-field-qm-like" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[Q^+(z) = \langle Q^+, k(z, \cdot) \rangle_{\mathcal{H}_k}\]</div>
+<p>The coordinate representation in the kernel-induced basis.</p>
+<p><strong>This gives the field value at each point</strong>—the "wavefunction" of the field.</p>
+<hr />
+<h3 id="perspective-3-energy-score-function-ebm-like">Perspective 3: Energy / Score Function (EBM-like)<a class="headerlink" href="#perspective-3-energy-score-function-ebm-like" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[E(z) = -Q^+(z)\]</div>
+<p>An unnormalized score used for inference and control.</p>
+<p><strong>This enables decision-making without normalization.</strong></p>
+<hr />
+<p><strong>Nothing is inconsistent here</strong>—they're just different <strong>readouts</strong> of the same state, like:</p>
+<ul>
+<li>Abstract vector <span class="arithmatex">\(\mathbf{v}\)</span></li>
+<li>Cartesian coordinates <span class="arithmatex">\([v_x, v_y, v_z]\)</span></li>
+<li>Potential energy <span class="arithmatex">\(U(\mathbf{v})\)</span></li>
+</ul>
+<p>All describe the same object from different angles.</p>
+<hr />
+<h2 id="5-what-grl-does-and-doesnt-claim">5. What GRL Does (and Doesn't) Claim<a class="headerlink" href="#5-what-grl-does-and-doesnt-claim" title="Permanent link">&para;</a></h2>
+<h3 id="grl-does-not-claim">GRL Does NOT Claim:<a class="headerlink" href="#grl-does-not-claim" title="Permanent link">&para;</a></h3>
+<ul>
+<li>❌ <span class="arithmatex">\(Q^+(z)\)</span> is a probability</li>
+<li>❌ Probabilities are derived via Born's rule <span class="arithmatex">\(p(z) \propto |Q^+(z)|^2\)</span></li>
+<li>❌ Normalization is required for inference</li>
+</ul>
+<h3 id="grl-does-claim">GRL DOES Claim:<a class="headerlink" href="#grl-does-claim" title="Permanent link">&para;</a></h3>
+<ul>
+<li>✅ <span class="arithmatex">\(Q^+\)</span> is an element of a Hilbert space (RKHS)</li>
+<li>✅ Kernel evaluations act as overlap amplitudes</li>
+<li>✅ Action selection uses unnormalized scores (like EBMs)</li>
+<li>✅ This unifies RKHS geometry, QM-style state representation, and EBM inference</li>
+</ul>
+<hr />
+<h3 id="a-precise-statement">A Precise Statement<a class="headerlink" href="#a-precise-statement" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>Although kernel evaluations resemble probability amplitudes, GRL does not require normalized probabilities. Inference and control are performed via unnormalized energy-like scores, consistent with modern energy-based models.</strong></p>
+</blockquote>
+<p>This keeps the framework mathematically clean <strong>and</strong> modern.</p>
+<hr />
+<h2 id="6-could-we-define-probabilities-optional-extension">6. Could We Define Probabilities? (Optional Extension)<a class="headerlink" href="#6-could-we-define-probabilities-optional-extension" title="Permanent link">&para;</a></h2>
+<p><strong>Natural question:</strong> Since kernels have inner product structure like QM, can we define probabilities from them?</p>
+<p><strong>Answer:</strong> Yes! Probabilities <strong>could</strong> be defined in RKHS. There are multiple options:</p>
+<h3 id="option-1-born-rule-on-kernel-amplitudes">Option 1: Born Rule on Kernel Amplitudes<a class="headerlink" href="#option-1-born-rule-on-kernel-amplitudes" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[p(z) = \frac{|Q^+(z)|^2}{\int_{\mathcal{Z}} |Q^+(z')|^2 dz'}\]</div>
+<p><strong>This works!</strong> Born machines use this approach.</p>
+<p><strong>For GRL:</strong>
+- Pro: Direct QM analogy
+- Con: Requires computing the normalization integral
+- Con: Real-valued amplitudes don't give interference effects</p>
+<hr />
+<h3 id="option-2-boltzmann-distribution-what-grl-uses">Option 2: Boltzmann Distribution (What GRL Uses)<a class="headerlink" href="#option-2-boltzmann-distribution-what-grl-uses" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\pi(\theta | s) = \frac{\exp(\beta Q^+(s, \theta))}{\int_{\Theta} \exp(\beta Q^+(s, \theta')) d\theta'}\]</div>
+<p><strong>This is what GRL implicitly uses for policy!</strong></p>
+<p><strong>Advantages:</strong>
+- Standard in RL (Boltzmann exploration)
+- Temperature parameter <span class="arithmatex">\(\beta\)</span> controls exploration
+- No need to compute normalization explicitly (ratio trick)</p>
+<hr />
+<h3 id="option-3-complex-valued-rkhs-advanced">Option 3: Complex-Valued RKHS (Advanced)<a class="headerlink" href="#option-3-complex-valued-rkhs-advanced" title="Permanent link">&para;</a></h3>
+<p>If you extend RKHS to <strong>complex values</strong>, you get:</p>
+<ul>
+<li>Probability amplitudes: <span class="arithmatex">\(\psi(z) \in \mathbb{C}\)</span></li>
+<li>Born rule: <span class="arithmatex">\(p(z) = |\psi(z)|^2\)</span></li>
+<li><strong>Interference effects</strong> from phase!</li>
+</ul>
+<p><strong>This is exactly what you explore in</strong> <code>02-complex-rkhs.md</code>!</p>
+<hr />
+<h2 id="7-three-roles-of-choosing-a-point">7. Three Roles of "Choosing a Point"<a class="headerlink" href="#7-three-roles-of-choosing-a-point" title="Permanent link">&para;</a></h2>
+<p>Let's unify the three concepts by understanding what "choosing <span class="arithmatex">\(z\)</span>" means in each context:</p>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Question Answered</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Basis selection</strong></td>
+<td>"Along which direction am I looking?"</td>
+<td><span class="arithmatex">\(k(z, \cdot)\)</span> is the direction</td>
+</tr>
+<tr>
+<td><strong>Amplitude</strong></td>
+<td>"How much does the state align with that direction?"</td>
+<td><span class="arithmatex">\(Q^+(z) = \langle Q^+, k(z, \cdot) \rangle\)</span></td>
+</tr>
+<tr>
+<td><strong>Probability</strong></td>
+<td>"How often would I observe this if I sampled?"</td>
+<td><span class="arithmatex">\(p(z) \propto \exp(\beta Q^+(z))\)</span> (optional)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>GRL needs the first two, not the third.</strong></p>
+<hr />
+<h2 id="8-why-this-matters-for-your-framework">8. Why This Matters for Your Framework<a class="headerlink" href="#8-why-this-matters-for-your-framework" title="Permanent link">&para;</a></h2>
+<h3 id="conceptual-clarity">Conceptual Clarity<a class="headerlink" href="#conceptual-clarity" title="Permanent link">&para;</a></h3>
+<p>Understanding that GRL works with <strong>unnormalized amplitudes</strong> (like EBMs) rather than <strong>normalized probabilities</strong> (like QM):</p>
+<ol>
+<li><strong>Explains why no partition function is needed</strong></li>
+<li><strong>Justifies the QM analogy</strong> (geometry) without <strong>overcommitting</strong> (Born rule)</li>
+<li><strong>Positions GRL correctly</strong> in the modern ML landscape (alongside EBMs, score-based models)</li>
+</ol>
+<hr />
+<h3 id="future-extensions">Future Extensions<a class="headerlink" href="#future-extensions" title="Permanent link">&para;</a></h3>
+<p>If you want to develop normalized probability formulations:</p>
+<p><strong>Option A:</strong> Born rule approach (for generative modeling)</p>
+<div class="arithmatex">\[p(z) \propto |Q^+(z)|^2\]</div>
+<p><strong>Option B:</strong> Complex RKHS (for interference and phase semantics)</p>
+<div class="arithmatex">\[\psi(z) \in \mathbb{C}, \quad p(z) = |\psi(z)|^2\]</div>
+<p>Both are natural extensions explored in later chapters!</p>
+<hr />
+<h3 id="practical-implications">Practical Implications<a class="headerlink" href="#practical-implications" title="Permanent link">&para;</a></h3>
+<p><strong>For implementation:</strong>
+- No need to compute partition functions
+- Use relative values for action selection
+- Policy normalization handled implicitly</p>
+<p><strong>For theory:</strong>
+- Clean mathematical framework
+- Rigorous Hilbert space structure
+- Flexible enough for future probability extensions</p>
+<hr />
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<h3 id="key-insights">Key Insights<a class="headerlink" href="#key-insights" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>RKHS Basis:</strong></li>
+<li>Kernel sections <span class="arithmatex">\(\{k(z, \cdot)\}\)</span> form a continuous frame</li>
+<li>Choosing <span class="arithmatex">\(z\)</span> selects one frame element, like choosing <span class="arithmatex">\(x\)</span> selects <span class="arithmatex">\(|x\rangle\)</span> in QM</li>
+<li>
+<p>The state <span class="arithmatex">\(Q^+\)</span> exists independently; <span class="arithmatex">\(Q^+(z)\)</span> is its projection onto <span class="arithmatex">\(k(z, \cdot)\)</span></p>
+</li>
+<li>
+<p><strong>Kernel Amplitudes:</strong></p>
+</li>
+<li><span class="arithmatex">\(Q^+(z)\)</span> acts like a wavefunction (coordinate representation)</li>
+<li>But GRL doesn't require normalization (unlike QM)</li>
+<li>
+<p>Similar to EBMs working with unnormalized energies</p>
+</li>
+<li>
+<p><strong>Three Interpretations:</strong></p>
+</li>
+<li>Abstract: <span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span> (Hilbert space state)</li>
+<li>Coordinate: <span class="arithmatex">\(Q^+(z)\)</span> (amplitude field)</li>
+<li>
+<p>Inference: <span class="arithmatex">\(-Q^+(z)\)</span> (energy score)</p>
+</li>
+<li>
+<p><strong>Why No Normalization:</strong></p>
+</li>
+<li>Decision-making uses relative values</li>
+<li>Partition function cancels in ratios</li>
+<li>
+<p>Same principle as modern EBMs</p>
+</li>
+<li>
+<p><strong>Could Define Probabilities:</strong></p>
+</li>
+<li>Born rule: <span class="arithmatex">\(p(z) \propto |Q^+(z)|^2\)</span> (possible, not required)</li>
+<li>Boltzmann: <span class="arithmatex">\(\pi(\theta|s) \propto \exp(\beta Q^+(s,\theta))\)</span> (what GRL uses)</li>
+<li>Complex RKHS: <span class="arithmatex">\(p(z) = |\psi(z)|^2\)</span> with interference (future extension)</li>
+</ol>
+<hr />
+<h2 id="key-equations">Key Equations<a class="headerlink" href="#key-equations" title="Permanent link">&para;</a></h2>
+<p><strong>RKHS basis (frame):</strong></p>
+<div class="arithmatex">\[\{k(z, \cdot) : z \in \mathcal{Z}\} \subset \mathcal{H}_k\]</div>
+<p><strong>State in RKHS:</strong></p>
+<div class="arithmatex">\[Q^+ = \sum_{i=1}^N w_i \, k(z_i, \cdot) \in \mathcal{H}_k\]</div>
+<p><strong>Coordinate representation (amplitude):</strong></p>
+<div class="arithmatex">\[Q^+(z) = \langle Q^+, k(z, \cdot) \rangle_{\mathcal{H}_k}\]</div>
+<p><strong>Energy interpretation:</strong></p>
+<div class="arithmatex">\[E(z) = -Q^+(z)\]</div>
+<p><strong>Policy (Boltzmann):</strong></p>
+<div class="arithmatex">\[\pi(\theta | s) \propto \exp(\beta \, Q^+(s, \theta))\]</div>
+<p><strong>Analogy to QM:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Quantum</th>
+<th>RKHS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(\|\psi\rangle \in \mathcal{H}\)</span></td>
+<td><span class="arithmatex">\(Q^+ \in \mathcal{H}_k\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\psi(x) = \langle x \| \psi \rangle\)</span></td>
+<td><span class="arithmatex">\(Q^+(z) = \langle Q^+, k(z, \cdot) \rangle\)</span></td>
+</tr>
+<tr>
+<td>Basis: <span class="arithmatex">\(\{\|x\rangle\}\)</span></td>
+<td>Frame: <span class="arithmatex">\(\{k(z, \cdot)\}\)</span></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="further-reading">Further Reading<a class="headerlink" href="#further-reading" title="Permanent link">&para;</a></h2>
+<h3 id="within-this-tutorial-series">Within This Tutorial Series<a class="headerlink" href="#within-this-tutorial-series" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="../01-rkhs-quantum-parallel/">Chapter 1</a>:</strong> RKHS-Quantum Structural Parallel</li>
+<li><strong><a href="../01a-wavefunction-interpretation/">Chapter 1a</a>:</strong> What Is a Wavefunction?</li>
+<li><strong><a href="../03-complex-rkhs/">Chapter 3 (complex)</a>:</strong> Complex-Valued RKHS and Probability Amplitudes</li>
+</ul>
+<h3 id="back-to-grl-tutorials">Back to GRL Tutorials<a class="headerlink" href="#back-to-grl-tutorials" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong><a href="../../tutorials/02-rkhs-foundations/">Tutorial Chapter 2</a>:</strong> RKHS Foundations</li>
+<li><strong><a href="../../tutorials/04-reinforcement-field/">Tutorial Chapter 4</a>:</strong> Reinforcement Field</li>
+</ul>
+<h3 id="related-concepts">Related Concepts<a class="headerlink" href="#related-concepts" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Energy-Based Models:</strong> LeCun et al. (2006). "A Tutorial on Energy-Based Learning"</li>
+<li><strong>Born Machines:</strong> Cheng et al. (2018). "Quantum Generative Adversarial Learning"</li>
+<li><strong>RKHS and Kernel Methods:</strong> Berlinet &amp; Thomas-Agnan (2004). "Reproducing Kernel Hilbert Spaces"</li>
+</ul>
+<hr />
+<p><strong>Last Updated:</strong> January 14, 2026</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
