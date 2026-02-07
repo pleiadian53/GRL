@@ -17,7 +17,6 @@ In standard GRL, the reinforcement field is real-valued:
 $$Q^+(z) \in \mathbb{R}$$
 
 This means:
-
 - Particles can only reinforce or cancel each other (positive/negative weights)
 - There is no notion of *phase*
 - Interference is limited to constructive/destructive along a single axis
@@ -31,7 +30,6 @@ $$\psi(x) \in \mathbb{C}$$
 Probability is $|\psi(x)|^2 = \psi^*(x) \cdot \psi(x)$, where $\psi^*$ is the complex conjugate.
 
 Complex amplitudes enable:
-
 - **Phase relationships**: Two particles can have the same magnitude but different phases
 - **Rich interference**: Constructive, destructive, and *partial* interference depending on phase alignment
 - **Rotation in state space**: Phase evolution provides natural dynamics
@@ -63,7 +61,6 @@ $$k_{\mathbb{C}}(x, y) = \exp\left(-\frac{\|x-y\|^2}{2\sigma^2}\right) \cdot e^{
 where $\phi(x,y)$ encodes directional or temporal relationships.
 
 **Properties:**
-
 - Magnitude decreases with distance (as usual)
 - Phase encodes additional structure
 - Hermitian: $k_{\mathbb{C}}(x, y) = \overline{k_{\mathbb{C}}(y, x)}$
@@ -79,7 +76,6 @@ Each particle carries a position, magnitude, and **phase**:
 $$(z_i, w_i, \phi_i)$$
 
 where:
-
 - $z_i = (s_i, \theta_i)$: augmented state-action location
 - $w_i \in \mathbb{R}^+$: magnitude (importance)
 - $\phi_i \in [0, 2\pi)$: phase angle
@@ -135,7 +131,6 @@ For general phase difference $\Delta\phi = \phi_2 - \phi_1$:
 $$|\Psi(z)|^2 = |c_1|^2 + |c_2|^2 + 2|c_1||c_2| \cos(\Delta\phi) \, k(z_1, z) k(z_2, z)$$
 
 The interference term $\cos(\Delta\phi)$ modulates the interaction:
-
 - $\Delta\phi = 0$: Constructive ($\cos = +1$)
 - $\Delta\phi = \pi/2$: No interference ($\cos = 0$)
 - $\Delta\phi = \pi$: Destructive ($\cos = -1$)
@@ -201,7 +196,6 @@ The Gram matrix is now complex Hermitian:
 $$K_{ij} = k_{\mathbb{C}}(z_i, z_j) \in \mathbb{C}$$
 
 Properties:
-
 - $K^\dagger = K$ (Hermitian)
 - Eigenvalues are real
 - Eigenvectors are complex
@@ -215,9 +209,7 @@ $$K = V \Lambda V^\dagger$$
 where $V$ contains complex eigenvectors.
 
 **Interpretation:**
-
 - Each eigenvector $v_j$ is a **concept in function space**
-
 - Magnitude $|v_{ij}|$ indicates particle $i$'s contribution to concept $j$
 - Phase $\arg(v_{ij})$ indicates particle $i$'s phase alignment within concept $j$
 
@@ -293,7 +285,6 @@ def complex_gaussian_kernel(x, y, sigma=1.0, phase_fn=None):
 **Problem:** Delayed rewards make credit assignment hard.
 
 **Complex GRL Solution:**
-
 - Encode time in phase: $\phi_i = \omega \cdot t_i$
 - Recent experiences interfere constructively
 - Automatic temporal discounting via phase decoherence
@@ -303,7 +294,6 @@ def complex_gaussian_kernel(x, y, sigma=1.0, phase_fn=None):
 **Problem:** Experiences from different tasks may conflict.
 
 **Complex GRL Solution:**
-
 - Encode task ID in phase
 - Same-task experiences reinforce
 - Cross-task experiences may cancel (if interference is destructive)
@@ -313,7 +303,6 @@ def complex_gaussian_kernel(x, y, sigma=1.0, phase_fn=None):
 **Problem:** In navigation, direction matters.
 
 **Complex GRL Solution:**
-
 - Encode movement direction in phase
 - Forward-consistent trajectories reinforce
 - Conflicting directions cancel
@@ -323,7 +312,6 @@ def complex_gaussian_kernel(x, y, sigma=1.0, phase_fn=None):
 **Problem:** Concepts may have temporal or contextual organization.
 
 **Complex GRL Solution:**
-
 - Complex spectral clustering reveals concepts with phase structure
 - Hierarchical concepts organized by magnitude and phase
 
@@ -401,23 +389,19 @@ This framework connects GRL to the emerging field of **quantum kernel methods**:
 ## References
 
 **Complex-Valued Neural Networks:**
-
 - Trabelsi et al. (2018). Deep complex networks. *ICLR*.
 - Hirose (2012). Complex-valued neural networks: Advances and applications. *Wiley*.
 
 **Quantum Kernel Methods:**
-
 - Havlíček et al. (2019). Supervised learning with quantum-enhanced feature spaces. *Nature* 567, 209-212.
 - Schuld & Killoran (2019). Quantum machine learning in feature Hilbert spaces. *Physical Review Letters* 122, 040504.
 - Lloyd et al. (2020). Quantum embeddings for machine learning. *arXiv:2001.03622*.
 
 **RKHS Theory:**
-
 - Steinwart & Christmann (2008). *Support Vector Machines*. Springer (Chapter on complex RKHS).
 - Schölkopf & Smola (2002). *Learning with Kernels*. MIT Press.
 
 **GRL Original Paper:**
-
 - Chiu & Huber (2022). Generalized Reinforcement Learning. [arXiv:2208.04822](https://arxiv.org/abs/2208.04822)
 
 ---

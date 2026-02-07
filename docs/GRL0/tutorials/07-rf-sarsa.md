@@ -986,6 +986,8 @@ RF-SARSA is **not** a policy learning algorithm. It is a **functional reinforcem
 
 **[Related: Chapter 03a - Least Action Principle](03a-least-action-principle.md)** | **[Related: Chapter 06 - MemoryUpdate](06-memory-update.md)**
 
+**[Supplement: Chapter 07a - Continuous Policy Inference](07a-continuous-policy-inference.md)** | **[Supplement: Chapter 07b - RF-Q-Learning and the Deadly Triad](07b-rf-q-learning-and-convergence.md)**
+
 ---
 
 **Last Updated**: January 14, 2026

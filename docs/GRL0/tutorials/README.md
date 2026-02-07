@@ -40,6 +40,8 @@ These chapters form the core of the GRL tutorial paper. Each chapter builds on p
 | 06a | [Advanced Memory Dynamics](06a-advanced-memory-dynamics.md) (supplement) | Top-k neighbors, surprise-gating, practical improvements | ✅ Complete |
 | 07 | [RF-SARSA](07-rf-sarsa.md) | Functional TD learning, two-layer architecture, Algorithm 2 | ✅ Complete |
 | 07a | [Continuous Policy Inference](07a-continuous-policy-inference.md) (supplement) | Beyond discrete actions, Langevin sampling, actor-critic in RKHS | ✅ Complete |
+| 07b | [RF-Q-Learning and the Deadly Triad](07b-rf-q-learning-and-convergence.md) (supplement) | Off-policy stability, RKHS safeguards, maximization bias, Double Q | ✅ Complete |
+| 07c | [Experience Replay and Particle Memory](07c-experience-replay-and-particle-memory.md) (supplement) | Replay buffers, data-level vs. function-level reuse, historical context | ✅ Complete |
 
 ### Part IV: Interpretation
 
@@ -96,7 +98,11 @@ Read Chapters 00, 01, and 04 for the essential concepts.
     ↓
 07-RF-SARSA
     ↓
-07a-Continuous Policy Inference (supplement) ← We are here
+07a-Continuous Policy Inference (supplement)
+    ↓
+07b-RF-Q-Learning and the Deadly Triad (supplement)
+    ↓
+07c-Experience Replay and Particle Memory (supplement) ← We are here
     ↓
 08-Soft State Transitions (planned)
     ↓
