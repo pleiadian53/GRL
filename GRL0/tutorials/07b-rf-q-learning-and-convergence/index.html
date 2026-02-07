@@ -1,0 +1,2919 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/tutorials/07b-rf-q-learning-and-convergence/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Chapter 07b: RF-Q-Learning and the Deadly Triad - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chapter-07b-rf-q-learning-and-the-deadly-triad" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 07b: RF-Q-Learning and the Deadly Triad
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03a-least-action-principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-memory-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../07a-continuous-policy-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-deadly-triad-a-recap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The Deadly Triad: A Recap
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. The Deadly Triad: A Recap">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-the-three-conditions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 The three conditions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-why-the-combination-is-dangerous" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Why the combination is dangerous
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-where-rf-sarsa-sits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Where RF-SARSA sits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-what-would-rf-q-learning-look-like" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. What Would RF-Q-Learning Look Like?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. What Would RF-Q-Learning Look Like?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-the-modification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 The modification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-what-changes-in-the-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 What changes in the pipeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-why-this-is-appealing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Why this is appealing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-does-grls-rkhs-structure-provide-protection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Does GRL's RKHS Structure Provide Protection?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Does GRL&#39;s RKHS Structure Provide Protection?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-rkhs-norm-regularization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 RKHS norm regularization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-kernel-smoothness-as-implicit-regularization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Kernel smoothness as implicit regularization
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-memoryupdate-as-a-controlled-belief-transition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 MemoryUpdate as a controlled belief transition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-non-parametric-representation-avoids-catastrophic-interference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 Non-parametric representation avoids catastrophic interference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35-the-remaining-vulnerability-optimistic-bias-amplification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 The remaining vulnerability: optimistic bias amplification
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-assessment-is-rf-q-learning-viable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Assessment: Is RF-Q-Learning Viable?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Assessment: Is RF-Q-Learning Viable?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-summary-of-structural-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Summary of structural analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-the-honest-answer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 The honest answer
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-making-rf-q-learning-more-reliable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Making RF-Q-Learning More Reliable
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Making RF-Q-Learning More Reliable">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-double-q-learning-in-rkhs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Double Q-learning in RKHS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-pessimistic-value-estimation-conservative-q-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Pessimistic value estimation (conservative Q-learning)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-soft-maximization-mellowmax-or-boltzmann" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Soft maximization (mellowmax or Boltzmann)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-experience-replay-with-kernel-weighted-prioritization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Experience replay with kernel-weighted prioritization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-rf-q-learning-vs-rf-sarsa-when-to-use-which" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. RF-Q-Learning vs. RF-SARSA: When to Use Which
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. RF-Q-Learning vs. RF-SARSA: When to Use Which">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#practical-recommendation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical recommendation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-a-deeper-perspective-why-grl-is-structurally-different" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. A Deeper Perspective: Why GRL Is Structurally Different
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. A Deeper Perspective: Why GRL Is Structurally Different">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-the-deadly-triad-through-grls-lens" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 The deadly triad through GRL's lens
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-the-particle-memory-as-a-stabilizing-mechanism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 The particle memory as a stabilizing mechanism
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-connection-to-kernel-td-convergence-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Connection to kernel TD convergence theory
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-does-the-reinforcement-field-suffer-from-the-deadly-triad" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Does the reinforcement field suffer from the deadly triad?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-is-rf-q-learning-possible-and-reliable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Is RF-Q-learning possible and reliable?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-the-key-insight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 The key insight
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Open Questions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/tutorials/07b-rf-q-learning-and-convergence.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="chapter-07b-rf-q-learning-and-the-deadly-triad">Chapter 07b: RF-Q-Learning and the Deadly Triad<a class="headerlink" href="#chapter-07b-rf-q-learning-and-the-deadly-triad" title="Permanent link">&para;</a></h1>
+<p><strong>Purpose</strong>: Analyze whether GRL's reinforcement field is susceptible to the divergence problems of off-policy learning, and whether an RF-Q-learning variant is viable<br />
+<strong>Prerequisites</strong>: Chapter 07 (RF-SARSA), familiarity with the deadly triad (Sutton &amp; Barto, Ch. 11)<br />
+<strong>Key Concepts</strong>: Deadly triad, off-policy divergence, RKHS regularization, RF-Q-learning, structural stability</p>
+<hr />
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Chapter 7 introduced RF-SARSA as GRL's core learning algorithm. A natural question arises: <strong>why SARSA and not Q-learning?</strong></p>
+<p>In classical RL, Q-learning is often preferred over SARSA because it is off-policy — it can learn the optimal policy while following an exploratory behavior policy, and it can reuse experience from replay buffers. However, Q-learning with function approximation is notoriously unstable, a problem known as the <strong>deadly triad</strong>.</p>
+<p>This chapter asks two questions:</p>
+<ol>
+<li><strong>Does GRL's reinforcement field have any special protection against the deadly triad?</strong></li>
+<li><strong>Is RF-Q-learning viable — and if so, under what conditions?</strong></li>
+</ol>
+<p>The answers turn out to be nuanced: GRL's RKHS structure provides several structural safeguards that standard neural network approximators lack, but these safeguards mitigate rather than eliminate the fundamental instability. Understanding <em>why</em> reveals deep connections between kernel geometry, belief dynamics, and the nature of off-policy learning.</p>
+<hr />
+<h2 id="1-the-deadly-triad-a-recap">1. The Deadly Triad: A Recap<a class="headerlink" href="#1-the-deadly-triad-a-recap" title="Permanent link">&para;</a></h2>
+<h3 id="11-the-three-conditions">1.1 The three conditions<a class="headerlink" href="#11-the-three-conditions" title="Permanent link">&para;</a></h3>
+<p>Sutton &amp; Barto (2018, Ch. 11) identified three conditions that, when combined, can cause value estimates to diverge:</p>
+<ol>
+<li><strong>Function approximation</strong> — the value function is represented by a parameterized model (neural network, linear features, etc.) rather than a lookup table</li>
+<li><strong>Bootstrapping</strong> — the update target includes a value estimate (as in TD learning), rather than waiting for the full Monte Carlo return</li>
+<li><strong>Off-policy learning</strong> — the agent learns about a policy (the <em>target</em> policy) different from the one generating the data (the <em>behavior</em> policy)</li>
+</ol>
+<p>Any two of these three are safe. All three together can cause unbounded growth of value estimates — even in simple MDPs.</p>
+<h3 id="12-why-the-combination-is-dangerous">1.2 Why the combination is dangerous<a class="headerlink" href="#12-why-the-combination-is-dangerous" title="Permanent link">&para;</a></h3>
+<p>The intuition is:</p>
+<ul>
+<li><strong>Function approximation</strong> means updating one state-action pair affects nearby ones (generalization)</li>
+<li><strong>Bootstrapping</strong> means the update target depends on the current value estimates (self-referential)</li>
+<li><strong>Off-policy learning</strong> means the distribution of updates doesn't match the distribution the target policy would visit</li>
+</ul>
+<p>When all three combine, a positive error at one state can propagate to neighbors (via function approximation), inflate the bootstrap target (via bootstrapping), and never get corrected (because the behavior policy doesn't visit the states where the error is worst — off-policy). The result is a self-reinforcing feedback loop that drives values to infinity.</p>
+<h3 id="13-where-rf-sarsa-sits">1.3 Where RF-SARSA sits<a class="headerlink" href="#13-where-rf-sarsa-sits" title="Permanent link">&para;</a></h3>
+<p>Let's check RF-SARSA against the triad:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>RF-SARSA</th>
+<th>Present?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Function approximation</strong></td>
+<td>GP regression over particles in RKHS</td>
+<td>✓ Yes</td>
+</tr>
+<tr>
+<td><strong>Bootstrapping</strong></td>
+<td>TD update: <span class="arithmatex">\(\delta = r + \gamma Q(s', a') - Q(s, a)\)</span></td>
+<td>✓ Yes</td>
+</tr>
+<tr>
+<td><strong>Off-policy learning</strong></td>
+<td>SARSA uses the <em>actual</em> next action <span class="arithmatex">\(a'\)</span></td>
+<td>✗ No</td>
+</tr>
+</tbody>
+</table>
+<p><strong>RF-SARSA avoids the triad</strong> by being on-policy. The primitive SARSA layer learns about the policy being executed, and the field layer generalizes these on-policy estimates. This is a deliberate design choice, not an accident.</p>
+<hr />
+<h2 id="2-what-would-rf-q-learning-look-like">2. What Would RF-Q-Learning Look Like?<a class="headerlink" href="#2-what-would-rf-q-learning-look-like" title="Permanent link">&para;</a></h2>
+<h3 id="21-the-modification">2.1 The modification<a class="headerlink" href="#21-the-modification" title="Permanent link">&para;</a></h3>
+<p>RF-Q-learning would replace the SARSA update in the primitive layer with a Q-learning update:</p>
+<p><strong>RF-SARSA (current)</strong>:
+$<span class="arithmatex">\(\delta = r + \gamma Q(s', a') - Q(s, a) \quad \text{where } a' \text{ is the action actually taken}\)</span>$</p>
+<p><strong>RF-Q-learning (proposed)</strong>:
+$<span class="arithmatex">\(\delta = r + \gamma \max_{a'} Q(s', a') - Q(s, a) \quad \text{where } \max \text{ is over all actions}\)</span>$</p>
+<p>For continuous actions, the <span class="arithmatex">\(\max\)</span> becomes an optimization:
+$<span class="arithmatex">\(\delta = r + \gamma \max_\theta Q^+(s', \theta) - Q^+(s, \theta)\)</span>$</p>
+<p>which can be approximated via gradient ascent or Langevin sampling on the field.</p>
+<h3 id="22-what-changes-in-the-pipeline">2.2 What changes in the pipeline<a class="headerlink" href="#22-what-changes-in-the-pipeline" title="Permanent link">&para;</a></h3>
+<p>The rest of the RF-SARSA pipeline would remain identical:</p>
+<ol>
+<li><strong>Field queries</strong> for action selection — unchanged</li>
+<li><strong>Environment interaction</strong> — unchanged</li>
+<li><strong>Primitive update</strong> — changed from SARSA to Q-learning (the <span class="arithmatex">\(\max\)</span>)</li>
+<li><strong>Particle reinforcement</strong> via MemoryUpdate — unchanged (but now receives off-policy TD signals)</li>
+<li><strong>ARD</strong> — unchanged</li>
+</ol>
+<p>The critical difference: the TD error <span class="arithmatex">\(\delta\)</span> now reflects the <em>optimal</em> policy's value, not the behavior policy's value. This <span class="arithmatex">\(\delta\)</span> is then propagated through MemoryUpdate into the particle memory, reshaping the field <span class="arithmatex">\(Q^+\)</span> toward the optimal value landscape rather than the behavior policy's landscape.</p>
+<h3 id="23-why-this-is-appealing">2.3 Why this is appealing<a class="headerlink" href="#23-why-this-is-appealing" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Sample efficiency</strong>: Can reuse old experience (replay buffers)</li>
+<li><strong>Optimal policy learning</strong>: Learns <span class="arithmatex">\(Q^*\)</span> directly, not <span class="arithmatex">\(Q^\pi\)</span></li>
+<li><strong>Exploration freedom</strong>: Behavior policy can explore aggressively without corrupting value estimates</li>
+</ul>
+<hr />
+<h2 id="3-does-grls-rkhs-structure-provide-protection">3. Does GRL's RKHS Structure Provide Protection?<a class="headerlink" href="#3-does-grls-rkhs-structure-provide-protection" title="Permanent link">&para;</a></h2>
+<p>This is the central question. GRL's reinforcement field has several structural properties that standard neural network function approximators lack. Let's examine each and assess whether it helps against the deadly triad.</p>
+<h3 id="31-rkhs-norm-regularization">3.1 RKHS norm regularization<a class="headerlink" href="#31-rkhs-norm-regularization" title="Permanent link">&para;</a></h3>
+<p><strong>Property</strong>: The GP posterior mean always lives in RKHS, and GP regression implicitly minimizes the RKHS norm:</p>
+<div class="arithmatex">\[Q^+(z) = \sum_i \alpha_i k(z, z_i) \quad \text{with} \quad \|Q^+\|_{\mathcal{H}_k}^2 = \alpha^\top K \alpha\]</div>
+<p>The regularized GP objective is:</p>
+<div class="arithmatex">\[\min_\alpha \|q - K\alpha\|^2 + \sigma_n^2 \|\alpha\|_{K}^2\]</div>
+<p>This penalizes functions with large RKHS norm — effectively bounding how "wild" the value function can become.</p>
+<p><strong>Does this help?</strong> <strong>Partially.</strong> RKHS regularization prevents the value function from developing arbitrarily sharp peaks or oscillations. In the deadly triad, divergence often manifests as unbounded growth of value estimates. The RKHS norm penalty resists this by penalizing large <span class="arithmatex">\(\alpha\)</span> coefficients. However, if the particle values <span class="arithmatex">\(q_i\)</span> themselves grow unboundedly (driven by bootstrapping), the GP will faithfully interpolate those growing values — the regularization controls the <em>shape</em> of <span class="arithmatex">\(Q^+\)</span>, not the <em>scale</em> of the particle values feeding into it.</p>
+<p><strong>Verdict</strong>: Mitigates but does not eliminate divergence risk.</p>
+<hr />
+<h3 id="32-kernel-smoothness-as-implicit-regularization">3.2 Kernel smoothness as implicit regularization<a class="headerlink" href="#32-kernel-smoothness-as-implicit-regularization" title="Permanent link">&para;</a></h3>
+<p><strong>Property</strong>: Smooth kernels (RBF, Matérn) enforce smooth value functions. The field <span class="arithmatex">\(Q^+(z)\)</span> inherits the smoothness of the kernel <span class="arithmatex">\(k(z, z')\)</span>.</p>
+<p><strong>Does this help?</strong> <strong>Yes, significantly.</strong> One mechanism of divergence in neural network Q-learning is that a large update at one state-action pair can cause <em>catastrophic</em> changes at distant states (due to the global nature of neural network parameter updates). In GRL, kernel smoothness ensures that:</p>
+<ul>
+<li>Updates propagate <em>locally</em> (weighted by kernel similarity)</li>
+<li>The influence of any single particle decays smoothly with distance</li>
+<li>No single update can cause a discontinuous jump in the field</li>
+</ul>
+<p>This is analogous to the stability advantage of <strong>local</strong> function approximators (tile coding, RBFs) over <strong>global</strong> ones (neural networks) — and it is well-known that the deadly triad is less severe with local approximators.</p>
+<p><strong>Verdict</strong>: Provides meaningful protection against the <em>propagation</em> mechanism of divergence.</p>
+<hr />
+<h3 id="33-memoryupdate-as-a-controlled-belief-transition">3.3 MemoryUpdate as a controlled belief transition<a class="headerlink" href="#33-memoryupdate-as-a-controlled-belief-transition" title="Permanent link">&para;</a></h3>
+<p><strong>Property</strong>: MemoryUpdate (Algorithm 1) doesn't simply overwrite values — it performs a kernel-weighted association and update:</p>
+<ul>
+<li>New particles are associated with existing particles via kernel similarity</li>
+<li>Weight updates are modulated by the association strength</li>
+<li>The association threshold <span class="arithmatex">\(\tau\)</span> limits how far updates propagate</li>
+</ul>
+<p><strong>Does this help?</strong> <strong>Yes.</strong> MemoryUpdate acts as a <strong>damping mechanism</strong>. In standard Q-learning, the update <span class="arithmatex">\(Q(s,a) \leftarrow Q(s,a) + \alpha \delta\)</span> directly modifies the value at <span class="arithmatex">\((s,a)\)</span>. In RF-Q-learning, the TD error <span class="arithmatex">\(\delta\)</span> would be mediated by MemoryUpdate, which:</p>
+<ol>
+<li>Checks whether the new particle associates with existing particles (kernel similarity <span class="arithmatex">\(&gt; \tau\)</span>)</li>
+<li>If associated: blends the new value with existing particle values (weighted average)</li>
+<li>If not associated: creates a new particle (no interference with existing field)</li>
+</ol>
+<p>This means a single large TD error cannot arbitrarily distort the entire field — it is absorbed and smoothed by the particle ensemble. This is structurally similar to <strong>experience averaging</strong>, which is known to stabilize off-policy learning.</p>
+<p><strong>Verdict</strong>: Provides significant damping against error amplification.</p>
+<hr />
+<h3 id="34-non-parametric-representation-avoids-catastrophic-interference">3.4 Non-parametric representation avoids catastrophic interference<a class="headerlink" href="#34-non-parametric-representation-avoids-catastrophic-interference" title="Permanent link">&para;</a></h3>
+<p><strong>Property</strong>: GRL's particle memory is non-parametric — adding a new particle doesn't modify existing particles (unlike updating weights in a neural network, which changes predictions everywhere).</p>
+<p><strong>Does this help?</strong> <strong>Yes, strongly.</strong> One of the most pernicious aspects of the deadly triad with neural networks is <strong>catastrophic interference</strong>: updating the network to correct one state-action pair can silently corrupt estimates at other state-action pairs. This creates a "whack-a-mole" dynamic where fixing one error creates others.</p>
+<p>In GRL, particles are independent data points. Adding particle <span class="arithmatex">\((z_{\text{new}}, q_{\text{new}})\)</span> to <span class="arithmatex">\(\Omega\)</span> changes the GP posterior everywhere (because GP prediction depends on all data), but:</p>
+<ul>
+<li>The change is smooth and local (kernel-weighted)</li>
+<li>Existing particles retain their values</li>
+<li>The GP posterior is the <em>optimal</em> interpolant given all particles (no gradient descent instability)</li>
+</ul>
+<p>This is a fundamental structural advantage of non-parametric methods over parametric ones for off-policy learning.</p>
+<p><strong>Verdict</strong>: Strong protection against the interference mechanism of divergence.</p>
+<hr />
+<h3 id="35-the-remaining-vulnerability-optimistic-bias-amplification">3.5 The remaining vulnerability: optimistic bias amplification<a class="headerlink" href="#35-the-remaining-vulnerability-optimistic-bias-amplification" title="Permanent link">&para;</a></h3>
+<p>Despite all these safeguards, one fundamental problem remains.</p>
+<p><strong>The <span class="arithmatex">\(\max\)</span> operator introduces systematic optimistic bias.</strong> When we compute:</p>
+<div class="arithmatex">\[\max_\theta Q^+(s', \theta)\]</div>
+<p>we are selecting the action parameter that maximizes the <em>estimated</em> field value. If the field has estimation errors (which it always does, especially in under-explored regions), the <span class="arithmatex">\(\max\)</span> preferentially selects the action where the error is most positive. This is the <strong>maximization bias</strong> (Sutton &amp; Barto, Ch. 6.7).</p>
+<p>In RF-Q-learning, this bias enters the particle values:</p>
+<ol>
+<li>Compute <span class="arithmatex">\(\delta = r + \gamma \max_\theta Q^+(s', \theta) - Q^+(s, \theta)\)</span> — biased high</li>
+<li>Update particle value <span class="arithmatex">\(q \leftarrow Q(s,a) + \alpha \delta\)</span> — biased high</li>
+<li>GP interpolates biased particle values → field <span class="arithmatex">\(Q^+\)</span> is biased high everywhere</li>
+<li>Next <span class="arithmatex">\(\max\)</span> query on biased field → even more biased</li>
+<li>Feedback loop</li>
+</ol>
+<p>The RKHS regularization controls the <em>shape</em> but not the <em>level</em> of <span class="arithmatex">\(Q^+\)</span>. If all particle values drift upward uniformly, the GP will faithfully represent this uniform inflation — the RKHS norm doesn't penalize constant offsets.</p>
+<p><strong>Verdict</strong>: This is the primary remaining vulnerability. GRL's structure slows the feedback loop (via damping and smoothness) but does not break it.</p>
+<hr />
+<h2 id="4-assessment-is-rf-q-learning-viable">4. Assessment: Is RF-Q-Learning Viable?<a class="headerlink" href="#4-assessment-is-rf-q-learning-viable" title="Permanent link">&para;</a></h2>
+<h3 id="41-summary-of-structural-analysis">4.1 Summary of structural analysis<a class="headerlink" href="#41-summary-of-structural-analysis" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Mechanism</th>
+<th>Protection Level</th>
+<th>What It Addresses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RKHS norm regularization</td>
+<td>Moderate</td>
+<td>Bounds function complexity, resists sharp peaks</td>
+</tr>
+<tr>
+<td>Kernel smoothness</td>
+<td>Significant</td>
+<td>Prevents catastrophic propagation of errors</td>
+</tr>
+<tr>
+<td>MemoryUpdate damping</td>
+<td>Significant</td>
+<td>Absorbs and smooths large TD errors</td>
+</tr>
+<tr>
+<td>Non-parametric representation</td>
+<td>Strong</td>
+<td>Eliminates catastrophic interference</td>
+</tr>
+<tr>
+<td><strong>Against maximization bias</strong></td>
+<td><strong>Weak</strong></td>
+<td><strong>Optimistic bias can still accumulate</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-the-honest-answer">4.2 The honest answer<a class="headerlink" href="#42-the-honest-answer" title="Permanent link">&para;</a></h3>
+<p><strong>RF-Q-learning is more viable than standard neural-network-based Q-learning, but less reliable than RF-SARSA.</strong></p>
+<p>GRL's RKHS structure provides genuine structural protection that neural networks lack. The kernel smoothness, MemoryUpdate damping, and non-parametric representation collectively address three of the four mechanisms by which the deadly triad causes divergence. The remaining vulnerability — maximization bias amplification — is the same fundamental issue that affects all forms of Q-learning with function approximation, and GRL's structure slows it but doesn't eliminate it.</p>
+<p><strong>Practical expectation</strong>: RF-Q-learning would likely work in many problems where neural-network Q-learning diverges, but would still be less stable than RF-SARSA in problems with:</p>
+<ul>
+<li>Sparse rewards (large regions of uncertain <span class="arithmatex">\(Q^+\)</span> → large maximization bias)</li>
+<li>High-dimensional action spaces (more opportunities for the <span class="arithmatex">\(\max\)</span> to find spurious peaks)</li>
+<li>Long horizons (more bootstrapping steps for bias to compound)</li>
+</ul>
+<hr />
+<h2 id="5-making-rf-q-learning-more-reliable">5. Making RF-Q-Learning More Reliable<a class="headerlink" href="#5-making-rf-q-learning-more-reliable" title="Permanent link">&para;</a></h2>
+<p>If we want the sample efficiency benefits of off-policy learning while preserving GRL's stability, several strategies can help:</p>
+<h3 id="51-double-q-learning-in-rkhs">5.1 Double Q-learning in RKHS<a class="headerlink" href="#51-double-q-learning-in-rkhs" title="Permanent link">&para;</a></h3>
+<p><strong>Idea</strong>: Maintain two independent particle memories <span class="arithmatex">\(\Omega_A\)</span> and <span class="arithmatex">\(\Omega_B\)</span>, and use one to select the maximizing action and the other to evaluate it:</p>
+<div class="arithmatex">\[\delta = r + \gamma Q_B^+(s', \arg\max_\theta Q_A^+(s', \theta)) - Q_A^+(s, \theta)\]</div>
+<p>This breaks the maximization bias because the action selected by <span class="arithmatex">\(Q_A^+\)</span> is evaluated by <span class="arithmatex">\(Q_B^+\)</span>, which has independent estimation errors.</p>
+<p><strong>In GRL</strong>: This requires maintaining two separate particle memories and alternating which one is updated. The computational cost roughly doubles, but the stability improvement is substantial.</p>
+<p><strong>GRL advantage</strong>: Unlike neural network Double DQN (which requires two separate networks), GRL's two particle memories are naturally independent — they share the kernel but have separate particles. This makes the independence assumption more credible.</p>
+<h3 id="52-pessimistic-value-estimation-conservative-q-learning">5.2 Pessimistic value estimation (conservative Q-learning)<a class="headerlink" href="#52-pessimistic-value-estimation-conservative-q-learning" title="Permanent link">&para;</a></h3>
+<p><strong>Idea</strong>: Instead of using the GP posterior mean for the <span class="arithmatex">\(\max\)</span>, use a <strong>lower confidence bound</strong>:</p>
+<div class="arithmatex">\[\max_\theta \left[ Q^+(s', \theta) - \kappa \, \sigma(s', \theta) \right]\]</div>
+<p>where <span class="arithmatex">\(\sigma(s', \theta)\)</span> is the GP posterior standard deviation and <span class="arithmatex">\(\kappa &gt; 0\)</span> controls pessimism.</p>
+<p><strong>Why this helps</strong>: In under-explored regions, <span class="arithmatex">\(\sigma\)</span> is large, so the lower confidence bound is low. The <span class="arithmatex">\(\max\)</span> will avoid selecting actions in uncertain regions, reducing the optimistic bias.</p>
+<p><strong>GRL advantage</strong>: GP regression provides uncertainty estimates <span class="arithmatex">\(\sigma(z)\)</span> for free — this is a natural capability of the reinforcement field that neural networks lack (or require expensive ensembles to approximate). This makes pessimistic RF-Q-learning particularly natural in GRL.</p>
+<h3 id="53-soft-maximization-mellowmax-or-boltzmann">5.3 Soft maximization (mellowmax or Boltzmann)<a class="headerlink" href="#53-soft-maximization-mellowmax-or-boltzmann" title="Permanent link">&para;</a></h3>
+<p><strong>Idea</strong>: Replace the hard <span class="arithmatex">\(\max\)</span> with a soft version:</p>
+<div class="arithmatex">\[\text{softmax}_\beta Q^+(s', \theta) = \frac{1}{\beta} \log \mathbb{E}_{\theta \sim \text{Uniform}} \left[ \exp(\beta \, Q^+(s', \theta)) \right]\]</div>
+<p>For finite <span class="arithmatex">\(\beta\)</span>, this averages over actions rather than selecting the single best one, reducing the maximization bias.</p>
+<p><strong>Connection to GRL</strong>: The Boltzmann policy <span class="arithmatex">\(\pi(\theta | s) \propto \exp(\beta Q^+(s, \theta))\)</span> already uses soft maximization for action <em>selection</em>. Extending this to the bootstrap <em>target</em> creates a consistent framework:</p>
+<div class="arithmatex">\[\delta = r + \gamma \mathbb{E}_{\theta' \sim \pi(\cdot | s')} [Q^+(s', \theta')] - Q^+(s, \theta)\]</div>
+<p>This is essentially <strong>Expected SARSA</strong> — an algorithm that interpolates between SARSA (<span class="arithmatex">\(\beta \to 0\)</span>) and Q-learning (<span class="arithmatex">\(\beta \to \infty\)</span>). In GRL, this is particularly natural because the Boltzmann policy is already the default action selection mechanism.</p>
+<h3 id="54-experience-replay-with-kernel-weighted-prioritization">5.4 Experience replay with kernel-weighted prioritization<a class="headerlink" href="#54-experience-replay-with-kernel-weighted-prioritization" title="Permanent link">&para;</a></h3>
+<p><strong>Idea</strong>: Since RF-Q-learning is off-policy, we can maintain a replay buffer and resample old transitions. Prioritize transitions where the TD error is large <em>and</em> the kernel similarity to current particles is high:</p>
+<div class="arithmatex">\[p(\text{replay } i) \propto |\delta_i| \cdot \max_j k(z_i, z_j)\]</div>
+<p>This focuses replay on transitions that are both surprising (large <span class="arithmatex">\(|\delta_i|\)</span>) and relevant to the current field (high kernel similarity).</p>
+<p><strong>GRL advantage</strong>: The kernel provides a natural relevance metric that neural network replay methods lack.</p>
+<hr />
+<h2 id="6-rf-q-learning-vs-rf-sarsa-when-to-use-which">6. RF-Q-Learning vs. RF-SARSA: When to Use Which<a class="headerlink" href="#6-rf-q-learning-vs-rf-sarsa-when-to-use-which" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>RF-SARSA</th>
+<th>RF-Q-Learning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stability</strong></td>
+<td>High (on-policy, no maximization bias)</td>
+<td>Moderate (off-policy, requires safeguards)</td>
+</tr>
+<tr>
+<td><strong>Sample efficiency</strong></td>
+<td>Lower (discards off-policy data)</td>
+<td>Higher (can reuse experience)</td>
+</tr>
+<tr>
+<td><strong>Learned policy</strong></td>
+<td>Behavior policy <span class="arithmatex">\(Q^\pi\)</span></td>
+<td>Optimal policy <span class="arithmatex">\(Q^*\)</span></td>
+</tr>
+<tr>
+<td><strong>Exploration impact</strong></td>
+<td>Reflected in value estimates</td>
+<td>Not reflected (learns greedy values)</td>
+</tr>
+<tr>
+<td><strong>Risk sensitivity</strong></td>
+<td>Risk-averse (accounts for exploration mistakes)</td>
+<td>Risk-neutral (assumes optimal execution)</td>
+</tr>
+<tr>
+<td><strong>Implementation complexity</strong></td>
+<td>Simpler</td>
+<td>More complex (needs Double Q or pessimism)</td>
+</tr>
+<tr>
+<td><strong>Best for</strong></td>
+<td>Safety-critical, stable learning</td>
+<td>Sample-limited, known-safe environments</td>
+</tr>
+</tbody>
+</table>
+<h3 id="practical-recommendation">Practical recommendation<a class="headerlink" href="#practical-recommendation" title="Permanent link">&para;</a></h3>
+<p><strong>Start with RF-SARSA</strong> (Chapter 7) as the default. Switch to RF-Q-learning only when:</p>
+<ol>
+<li>Sample efficiency is critical (expensive environment interactions)</li>
+<li>The action space is well-explored (reducing maximization bias risk)</li>
+<li>You implement at least one safeguard (Double Q, pessimism, or soft max)</li>
+</ol>
+<p>The <strong>Expected SARSA</strong> variant (Section 5.3) is a particularly attractive middle ground — it provides some off-policy benefit while retaining most of SARSA's stability.</p>
+<hr />
+<h2 id="7-a-deeper-perspective-why-grl-is-structurally-different">7. A Deeper Perspective: Why GRL Is Structurally Different<a class="headerlink" href="#7-a-deeper-perspective-why-grl-is-structurally-different" title="Permanent link">&para;</a></h2>
+<h3 id="71-the-deadly-triad-through-grls-lens">7.1 The deadly triad through GRL's lens<a class="headerlink" href="#71-the-deadly-triad-through-grls-lens" title="Permanent link">&para;</a></h3>
+<p>The deadly triad is fundamentally about <strong>uncontrolled error propagation</strong> through three channels:</p>
+<ol>
+<li><strong>Spatial propagation</strong> (function approximation): errors at one state affect others</li>
+<li><strong>Temporal propagation</strong> (bootstrapping): errors compound across time steps</li>
+<li><strong>Distributional mismatch</strong> (off-policy): errors accumulate in unvisited regions</li>
+</ol>
+<p>GRL's architecture addresses each channel differently than standard RL:</p>
+<p><strong>Spatial propagation</strong> is controlled by the kernel. In neural networks, a weight update affects predictions globally and unpredictably. In GRL, the kernel defines a precise, smooth, and local influence function. The "blast radius" of any single update is bounded by the kernel lengthscale.</p>
+<p><strong>Temporal propagation</strong> is mediated by MemoryUpdate. Rather than directly modifying a parameter vector, TD errors are absorbed into the particle ensemble through a controlled association process. This acts as a low-pass filter on the temporal error signal.</p>
+<p><strong>Distributional mismatch</strong> remains the primary vulnerability. GRL's non-parametric representation helps (no catastrophic forgetting), but the maximization bias is a statistical phenomenon that no representation can fully eliminate — it requires algorithmic solutions (Double Q, pessimism, etc.).</p>
+<h3 id="72-the-particle-memory-as-a-stabilizing-mechanism">7.2 The particle memory as a stabilizing mechanism<a class="headerlink" href="#72-the-particle-memory-as-a-stabilizing-mechanism" title="Permanent link">&para;</a></h3>
+<p>There is a deeper reason why GRL's particle-based representation is more stable than parametric approximators for off-policy learning.</p>
+<p>In parametric Q-learning (e.g., DQN), the value function is <span class="arithmatex">\(Q_w(s, a)\)</span> where <span class="arithmatex">\(w\)</span> is a weight vector. An update at <span class="arithmatex">\((s, a)\)</span> changes <span class="arithmatex">\(w\)</span>, which changes <span class="arithmatex">\(Q_w\)</span> <em>everywhere</em>. The mapping from update to global effect is mediated by the network architecture — complex, nonlinear, and hard to predict.</p>
+<p>In GRL, the value function is <span class="arithmatex">\(Q^+(z) = \sum_i \alpha_i k(z, z_i)\)</span>. An update at <span class="arithmatex">\(z\)</span> either:</p>
+<ul>
+<li><strong>Modifies an existing particle's weight</strong> <span class="arithmatex">\(\alpha_i\)</span> (local effect, kernel-bounded)</li>
+<li><strong>Adds a new particle</strong> <span class="arithmatex">\((z_{\text{new}}, q_{\text{new}})\)</span> (enriches the field without disturbing existing particles)</li>
+</ul>
+<p>This is a fundamentally more controlled update mechanism. The particle memory acts as a <strong>buffer</strong> between raw TD signals and the value function, absorbing noise and preventing the kind of rapid, global changes that trigger divergence in neural networks.</p>
+<h3 id="73-connection-to-kernel-td-convergence-theory">7.3 Connection to kernel TD convergence theory<a class="headerlink" href="#73-connection-to-kernel-td-convergence-theory" title="Permanent link">&para;</a></h3>
+<p>Engel et al. (2005) showed that kernel-based TD learning converges under milder conditions than linear TD. The key insight is that the RKHS provides a <strong>fixed feature space</strong> (the kernel sections <span class="arithmatex">\(k(z_i, \cdot)\)</span>) that doesn't change during learning — unlike neural network features, which co-adapt with the value function.</p>
+<p>This fixed-feature property means that kernel TD is equivalent to <strong>linear TD in a (potentially infinite-dimensional) feature space</strong>, and linear TD has well-understood convergence guarantees (Tsitsiklis &amp; Van Roy, 1997). Off-policy linear TD can still diverge, but the conditions for divergence are more restrictive and better characterized.</p>
+<p>For RF-Q-learning, this suggests that convergence is more likely when:</p>
+<ul>
+<li>The kernel is well-chosen (captures the relevant structure of the value function)</li>
+<li>The particle set provides good coverage of the state-action space</li>
+<li>ARD keeps the kernel adapted to the current value landscape</li>
+</ul>
+<hr />
+<h2 id="8-summary">8. Summary<a class="headerlink" href="#8-summary" title="Permanent link">&para;</a></h2>
+<h3 id="81-does-the-reinforcement-field-suffer-from-the-deadly-triad">8.1 Does the reinforcement field suffer from the deadly triad?<a class="headerlink" href="#81-does-the-reinforcement-field-suffer-from-the-deadly-triad" title="Permanent link">&para;</a></h3>
+<p><strong>Not in its current form (RF-SARSA)</strong>, because it is on-policy. The triad requires all three conditions, and RF-SARSA only has two (function approximation + bootstrapping).</p>
+<p><strong>An RF-Q-learning variant would introduce the third condition</strong> (off-policy learning), but GRL's RKHS structure provides four layers of protection that standard neural network approximators lack:</p>
+<ol>
+<li><strong>RKHS norm regularization</strong> — bounds function complexity</li>
+<li><strong>Kernel smoothness</strong> — prevents catastrophic error propagation</li>
+<li><strong>MemoryUpdate damping</strong> — absorbs and smooths TD errors</li>
+<li><strong>Non-parametric representation</strong> — eliminates catastrophic interference</li>
+</ol>
+<p>These safeguards make RF-Q-learning <strong>more viable than neural-network Q-learning</strong>, but they do not eliminate the fundamental <strong>maximization bias</strong> that is intrinsic to the <span class="arithmatex">\(\max\)</span> operator.</p>
+<h3 id="82-is-rf-q-learning-possible-and-reliable">8.2 Is RF-Q-learning possible and reliable?<a class="headerlink" href="#82-is-rf-q-learning-possible-and-reliable" title="Permanent link">&para;</a></h3>
+<p><strong>Possible</strong>: Yes, the modification is straightforward (replace SARSA update with Q-learning update in the primitive layer).</p>
+<p><strong>Reliable</strong>: Conditionally. With appropriate safeguards (Double Q, pessimistic estimation, or soft maximization), RF-Q-learning can be made practical. The <strong>Expected SARSA</strong> variant is particularly natural in GRL, since the Boltzmann policy already provides a soft maximization mechanism.</p>
+<h3 id="83-the-key-insight">8.3 The key insight<a class="headerlink" href="#83-the-key-insight" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p><strong>The deadly triad is about uncontrolled error propagation. GRL's kernel-based architecture controls three of the four propagation channels. The remaining channel (maximization bias) requires algorithmic, not architectural, solutions.</strong></p>
+</blockquote>
+<p>This is why RF-SARSA was the right default choice for GRL: it eliminates the one vulnerability that the architecture cannot address. But for practitioners who need sample efficiency, RF-Q-learning with safeguards is a viable and theoretically grounded alternative.</p>
+<hr />
+<h2 id="9-open-questions">9. Open Questions<a class="headerlink" href="#9-open-questions" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p><strong>Convergence guarantees</strong>: Can we prove convergence of RF-Q-learning with Double Q or pessimistic estimation in RKHS? The kernel TD convergence theory (Engel et al., 2005) provides a starting point.</p>
+</li>
+<li>
+<p><strong>Optimal pessimism level</strong>: How should <span class="arithmatex">\(\kappa\)</span> (the pessimism coefficient in Section 5.2) be set? Can it be adapted based on the GP uncertainty structure?</p>
+</li>
+<li>
+<p><strong>Replay buffer design</strong>: What is the optimal replay strategy for RF-Q-learning? Should old particles be replayed, or should we maintain a separate replay buffer alongside the particle memory?</p>
+</li>
+<li>
+<p><strong>Empirical comparison</strong>: How does RF-Q-learning (with safeguards) compare to RF-SARSA in practice? In which domains does the sample efficiency gain outweigh the stability cost?</p>
+</li>
+<li>
+<p><strong>Connection to SAC</strong>: Soft Actor-Critic (Haarnoja et al., 2018) uses entropy-regularized Q-learning, which is closely related to the Boltzmann/Expected SARSA approach in Section 5.3. Can GRL's RKHS critic be combined with SAC's maximum entropy framework?</p>
+</li>
+</ol>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Sutton, R. S., &amp; Barto, A. G. (2018). <em>Reinforcement Learning: An Introduction</em> (2<sup>nd</sup> ed.), Chapters 6.7 and 11.</li>
+<li>Engel, Y., Mannor, S., &amp; Meir, R. (2005). "Reinforcement learning with Gaussian processes." <em>ICML</em>.</li>
+<li>Tsitsiklis, J. N., &amp; Van Roy, B. (1997). "An analysis of temporal-difference learning with function approximation." <em>IEEE TAC</em>.</li>
+<li>van Hasselt, H. (2010). "Double Q-learning." <em>NeurIPS</em>.</li>
+<li>van Hasselt, H., Guez, A., &amp; Silver, D. (2016). "Deep reinforcement learning with double Q-learning." <em>AAAI</em>.</li>
+<li>Kumar, A., et al. (2020). "Conservative Q-learning for offline reinforcement learning." <em>NeurIPS</em> (CQL).</li>
+<li>Haarnoja, T., et al. (2018). "Soft actor-critic: Off-policy maximum entropy deep reinforcement learning with a stochastic actor." <em>ICML</em>.</li>
+<li>Chiu, C.-C. &amp; Huber, M. (2022). "Generalized Reinforcement Learning." <a href="https://arxiv.org/abs/2208.04822">arXiv:2208.04822</a>.</li>
+</ol>
+<hr />
+<p><strong><a href="../07-rf-sarsa/">← Back to Chapter 07: RF-SARSA</a></strong> | <strong><a href="../07a-continuous-policy-inference/">Related: Chapter 07a - Continuous Policy Inference</a></strong></p>
+<hr />
+<p><em>Last Updated</em>: February 2026</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

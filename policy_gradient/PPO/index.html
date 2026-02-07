@@ -12,13 +12,9 @@
         <meta name="author" content="GRL Research Team">
       
       
-        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/tutorials/">
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/policy_gradient/PPO/">
       
       
-        <link rel="prev" href="../">
-      
-      
-        <link rel="next" href="00-overview/">
       
       
         
@@ -29,7 +25,7 @@
     
     
       
-        <title>Tutorial Index - Generalized Reinforcement Learning (GRL)</title>
+        <title>PPO - Generalized Reinforcement Learning (GRL)</title>
       
     
     
@@ -81,11 +77,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#grl-tutorial-chapters" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -122,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tutorial Index
+              PPO
             
           </span>
         </div>
@@ -246,13 +237,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../GRL0/" class="md-tabs__link">
           
   
   
@@ -405,31 +394,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -447,7 +433,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -465,7 +451,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../GRL0/" class="md-nav__link">
         
   
   
@@ -490,31 +476,28 @@
                 
   
   
-    
   
   
-  
     
     
     
     
       
       
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
         
           
-          
         
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
         
           
-          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
             
   
   
@@ -532,7 +515,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -547,37 +530,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tutorial Index
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/" class="md-nav__link">
         
   
   
@@ -593,303 +549,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chapter-index" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chapter Index
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Chapter Index">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#part-i-foundations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part I: Foundations
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-ii-reinforcement-field" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part II: Reinforcement Field
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-iii-algorithms" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part III: Algorithms
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-iv-interpretation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part IV: Interpretation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reading-recommendations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reading Recommendations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Reading Recommendations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#new-to-grl" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        New to GRL
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#familiar-with-rl-theory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Familiar with RL Theory
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#want-to-implement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Want to Implement
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#quick-understanding" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Understanding
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chapter-progression" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chapter Progression
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chapter-template" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chapter Template
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notation-conventions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notation Conventions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-equations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Equations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Key Equations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#reinforcement-field" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reinforcement Field
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rkhs-inner-product" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        RKHS Inner Product
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#energy-fitness-relationship" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Energy-Fitness Relationship
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#functional-gradient" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functional Gradient
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#boltzmann-policy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Boltzmann Policy
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#beyond-part-i" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Beyond Part I
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Beyond Part I">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#quantum-inspired-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quantum-Inspired Extensions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#research-roadmap" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Research Roadmap
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -902,7 +561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="00-overview/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/00-overview/" class="md-nav__link">
         
   
   
@@ -930,7 +589,7 @@
   
   
     <li class="md-nav__item">
-      <a href="01-core-concepts/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/01-core-concepts/" class="md-nav__link">
         
   
   
@@ -958,7 +617,7 @@
   
   
     <li class="md-nav__item">
-      <a href="02-rkhs-foundations/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/02-rkhs-foundations/" class="md-nav__link">
         
   
   
@@ -986,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="03-energy-and-fitness/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/03-energy-and-fitness/" class="md-nav__link">
         
   
   
@@ -1014,7 +673,7 @@
   
   
     <li class="md-nav__item">
-      <a href="03a-least-action-principle/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/03a-least-action-principle/" class="md-nav__link">
         
   
   
@@ -1042,7 +701,7 @@
   
   
     <li class="md-nav__item">
-      <a href="04-reinforcement-field/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/04-reinforcement-field/" class="md-nav__link">
         
   
   
@@ -1070,7 +729,7 @@
   
   
     <li class="md-nav__item">
-      <a href="04a-riesz-representer/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/04a-riesz-representer/" class="md-nav__link">
         
   
   
@@ -1098,7 +757,7 @@
   
   
     <li class="md-nav__item">
-      <a href="05-particle-memory/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/05-particle-memory/" class="md-nav__link">
         
   
   
@@ -1126,7 +785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="06-memory-update/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/06-memory-update/" class="md-nav__link">
         
   
   
@@ -1154,7 +813,7 @@
   
   
     <li class="md-nav__item">
-      <a href="06a-advanced-memory-dynamics/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/06a-advanced-memory-dynamics/" class="md-nav__link">
         
   
   
@@ -1182,7 +841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="07-rf-sarsa/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/07-rf-sarsa/" class="md-nav__link">
         
   
   
@@ -1210,7 +869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="07a-continuous-policy-inference/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/07a-continuous-policy-inference/" class="md-nav__link">
         
   
   
@@ -1252,13 +911,10 @@
       
       
         
-          
-          
-        
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
@@ -1267,7 +923,7 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
         
           
-          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
             
   
   
@@ -1303,7 +959,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/" class="md-nav__link">
         
   
   
@@ -1331,7 +987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
         
   
   
@@ -1359,7 +1015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
         
   
   
@@ -1387,7 +1043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
         
   
   
@@ -1415,7 +1071,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/03-complex-rkhs/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/03-complex-rkhs/" class="md-nav__link">
         
   
   
@@ -1443,7 +1099,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
         
   
   
@@ -1471,7 +1127,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
         
   
   
@@ -1499,7 +1155,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
         
   
   
@@ -1527,7 +1183,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
         
   
   
@@ -1555,7 +1211,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
         
   
   
@@ -1583,7 +1239,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
         
   
   
@@ -1619,7 +1275,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../implementation/" class="md-nav__link">
+      <a href="../../GRL0/implementation/" class="md-nav__link">
         
   
   
@@ -1647,7 +1303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recovering_classical_rl/" class="md-nav__link">
+      <a href="../../GRL0/recovering_classical_rl/" class="md-nav__link">
         
   
   
@@ -2329,293 +1985,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chapter-index" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chapter Index
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Chapter Index">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#part-i-foundations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part I: Foundations
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-ii-reinforcement-field" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part II: Reinforcement Field
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-iii-algorithms" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part III: Algorithms
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-iv-interpretation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part IV: Interpretation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reading-recommendations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reading Recommendations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Reading Recommendations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#new-to-grl" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        New to GRL
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#familiar-with-rl-theory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Familiar with RL Theory
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#want-to-implement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Want to Implement
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#quick-understanding" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Understanding
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chapter-progression" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chapter Progression
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chapter-template" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chapter Template
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notation-conventions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notation Conventions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-equations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Equations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Key Equations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#reinforcement-field" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reinforcement Field
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rkhs-inner-product" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        RKHS Inner Product
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#energy-fitness-relationship" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Energy-Fitness Relationship
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#functional-gradient" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functional Gradient
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#boltzmann-policy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Boltzmann Policy
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#beyond-part-i" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Beyond Part I
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Beyond Part I">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#quantum-inspired-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quantum-Inspired Extensions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#research-roadmap" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Research Roadmap
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -2632,7 +2001,7 @@
 
 
   
-    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/tutorials/README.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/policy_gradient/PPO.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
     </a>
@@ -2640,294 +2009,9 @@
   
 
 
-<h1 id="grl-tutorial-chapters">GRL Tutorial Chapters<a class="headerlink" href="#grl-tutorial-chapters" title="Permanent link">&para;</a></h1>
-<p><strong>Format</strong>: Tutorial paper chapters<br />
-<strong>Audience</strong>: ML practitioners with basic RL knowledge<br />
-<strong>Style</strong>: Narrative, educational, self-contained</p>
-<hr />
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>These chapters form the core of the GRL tutorial paper. Each chapter builds on previous ones while remaining accessible for selective reading.</p>
-<hr />
-<h2 id="chapter-index">Chapter Index<a class="headerlink" href="#chapter-index" title="Permanent link">&para;</a></h2>
-<h3 id="part-i-foundations">Part I: Foundations<a class="headerlink" href="#part-i-foundations" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Title</th>
-<th>Key Concepts</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>00</td>
-<td><a href="00-overview/">Overview</a></td>
-<td>What is GRL, motivation</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>01</td>
-<td><a href="01-core-concepts/">Core Concepts</a></td>
-<td>Augmented space, parametric actions</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>02</td>
-<td><a href="02-rkhs-foundations/">RKHS Foundations</a></td>
-<td>Kernels, inner products, function spaces</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>03</td>
-<td><a href="03-energy-and-fitness/">Energy and Fitness</a></td>
-<td>Sign conventions, EBM connection</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>03a</td>
-<td><a href="03a-least-action-principle/">Least Action Principle</a> (supplement)</td>
-<td>Path integrals, Boltzmann policy, action discovery</td>
-<td>✅ Complete</td>
-</tr>
-</tbody>
-</table>
-<h3 id="part-ii-reinforcement-field">Part II: Reinforcement Field<a class="headerlink" href="#part-ii-reinforcement-field" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Title</th>
-<th>Key Concepts</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>04</td>
-<td><a href="04-reinforcement-field/">Reinforcement Field</a></td>
-<td>Functional field, RKHS gradient</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>04a</td>
-<td><a href="04a-riesz-representer/">Riesz Representer</a> (supplement)</td>
-<td>Gradients in function space, examples</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>05</td>
-<td><a href="05-particle-memory/">Particle Memory</a></td>
-<td>Particles as basis, memory as belief</td>
-<td>✅ Complete</td>
-</tr>
-</tbody>
-</table>
-<h3 id="part-iii-algorithms">Part III: Algorithms<a class="headerlink" href="#part-iii-algorithms" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Title</th>
-<th>Key Concepts</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>06</td>
-<td><a href="06-memory-update/">MemoryUpdate</a></td>
-<td>Belief transition, Algorithm 1, particle evolution</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>06a</td>
-<td><a href="06a-advanced-memory-dynamics/">Advanced Memory Dynamics</a> (supplement)</td>
-<td>Top-k neighbors, surprise-gating, practical improvements</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>07</td>
-<td><a href="07-rf-sarsa/">RF-SARSA</a></td>
-<td>Functional TD learning, two-layer architecture, Algorithm 2</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>07a</td>
-<td><a href="07a-continuous-policy-inference/">Continuous Policy Inference</a> (supplement)</td>
-<td>Beyond discrete actions, Langevin sampling, actor-critic in RKHS</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>07b</td>
-<td><a href="07b-rf-q-learning-and-convergence/">RF-Q-Learning and the Deadly Triad</a> (supplement)</td>
-<td>Off-policy stability, RKHS safeguards, maximization bias, Double Q</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>07c</td>
-<td><a href="07c-experience-replay-and-particle-memory/">Experience Replay and Particle Memory</a> (supplement)</td>
-<td>Replay buffers, data-level vs. function-level reuse, historical context</td>
-<td>✅ Complete</td>
-</tr>
-</tbody>
-</table>
-<h3 id="part-iv-interpretation">Part IV: Interpretation<a class="headerlink" href="#part-iv-interpretation" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Title</th>
-<th>Key Concepts</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>08</td>
-<td>Soft State Transitions</td>
-<td>Emergent uncertainty</td>
-<td>⏳ Planned</td>
-</tr>
-<tr>
-<td>09</td>
-<td>POMDP Interpretation</td>
-<td>Belief-based view</td>
-<td>⏳ Planned</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Complete System</td>
-<td>Putting it together</td>
-<td>⏳ Planned</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="reading-recommendations">Reading Recommendations<a class="headerlink" href="#reading-recommendations" title="Permanent link">&para;</a></h2>
-<h3 id="new-to-grl">New to GRL<a class="headerlink" href="#new-to-grl" title="Permanent link">&para;</a></h3>
-<p>Start with Chapter 00 (Overview), then proceed sequentially through the completed chapters.</p>
-<h3 id="familiar-with-rl-theory">Familiar with RL Theory<a class="headerlink" href="#familiar-with-rl-theory" title="Permanent link">&para;</a></h3>
-<p>Skim Chapter 00, focus on Chapters 02-04 for mathematical foundations.</p>
-<h3 id="want-to-implement">Want to Implement<a class="headerlink" href="#want-to-implement" title="Permanent link">&para;</a></h3>
-<p>Read Chapter 00, skim 01-04, then wait for Chapters 05-07 on algorithms.</p>
-<h3 id="quick-understanding">Quick Understanding<a class="headerlink" href="#quick-understanding" title="Permanent link">&para;</a></h3>
-<p>Read Chapters 00, 01, and 04 for the essential concepts.</p>
-<hr />
-<h2 id="chapter-progression">Chapter Progression<a class="headerlink" href="#chapter-progression" title="Permanent link">&para;</a></h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>00-Overview
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    ↓
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>01-Core Concepts
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    ↓
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>02-RKHS Foundations
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ↓
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>03-Energy and Fitness
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ↓
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>03a-Least Action Principle (supplement) ← New!
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ↓
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>04-Reinforcement Field
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    ↓
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>04a-Riesz Representer (supplement)
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    ↓
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>05-Particle Memory
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    ↓
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>06-MemoryUpdate
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    ↓
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>06a-Advanced Memory Dynamics (supplement)
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    ↓
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>07-RF-SARSA
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    ↓
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>07a-Continuous Policy Inference (supplement)
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    ↓
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>07b-RF-Q-Learning and the Deadly Triad (supplement)
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    ↓
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>07c-Experience Replay and Particle Memory (supplement) ← We are here
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    ↓
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>08-Soft State Transitions (planned)
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    ↓
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>...
-</span></code></pre></div>
-<hr />
-<h2 id="chapter-template">Chapter Template<a class="headerlink" href="#chapter-template" title="Permanent link">&para;</a></h2>
-<p>Each chapter follows this structure:</p>
-<ol>
-<li><strong>Header</strong>: Purpose, prerequisites, key concepts</li>
-<li><strong>Introduction</strong>: Why this topic matters</li>
-<li><strong>Main Content</strong>: Narrative explanation with examples</li>
-<li><strong>Key Takeaways</strong>: Summary points</li>
-<li><strong>Next Steps</strong>: Connection to following chapters</li>
-</ol>
-<hr />
-<h2 id="notation-conventions">Notation Conventions<a class="headerlink" href="#notation-conventions" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Symbol</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="arithmatex">\(s\)</span></td>
-<td>Environment state</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\theta\)</span></td>
-<td>Action parameters</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(z = (s, \theta)\)</span></td>
-<td>Augmented state-action point</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(k(\cdot, \cdot)\)</span></td>
-<td>Kernel function</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\mathcal{H}_k\)</span></td>
-<td>RKHS induced by kernel <span class="arithmatex">\(k\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(Q^+(z)\)</span></td>
-<td>Field value (fitness) at <span class="arithmatex">\(z\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(E(z)\)</span></td>
-<td>Energy at <span class="arithmatex">\(z\)</span>, equals <span class="arithmatex">\(-Q^+(z)\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\Omega\)</span></td>
-<td>Particle memory</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(w_i\)</span></td>
-<td>Weight of particle <span class="arithmatex">\(i\)</span></td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="key-equations">Key Equations<a class="headerlink" href="#key-equations" title="Permanent link">&para;</a></h2>
-<h3 id="reinforcement-field">Reinforcement Field<a class="headerlink" href="#reinforcement-field" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[Q^+(z) = \sum_{i=1}^N w_i \, k(z, z_i)\]</div>
-<h3 id="rkhs-inner-product">RKHS Inner Product<a class="headerlink" href="#rkhs-inner-product" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\langle k(x_1, \cdot), k(x_2, \cdot) \rangle_{\mathcal{H}_k} = k(x_1, x_2)\]</div>
-<h3 id="energy-fitness-relationship">Energy-Fitness Relationship<a class="headerlink" href="#energy-fitness-relationship" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[E(z) = -Q^+(z)\]</div>
-<h3 id="functional-gradient">Functional Gradient<a class="headerlink" href="#functional-gradient" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\nabla_z Q^+(z) = \sum_{i=1}^N w_i \, \nabla_z k(z, z_i)\]</div>
-<h3 id="boltzmann-policy">Boltzmann Policy<a class="headerlink" href="#boltzmann-policy" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\pi(\theta | s) \propto \exp(\beta \, Q^+(s, \theta))\]</div>
-<hr />
-<hr />
-<h2 id="beyond-part-i">Beyond Part I<a class="headerlink" href="#beyond-part-i" title="Permanent link">&para;</a></h2>
-<h3 id="quantum-inspired-extensions">Quantum-Inspired Extensions<a class="headerlink" href="#quantum-inspired-extensions" title="Permanent link">&para;</a></h3>
-<p><strong><a href="../quantum_inspired/">Advanced Topics →</a></strong> (9 chapters complete)</p>
-<p>Mathematical connections to quantum mechanics, amplitude-based learning, and novel memory dynamics.</p>
-<h3 id="research-roadmap">Research Roadmap<a class="headerlink" href="#research-roadmap" title="Permanent link">&para;</a></h3>
-<p><strong><a href="../../ROADMAP/">Full Roadmap →</a></strong></p>
-<p>Comprehensive plan for GRL v0, extensions, and future papers (A, B, C).</p>
-<hr />
-<p><strong>Last Updated</strong>: January 14, 2026</p>
+  <h1>PPO</h1>
+
+
 
 
 

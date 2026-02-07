@@ -12,13 +12,9 @@
         <meta name="author" content="GRL Research Team">
       
       
-        <link rel="canonical" href="https://pleiadian53.github.io/GRL/GRL0/tutorials/">
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/policy_gradient/TRPO/">
       
       
-        <link rel="prev" href="../">
-      
-      
-        <link rel="next" href="00-overview/">
       
       
         
@@ -29,7 +25,7 @@
     
     
       
-        <title>Tutorial Index - Generalized Reinforcement Learning (GRL)</title>
+        <title>Trust Region Policy Optimization (TRPO) - Generalized Reinforcement Learning (GRL)</title>
       
     
     
@@ -82,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#grl-tutorial-chapters" class="md-skip">
+        <a href="#trust-region-policy-optimization-trpo" class="md-skip">
           Skip to content
         </a>
       
@@ -122,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tutorial Index
+              Trust Region Policy Optimization (TRPO)
             
           </span>
         </div>
@@ -246,13 +242,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../GRL0/" class="md-tabs__link">
           
   
   
@@ -405,31 +399,28 @@
       
   
   
-    
   
   
-  
     
     
     
     
-      
-        
-        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -447,7 +438,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -465,7 +456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../GRL0/" class="md-nav__link">
         
   
   
@@ -490,31 +481,28 @@
                 
   
   
-    
   
   
-  
     
     
     
     
       
       
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
         
           
-          
         
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
         
           
-          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
             
   
   
@@ -532,7 +520,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -547,37 +535,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tutorial Index
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/" class="md-nav__link">
         
   
   
@@ -593,303 +554,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chapter-index" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chapter Index
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Chapter Index">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#part-i-foundations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part I: Foundations
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-ii-reinforcement-field" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part II: Reinforcement Field
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-iii-algorithms" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part III: Algorithms
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-iv-interpretation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part IV: Interpretation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#reading-recommendations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reading Recommendations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Reading Recommendations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#new-to-grl" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        New to GRL
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#familiar-with-rl-theory" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Familiar with RL Theory
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#want-to-implement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Want to Implement
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#quick-understanding" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Understanding
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chapter-progression" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chapter Progression
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chapter-template" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chapter Template
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notation-conventions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notation Conventions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-equations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Equations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Key Equations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#reinforcement-field" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reinforcement Field
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rkhs-inner-product" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        RKHS Inner Product
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#energy-fitness-relationship" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Energy-Fitness Relationship
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#functional-gradient" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functional Gradient
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#boltzmann-policy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Boltzmann Policy
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#beyond-part-i" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Beyond Part I
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Beyond Part I">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#quantum-inspired-extensions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quantum-Inspired Extensions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#research-roadmap" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Research Roadmap
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -902,7 +566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="00-overview/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/00-overview/" class="md-nav__link">
         
   
   
@@ -930,7 +594,7 @@
   
   
     <li class="md-nav__item">
-      <a href="01-core-concepts/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/01-core-concepts/" class="md-nav__link">
         
   
   
@@ -958,7 +622,7 @@
   
   
     <li class="md-nav__item">
-      <a href="02-rkhs-foundations/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/02-rkhs-foundations/" class="md-nav__link">
         
   
   
@@ -986,7 +650,7 @@
   
   
     <li class="md-nav__item">
-      <a href="03-energy-and-fitness/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/03-energy-and-fitness/" class="md-nav__link">
         
   
   
@@ -1014,7 +678,7 @@
   
   
     <li class="md-nav__item">
-      <a href="03a-least-action-principle/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/03a-least-action-principle/" class="md-nav__link">
         
   
   
@@ -1042,7 +706,7 @@
   
   
     <li class="md-nav__item">
-      <a href="04-reinforcement-field/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/04-reinforcement-field/" class="md-nav__link">
         
   
   
@@ -1070,7 +734,7 @@
   
   
     <li class="md-nav__item">
-      <a href="04a-riesz-representer/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/04a-riesz-representer/" class="md-nav__link">
         
   
   
@@ -1098,7 +762,7 @@
   
   
     <li class="md-nav__item">
-      <a href="05-particle-memory/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/05-particle-memory/" class="md-nav__link">
         
   
   
@@ -1126,7 +790,7 @@
   
   
     <li class="md-nav__item">
-      <a href="06-memory-update/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/06-memory-update/" class="md-nav__link">
         
   
   
@@ -1154,7 +818,7 @@
   
   
     <li class="md-nav__item">
-      <a href="06a-advanced-memory-dynamics/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/06a-advanced-memory-dynamics/" class="md-nav__link">
         
   
   
@@ -1182,7 +846,7 @@
   
   
     <li class="md-nav__item">
-      <a href="07-rf-sarsa/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/07-rf-sarsa/" class="md-nav__link">
         
   
   
@@ -1210,7 +874,7 @@
   
   
     <li class="md-nav__item">
-      <a href="07a-continuous-policy-inference/" class="md-nav__link">
+      <a href="../../GRL0/tutorials/07a-continuous-policy-inference/" class="md-nav__link">
         
   
   
@@ -1252,13 +916,10 @@
       
       
         
-          
-          
-        
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
@@ -1267,7 +928,7 @@
         <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
         
           
-          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
             
   
   
@@ -1303,7 +964,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/" class="md-nav__link">
         
   
   
@@ -1331,7 +992,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
         
   
   
@@ -1359,7 +1020,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
         
   
   
@@ -1387,7 +1048,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
         
   
   
@@ -1415,7 +1076,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/03-complex-rkhs/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/03-complex-rkhs/" class="md-nav__link">
         
   
   
@@ -1443,7 +1104,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
         
   
   
@@ -1471,7 +1132,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
         
   
   
@@ -1499,7 +1160,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
         
   
   
@@ -1527,7 +1188,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
         
   
   
@@ -1555,7 +1216,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
         
   
   
@@ -1583,7 +1244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
+      <a href="../../GRL0/quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
         
   
   
@@ -1619,7 +1280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../implementation/" class="md-nav__link">
+      <a href="../../GRL0/implementation/" class="md-nav__link">
         
   
   
@@ -1647,7 +1308,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../recovering_classical_rl/" class="md-nav__link">
+      <a href="../../GRL0/recovering_classical_rl/" class="md-nav__link">
         
   
   
@@ -2339,10 +2000,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#1-introduction" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        1. Introduction
       
     </span>
   </a>
@@ -2350,22 +2011,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#chapter-index" class="md-nav__link">
+  <a href="#2-motivation-why-not-just-use-vanilla-policy-gradient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Chapter Index
+        2. Motivation: Why Not Just Use Vanilla Policy Gradient?
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Chapter Index">
+    <nav class="md-nav" aria-label="2. Motivation: Why Not Just Use Vanilla Policy Gradient?">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#part-i-foundations" class="md-nav__link">
+  <a href="#the-vanilla-policy-gradient-update" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part I: Foundations
+        The vanilla policy gradient update
       
     </span>
   </a>
@@ -2373,10 +2034,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#part-ii-reinforcement-field" class="md-nav__link">
+  <a href="#the-problem-sensitivity-to-step-size" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part II: Reinforcement Field
+        The problem: sensitivity to step size
       
     </span>
   </a>
@@ -2384,21 +2045,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#part-iii-algorithms" class="md-nav__link">
+  <a href="#the-core-insight" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Part III: Algorithms
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#part-iv-interpretation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Part IV: Interpretation
+        The core insight
       
     </span>
   </a>
@@ -2411,22 +2061,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#reading-recommendations" class="md-nav__link">
+  <a href="#3-notation-reference" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Reading Recommendations
+        3. Notation Reference
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Reading Recommendations">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-key-ideas-behind-trpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Key Ideas Behind TRPO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Key Ideas Behind TRPO">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#new-to-grl" class="md-nav__link">
+  <a href="#41-the-surrogate-objective" class="md-nav__link">
     <span class="md-ellipsis">
       
-        New to GRL
+        4.1 The surrogate objective
       
     </span>
   </a>
@@ -2434,10 +2095,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#familiar-with-rl-theory" class="md-nav__link">
+  <a href="#42-the-trust-region-constraint" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Familiar with RL Theory
+        4.2 The trust region constraint
       
     </span>
   </a>
@@ -2445,21 +2106,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#want-to-implement" class="md-nav__link">
+  <a href="#43-solving-the-constrained-problem-efficiently" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Want to Implement
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#quick-understanding" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Understanding
+        4.3 Solving the constrained problem efficiently
       
     </span>
   </a>
@@ -2472,55 +2122,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#chapter-progression" class="md-nav__link">
+  <a href="#5-the-trpo-algorithm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Chapter Progression
+        5. The TRPO Algorithm
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#chapter-template" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Chapter Template
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#notation-conventions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Notation Conventions
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-equations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Equations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Key Equations">
+    <nav class="md-nav" aria-label="5. The TRPO Algorithm">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#reinforcement-field" class="md-nav__link">
+  <a href="#step-1-collect-trajectories" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Reinforcement Field
+        Step 1 — Collect trajectories
       
     </span>
   </a>
@@ -2528,10 +2145,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#rkhs-inner-product" class="md-nav__link">
+  <a href="#step-2-compute-rewards-to-go" class="md-nav__link">
     <span class="md-ellipsis">
       
-        RKHS Inner Product
+        Step 2 — Compute rewards-to-go
       
     </span>
   </a>
@@ -2539,10 +2156,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#energy-fitness-relationship" class="md-nav__link">
+  <a href="#step-3-compute-advantage-estimates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Energy-Fitness Relationship
+        Step 3 — Compute advantage estimates
       
     </span>
   </a>
@@ -2550,10 +2167,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#functional-gradient" class="md-nav__link">
+  <a href="#step-4-estimate-the-policy-gradient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functional Gradient
+        Step 4 — Estimate the policy gradient
       
     </span>
   </a>
@@ -2561,10 +2178,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#boltzmann-policy" class="md-nav__link">
+  <a href="#step-5-compute-the-search-direction-via-conjugate-gradient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Boltzmann Policy
+        Step 5 — Compute the search direction via conjugate gradient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-update-the-policy-via-backtracking-line-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6 — Update the policy via backtracking line search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-update-the-value-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7 — Update the value function
       
     </span>
   </a>
@@ -2577,33 +2216,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#beyond-part-i" class="md-nav__link">
+  <a href="#6-trpo-vs-vanilla-policy-gradient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Beyond Part I
+        6. TRPO vs. Vanilla Policy Gradient
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Beyond Part I">
+    <nav class="md-nav" aria-label="6. TRPO vs. Vanilla Policy Gradient">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#quantum-inspired-extensions" class="md-nav__link">
+  <a href="#why-trpo-is-a-significant-improvement" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Quantum-Inspired Extensions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#research-roadmap" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Research Roadmap
+        Why TRPO is a significant improvement
       
     </span>
   </a>
@@ -2612,6 +2240,50 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-limitations-of-trpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Limitations of TRPO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-connection-to-actor-critic-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Connection to Actor-Critic Methods
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
   
 </li>
       
@@ -2632,7 +2304,7 @@
 
 
   
-    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/GRL0/tutorials/README.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/policy_gradient/TRPO.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
     </a>
@@ -2640,225 +2312,36 @@
   
 
 
-<h1 id="grl-tutorial-chapters">GRL Tutorial Chapters<a class="headerlink" href="#grl-tutorial-chapters" title="Permanent link">&para;</a></h1>
-<p><strong>Format</strong>: Tutorial paper chapters<br />
-<strong>Audience</strong>: ML practitioners with basic RL knowledge<br />
-<strong>Style</strong>: Narrative, educational, self-contained</p>
+<h1 id="trust-region-policy-optimization-trpo">Trust Region Policy Optimization (TRPO)<a class="headerlink" href="#trust-region-policy-optimization-trpo" title="Permanent link">&para;</a></h1>
+<p><strong>A tutorial on stable policy updates via constrained optimization</strong></p>
+<blockquote>
+<p><em>Prerequisites: Familiarity with basic reinforcement learning concepts (states, actions, rewards, policies). A companion tutorial on vanilla policy gradient and actor-critic foundations is forthcoming.</em></p>
+</blockquote>
 <hr />
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>These chapters form the core of the GRL tutorial paper. Each chapter builds on previous ones while remaining accessible for selective reading.</p>
+<h2 id="1-introduction">1. Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">&para;</a></h2>
+<p>Trust Region Policy Optimization (TRPO) was introduced by <a href="https://arxiv.org/abs/1502.05477">Schulman et al. (2015)</a> as a principled approach to a long-standing problem in policy gradient methods: <strong>how do you take the largest possible improvement step without accidentally destroying a good policy?</strong></p>
+<p>TRPO is an <strong>on-policy</strong> algorithm that works with both discrete and continuous action spaces. It serves as the direct predecessor to <a href="../PPO/">Proximal Policy Optimization (PPO)</a>, which simplifies TRPO's constrained optimization into a clipped objective — but understanding TRPO first makes PPO's design choices much clearer.</p>
 <hr />
-<h2 id="chapter-index">Chapter Index<a class="headerlink" href="#chapter-index" title="Permanent link">&para;</a></h2>
-<h3 id="part-i-foundations">Part I: Foundations<a class="headerlink" href="#part-i-foundations" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Title</th>
-<th>Key Concepts</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>00</td>
-<td><a href="00-overview/">Overview</a></td>
-<td>What is GRL, motivation</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>01</td>
-<td><a href="01-core-concepts/">Core Concepts</a></td>
-<td>Augmented space, parametric actions</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>02</td>
-<td><a href="02-rkhs-foundations/">RKHS Foundations</a></td>
-<td>Kernels, inner products, function spaces</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>03</td>
-<td><a href="03-energy-and-fitness/">Energy and Fitness</a></td>
-<td>Sign conventions, EBM connection</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>03a</td>
-<td><a href="03a-least-action-principle/">Least Action Principle</a> (supplement)</td>
-<td>Path integrals, Boltzmann policy, action discovery</td>
-<td>✅ Complete</td>
-</tr>
-</tbody>
-</table>
-<h3 id="part-ii-reinforcement-field">Part II: Reinforcement Field<a class="headerlink" href="#part-ii-reinforcement-field" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Title</th>
-<th>Key Concepts</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>04</td>
-<td><a href="04-reinforcement-field/">Reinforcement Field</a></td>
-<td>Functional field, RKHS gradient</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>04a</td>
-<td><a href="04a-riesz-representer/">Riesz Representer</a> (supplement)</td>
-<td>Gradients in function space, examples</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>05</td>
-<td><a href="05-particle-memory/">Particle Memory</a></td>
-<td>Particles as basis, memory as belief</td>
-<td>✅ Complete</td>
-</tr>
-</tbody>
-</table>
-<h3 id="part-iii-algorithms">Part III: Algorithms<a class="headerlink" href="#part-iii-algorithms" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Title</th>
-<th>Key Concepts</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>06</td>
-<td><a href="06-memory-update/">MemoryUpdate</a></td>
-<td>Belief transition, Algorithm 1, particle evolution</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>06a</td>
-<td><a href="06a-advanced-memory-dynamics/">Advanced Memory Dynamics</a> (supplement)</td>
-<td>Top-k neighbors, surprise-gating, practical improvements</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>07</td>
-<td><a href="07-rf-sarsa/">RF-SARSA</a></td>
-<td>Functional TD learning, two-layer architecture, Algorithm 2</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>07a</td>
-<td><a href="07a-continuous-policy-inference/">Continuous Policy Inference</a> (supplement)</td>
-<td>Beyond discrete actions, Langevin sampling, actor-critic in RKHS</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>07b</td>
-<td><a href="07b-rf-q-learning-and-convergence/">RF-Q-Learning and the Deadly Triad</a> (supplement)</td>
-<td>Off-policy stability, RKHS safeguards, maximization bias, Double Q</td>
-<td>✅ Complete</td>
-</tr>
-<tr>
-<td>07c</td>
-<td><a href="07c-experience-replay-and-particle-memory/">Experience Replay and Particle Memory</a> (supplement)</td>
-<td>Replay buffers, data-level vs. function-level reuse, historical context</td>
-<td>✅ Complete</td>
-</tr>
-</tbody>
-</table>
-<h3 id="part-iv-interpretation">Part IV: Interpretation<a class="headerlink" href="#part-iv-interpretation" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Title</th>
-<th>Key Concepts</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>08</td>
-<td>Soft State Transitions</td>
-<td>Emergent uncertainty</td>
-<td>⏳ Planned</td>
-</tr>
-<tr>
-<td>09</td>
-<td>POMDP Interpretation</td>
-<td>Belief-based view</td>
-<td>⏳ Planned</td>
-</tr>
-<tr>
-<td>10</td>
-<td>Complete System</td>
-<td>Putting it together</td>
-<td>⏳ Planned</td>
-</tr>
-</tbody>
-</table>
+<h2 id="2-motivation-why-not-just-use-vanilla-policy-gradient">2. Motivation: Why Not Just Use Vanilla Policy Gradient?<a class="headerlink" href="#2-motivation-why-not-just-use-vanilla-policy-gradient" title="Permanent link">&para;</a></h2>
+<h3 id="the-vanilla-policy-gradient-update">The vanilla policy gradient update<a class="headerlink" href="#the-vanilla-policy-gradient-update" title="Permanent link">&para;</a></h3>
+<p>The simplest policy gradient method (REINFORCE) updates parameters by ascending the gradient of expected return:</p>
+<div class="arithmatex">\[\theta_{k+1} = \theta_k + \alpha \, \hat{g}_k\]</div>
+<p>where <span class="arithmatex">\(\hat{g}_k\)</span> is an estimate of <span class="arithmatex">\(\nabla_\theta J(\theta)\)</span>, the gradient of the expected cumulative reward with respect to the policy parameters, and <span class="arithmatex">\(\alpha\)</span> is a fixed learning rate.</p>
+<h3 id="the-problem-sensitivity-to-step-size">The problem: sensitivity to step size<a class="headerlink" href="#the-problem-sensitivity-to-step-size" title="Permanent link">&para;</a></h3>
+<p>This looks straightforward, but in practice it is <strong>extremely fragile</strong>:</p>
+<ul>
+<li><strong>Too large a step</strong> — the policy changes drastically, performance collapses, and the agent may never recover. In deep RL this is especially dangerous because the policy is a neural network: a small change in <span class="arithmatex">\(\theta\)</span> can produce a very different distribution over actions.</li>
+<li><strong>Too small a step</strong> — learning is painfully slow, and the agent wastes millions of environment interactions making negligible progress.</li>
+</ul>
+<p>Unlike supervised learning, where a bad gradient step just increases the loss temporarily, a bad policy gradient step <strong>changes the data distribution itself</strong> (because the policy determines which states the agent visits). This creates a vicious cycle: a bad update leads to bad data, which leads to worse updates.</p>
+<h3 id="the-core-insight">The core insight<a class="headerlink" href="#the-core-insight" title="Permanent link">&para;</a></h3>
+<p>What we really want is not to limit the step size in <strong>parameter space</strong> (<span class="arithmatex">\(\|\Delta\theta\|\)</span>), but in <strong>policy space</strong> — i.e., we want to ensure the new policy <span class="arithmatex">\(\pi_{\theta_{k+1}}\)</span> behaves similarly to the old policy <span class="arithmatex">\(\pi_{\theta_k}\)</span> in terms of the actions it actually produces. Two parameter vectors that are close in Euclidean distance can produce wildly different policies, and vice versa.</p>
+<blockquote>
+<p><strong>Key idea:</strong> TRPO replaces the fixed learning rate with a <em>constraint on how much the policy is allowed to change</em>, measured by KL divergence in the space of action distributions.</p>
+</blockquote>
 <hr />
-<h2 id="reading-recommendations">Reading Recommendations<a class="headerlink" href="#reading-recommendations" title="Permanent link">&para;</a></h2>
-<h3 id="new-to-grl">New to GRL<a class="headerlink" href="#new-to-grl" title="Permanent link">&para;</a></h3>
-<p>Start with Chapter 00 (Overview), then proceed sequentially through the completed chapters.</p>
-<h3 id="familiar-with-rl-theory">Familiar with RL Theory<a class="headerlink" href="#familiar-with-rl-theory" title="Permanent link">&para;</a></h3>
-<p>Skim Chapter 00, focus on Chapters 02-04 for mathematical foundations.</p>
-<h3 id="want-to-implement">Want to Implement<a class="headerlink" href="#want-to-implement" title="Permanent link">&para;</a></h3>
-<p>Read Chapter 00, skim 01-04, then wait for Chapters 05-07 on algorithms.</p>
-<h3 id="quick-understanding">Quick Understanding<a class="headerlink" href="#quick-understanding" title="Permanent link">&para;</a></h3>
-<p>Read Chapters 00, 01, and 04 for the essential concepts.</p>
-<hr />
-<h2 id="chapter-progression">Chapter Progression<a class="headerlink" href="#chapter-progression" title="Permanent link">&para;</a></h2>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>00-Overview
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    ↓
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>01-Core Concepts
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    ↓
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>02-RKHS Foundations
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    ↓
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>03-Energy and Fitness
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ↓
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>03a-Least Action Principle (supplement) ← New!
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ↓
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>04-Reinforcement Field
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    ↓
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>04a-Riesz Representer (supplement)
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    ↓
-</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>05-Particle Memory
-</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    ↓
-</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>06-MemoryUpdate
-</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    ↓
-</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>06a-Advanced Memory Dynamics (supplement)
-</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    ↓
-</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>07-RF-SARSA
-</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    ↓
-</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>07a-Continuous Policy Inference (supplement)
-</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>    ↓
-</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>07b-RF-Q-Learning and the Deadly Triad (supplement)
-</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>    ↓
-</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>07c-Experience Replay and Particle Memory (supplement) ← We are here
-</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>    ↓
-</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>08-Soft State Transitions (planned)
-</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>    ↓
-</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>...
-</span></code></pre></div>
-<hr />
-<h2 id="chapter-template">Chapter Template<a class="headerlink" href="#chapter-template" title="Permanent link">&para;</a></h2>
-<p>Each chapter follows this structure:</p>
-<ol>
-<li><strong>Header</strong>: Purpose, prerequisites, key concepts</li>
-<li><strong>Introduction</strong>: Why this topic matters</li>
-<li><strong>Main Content</strong>: Narrative explanation with examples</li>
-<li><strong>Key Takeaways</strong>: Summary points</li>
-<li><strong>Next Steps</strong>: Connection to following chapters</li>
-</ol>
-<hr />
-<h2 id="notation-conventions">Notation Conventions<a class="headerlink" href="#notation-conventions" title="Permanent link">&para;</a></h2>
+<h2 id="3-notation-reference">3. Notation Reference<a class="headerlink" href="#3-notation-reference" title="Permanent link">&para;</a></h2>
+<p>Before diving into the algorithm, here is a summary of the notation used throughout:</p>
 <table>
 <thead>
 <tr>
@@ -2868,66 +2351,248 @@
 </thead>
 <tbody>
 <tr>
-<td><span class="arithmatex">\(s\)</span></td>
-<td>Environment state</td>
+<td><span class="arithmatex">\(s_t\)</span></td>
+<td>State at time step <span class="arithmatex">\(t\)</span></td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(\theta\)</span></td>
-<td>Action parameters</td>
+<td><span class="arithmatex">\(a_t\)</span></td>
+<td>Action taken at time step <span class="arithmatex">\(t\)</span></td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(z = (s, \theta)\)</span></td>
-<td>Augmented state-action point</td>
+<td><span class="arithmatex">\(\pi_\theta(a \mid s)\)</span></td>
+<td>Policy: probability of taking action <span class="arithmatex">\(a\)</span> in state <span class="arithmatex">\(s\)</span>, parameterized by <span class="arithmatex">\(\theta\)</span></td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(k(\cdot, \cdot)\)</span></td>
-<td>Kernel function</td>
+<td><span class="arithmatex">\(\theta_k\)</span></td>
+<td>Policy parameters at iteration <span class="arithmatex">\(k\)</span></td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(\mathcal{H}_k\)</span></td>
-<td>RKHS induced by kernel <span class="arithmatex">\(k\)</span></td>
+<td><span class="arithmatex">\(V_\phi(s)\)</span></td>
+<td>Value function (expected return from state <span class="arithmatex">\(s\)</span>), parameterized by <span class="arithmatex">\(\phi\)</span></td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(Q^+(z)\)</span></td>
-<td>Field value (fitness) at <span class="arithmatex">\(z\)</span></td>
+<td><span class="arithmatex">\(\hat{R}_t\)</span></td>
+<td><strong>Reward-to-go</strong>: the sum of (discounted) rewards from time <span class="arithmatex">\(t\)</span> onward, <span class="arithmatex">\(\hat{R}_t = \sum_{t'=t}^{T} \gamma^{t'-t} r_{t'}\)</span></td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(E(z)\)</span></td>
-<td>Energy at <span class="arithmatex">\(z\)</span>, equals <span class="arithmatex">\(-Q^+(z)\)</span></td>
+<td><span class="arithmatex">\(\hat{A}_t\)</span></td>
+<td><strong>Advantage estimate</strong>: how much better action <span class="arithmatex">\(a_t\)</span> is compared to the average action under the current policy, <span class="arithmatex">\(\hat{A}_t \approx Q(s_t, a_t) - V(s_t)\)</span></td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(\Omega\)</span></td>
-<td>Particle memory</td>
+<td><span class="arithmatex">\(\tau\)</span></td>
+<td>A trajectory (sequence of states, actions, rewards): <span class="arithmatex">\(\tau = (s_0, a_0, r_0, s_1, a_1, r_1, \ldots)\)</span></td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(w_i\)</span></td>
-<td>Weight of particle <span class="arithmatex">\(i\)</span></td>
+<td><span class="arithmatex">\(\mathcal{D}_k\)</span></td>
+<td>Batch of trajectories collected at iteration <span class="arithmatex">\(k\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(D_{\mathrm{KL}}\)</span></td>
+<td>Kullback-Leibler divergence between two probability distributions</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\delta\)</span></td>
+<td>Maximum allowed KL divergence (trust region radius)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\hat{H}_k\)</span></td>
+<td><strong>Fisher information matrix</strong> (equivalently, the Hessian of the KL divergence w.r.t. <span class="arithmatex">\(\theta\)</span>)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\hat{g}_k\)</span></td>
+<td>Estimated policy gradient at iteration <span class="arithmatex">\(k\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\alpha\)</span></td>
+<td>Backtracking coefficient (used in line search, typically <span class="arithmatex">\(\alpha \in (0, 1)\)</span>)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(K\)</span></td>
+<td>Maximum number of backtracking steps</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="key-equations">Key Equations<a class="headerlink" href="#key-equations" title="Permanent link">&para;</a></h2>
-<h3 id="reinforcement-field">Reinforcement Field<a class="headerlink" href="#reinforcement-field" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[Q^+(z) = \sum_{i=1}^N w_i \, k(z, z_i)\]</div>
-<h3 id="rkhs-inner-product">RKHS Inner Product<a class="headerlink" href="#rkhs-inner-product" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\langle k(x_1, \cdot), k(x_2, \cdot) \rangle_{\mathcal{H}_k} = k(x_1, x_2)\]</div>
-<h3 id="energy-fitness-relationship">Energy-Fitness Relationship<a class="headerlink" href="#energy-fitness-relationship" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[E(z) = -Q^+(z)\]</div>
-<h3 id="functional-gradient">Functional Gradient<a class="headerlink" href="#functional-gradient" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\nabla_z Q^+(z) = \sum_{i=1}^N w_i \, \nabla_z k(z, z_i)\]</div>
-<h3 id="boltzmann-policy">Boltzmann Policy<a class="headerlink" href="#boltzmann-policy" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\pi(\theta | s) \propto \exp(\beta \, Q^+(s, \theta))\]</div>
+<h2 id="4-key-ideas-behind-trpo">4. Key Ideas Behind TRPO<a class="headerlink" href="#4-key-ideas-behind-trpo" title="Permanent link">&para;</a></h2>
+<p>TRPO rests on three interlocking ideas:</p>
+<h3 id="41-the-surrogate-objective">4.1 The surrogate objective<a class="headerlink" href="#41-the-surrogate-objective" title="Permanent link">&para;</a></h3>
+<p>Rather than directly optimizing expected return (which requires new on-policy samples for every candidate <span class="arithmatex">\(\theta\)</span>), TRPO optimizes a <strong>surrogate objective</strong> that can be evaluated using data collected under the <em>current</em> policy <span class="arithmatex">\(\pi_{\theta_k}\)</span>:</p>
+<div class="arithmatex">\[L(\theta) = \mathbb{E}_{s, a \sim \pi_{\theta_k}} \left[ \frac{\pi_\theta(a \mid s)}{\pi_{\theta_k}(a \mid s)} \hat{A}_t \right]\]</div>
+<p>The ratio <span class="arithmatex">\(\frac{\pi_\theta(a \mid s)}{\pi_{\theta_k}(a \mid s)}\)</span> is called the <strong>importance sampling ratio</strong>. It reweights the old data to account for the fact that we are evaluating a <em>different</em> policy <span class="arithmatex">\(\pi_\theta\)</span> than the one that collected the data <span class="arithmatex">\(\pi_{\theta_k}\)</span>.</p>
+<p><strong>Intuition:</strong> If the new policy assigns <em>higher</em> probability to actions that had <em>positive</em> advantage (i.e., were better than average), the surrogate objective increases — which is exactly what we want.</p>
+<h3 id="42-the-trust-region-constraint">4.2 The trust region constraint<a class="headerlink" href="#42-the-trust-region-constraint" title="Permanent link">&para;</a></h3>
+<p>The surrogate objective is only a good approximation to the true objective when <span class="arithmatex">\(\pi_\theta\)</span> is close to <span class="arithmatex">\(\pi_{\theta_k}\)</span>. TRPO enforces this by adding a <strong>constraint</strong>:</p>
+<div class="arithmatex">\[\max_\theta \; L(\theta) \quad \text{subject to} \quad \bar{D}_{\mathrm{KL}}(\pi_{\theta_k} \| \pi_\theta) \leq \delta\]</div>
+<p>where <span class="arithmatex">\(\bar{D}_{\mathrm{KL}}\)</span> is the <strong>average KL divergence</strong> over states visited under <span class="arithmatex">\(\pi_{\theta_k}\)</span>:</p>
+<div class="arithmatex">\[\bar{D}_{\mathrm{KL}}(\pi_{\theta_k} \| \pi_\theta) = \mathbb{E}_{s \sim \pi_{\theta_k}} \left[ D_{\mathrm{KL}}\big(\pi_{\theta_k}(\cdot \mid s) \;\|\; \pi_\theta(\cdot \mid s)\big) \right]\]</div>
+<p>The hyperparameter <span class="arithmatex">\(\delta\)</span> controls the <strong>radius of the trust region</strong> — how far the new policy is allowed to deviate from the old one. Typical values are <span class="arithmatex">\(\delta \in [0.001, 0.05]\)</span>.</p>
+<p><strong>Why KL divergence?</strong> KL divergence measures how different two probability distributions are. Unlike Euclidean distance in parameter space, it directly captures how differently the two policies <em>behave</em>. A small KL divergence guarantees that the surrogate objective remains a faithful approximation.</p>
+<h3 id="43-solving-the-constrained-problem-efficiently">4.3 Solving the constrained problem efficiently<a class="headerlink" href="#43-solving-the-constrained-problem-efficiently" title="Permanent link">&para;</a></h3>
+<p>Directly solving the constrained optimization above would require computing and inverting the Hessian matrix <span class="arithmatex">\(\hat{H}_k\)</span> of the KL divergence — an <span class="arithmatex">\(n \times n\)</span> matrix where <span class="arithmatex">\(n\)</span> is the number of policy parameters. For neural network policies with millions of parameters, this is infeasible.</p>
+<p>TRPO's practical contribution is a two-part trick:</p>
+<ol>
+<li>
+<p><strong>Conjugate gradient (CG) method</strong> — computes <span class="arithmatex">\(\hat{H}_k^{-1} \hat{g}_k\)</span> <em>without ever forming or storing</em> <span class="arithmatex">\(\hat{H}_k\)</span>. CG only needs <strong>Hessian-vector products</strong> <span class="arithmatex">\(\hat{H}_k v\)</span>, which can be computed efficiently via automatic differentiation.</p>
+</li>
+<li>
+<p><strong>Backtracking line search</strong> — after computing the search direction, TRPO tries progressively smaller steps until it finds one that (a) actually improves the surrogate objective and (b) satisfies the KL constraint.</p>
+</li>
+</ol>
 <hr />
+<h2 id="5-the-trpo-algorithm">5. The TRPO Algorithm<a class="headerlink" href="#5-the-trpo-algorithm" title="Permanent link">&para;</a></h2>
+<p>Here is the full algorithm, with each step explained:</p>
 <hr />
-<h2 id="beyond-part-i">Beyond Part I<a class="headerlink" href="#beyond-part-i" title="Permanent link">&para;</a></h2>
-<h3 id="quantum-inspired-extensions">Quantum-Inspired Extensions<a class="headerlink" href="#quantum-inspired-extensions" title="Permanent link">&para;</a></h3>
-<p><strong><a href="../quantum_inspired/">Advanced Topics →</a></strong> (9 chapters complete)</p>
-<p>Mathematical connections to quantum mechanics, amplitude-based learning, and novel memory dynamics.</p>
-<h3 id="research-roadmap">Research Roadmap<a class="headerlink" href="#research-roadmap" title="Permanent link">&para;</a></h3>
-<p><strong><a href="../../ROADMAP/">Full Roadmap →</a></strong></p>
-<p>Comprehensive plan for GRL v0, extensions, and future papers (A, B, C).</p>
+<p><strong>Input:</strong> Initial policy parameters <span class="arithmatex">\(\theta_0\)</span>, initial value function parameters <span class="arithmatex">\(\phi_0\)</span></p>
+<p><strong>Hyperparameters:</strong> KL-divergence limit <span class="arithmatex">\(\delta\)</span>, backtracking coefficient <span class="arithmatex">\(\alpha\)</span>, maximum backtracking steps <span class="arithmatex">\(K\)</span></p>
+<p><strong>For</strong> <span class="arithmatex">\(k = 0, 1, 2, \ldots\)</span> <strong>do:</strong></p>
+<h3 id="step-1-collect-trajectories">Step 1 — Collect trajectories<a class="headerlink" href="#step-1-collect-trajectories" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Run the current policy <span class="arithmatex">\(\pi_k = \pi(\theta_k)\)</span> in the environment to collect a batch of trajectories <span class="arithmatex">\(\mathcal{D}_k = \{\tau_i\}\)</span>.</p>
+</blockquote>
+<p>Each trajectory <span class="arithmatex">\(\tau_i = (s_0, a_0, r_0, s_1, a_1, r_1, \ldots, s_T)\)</span> is a complete episode (or a fixed-length rollout). This is the "on-policy" part: we use fresh data from the current policy at every iteration.</p>
+<h3 id="step-2-compute-rewards-to-go">Step 2 — Compute rewards-to-go<a class="headerlink" href="#step-2-compute-rewards-to-go" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>For each time step <span class="arithmatex">\(t\)</span> in each trajectory, compute <span class="arithmatex">\(\hat{R}_t = \sum_{t'=t}^{T} \gamma^{t'-t} r_{t'}\)</span>.</p>
+</blockquote>
+<p>The reward-to-go tells us the total (discounted) return the agent actually received from time <span class="arithmatex">\(t\)</span> onward. This serves as a target for fitting the value function.</p>
+<h3 id="step-3-compute-advantage-estimates">Step 3 — Compute advantage estimates<a class="headerlink" href="#step-3-compute-advantage-estimates" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Compute advantage estimates <span class="arithmatex">\(\hat{A}_t\)</span> based on the current value function <span class="arithmatex">\(V_{\phi_k}\)</span>.</p>
+</blockquote>
+<p>The advantage <span class="arithmatex">\(\hat{A}_t \approx Q(s_t, a_t) - V(s_t)\)</span> measures how much better the action taken was compared to the average. Common methods include:</p>
+<ul>
+<li><strong>Simple:</strong> <span class="arithmatex">\(\hat{A}_t = \hat{R}_t - V_{\phi_k}(s_t)\)</span></li>
+<li><strong>GAE (Generalized Advantage Estimation):</strong> a weighted blend of multi-step advantage estimates that trades off bias and variance via a parameter <span class="arithmatex">\(\lambda\)</span>.</li>
+</ul>
+<h3 id="step-4-estimate-the-policy-gradient">Step 4 — Estimate the policy gradient<a class="headerlink" href="#step-4-estimate-the-policy-gradient" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Compute:</p>
+<div class="arithmatex">\[\hat{g}_k = \frac{1}{|\mathcal{D}_k|} \sum_{\tau \in \mathcal{D}_k} \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t \mid s_t) \Big|_{\theta_k} \hat{A}_t\]</div>
+</blockquote>
+<p>This is the standard policy gradient (the "score function" estimator). Each term <span class="arithmatex">\(\nabla_\theta \log \pi_\theta(a_t \mid s_t)\)</span> points in the direction that increases the probability of action <span class="arithmatex">\(a_t\)</span>, and it is weighted by <span class="arithmatex">\(\hat{A}_t\)</span> so that <em>good</em> actions are reinforced and <em>bad</em> actions are suppressed.</p>
+<h3 id="step-5-compute-the-search-direction-via-conjugate-gradient">Step 5 — Compute the search direction via conjugate gradient<a class="headerlink" href="#step-5-compute-the-search-direction-via-conjugate-gradient" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Approximately solve for <span class="arithmatex">\(\hat{x}_k\)</span>:</p>
+<div class="arithmatex">\[\hat{x}_k \approx \hat{H}_k^{-1} \hat{g}_k\]</div>
+<p>where <span class="arithmatex">\(\hat{H}_k\)</span> is the Hessian of the sample average KL divergence with respect to <span class="arithmatex">\(\theta\)</span>.</p>
+</blockquote>
+<p>This is the <strong>natural gradient</strong> direction. While the ordinary gradient <span class="arithmatex">\(\hat{g}_k\)</span> gives the steepest ascent direction in parameter space, the natural gradient <span class="arithmatex">\(\hat{H}_k^{-1} \hat{g}_k\)</span> gives the steepest ascent direction in <strong>policy distribution space</strong> — accounting for the geometry of the probability manifold.</p>
+<p>The conjugate gradient algorithm computes this in roughly 10–20 iterations, each requiring one Hessian-vector product (computed via automatic differentiation), without ever forming the full Hessian matrix.</p>
+<h3 id="step-6-update-the-policy-via-backtracking-line-search">Step 6 — Update the policy via backtracking line search<a class="headerlink" href="#step-6-update-the-policy-via-backtracking-line-search" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Set:</p>
+<div class="arithmatex">\[\theta_{k+1} = \theta_k + \alpha^j \sqrt{\frac{2\delta}{\hat{x}_k^T \hat{H}_k \hat{x}_k}} \; \hat{x}_k\]</div>
+<p>where <span class="arithmatex">\(j \in \{0, 1, 2, \ldots, K\}\)</span> is the smallest value such that the update (a) improves the surrogate loss and (b) satisfies <span class="arithmatex">\(\bar{D}_{\mathrm{KL}}(\pi_{\theta_k} \| \pi_{\theta_{k+1}}) \leq \delta\)</span>.</p>
+</blockquote>
+<p><strong>Breaking this down:</strong></p>
+<ul>
+<li>The term <span class="arithmatex">\(\sqrt{\frac{2\delta}{\hat{x}_k^T \hat{H}_k \hat{x}_k}}\)</span> computes the <strong>maximum step size</strong> that would exactly hit the trust region boundary <span class="arithmatex">\(\delta\)</span>, assuming a local quadratic approximation to the KL divergence.</li>
+<li>The factor <span class="arithmatex">\(\alpha^j\)</span> (with <span class="arithmatex">\(\alpha &lt; 1\)</span>, e.g., <span class="arithmatex">\(\alpha = 0.5\)</span>) <strong>shrinks</strong> the step if the full step doesn't satisfy the constraints. The algorithm tries <span class="arithmatex">\(j = 0\)</span> (full step) first, then <span class="arithmatex">\(j = 1\)</span> (half step), then <span class="arithmatex">\(j = 2\)</span> (quarter step), etc.</li>
+<li>This ensures we take the <strong>largest safe step</strong> that genuinely improves the policy.</li>
+</ul>
+<h3 id="step-7-update-the-value-function">Step 7 — Update the value function<a class="headerlink" href="#step-7-update-the-value-function" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Fit the value function by minimizing mean-squared error:</p>
+<div class="arithmatex">\[\phi_{k+1} = \arg\min_\phi \frac{1}{|\mathcal{D}_k| T} \sum_{\tau \in \mathcal{D}_k} \sum_{t=0}^{T} \left( V_\phi(s_t) - \hat{R}_t \right)^2\]</div>
+<p>typically via a few steps of gradient descent (e.g., Adam).</p>
+</blockquote>
+<p>The value function is used to compute advantage estimates in the next iteration. A better value function leads to lower-variance advantage estimates, which leads to more stable policy updates.</p>
 <hr />
-<p><strong>Last Updated</strong>: January 14, 2026</p>
+<h2 id="6-trpo-vs-vanilla-policy-gradient">6. TRPO vs. Vanilla Policy Gradient<a class="headerlink" href="#6-trpo-vs-vanilla-policy-gradient" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Vanilla Policy Gradient</th>
+<th>TRPO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Update rule</strong></td>
+<td>Fixed learning rate: <span class="arithmatex">\(\theta + \alpha \hat{g}\)</span></td>
+<td>Constrained: maximize surrogate s.t. KL <span class="arithmatex">\(\leq \delta\)</span></td>
+</tr>
+<tr>
+<td><strong>Step size control</strong></td>
+<td>Manual tuning of <span class="arithmatex">\(\alpha\)</span></td>
+<td>Automatic via trust region</td>
+</tr>
+<tr>
+<td><strong>Gradient type</strong></td>
+<td>Euclidean gradient</td>
+<td>Natural gradient (<span class="arithmatex">\(H^{-1}g\)</span>)</td>
+</tr>
+<tr>
+<td><strong>Stability</strong></td>
+<td>Prone to catastrophic updates</td>
+<td>Monotonic improvement guarantee (in theory)</td>
+</tr>
+<tr>
+<td><strong>Computational cost</strong></td>
+<td>Cheap (one gradient)</td>
+<td>More expensive (CG + line search per update)</td>
+</tr>
+<tr>
+<td><strong>Sensitivity to hyperparameters</strong></td>
+<td>Very sensitive to <span class="arithmatex">\(\alpha\)</span></td>
+<td>Robust; <span class="arithmatex">\(\delta\)</span> is more interpretable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-trpo-is-a-significant-improvement">Why TRPO is a significant improvement<a class="headerlink" href="#why-trpo-is-a-significant-improvement" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Monotonic improvement guarantee.</strong> The theoretical foundation of TRPO (<a href="https://dl.acm.org/doi/10.5555/645531.656005">Kakade &amp; Langford, 2002</a>; <a href="https://arxiv.org/abs/1502.05477">Schulman et al., 2015</a>) shows that constraining the KL divergence provides a <strong>lower bound</strong> on the true policy improvement. Each update is guaranteed (in the exact case) to not make the policy worse.</p>
+</li>
+<li>
+<p><strong>Invariance to parameterization.</strong> The natural gradient is invariant to how the policy is parameterized. If you reparameterize the same policy (e.g., change the network architecture in a way that represents the same function), the natural gradient direction stays the same — whereas the vanilla gradient can change dramatically.</p>
+</li>
+<li>
+<p><strong>Adaptive effective step size.</strong> In regions where the policy is sensitive (small changes in <span class="arithmatex">\(\theta\)</span> cause large changes in behavior), TRPO automatically takes smaller steps. In flat regions, it takes larger steps. This is exactly the behavior we want.</p>
+</li>
+</ol>
+<hr />
+<h2 id="7-limitations-of-trpo">7. Limitations of TRPO<a class="headerlink" href="#7-limitations-of-trpo" title="Permanent link">&para;</a></h2>
+<p>Despite its theoretical elegance, TRPO has practical drawbacks that motivated the development of PPO:</p>
+<ul>
+<li><strong>Computational overhead.</strong> The conjugate gradient computation and line search add significant per-iteration cost compared to a simple gradient step.</li>
+<li><strong>Implementation complexity.</strong> Correctly implementing Hessian-vector products, conjugate gradient, and line search is non-trivial and error-prone.</li>
+<li><strong>Incompatibility with shared architectures.</strong> When the policy and value function share parameters (common in practice), the KL constraint applies only to the policy head, making the optimization awkward.</li>
+<li><strong>Sample efficiency.</strong> As an on-policy method, TRPO discards all collected data after each update. Off-policy methods (like SAC) can reuse old data.</li>
+</ul>
+<p>These limitations are precisely what PPO addresses — see the <a href="../PPO/">PPO tutorial</a> for details.</p>
+<hr />
+<h2 id="8-connection-to-actor-critic-methods">8. Connection to Actor-Critic Methods<a class="headerlink" href="#8-connection-to-actor-critic-methods" title="Permanent link">&para;</a></h2>
+<p>TRPO is naturally an <strong>actor-critic</strong> algorithm:</p>
+<ul>
+<li>The <strong>actor</strong> is the policy <span class="arithmatex">\(\pi_\theta\)</span>, updated via the constrained surrogate objective.</li>
+<li>The <strong>critic</strong> is the value function <span class="arithmatex">\(V_\phi\)</span>, updated via regression on rewards-to-go.</li>
+</ul>
+<p>The critic's role is to reduce variance in the policy gradient estimate by providing a baseline. Without a value function baseline, the policy gradient has high variance and learning is slow. The advantage estimate <span class="arithmatex">\(\hat{A}_t = Q(s_t, a_t) - V(s_t)\)</span> centers the gradient signal around zero, so that actions better than average get positive reinforcement and actions worse than average get negative reinforcement.</p>
+<blockquote>
+<p><em>A dedicated tutorial on the actor-critic framework and its variants is planned for this series.</em></p>
+</blockquote>
+<hr />
+<h2 id="9-summary">9. Summary<a class="headerlink" href="#9-summary" title="Permanent link">&para;</a></h2>
+<p>TRPO's contribution is a <strong>principled framework for stable policy optimization</strong>:</p>
+<ol>
+<li>It replaces the fragile fixed learning rate with a <strong>trust region constraint</strong> in policy space.</li>
+<li>It uses the <strong>natural gradient</strong> (via conjugate gradient) to account for the geometry of probability distributions.</li>
+<li>It provides <strong>theoretical monotonic improvement guarantees</strong> under the KL constraint.</li>
+<li>It introduces the <strong>surrogate objective</strong> with importance sampling, which PPO later simplifies.</li>
+</ol>
+<p>The key takeaway: <strong>don't limit how far you move in parameter space — limit how much the policy's behavior changes.</strong> This single insight underlies both TRPO and PPO, and is one of the most important ideas in modern deep RL.</p>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>[Schulman et al., 2015]</strong> — <em>Trust Region Policy Optimization.</em> ICML 2015. <a href="https://arxiv.org/abs/1502.05477">arXiv:1502.05477</a></li>
+<li><strong>[Kakade &amp; Langford, 2002]</strong> — <em>Approximately Optimal Approximate Reinforcement Learning.</em> ICML 2002.</li>
+<li><strong>[Schulman et al., 2016]</strong> — <em>High-Dimensional Continuous Control Using Generalized Advantage Estimation.</em> ICLR 2016. <a href="https://arxiv.org/abs/1506.02438">arXiv:1506.02438</a></li>
+<li><strong>[OpenAI Spinning Up: TRPO]</strong> — <a href="https://spinningup.openai.com/en/latest/algorithms/trpo.html">spinningup.openai.com/en/latest/algorithms/trpo.html</a></li>
+</ul>
+<hr />
+<p><em>Next in this series: <a href="../PPO/">Proximal Policy Optimization (PPO)</a> — how to get TRPO-level stability with a simple clipped objective.</em></p>
 
 
 
