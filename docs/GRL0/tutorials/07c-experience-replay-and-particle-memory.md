@@ -291,17 +291,33 @@ A replay buffer stores raw data. The function approximator (neural network) must
 
 The comparison is not one-sided. Replay buffers have genuine advantages:
 
-### 8.1 Scalability
+### 8.1 Scalability (vanilla GP only — not inherent to GRL)
 
-Replay buffers store compact tuples and scale to millions of transitions with $O(1)$ insertion and $O(1)$ random access. GP-based particle memory scales as $O(N^2)$ for queries and $O(N^3)$ for hyperparameter updates.
+A common concern is that particle memory requires $O(N^3)$ GP inference. **This is a limitation of vanilla GP, not of GRL itself.** The reinforcement field formalism is agnostic to the learning mechanism — GP is one choice among many.
 
-**Mitigation**: Sparse GPs, inducing points, random Fourier features (discussed in Chapter 7, Section 9).
+As established in [Chapter 7 of the quantum-inspired series](../quantum_inspired/07-learning-the-field-beyond-gp.md), GRL supports multiple alternatives:
+
+| Method | Per-Update Cost | Per-Query Cost | Notes |
+|--------|----------------|----------------|-------|
+| **Vanilla GP** | $O(N^3)$ | $O(N^2)$ | Original formulation; small-to-medium particle sets |
+| **Sparse GP** (inducing points) | $O(M^3)$, $M \ll N$ | $O(M^2)$ | FITC, PITC, VFE; bounded memory |
+| **Online SGD** | $O(N)$ | $O(N)$ | No matrix inversion; scalable to millions |
+| **Deep neural network** | $O(1)$ amortized | $O(1)$ | Replaces kernel with learned representation |
+| **Mixture of Experts** | $O(M \cdot N/M)$ | Per-expert | Multiple local fields with gating |
+
+With online SGD or neural field representations, GRL scales comparably to replay-buffer-based methods. The key insight from that chapter: *"The state-as-field formalism is agnostic to the learning mechanism — you can swap the inference engine while preserving GRL's structure."*
+
+That said, replay buffers still have a simplicity advantage: $O(1)$ insertion and $O(1)$ random access with no inference overhead at storage time. The cost is deferred to training time.
 
 ### 8.2 Flexibility with function approximators
 
-Replay buffers are **agnostic** to the function approximator. They work with neural networks, linear models, decision trees — anything that can be trained on mini-batches. Particle memory is tied to kernel-based representations.
+In its original kernel-based form, particle memory is tied to a specific representation. Replay buffers are **agnostic** — they work with any function approximator trainable on mini-batches.
 
-**Mitigation**: Neural field replacements (Chapter 1 of the baseline concepts document) can bridge this gap.
+However, GRL's hybrid architectures (neural net + particle memory, as in [Chapter 7 of the quantum-inspired series](../quantum_inspired/07-learning-the-field-beyond-gp.md), Section 6) bridge this gap. A neural network provides the base value estimate $Q_\theta(z)$, while a small particle memory provides fast episodic adaptation:
+
+$$Q^+(z) = Q_\theta(z) + \beta \sum_{i \in \text{recent}} w_i \, k(z_i, z)$$
+
+This combines the scalability and representational power of neural networks with the principled, uncertainty-aware interpolation of kernel methods.
 
 ### 8.3 Off-policy learning
 

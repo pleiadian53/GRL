@@ -10,7 +10,7 @@
 
 Trust Region Policy Optimization (TRPO) was introduced by [Schulman et al. (2015)][trpo-paper] as a principled approach to a long-standing problem in policy gradient methods: **how do you take the largest possible improvement step without accidentally destroying a good policy?**
 
-TRPO is an **on-policy** algorithm that works with both discrete and continuous action spaces. It serves as the direct predecessor to [Proximal Policy Optimization (PPO)](PPO.md), which simplifies TRPO's constrained optimization into a clipped objective — but understanding TRPO first makes PPO's design choices much clearer.
+TRPO is an **on-policy** algorithm that works with both discrete and continuous action spaces. It serves as the direct predecessor to [Proximal Policy Optimization (PPO)](03_PPO.md), which simplifies TRPO's constrained optimization into a clipped objective — but understanding TRPO first makes PPO's design choices much clearer.
 
 ---
 
@@ -214,7 +214,7 @@ Despite its theoretical elegance, TRPO has practical drawbacks that motivated th
 - **Incompatibility with shared architectures.** When the policy and value function share parameters (common in practice), the KL constraint applies only to the policy head, making the optimization awkward.
 - **Sample efficiency.** As an on-policy method, TRPO discards all collected data after each update. Off-policy methods (like SAC) can reuse old data.
 
-These limitations are precisely what PPO addresses — see the [PPO tutorial](PPO.md) for details.
+These limitations are precisely what PPO addresses — see the [PPO tutorial](03_PPO.md) for details.
 
 ---
 
@@ -253,7 +253,7 @@ The key takeaway: **don't limit how far you move in parameter space — limit ho
 
 ---
 
-*Next in this series: [Proximal Policy Optimization (PPO)](PPO.md) — how to get TRPO-level stability with a simple clipped objective.*
+*Previous: [Policy Gradient Fundamentals](01_PG.md)* | *Next: [Proximal Policy Optimization (PPO)](03_PPO.md) — how to get TRPO-level stability with a simple clipped objective.*
 
 [trpo-paper]: https://arxiv.org/abs/1502.05477
 [kakade-langford]: https://dl.acm.org/doi/10.5555/645531.656005
