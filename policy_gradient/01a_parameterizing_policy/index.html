@@ -1,0 +1,2526 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/policy_gradient/01a_parameterizing_policy/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Parameterizing the Policy: From Gaussians to Real-World Control - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#parameterizing-the-policy-from-gaussians-to-real-world-control" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Parameterizing the Policy: From Gaussians to Real-World Control
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../GRL0/" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/03a-least-action-principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/06-memory-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/07a-continuous-policy-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-what-does-parameterizing-a-policy-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. What Does "Parameterizing a Policy" Mean?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-discrete-actions-softmax-categorical-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Discrete Actions: Softmax Categorical Policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-diagonal-gaussian-policy-continuous-control-basics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Diagonal Gaussian Policy: Continuous Control Basics
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-squashed-gaussian-bounded-actuators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Squashed Gaussian: Bounded Actuators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-factorized-policies-hybrid-and-structured-action-spaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Factorized Policies: Hybrid and Structured Action Spaces
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-mixture-of-gaussians-multimodal-decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Mixture of Gaussians: Multimodal Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-normalizing-flow-policies-expressive-modern-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Normalizing Flow Policies: Expressive Modern Control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-trajectory-level-policies-actions-as-plans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Trajectory-Level Policies: Actions as Plans
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-the-unifying-requirement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. The Unifying Requirement
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-where-simple-parameterizations-break-down" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Where Simple Parameterizations Break Down
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-connection-to-parametric-actions-in-grl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Connection to Parametric Actions in GRL
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/policy_gradient/01a_parameterizing_policy.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="parameterizing-the-policy-from-gaussians-to-real-world-control">Parameterizing the Policy: From Gaussians to Real-World Control<a class="headerlink" href="#parameterizing-the-policy-from-gaussians-to-real-world-control" title="Permanent link">&para;</a></h1>
+<p><strong>How <span class="arithmatex">\(\pi_\theta(a \mid s)\)</span> is actually implemented — and why it matters</strong></p>
+<blockquote>
+<p><em>Prerequisites: <a href="../01_PG/">Policy Gradient Fundamentals</a></em></p>
+</blockquote>
+<hr />
+<h2 id="1-what-does-parameterizing-a-policy-mean">1. What Does "Parameterizing a Policy" Mean?<a class="headerlink" href="#1-what-does-parameterizing-a-policy-mean" title="Permanent link">&para;</a></h2>
+<p>Every policy gradient method — REINFORCE, TRPO, PPO — optimizes a parameterized policy <span class="arithmatex">\(\pi_\theta(a \mid s)\)</span>. But the theory is silent on <em>what form</em> this distribution takes. That choice is left to the practitioner, and it determines whether the algorithm stays on a whiteboard or controls a real robot.</p>
+<p>Parameterizing a policy means answering three questions:</p>
+<ol>
+<li><strong>Action space</strong>: Is <span class="arithmatex">\(a\)</span> discrete, continuous, or hybrid?</li>
+<li><strong>Distribution family</strong>: What class of distributions do we use (categorical, Gaussian, mixture, flow)?</li>
+<li><strong>State-dependence</strong>: Which parameters of that distribution are learned functions of <span class="arithmatex">\(s\)</span>?</li>
+</ol>
+<p>This chapter walks through the major parameterizations, from textbook examples to production-grade systems used in robotics and autonomous driving.</p>
+<hr />
+<h2 id="2-discrete-actions-softmax-categorical-policy">2. Discrete Actions: Softmax Categorical Policy<a class="headerlink" href="#2-discrete-actions-softmax-categorical-policy" title="Permanent link">&para;</a></h2>
+<p>The simplest case. The action space is finite: <span class="arithmatex">\(a \in \{1, 2, \ldots, K\}\)</span>.</p>
+<p>A neural network <span class="arithmatex">\(f_\theta(s) \in \mathbb{R}^K\)</span> produces <strong>logits</strong>, and softmax converts them to probabilities:</p>
+<div class="arithmatex">\[\pi_\theta(a = i \mid s) = \frac{\exp(f_\theta(s)_i)}{\sum_{j=1}^K \exp(f_\theta(s)_j)}\]</div>
+<p><strong>Log-probability</strong> (needed for policy gradient):</p>
+<div class="arithmatex">\[\log \pi_\theta(a = i \mid s) = f_\theta(s)_i - \log \sum_{j=1}^K \exp(f_\theta(s)_j)\]</div>
+<p><strong>Concrete example — lane selection in highway driving:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Action <span class="arithmatex">\(a\)</span></th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Stay in current lane</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Change to left lane</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Change to right lane</td>
+</tr>
+</tbody>
+</table>
+<p>The network takes as input the ego vehicle state (position, velocity, surrounding vehicles) and outputs 3 logits. Softmax gives the probability of each lane decision.</p>
+<p><strong>Where this is used:</strong></p>
+<ul>
+<li>Atari game-playing agents (DQN, A3C, PPO)</li>
+<li>High-level decision layers in autonomous driving (lane change, intersection behavior)</li>
+<li>Discrete planning and scheduling</li>
+</ul>
+<p>Discrete policies remain important even in "continuous" domains — many real systems have a discrete strategic layer on top of continuous low-level control.</p>
+<hr />
+<h2 id="3-diagonal-gaussian-policy-continuous-control-basics">3. Diagonal Gaussian Policy: Continuous Control Basics<a class="headerlink" href="#3-diagonal-gaussian-policy-continuous-control-basics" title="Permanent link">&para;</a></h2>
+<p>For continuous actions <span class="arithmatex">\(a \in \mathbb{R}^d\)</span>, the most common choice is a <strong>diagonal Gaussian</strong>:</p>
+<div class="arithmatex">\[\pi_\theta(a \mid s) = \mathcal{N}\big(a \;\big|\; \mu_\theta(s), \; \text{diag}(\sigma_\theta^2(s))\big)\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(\mu_\theta(s) \in \mathbb{R}^d\)</span>: mean, output of a neural network</li>
+<li><span class="arithmatex">\(\sigma_\theta(s) \in \mathbb{R}^d_{&gt;0}\)</span>: per-dimension standard deviation (often parameterized as <span class="arithmatex">\(\log \sigma\)</span> for numerical stability)</li>
+</ul>
+<p><strong>Sampling</strong> uses the reparameterization trick:</p>
+<div class="arithmatex">\[a = \mu_\theta(s) + \sigma_\theta(s) \odot \epsilon, \quad \epsilon \sim \mathcal{N}(0, I)\]</div>
+<p><strong>Log-probability</strong> (closed-form):</p>
+<div class="arithmatex">\[\log \pi_\theta(a \mid s) = -\frac{1}{2} \sum_{i=1}^d \left[ \frac{(a_i - \mu_i)^2}{\sigma_i^2} + 2 \log \sigma_i + \log 2\pi \right]\]</div>
+<p><strong>KL divergence</strong> between two diagonal Gaussians (closed-form — important for TRPO):</p>
+<div class="arithmatex">\[D_{\mathrm{KL}}(\pi_{\theta_k} \| \pi_\theta) = \frac{1}{2} \sum_{i=1}^d \left[ \frac{\sigma_{k,i}^2}{\sigma_i^2} + \frac{(\mu_i - \mu_{k,i})^2}{\sigma_i^2} - 1 + 2\log\frac{\sigma_i}{\sigma_{k,i}} \right]\]</div>
+<p><strong>Concrete example — 7-DOF robotic arm (Franka Panda):</strong></p>
+<p>The action is a vector of 7 joint torques: <span class="arithmatex">\(a = (\tau_1, \tau_2, \ldots, \tau_7) \in \mathbb{R}^7\)</span>. The state includes joint angles, joint velocities, and end-effector pose. The network outputs 7 means and 7 log-standard-deviations.</p>
+<p><strong>Strengths:</strong></p>
+<ul>
+<li>Closed-form log-prob, KL, and entropy — fast and numerically stable</li>
+<li>Well-understood gradient behavior</li>
+<li>Default choice in MuJoCo benchmarks, locomotion (quadrupeds, bipeds), and manipulation</li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul>
+<li><strong>Unimodal</strong>: can only represent one "strategy" at a time</li>
+<li><strong>Independent dimensions</strong>: assumes action dimensions are uncorrelated (diagonal covariance)</li>
+<li><strong>Unbounded</strong>: samples can exceed physical actuator limits</li>
+</ul>
+<hr />
+<h2 id="4-squashed-gaussian-bounded-actuators">4. Squashed Gaussian: Bounded Actuators<a class="headerlink" href="#4-squashed-gaussian-bounded-actuators" title="Permanent link">&para;</a></h2>
+<p>Real actuators have physical limits. A joint torque might be bounded to <span class="arithmatex">\([-10, 10]\)</span> Nm. A steering angle to <span class="arithmatex">\([-0.5, 0.5]\)</span> rad. Raw Gaussian samples can violate these bounds.</p>
+<p>The <strong>squashed Gaussian</strong> (used in SAC and many PPO implementations) applies a <span class="arithmatex">\(\tanh\)</span> transform:</p>
+<div class="arithmatex">\[u \sim \mathcal{N}(\mu_\theta(s), \sigma_\theta^2(s)), \quad a = \tanh(u)\]</div>
+<p>Now <span class="arithmatex">\(a \in (-1, 1)^d\)</span>, which can be rescaled to any bounded interval.</p>
+<p><strong>Log-probability</strong> requires a change-of-variables correction:</p>
+<div class="arithmatex">\[\log \pi_\theta(a \mid s) = \log \mathcal{N}(u \mid \mu, \sigma^2) - \sum_{i=1}^d \log(1 - a_i^2)\]</div>
+<p>The second term accounts for the Jacobian of the <span class="arithmatex">\(\tanh\)</span> transformation. Omitting it is a common implementation bug that causes silent training instability.</p>
+<p><strong>Concrete example — differential-drive mobile robot:</strong></p>
+<ul>
+<li>Action: <span class="arithmatex">\((v, \omega) \in [-1, 1]^2\)</span> (linear velocity, angular velocity)</li>
+<li>Rescaled to physical limits: <span class="arithmatex">\(v \in [-0.5, 0.5]\)</span> m/s, <span class="arithmatex">\(\omega \in [-1.0, 1.0]\)</span> rad/s</li>
+<li>The squashing ensures the policy never commands physically impossible velocities</li>
+</ul>
+<p>This is the standard parameterization for <strong>production robotics</strong> and <strong>sim-to-real transfer</strong>.</p>
+<hr />
+<h2 id="5-factorized-policies-hybrid-and-structured-action-spaces">5. Factorized Policies: Hybrid and Structured Action Spaces<a class="headerlink" href="#5-factorized-policies-hybrid-and-structured-action-spaces" title="Permanent link">&para;</a></h2>
+<p>Real-world systems often have <strong>mixed</strong> action spaces — some dimensions continuous, some discrete.</p>
+<p><strong>Concrete example — autonomous vehicle:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Type</th>
+<th>Distribution</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Steering angle <span class="arithmatex">\(\alpha\)</span></td>
+<td>Continuous, <span class="arithmatex">\([-0.5, 0.5]\)</span> rad</td>
+<td>Squashed Gaussian</td>
+</tr>
+<tr>
+<td>Acceleration <span class="arithmatex">\(\tau\)</span></td>
+<td>Continuous, <span class="arithmatex">\([-3, 3]\)</span> m/s<span class="arithmatex">\(^2\)</span></td>
+<td>Squashed Gaussian</td>
+</tr>
+<tr>
+<td>Turn signal <span class="arithmatex">\(d\)</span></td>
+<td>Discrete, <span class="arithmatex">\(\{\)</span>off, left, right<span class="arithmatex">\(\}\)</span></td>
+<td>Categorical</td>
+</tr>
+</tbody>
+</table>
+<p>The policy factorizes as a product of independent sub-policies:</p>
+<div class="arithmatex">\[\pi_\theta(a \mid s) = \pi_{\text{steer}}(\alpha \mid s) \cdot \pi_{\text{accel}}(\tau \mid s) \cdot \pi_{\text{signal}}(d \mid s)\]</div>
+<p><strong>Why this works with PPO:</strong></p>
+<ul>
+<li>Log-probabilities <strong>add</strong>: <span class="arithmatex">\(\log \pi = \log \pi_{\text{steer}} + \log \pi_{\text{accel}} + \log \pi_{\text{signal}}\)</span></li>
+<li>Gradients flow independently through each head</li>
+<li>The probability ratio <span class="arithmatex">\(r_t(\theta)\)</span> decomposes cleanly in log-space</li>
+</ul>
+<p><strong>Implementation</strong>: a single neural network backbone with multiple output heads — one per action component. Each head has its own distribution type.</p>
+<p>This factorized design is standard in <strong>production autonomy stacks</strong> and <strong>multi-actuator robotics</strong>.</p>
+<hr />
+<h2 id="6-mixture-of-gaussians-multimodal-decisions">6. Mixture of Gaussians: Multimodal Decisions<a class="headerlink" href="#6-mixture-of-gaussians-multimodal-decisions" title="Permanent link">&para;</a></h2>
+<p>Many control problems are inherently <strong>multimodal</strong> — there are multiple qualitatively different good actions:</p>
+<ul>
+<li>Overtake the car ahead <strong>or</strong> slow down and follow</li>
+<li>Grasp the mug from the left <strong>or</strong> from the right</li>
+<li>Step over the obstacle <strong>or</strong> walk around it</li>
+</ul>
+<p>A single Gaussian cannot represent this. A <strong>mixture of Gaussians</strong> (MoG) can:</p>
+<div class="arithmatex">\[\pi_\theta(a \mid s) = \sum_{k=1}^K w_k(s) \; \mathcal{N}\big(a \;\big|\; \mu_k(s), \Sigma_k(s)\big)\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(w_k(s) = \text{softmax}(h_\theta(s))_k\)</span>: state-dependent mixture weights</li>
+<li><span class="arithmatex">\(\mu_k(s), \Sigma_k(s)\)</span>: mean and covariance of the <span class="arithmatex">\(k\)</span>-th component</li>
+</ul>
+<p><strong>Log-probability</strong> (log-sum-exp):</p>
+<div class="arithmatex">\[\log \pi_\theta(a \mid s) = \log \sum_{k=1}^K w_k(s) \; \mathcal{N}(a \mid \mu_k(s), \Sigma_k(s))\]</div>
+<p><strong>Concrete example — manipulation with contact:</strong></p>
+<p>A robot hand reaching for an object on a cluttered table. With <span class="arithmatex">\(K = 3\)</span> mixture components:</p>
+<ul>
+<li>Component 1: approach from above (top grasp)</li>
+<li>Component 2: approach from the side (pinch grasp)</li>
+<li>Component 3: push object to a clearer location first</li>
+</ul>
+<p>Each component represents a distinct strategy. The mixture weights <span class="arithmatex">\(w_k(s)\)</span> learn which strategy is best given the current scene.</p>
+<p><strong>Challenges for PPO:</strong></p>
+<ul>
+<li>KL divergence between mixtures has <strong>no closed form</strong> — must be estimated</li>
+<li>Gradient variance is higher (the mixture assignment adds stochasticity)</li>
+<li>PPO still works, but requires more careful tuning of the clip range and learning rate</li>
+</ul>
+<hr />
+<h2 id="7-normalizing-flow-policies-expressive-modern-control">7. Normalizing Flow Policies: Expressive Modern Control<a class="headerlink" href="#7-normalizing-flow-policies-expressive-modern-control" title="Permanent link">&para;</a></h2>
+<p>For the most demanding control tasks — dexterous manipulation, contact-rich locomotion, agile flight — even mixtures may not be expressive enough. <strong>Normalizing flows</strong> define arbitrarily complex distributions through a sequence of invertible transformations:</p>
+<div class="arithmatex">\[z \sim \mathcal{N}(0, I), \quad a = f_\theta(z; s)\]</div>
+<p>where <span class="arithmatex">\(f_\theta\)</span> is an invertible, differentiable function (e.g., a sequence of affine coupling layers).</p>
+<p><strong>Log-probability</strong> via the change-of-variables formula:</p>
+<div class="arithmatex">\[\log \pi_\theta(a \mid s) = \log \mathcal{N}(f_\theta^{-1}(a; s)) - \log \left| \det \frac{\partial f_\theta}{\partial z} \right|\]</div>
+<p><strong>What this buys:</strong></p>
+<ul>
+<li><strong>Multimodal</strong>: can represent any number of modes</li>
+<li><strong>Correlated</strong>: captures dependencies between action dimensions (e.g., coordinated finger movements)</li>
+<li><strong>Arbitrarily expressive</strong>: universal approximator for continuous distributions</li>
+</ul>
+<p><strong>Where this is used:</strong></p>
+<ul>
+<li>Dexterous manipulation (Allegro hand, Shadow hand)</li>
+<li>Contact-rich locomotion on uneven terrain</li>
+<li>Agile quadrotor flight</li>
+</ul>
+<p>PPO still applies — you compute <span class="arithmatex">\(\log \pi_\theta(a \mid s)\)</span>, form the ratio, clip, and optimize. The flow is just a more powerful function inside the same algorithmic shell.</p>
+<hr />
+<h2 id="8-trajectory-level-policies-actions-as-plans">8. Trajectory-Level Policies: Actions as Plans<a class="headerlink" href="#8-trajectory-level-policies-actions-as-plans" title="Permanent link">&para;</a></h2>
+<p>In autonomous driving and long-horizon robotics, the "action" is not an instantaneous torque — it is an <strong>entire trajectory</strong> or motion plan.</p>
+<div class="arithmatex">\[\pi_\theta(\tau \mid s)\]</div>
+<p>where <span class="arithmatex">\(\tau\)</span> might be:</p>
+<ul>
+<li>A sequence of future waypoints: <span class="arithmatex">\(\tau = (p_1, p_2, \ldots, p_H) \in \mathbb{R}^{H \times 2}\)</span></li>
+<li>Coefficients of a spline or polynomial path</li>
+<li>Latent codes decoded into a motion plan</li>
+</ul>
+<p><strong>Concrete example — trajectory prediction in autonomous driving:</strong></p>
+<p>The policy outputs a distribution over 5-second future trajectories (50 waypoints at 10 Hz). Each waypoint is <span class="arithmatex">\((x, y)\)</span> in the vehicle frame. The distribution might be:</p>
+<ul>
+<li>A Gaussian over spline coefficients (compact, smooth)</li>
+<li>A mixture of trajectories (multimodal: turn left vs. go straight)</li>
+<li>A diffusion model (emerging approach — iteratively denoises a trajectory)</li>
+</ul>
+<p>PPO operates at the <strong>trajectory level</strong>: the reward evaluates the full plan (safety, comfort, progress), and policy gradients push the distribution toward better plans.</p>
+<hr />
+<h2 id="9-the-unifying-requirement">9. The Unifying Requirement<a class="headerlink" href="#9-the-unifying-requirement" title="Permanent link">&para;</a></h2>
+<p>Across all these parameterizations — categorical, Gaussian, squashed, factorized, mixture, flow, trajectory — policy gradient methods need exactly <strong>three things</strong>:</p>
+<ol>
+<li><strong>Evaluable log-probability</strong>: <span class="arithmatex">\(\log \pi_\theta(a \mid s)\)</span> must be computable</li>
+<li><strong>Differentiable parameters</strong>: <span class="arithmatex">\(\nabla_\theta \log \pi_\theta(a \mid s)\)</span> must exist (for autograd)</li>
+<li><strong>Smooth KL behavior</strong>: small changes in <span class="arithmatex">\(\theta\)</span> should produce small changes in the policy distribution</li>
+</ol>
+<p>If these three conditions hold, PPO (and TRPO, REINFORCE, etc.) work unchanged. The algorithm doesn't care what's inside the policy — it only interacts with it through log-probabilities and their gradients.</p>
+<table>
+<thead>
+<tr>
+<th>Parameterization</th>
+<th>Log-prob</th>
+<th>KL (closed-form?)</th>
+<th>Expressiveness</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Categorical</td>
+<td>Exact</td>
+<td>Yes</td>
+<td>Low (discrete)</td>
+</tr>
+<tr>
+<td>Diagonal Gaussian</td>
+<td>Exact</td>
+<td>Yes</td>
+<td>Low (unimodal)</td>
+</tr>
+<tr>
+<td>Squashed Gaussian</td>
+<td>Exact (with Jacobian)</td>
+<td>Approximate</td>
+<td>Low (unimodal, bounded)</td>
+</tr>
+<tr>
+<td>Factorized hybrid</td>
+<td>Sum of components</td>
+<td>Per-component</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>Mixture of Gaussians</td>
+<td>Log-sum-exp</td>
+<td>No (estimate)</td>
+<td>Medium (multimodal)</td>
+</tr>
+<tr>
+<td>Normalizing flow</td>
+<td>Exact (with Jacobian)</td>
+<td>No (estimate)</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Trajectory-level</td>
+<td>Depends on model</td>
+<td>Depends on model</td>
+<td>High</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="10-where-simple-parameterizations-break-down">10. Where Simple Parameterizations Break Down<a class="headerlink" href="#10-where-simple-parameterizations-break-down" title="Permanent link">&para;</a></h2>
+<p>As policies become more expressive, new problems emerge that stress-test the policy gradient machinery:</p>
+<ul>
+<li><strong>High-dimensional actions</strong>: a humanoid robot has 20+ joint torques. The ratio <span class="arithmatex">\(r_t(\theta)\)</span> becomes a product of many per-dimension terms, and its variance grows exponentially.</li>
+<li><strong>Multimodal policies</strong>: the KL divergence between mixtures is hard to estimate, making trust regions unreliable.</li>
+<li><strong>Sharp, brittle distributions</strong>: a near-deterministic policy (small <span class="arithmatex">\(\sigma\)</span>) makes the ratio <span class="arithmatex">\(r_t(\theta)\)</span> extremely sensitive to small parameter changes.</li>
+</ul>
+<p>These are not hypothetical — they are the practical reasons why PPO struggles on the hardest control tasks and why newer methods like GRPO exist. We return to this in <a href="../04_PPO_variants/">Chapter 04</a>.</p>
+<hr />
+<h2 id="11-connection-to-parametric-actions-in-grl">11. Connection to Parametric Actions in GRL<a class="headerlink" href="#11-connection-to-parametric-actions-in-grl" title="Permanent link">&para;</a></h2>
+<p>The policy parameterization problem has a deep connection to GRL's concept of <strong>parametric actions</strong> (see <a href="../../GRL0/tutorials/01-core-concepts/">GRL Chapter 01: Core Concepts</a>).</p>
+<p>In standard policy gradient, we parameterize the <em>distribution over actions</em>: <span class="arithmatex">\(\pi_\theta(a \mid s)\)</span>.</p>
+<p>In GRL, we go further — we parameterize the <em>actions themselves</em> as operators:</p>
+<div class="arithmatex">\[\theta_a \to \hat{O}(\theta_a)\]</div>
+<p>where <span class="arithmatex">\(\theta_a\)</span> is an action parameter vector and <span class="arithmatex">\(\hat{O}\)</span> is the operator it specifies (a force, a torque, a trajectory). The value function <span class="arithmatex">\(Q^+(s, \theta_a)\)</span> is defined over the joint augmented space, and the policy emerges from navigating this value landscape (see <a href="../../GRL0/tutorials/04-reinforcement-field/">GRL Chapter 04: Reinforcement Field</a>).</p>
+<p>This raises a natural question: <strong>can we combine the expressiveness of GRL's parametric action framework with the optimization machinery of policy gradient methods?</strong> We explore this connection in <a href="../05_actions_as_operators/">Chapter 05: Actions as Operators</a>.</p>
+<hr />
+<p><em>Previous: <a href="../01_PG/">Policy Gradient Fundamentals</a></em> | <em>Next: <a href="../02_TRPO/">Trust Region Policy Optimization (TRPO)</a></em></p>
+<p><em>See also: <a href="../05_actions_as_operators/">Actions as Operators</a> — from flat vectors to structured control</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

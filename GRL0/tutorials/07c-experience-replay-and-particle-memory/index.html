@@ -2362,10 +2362,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#81-scalability" class="md-nav__link">
+  <a href="#81-scalability-vanilla-gp-only-not-inherent-to-grl" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8.1 Scalability
+        8.1 Scalability (vanilla GP only — not inherent to GRL)
       
     </span>
   </a>
@@ -2878,12 +2878,58 @@
 <hr />
 <h2 id="8-where-particle-memory-struggles-and-replay-buffers-dont">8. Where Particle Memory Struggles and Replay Buffers Don't<a class="headerlink" href="#8-where-particle-memory-struggles-and-replay-buffers-dont" title="Permanent link">&para;</a></h2>
 <p>The comparison is not one-sided. Replay buffers have genuine advantages:</p>
-<h3 id="81-scalability">8.1 Scalability<a class="headerlink" href="#81-scalability" title="Permanent link">&para;</a></h3>
-<p>Replay buffers store compact tuples and scale to millions of transitions with <span class="arithmatex">\(O(1)\)</span> insertion and <span class="arithmatex">\(O(1)\)</span> random access. GP-based particle memory scales as <span class="arithmatex">\(O(N^2)\)</span> for queries and <span class="arithmatex">\(O(N^3)\)</span> for hyperparameter updates.</p>
-<p><strong>Mitigation</strong>: Sparse GPs, inducing points, random Fourier features (discussed in Chapter 7, Section 9).</p>
+<h3 id="81-scalability-vanilla-gp-only-not-inherent-to-grl">8.1 Scalability (vanilla GP only — not inherent to GRL)<a class="headerlink" href="#81-scalability-vanilla-gp-only-not-inherent-to-grl" title="Permanent link">&para;</a></h3>
+<p>A common concern is that particle memory requires <span class="arithmatex">\(O(N^3)\)</span> GP inference. <strong>This is a limitation of vanilla GP, not of GRL itself.</strong> The reinforcement field formalism is agnostic to the learning mechanism — GP is one choice among many.</p>
+<p>As established in <a href="../../quantum_inspired/07-learning-the-field-beyond-gp/">Chapter 7 of the quantum-inspired series</a>, GRL supports multiple alternatives:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Per-Update Cost</th>
+<th>Per-Query Cost</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Vanilla GP</strong></td>
+<td><span class="arithmatex">\(O(N^3)\)</span></td>
+<td><span class="arithmatex">\(O(N^2)\)</span></td>
+<td>Original formulation; small-to-medium particle sets</td>
+</tr>
+<tr>
+<td><strong>Sparse GP</strong> (inducing points)</td>
+<td><span class="arithmatex">\(O(M^3)\)</span>, <span class="arithmatex">\(M \ll N\)</span></td>
+<td><span class="arithmatex">\(O(M^2)\)</span></td>
+<td>FITC, PITC, VFE; bounded memory</td>
+</tr>
+<tr>
+<td><strong>Online SGD</strong></td>
+<td><span class="arithmatex">\(O(N)\)</span></td>
+<td><span class="arithmatex">\(O(N)\)</span></td>
+<td>No matrix inversion; scalable to millions</td>
+</tr>
+<tr>
+<td><strong>Deep neural network</strong></td>
+<td><span class="arithmatex">\(O(1)\)</span> amortized</td>
+<td><span class="arithmatex">\(O(1)\)</span></td>
+<td>Replaces kernel with learned representation</td>
+</tr>
+<tr>
+<td><strong>Mixture of Experts</strong></td>
+<td><span class="arithmatex">\(O(M \cdot N/M)\)</span></td>
+<td>Per-expert</td>
+<td>Multiple local fields with gating</td>
+</tr>
+</tbody>
+</table>
+<p>With online SGD or neural field representations, GRL scales comparably to replay-buffer-based methods. The key insight from that chapter: <em>"The state-as-field formalism is agnostic to the learning mechanism — you can swap the inference engine while preserving GRL's structure."</em></p>
+<p>That said, replay buffers still have a simplicity advantage: <span class="arithmatex">\(O(1)\)</span> insertion and <span class="arithmatex">\(O(1)\)</span> random access with no inference overhead at storage time. The cost is deferred to training time.</p>
 <h3 id="82-flexibility-with-function-approximators">8.2 Flexibility with function approximators<a class="headerlink" href="#82-flexibility-with-function-approximators" title="Permanent link">&para;</a></h3>
-<p>Replay buffers are <strong>agnostic</strong> to the function approximator. They work with neural networks, linear models, decision trees — anything that can be trained on mini-batches. Particle memory is tied to kernel-based representations.</p>
-<p><strong>Mitigation</strong>: Neural field replacements (Chapter 1 of the baseline concepts document) can bridge this gap.</p>
+<p>In its original kernel-based form, particle memory is tied to a specific representation. Replay buffers are <strong>agnostic</strong> — they work with any function approximator trainable on mini-batches.</p>
+<p>However, GRL's hybrid architectures (neural net + particle memory, as in <a href="../../quantum_inspired/07-learning-the-field-beyond-gp/">Chapter 7 of the quantum-inspired series</a>, Section 6) bridge this gap. A neural network provides the base value estimate <span class="arithmatex">\(Q_\theta(z)\)</span>, while a small particle memory provides fast episodic adaptation:</p>
+<div class="arithmatex">\[Q^+(z) = Q_\theta(z) + \beta \sum_{i \in \text{recent}} w_i \, k(z_i, z)\]</div>
+<p>This combines the scalability and representational power of neural networks with the principled, uncertainty-aware interpolation of kernel methods.</p>
 <h3 id="83-off-policy-learning">8.3 Off-policy learning<a class="headerlink" href="#83-off-policy-learning" title="Permanent link">&para;</a></h3>
 <p>Replay buffers are designed for off-policy learning — the whole point is to reuse data from old policies. Particle memory, as used in RF-SARSA, is on-policy. Using particle memory for off-policy learning requires the safeguards discussed in Chapter 07b.</p>
 <h3 id="84-high-dimensional-state-spaces">8.4 High-dimensional state spaces<a class="headerlink" href="#84-high-dimensional-state-spaces" title="Permanent link">&para;</a></h3>

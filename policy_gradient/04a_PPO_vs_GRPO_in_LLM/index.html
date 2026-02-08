@@ -12,7 +12,7 @@
         <meta name="author" content="GRL Research Team">
       
       
-        <link rel="canonical" href="https://pleiadian53.github.io/GRL/policy_gradient/PPO/">
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/policy_gradient/04a_PPO_vs_GRPO_in_LLM/">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>PPO - Generalized Reinforcement Learning (GRL)</title>
+        <title>PPO vs GRPO: Credit Assignment in LLM Fine-Tuning - Generalized Reinforcement Learning (GRL)</title>
       
     
     
@@ -77,6 +77,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#ppo-vs-grpo-credit-assignment-in-llm-fine-tuning" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -113,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              PPO
+              PPO vs GRPO: Credit Assignment in LLM Fine-Tuning
             
           </span>
         </div>
@@ -1985,6 +1990,171 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-the-credit-assignment-problem-in-llms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. The Credit Assignment Problem in LLMs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-ppos-approach-learned-value-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. PPO's Approach: Learned Value Function
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-grpos-approach-group-normalized-no-critic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. GRPO's Approach: Group-Normalized, No Critic
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. GRPO&#39;s Approach: Group-Normalized, No Critic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-clarifying-a-common-confusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Clarifying a Common Confusion
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-the-correct-statement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 The Correct Statement
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-why-grpo-works-despite-coarser-credit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Why GRPO Works Despite Coarser Credit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Why GRPO Works Despite Coarser Credit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-group-comparison-is-a-strong-signal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Group Comparison Is a Strong Signal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-the-ratio-provides-implicit-token-level-differentiation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 The Ratio Provides Implicit Token-Level Differentiation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-the-value-function-was-the-bottleneck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 The Value Function Was the Bottleneck
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-when-does-token-level-credit-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. When Does Token-Level Credit Matter?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-full-picture-post-training-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The Full Picture: Post-Training Pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -2001,7 +2171,7 @@
 
 
   
-    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/policy_gradient/PPO.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/policy_gradient/04a_PPO_vs_GRPO_in_LLM.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
     </a>
@@ -2009,9 +2179,174 @@
   
 
 
-  <h1>PPO</h1>
-
-
+<h1 id="ppo-vs-grpo-credit-assignment-in-llm-fine-tuning">PPO vs GRPO: Credit Assignment in LLM Fine-Tuning<a class="headerlink" href="#ppo-vs-grpo-credit-assignment-in-llm-fine-tuning" title="Permanent link">&para;</a></h1>
+<p><strong>How reward signals flow from response-level scores to token-level updates</strong></p>
+<blockquote>
+<p><em>Prerequisites: <a href="../03_PPO/">PPO</a>, <a href="../04_PPO_variants/">PPO Variants</a></em></p>
+</blockquote>
+<hr />
+<h2 id="1-the-credit-assignment-problem-in-llms">1. The Credit Assignment Problem in LLMs<a class="headerlink" href="#1-the-credit-assignment-problem-in-llms" title="Permanent link">&para;</a></h2>
+<p>When fine-tuning a language model with RL, the fundamental challenge is <strong>credit assignment</strong>: a reward model scores the <em>entire response</em>, but the policy made a decision at <em>every token</em>. Which tokens were responsible for the good (or bad) outcome?</p>
+<p>Consider a model generating a 200-token math solution. The reward is binary: 1 if the final answer is correct, 0 otherwise. The model needs to learn that token 47 (where it chose the right algebraic step) mattered far more than token 150 (where it wrote "therefore"). But the reward signal says nothing about individual tokens.</p>
+<p>This is the <strong>temporal credit assignment problem</strong> — familiar from RL in general, but especially acute in LLMs because:</p>
+<ul>
+<li>Sequences are long (hundreds to thousands of tokens)</li>
+<li>Rewards are sparse (typically given only at the end)</li>
+<li>The action space is enormous (vocabulary size ~32K–128K per step)</li>
+</ul>
+<p>PPO and GRPO handle this problem very differently.</p>
+<hr />
+<h2 id="2-ppos-approach-learned-value-function">2. PPO's Approach: Learned Value Function<a class="headerlink" href="#2-ppos-approach-learned-value-function" title="Permanent link">&para;</a></h2>
+<p>In the standard RLHF pipeline, PPO trains a <strong>value network</strong> <span class="arithmatex">\(V_\psi(s_t)\)</span> that predicts the expected return from each token position <span class="arithmatex">\(t\)</span>:</p>
+<div class="arithmatex">\[V_\psi(s_t) = \mathbb{E}\left[ R \mid \text{tokens generated so far} = (o_1, \ldots, o_t) \right]\]</div>
+<p>The advantage at each token is then computed via GAE:</p>
+<div class="arithmatex">\[\hat{A}_t = \sum_{l=0}^{T-t} (\gamma \lambda)^l \, \delta_{t+l}, \quad \delta_t = r_t + \gamma V_\psi(s_{t+1}) - V_\psi(s_t)\]</div>
+<p>In principle, this gives <strong>token-level credit</strong> — each token gets its own advantage. In practice, there are two problems:</p>
+<p><strong>Problem 1 — The value function is hard to train.</strong> The "state" <span class="arithmatex">\(s_t\)</span> is the entire token sequence so far. The value network must generalize across all possible prefixes of all possible responses to all possible prompts. This is a harder learning problem than the policy itself.</p>
+<p><strong>Problem 2 — Sparse rewards degrade the signal.</strong> When the reward is given only at the final token, the TD errors <span class="arithmatex">\(\delta_t\)</span> for intermediate tokens depend entirely on the value function's predictions. If <span class="arithmatex">\(V_\psi\)</span> is inaccurate (and it usually is early in training), the per-token advantages are noisy. Many implementations fall back to <strong>response-level advantages</strong> — assigning the same advantage to every token in the sequence:</p>
+<div class="arithmatex">\[\hat{A}_t \approx R - b \quad \text{for all } t\]</div>
+<p>where <span class="arithmatex">\(b\)</span> is some baseline (e.g., the mean reward in the batch). This is simpler but throws away all temporal structure.</p>
+<hr />
+<h2 id="3-grpos-approach-group-normalized-no-critic">3. GRPO's Approach: Group-Normalized, No Critic<a class="headerlink" href="#3-grpos-approach-group-normalized-no-critic" title="Permanent link">&para;</a></h2>
+<p>GRPO eliminates the value network entirely. For each prompt <span class="arithmatex">\(q\)</span>, it samples a group of <span class="arithmatex">\(G\)</span> responses and computes a <strong>response-level</strong> advantage via z-scoring:</p>
+<div class="arithmatex">\[\hat{A}_i = \frac{r_i - \text{mean}(\{r_j\}_{j=1}^G)}{\text{std}(\{r_j\}_{j=1}^G)}\]</div>
+<p>This advantage <span class="arithmatex">\(\hat{A}_i\)</span> is the <strong>same for all tokens</strong> in response <span class="arithmatex">\(i\)</span>. GRPO does not assign per-token credit through a value function.</p>
+<h3 id="31-clarifying-a-common-confusion">3.1 Clarifying a Common Confusion<a class="headerlink" href="#31-clarifying-a-common-confusion" title="Permanent link">&para;</a></h3>
+<p>There is a widespread misconception that "GRPO uses token-level credit assignment." This confusion arises from two different meanings of "value model":</p>
+<p><strong>Meaning A — A learned critic network <span class="arithmatex">\(V_\psi(s_t)\)</span>:</strong></p>
+<p>A separate neural network trained to predict values at each token position. This is what PPO uses. GRPO does <strong>not</strong> have this. This is what papers mean when they say "GRPO requires no value model."</p>
+<p><strong>Meaning B — Any mechanism that produces per-token advantage signals:</strong></p>
+<p>All RL algorithms need <em>some</em> way to weight the policy gradient at each token. GRPO applies the same response-level advantage <span class="arithmatex">\(\hat{A}_i\)</span> to every token in the response, but the PPO-style clipped ratio <span class="arithmatex">\(r_{i,t}(\theta)\)</span> is still computed <strong>per token</strong>:</p>
+<div class="arithmatex">\[r_{i,t}(\theta) = \frac{\pi_\theta(o_{i,t} \mid q, o_{i,&lt;t})}{\pi_{\theta_k}(o_{i,t} \mid q, o_{i,&lt;t})}\]</div>
+<p>So the <em>gradient signal</em> varies across tokens (because the ratio varies), even though the <em>advantage</em> is constant. This can look like "token-level credit" in practice, but the mechanism is fundamentally different from a learned critic.</p>
+<h3 id="32-the-correct-statement">3.2 The Correct Statement<a class="headerlink" href="#32-the-correct-statement" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>PPO</th>
+<th>GRPO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Trainable value network <span class="arithmatex">\(V_\psi\)</span></td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Advantage granularity</td>
+<td>Token-level (via GAE) or response-level (fallback)</td>
+<td>Response-level (group z-score)</td>
+</tr>
+<tr>
+<td>Per-token gradient variation</td>
+<td>Via ratio <span class="arithmatex">\(\times\)</span> advantage</td>
+<td>Via ratio <span class="arithmatex">\(\times\)</span> (constant advantage)</td>
+</tr>
+<tr>
+<td>Memory cost</td>
+<td>High (critic = another LLM-sized model)</td>
+<td>Low (no critic)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>GRPO assigns response-level credit without training a value network. The per-token gradient variation comes from the probability ratio, not from a learned critic.</strong></p>
+<hr />
+<h2 id="4-why-grpo-works-despite-coarser-credit">4. Why GRPO Works Despite Coarser Credit<a class="headerlink" href="#4-why-grpo-works-despite-coarser-credit" title="Permanent link">&para;</a></h2>
+<p>If GRPO's advantages are response-level (coarser than PPO's token-level GAE), why does it work so well?</p>
+<h3 id="41-group-comparison-is-a-strong-signal">4.1 Group Comparison Is a Strong Signal<a class="headerlink" href="#41-group-comparison-is-a-strong-signal" title="Permanent link">&para;</a></h3>
+<p>For tasks with verifiable outcomes (math, code, factual QA), the reward is often binary: correct or incorrect. In this setting, the group comparison is highly informative:</p>
+<ul>
+<li>If 12 out of 16 responses are correct, the 4 incorrect ones get strongly negative advantages</li>
+<li>The model learns to avoid the <em>patterns</em> that distinguish incorrect responses from correct ones</li>
+<li>Over many prompts and groups, this signal is sufficient to identify which token-level behaviors matter</li>
+</ul>
+<h3 id="42-the-ratio-provides-implicit-token-level-differentiation">4.2 The Ratio Provides Implicit Token-Level Differentiation<a class="headerlink" href="#42-the-ratio-provides-implicit-token-level-differentiation" title="Permanent link">&para;</a></h3>
+<p>Even with a constant advantage <span class="arithmatex">\(\hat{A}_i\)</span>, the gradient at each token is:</p>
+<div class="arithmatex">\[\nabla_\theta \log \pi_\theta(o_{i,t} \mid q, o_{i,&lt;t}) \cdot \hat{A}_i\]</div>
+<p>Tokens where the policy is uncertain (high entropy) produce larger gradients than tokens where the policy is confident. This provides a natural form of token-level weighting without an explicit critic.</p>
+<h3 id="43-the-value-function-was-the-bottleneck">4.3 The Value Function Was the Bottleneck<a class="headerlink" href="#43-the-value-function-was-the-bottleneck" title="Permanent link">&para;</a></h3>
+<p>In practice, PPO's value function for LLMs is often so poorly trained that its token-level advantages are noisier than GRPO's response-level advantages. A clean, unbiased response-level signal can outperform a noisy, biased token-level signal.</p>
+<hr />
+<h2 id="5-when-does-token-level-credit-matter">5. When Does Token-Level Credit Matter?<a class="headerlink" href="#5-when-does-token-level-credit-matter" title="Permanent link">&para;</a></h2>
+<p>Response-level credit (GRPO) works well when:</p>
+<ul>
+<li>Rewards are sparse and binary (correct/incorrect)</li>
+<li>Responses are relatively short (&lt; 500 tokens)</li>
+<li>The task has clear success/failure modes</li>
+</ul>
+<p>Token-level credit (PPO with a good critic, or process reward models) becomes important when:</p>
+<ul>
+<li>Responses are very long (multi-step reasoning chains)</li>
+<li>Intermediate steps have independent quality (each step in a proof can be right or wrong)</li>
+<li>The task requires fine-grained behavioral shaping (tone, style, safety at specific points)</li>
+</ul>
+<p>This is why <strong>process reward models</strong> (PRMs) — which score intermediate reasoning steps, not just the final answer — are an active research direction. They provide dense reward signals that can be used with either PPO or GRPO.</p>
+<hr />
+<h2 id="6-the-full-picture-post-training-pipeline">6. The Full Picture: Post-Training Pipeline<a class="headerlink" href="#6-the-full-picture-post-training-pipeline" title="Permanent link">&para;</a></h2>
+<p>The modern LLM post-training pipeline typically follows:</p>
+<div class="arithmatex">\[\text{Pre-training} \to \text{SFT} \to \text{RL alignment}\]</div>
+<p>where the RL alignment step uses one of:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Reward source</th>
+<th>Credit assignment</th>
+<th>Critic needed</th>
+<th>Exploration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PPO</strong></td>
+<td>Reward model</td>
+<td>Token-level (GAE) or response-level (fallback)</td>
+<td>Yes</td>
+<td>Online</td>
+</tr>
+<tr>
+<td><strong>GRPO</strong></td>
+<td>Reward model</td>
+<td>Response-level (group z-score)</td>
+<td>No</td>
+<td>Online</td>
+</tr>
+<tr>
+<td><strong>DPO</strong></td>
+<td>Preference pairs</td>
+<td>Implicit (in loss)</td>
+<td>No</td>
+<td>Offline</td>
+</tr>
+<tr>
+<td><strong>RLOO</strong></td>
+<td>Reward model</td>
+<td>Response-level (leave-one-out)</td>
+<td>No</td>
+<td>Online</td>
+</tr>
+</tbody>
+</table>
+<p>GRPO has emerged as the preferred method for <strong>reasoning tasks</strong> (math, code) where rewards are verifiable and binary. PPO remains relevant for <strong>open-ended generation</strong> where dense, nuanced credit assignment matters. DPO is used when preference data is available but online generation is too expensive.</p>
+<hr />
+<h2 id="7-summary">7. Summary<a class="headerlink" href="#7-summary" title="Permanent link">&para;</a></h2>
+<p>The core difference between PPO and GRPO in the LLM setting is not <em>whether</em> they assign token-level credit, but <em>how</em>:</p>
+<ul>
+<li><strong>PPO</strong> trains a separate value network to estimate per-token advantages. This is powerful but expensive (4 models in memory) and fragile (the critic is hard to train for variable-length text).</li>
+<li><strong>GRPO</strong> uses response-level group-normalized advantages with no critic. The per-token gradient variation comes from the probability ratio, not a learned value function. This is cheaper, simpler, and often more stable.</li>
+</ul>
+<p>Both methods use the same PPO-style clipped objective and the same score function <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span> at their core. The difference is entirely in how the advantage signal is computed.</p>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>[Shao et al., 2024]</strong> — <em>DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models.</em> <a href="https://arxiv.org/abs/2402.03300">arXiv:2402.03300</a> (GRPO)</li>
+<li><strong>[Zheng et al., 2023]</strong> — <em>Secrets of RLHF in Large Language Models Part I: PPO.</em> <a href="https://arxiv.org/abs/2307.04964">arXiv:2307.04964</a></li>
+<li><strong>[Lightman et al., 2023]</strong> — <em>Let's Verify Step by Step.</em> <a href="https://arxiv.org/abs/2305.20050">arXiv:2305.20050</a> (Process reward models)</li>
+</ul>
+<hr />
+<p><em>Previous: <a href="../04_PPO_variants/">PPO Variants and Modern Descendants</a></em> | <em>See also: <a href="03a_pg_in_ppo.md">Where Is the Policy Gradient in PPO?</a></em></p>
 
 
 

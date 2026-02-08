@@ -12,7 +12,7 @@
         <meta name="author" content="GRL Research Team">
       
       
-        <link rel="canonical" href="https://pleiadian53.github.io/GRL/policy_gradient/TRPO/">
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/policy_gradient/03a_PG_in_PPO/">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Trust Region Policy Optimization (TRPO) - Generalized Reinforcement Learning (GRL)</title>
+        <title>Where Is the Policy Gradient in PPO? - Generalized Reinforcement Learning (GRL)</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#trust-region-policy-optimization-trpo" class="md-skip">
+        <a href="#where-is-the-policy-gradient-in-ppo" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Trust Region Policy Optimization (TRPO)
+              Where Is the Policy Gradient in PPO?
             
           </span>
         </div>
@@ -2000,10 +2000,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-introduction" class="md-nav__link">
+  <a href="#1-the-puzzle" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Introduction
+        1. The Puzzle
       
     </span>
   </a>
@@ -2011,22 +2011,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-motivation-why-not-just-use-vanilla-policy-gradient" class="md-nav__link">
+  <a href="#2-two-equivalent-views-of-policy-gradient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Motivation: Why Not Just Use Vanilla Policy Gradient?
+        2. Two Equivalent Views of Policy Gradient
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Motivation: Why Not Just Use Vanilla Policy Gradient?">
+    <nav class="md-nav" aria-label="2. Two Equivalent Views of Policy Gradient">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#the-vanilla-policy-gradient-update" class="md-nav__link">
+  <a href="#view-a-gradient-first-textbook-reinforce" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The vanilla policy gradient update
+        View A: Gradient-first (textbook REINFORCE)
       
     </span>
   </a>
@@ -2034,21 +2034,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-problem-sensitivity-to-step-size" class="md-nav__link">
+  <a href="#view-b-loss-first-modern-deep-learning-style" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The problem: sensitivity to step size
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#the-core-insight" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The core insight
+        View B: Loss-first (modern deep learning style)
       
     </span>
   </a>
@@ -2061,10 +2050,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-notation-reference" class="md-nav__link">
+  <a href="#3-why-the-ratio-appears-importance-sampling" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Notation Reference
+        3. Why the Ratio Appears: Importance Sampling
       
     </span>
   </a>
@@ -2072,22 +2061,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-key-ideas-behind-trpo" class="md-nav__link">
+  <a href="#4-where-the-gradient-is-hiding-the-derivation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Key Ideas Behind TRPO
+        4. Where the Gradient Is Hiding: The Derivation
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="4. Key Ideas Behind TRPO">
+    <nav class="md-nav" aria-label="4. Where the Gradient Is Hiding: The Derivation">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#41-the-surrogate-objective" class="md-nav__link">
+  <a href="#step-1-move-the-gradient-inside-the-expectation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.1 The surrogate objective
+        Step 1: Move the gradient inside the expectation
       
     </span>
   </a>
@@ -2095,10 +2084,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#42-the-trust-region-constraint" class="md-nav__link">
+  <a href="#step-2-differentiate-the-ratio" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.2 The trust region constraint
+        Step 2: Differentiate the ratio
       
     </span>
   </a>
@@ -2106,10 +2095,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#43-solving-the-constrained-problem-efficiently" class="md-nav__link">
+  <a href="#step-3-apply-the-log-derivative-trick" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.3 Solving the constrained problem efficiently
+        Step 3: Apply the log-derivative trick
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-assemble-the-full-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Assemble the full gradient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-verify-consistency-with-vanilla-policy-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Verify consistency with vanilla policy gradient
       
     </span>
   </a>
@@ -2122,22 +2133,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-the-trpo-algorithm" class="md-nav__link">
+  <a href="#5-what-clipping-does-to-the-gradient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. The TRPO Algorithm
+        5. What Clipping Does to the Gradient
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. The TRPO Algorithm">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-gradient-flow-in-practice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The Gradient Flow in Practice
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Summary
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Summary">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-1-collect-trajectories" class="md-nav__link">
+  <a href="#the-answer-to-the-puzzle" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1 — Collect trajectories
+        The answer to the puzzle
       
     </span>
   </a>
@@ -2145,10 +2178,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-2-compute-rewards-to-go" class="md-nav__link">
+  <a href="#why-ppo-is-written-as-a-loss-not-a-gradient" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2 — Compute rewards-to-go
+        Why PPO is written as a loss, not a gradient
       
     </span>
   </a>
@@ -2156,54 +2189,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-3-compute-advantage-estimates" class="md-nav__link">
+  <a href="#the-progression" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3 — Compute advantage estimates
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-4-estimate-the-policy-gradient" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 4 — Estimate the policy gradient
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-5-compute-the-search-direction-via-conjugate-gradient" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 5 — Compute the search direction via conjugate gradient
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-6-update-the-policy-via-backtracking-line-search" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 6 — Update the policy via backtracking line search
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-7-update-the-value-function" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 7 — Update the value function
+        The progression
       
     </span>
   </a>
@@ -2212,78 +2201,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-trpo-vs-vanilla-policy-gradient" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. TRPO vs. Vanilla Policy Gradient
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="6. TRPO vs. Vanilla Policy Gradient">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#why-trpo-is-a-significant-improvement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why TRPO is a significant improvement
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-limitations-of-trpo" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Limitations of TRPO
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-connection-to-actor-critic-methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Connection to Actor-Critic Methods
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#9-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9. Summary
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        References
-      
-    </span>
-  </a>
   
 </li>
       
@@ -2304,7 +2221,7 @@
 
 
   
-    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/policy_gradient/TRPO.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/policy_gradient/03a_PG_in_PPO.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
     </a>
@@ -2312,287 +2229,137 @@
   
 
 
-<h1 id="trust-region-policy-optimization-trpo">Trust Region Policy Optimization (TRPO)<a class="headerlink" href="#trust-region-policy-optimization-trpo" title="Permanent link">&para;</a></h1>
-<p><strong>A tutorial on stable policy updates via constrained optimization</strong></p>
+<h1 id="where-is-the-policy-gradient-in-ppo">Where Is the Policy Gradient in PPO?<a class="headerlink" href="#where-is-the-policy-gradient-in-ppo" title="Permanent link">&para;</a></h1>
+<p><strong>Unpacking the ratio form: why <span class="arithmatex">\(\nabla_\theta\)</span> seems to disappear</strong></p>
 <blockquote>
-<p><em>Prerequisites: Familiarity with basic reinforcement learning concepts (states, actions, rewards, policies). A companion tutorial on vanilla policy gradient and actor-critic foundations is forthcoming.</em></p>
+<p><em>Prerequisites: <a href="../01_PG/">Policy Gradient Fundamentals</a>, <a href="../03_PPO/">PPO</a></em></p>
 </blockquote>
 <hr />
-<h2 id="1-introduction">1. Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">&para;</a></h2>
-<p>Trust Region Policy Optimization (TRPO) was introduced by <a href="https://arxiv.org/abs/1502.05477">Schulman et al. (2015)</a> as a principled approach to a long-standing problem in policy gradient methods: <strong>how do you take the largest possible improvement step without accidentally destroying a good policy?</strong></p>
-<p>TRPO is an <strong>on-policy</strong> algorithm that works with both discrete and continuous action spaces. It serves as the direct predecessor to <a href="../PPO/">Proximal Policy Optimization (PPO)</a>, which simplifies TRPO's constrained optimization into a clipped objective — but understanding TRPO first makes PPO's design choices much clearer.</p>
+<h2 id="1-the-puzzle">1. The Puzzle<a class="headerlink" href="#1-the-puzzle" title="Permanent link">&para;</a></h2>
+<p>In <a href="../01_PG/">Chapter 01</a>, the policy gradient is written with an explicit gradient operator inside the expectation:</p>
+<div class="arithmatex">\[\nabla_\theta J(\theta) = \mathbb{E}_{s_t, a_t \sim \pi_\theta} \left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
+<p>The gradient <span class="arithmatex">\(\nabla_\theta\)</span> is right there — loud and visible.</p>
+<p>But in <a href="../03_PPO/">Chapter 03</a>, PPO writes down an <strong>objective function</strong> with no gradient in sight:</p>
+<div class="arithmatex">\[L(\theta) = \mathbb{E}_t \left[ r_t(\theta) \, \hat{A}_t \right], \quad r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\]</div>
+<p>Where did the gradient go? If we're doing gradient ascent, there must be a <span class="arithmatex">\(\nabla_\theta\)</span> somewhere. Is the ratio form hiding something?</p>
+<p><strong>Yes — and this chapter shows exactly what it's hiding and why.</strong></p>
 <hr />
-<h2 id="2-motivation-why-not-just-use-vanilla-policy-gradient">2. Motivation: Why Not Just Use Vanilla Policy Gradient?<a class="headerlink" href="#2-motivation-why-not-just-use-vanilla-policy-gradient" title="Permanent link">&para;</a></h2>
-<h3 id="the-vanilla-policy-gradient-update">The vanilla policy gradient update<a class="headerlink" href="#the-vanilla-policy-gradient-update" title="Permanent link">&para;</a></h3>
-<p>The simplest policy gradient method (REINFORCE) updates parameters by ascending the gradient of expected return:</p>
-<div class="arithmatex">\[\theta_{k+1} = \theta_k + \alpha \, \hat{g}_k\]</div>
-<p>where <span class="arithmatex">\(\hat{g}_k\)</span> is an estimate of <span class="arithmatex">\(\nabla_\theta J(\theta)\)</span>, the gradient of the expected cumulative reward with respect to the policy parameters, and <span class="arithmatex">\(\alpha\)</span> is a fixed learning rate.</p>
-<h3 id="the-problem-sensitivity-to-step-size">The problem: sensitivity to step size<a class="headerlink" href="#the-problem-sensitivity-to-step-size" title="Permanent link">&para;</a></h3>
-<p>This looks straightforward, but in practice it is <strong>extremely fragile</strong>:</p>
-<ul>
-<li><strong>Too large a step</strong> — the policy changes drastically, performance collapses, and the agent may never recover. In deep RL this is especially dangerous because the policy is a neural network: a small change in <span class="arithmatex">\(\theta\)</span> can produce a very different distribution over actions.</li>
-<li><strong>Too small a step</strong> — learning is painfully slow, and the agent wastes millions of environment interactions making negligible progress.</li>
-</ul>
-<p>Unlike supervised learning, where a bad gradient step just increases the loss temporarily, a bad policy gradient step <strong>changes the data distribution itself</strong> (because the policy determines which states the agent visits). This creates a vicious cycle: a bad update leads to bad data, which leads to worse updates.</p>
-<h3 id="the-core-insight">The core insight<a class="headerlink" href="#the-core-insight" title="Permanent link">&para;</a></h3>
-<p>What we really want is not to limit the step size in <strong>parameter space</strong> (<span class="arithmatex">\(\|\Delta\theta\|\)</span>), but in <strong>policy space</strong> — i.e., we want to ensure the new policy <span class="arithmatex">\(\pi_{\theta_{k+1}}\)</span> behaves similarly to the old policy <span class="arithmatex">\(\pi_{\theta_k}\)</span> in terms of the actions it actually produces. Two parameter vectors that are close in Euclidean distance can produce wildly different policies, and vice versa.</p>
+<h2 id="2-two-equivalent-views-of-policy-gradient">2. Two Equivalent Views of Policy Gradient<a class="headerlink" href="#2-two-equivalent-views-of-policy-gradient" title="Permanent link">&para;</a></h2>
+<p>The key insight is that there are two mathematically equivalent ways to describe the same algorithm.</p>
+<h3 id="view-a-gradient-first-textbook-reinforce">View A: Gradient-first (textbook REINFORCE)<a class="headerlink" href="#view-a-gradient-first-textbook-reinforce" title="Permanent link">&para;</a></h3>
+<p>Write the gradient formula directly:</p>
+<div class="arithmatex">\[\nabla_\theta J(\theta) = \mathbb{E}\left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
+<p>You never define a scalar loss function. You just have a gradient expression, and you follow it.</p>
+<p>This is common in theory papers and early RL (Williams, 1992; Sutton et al., 2000).</p>
+<h3 id="view-b-loss-first-modern-deep-learning-style">View B: Loss-first (modern deep learning style)<a class="headerlink" href="#view-b-loss-first-modern-deep-learning-style" title="Permanent link">&para;</a></h3>
+<p>Define a scalar objective first:</p>
+<div class="arithmatex">\[L(\theta) = \mathbb{E}\left[ \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
+<p>Then take its gradient:</p>
+<div class="arithmatex">\[\nabla_\theta L(\theta) = \mathbb{E}\left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
+<p><strong>Same gradient. Different presentation.</strong> In View B, you hand the scalar loss <span class="arithmatex">\(L(\theta)\)</span> to an optimizer (Adam, SGD), and autograd computes <span class="arithmatex">\(\nabla_\theta L\)</span> for you. You never write the gradient formula explicitly.</p>
+<p>PPO and TRPO live entirely in <strong>View B</strong>. That's why the gradient seems to disappear — it's handled by the autodiff framework, not written in the math.</p>
+<hr />
+<h2 id="3-why-the-ratio-appears-importance-sampling">3. Why the Ratio Appears: Importance Sampling<a class="headerlink" href="#3-why-the-ratio-appears-importance-sampling" title="Permanent link">&para;</a></h2>
+<p>Now comes the subtle step that introduces the ratio.</p>
+<p>In View B, the on-policy loss is:</p>
+<div class="arithmatex">\[L^{\text{on-policy}}(\theta) = \mathbb{E}_{a_t \sim \pi_\theta}\left[ \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
+<p>But there's a problem: <strong>we collected data using the old policy</strong> <span class="arithmatex">\(\pi_{\theta_k}\)</span>, not the current policy <span class="arithmatex">\(\pi_\theta\)</span>. The expectation is over the wrong distribution.</p>
+<p><strong>Importance sampling</strong> fixes this mismatch. For any function <span class="arithmatex">\(f\)</span>:</p>
+<div class="arithmatex">\[\mathbb{E}_{a \sim \pi_\theta}[f(a)] = \mathbb{E}_{a \sim \pi_{\theta_k}}\left[ \frac{\pi_\theta(a \mid s)}{\pi_{\theta_k}(a \mid s)} \, f(a) \right]\]</div>
+<p>The fraction <span class="arithmatex">\(\frac{\pi_\theta}{\pi_{\theta_k}}\)</span> reweights samples from the old distribution to be valid under the new distribution. This fraction is exactly the <strong>probability ratio</strong> <span class="arithmatex">\(r_t(\theta)\)</span>.</p>
+<p>Applying this to the policy objective gives the <strong>surrogate objective</strong>:</p>
+<div class="arithmatex">\[L(\theta) = \mathbb{E}_{a_t \sim \pi_{\theta_k}}\left[ \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)} \; \hat{A}_t \right] = \mathbb{E}_t\left[ r_t(\theta) \; \hat{A}_t \right]\]</div>
+<p>This is the objective that TRPO and PPO optimize. It looks gradient-free, but it isn't — the gradient is hiding inside <span class="arithmatex">\(r_t(\theta)\)</span>.</p>
+<hr />
+<h2 id="4-where-the-gradient-is-hiding-the-derivation">4. Where the Gradient Is Hiding: The Derivation<a class="headerlink" href="#4-where-the-gradient-is-hiding-the-derivation" title="Permanent link">&para;</a></h2>
+<p>Let's take <span class="arithmatex">\(\nabla_\theta\)</span> of the surrogate objective step by step.</p>
+<h3 id="step-1-move-the-gradient-inside-the-expectation">Step 1: Move the gradient inside the expectation<a class="headerlink" href="#step-1-move-the-gradient-inside-the-expectation" title="Permanent link">&para;</a></h3>
+<p>Since the expectation is over data from <span class="arithmatex">\(\pi_{\theta_k}\)</span> (which is <strong>fixed</strong> — it doesn't depend on <span class="arithmatex">\(\theta\)</span>), we can move the gradient inside:</p>
+<div class="arithmatex">\[\nabla_\theta L(\theta) = \nabla_\theta \, \mathbb{E}_t\left[ r_t(\theta) \, \hat{A}_t \right] = \mathbb{E}_t\left[ \nabla_\theta \, r_t(\theta) \; \hat{A}_t \right]\]</div>
+<p>Note: this step would <strong>not</strong> be valid if the expectation were over <span class="arithmatex">\(\pi_\theta\)</span> (because then the distribution itself depends on <span class="arithmatex">\(\theta\)</span>). The importance sampling rewrite is what makes this legal.</p>
+<h3 id="step-2-differentiate-the-ratio">Step 2: Differentiate the ratio<a class="headerlink" href="#step-2-differentiate-the-ratio" title="Permanent link">&para;</a></h3>
+<p>Now we need <span class="arithmatex">\(\nabla_\theta \, r_t(\theta)\)</span>. Recall:</p>
+<div class="arithmatex">\[r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\]</div>
+<p>The denominator <span class="arithmatex">\(\pi_{\theta_k}(a_t \mid s_t)\)</span> is a <strong>constant</strong> (it was computed using the old parameters <span class="arithmatex">\(\theta_k\)</span>, which are frozen). So:</p>
+<div class="arithmatex">\[\nabla_\theta \, r_t(\theta) = \frac{\nabla_\theta \, \pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\]</div>
+<h3 id="step-3-apply-the-log-derivative-trick">Step 3: Apply the log-derivative trick<a class="headerlink" href="#step-3-apply-the-log-derivative-trick" title="Permanent link">&para;</a></h3>
+<p>The standard identity <span class="arithmatex">\(\nabla_\theta \, \pi_\theta = \pi_\theta \, \nabla_\theta \log \pi_\theta\)</span> (the same "log trick" used to derive the original policy gradient) gives:</p>
+<div class="arithmatex">\[\nabla_\theta \, \pi_\theta(a_t \mid s_t) = \pi_\theta(a_t \mid s_t) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t)\]</div>
+<p>Substituting:</p>
+<div class="arithmatex">\[\nabla_\theta \, r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)} \; \nabla_\theta \log \pi_\theta(a_t \mid s_t) = r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t)\]</div>
+<h3 id="step-4-assemble-the-full-gradient">Step 4: Assemble the full gradient<a class="headerlink" href="#step-4-assemble-the-full-gradient" title="Permanent link">&para;</a></h3>
+<p>Plugging back into the expectation:</p>
+<div class="arithmatex">\[\boxed{\nabla_\theta L(\theta) = \mathbb{E}_t\left[ r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]}\]</div>
+<p><strong>There it is.</strong> The score function <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span> was hiding inside the ratio all along.</p>
+<h3 id="step-5-verify-consistency-with-vanilla-policy-gradient">Step 5: Verify consistency with vanilla policy gradient<a class="headerlink" href="#step-5-verify-consistency-with-vanilla-policy-gradient" title="Permanent link">&para;</a></h3>
+<p>At <span class="arithmatex">\(\theta = \theta_k\)</span> (the beginning of each PPO iteration), the ratio equals 1:</p>
+<div class="arithmatex">\[r_t(\theta_k) = \frac{\pi_{\theta_k}(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)} = 1\]</div>
+<p>So the gradient reduces to:</p>
+<div class="arithmatex">\[\nabla_\theta L(\theta)\Big|_{\theta = \theta_k} = \mathbb{E}_t\left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
+<p>This is <strong>exactly the vanilla policy gradient</strong>. The surrogate objective and the true objective have the same gradient at the current policy — they are first-order equivalent.</p>
+<p>As <span class="arithmatex">\(\theta\)</span> moves away from <span class="arithmatex">\(\theta_k\)</span>, the ratio <span class="arithmatex">\(r_t(\theta)\)</span> deviates from 1 and <strong>reweights</strong> the gradient: actions that became more likely under the new policy get amplified, and actions that became less likely get dampened. This is the importance sampling correction at work.</p>
+<hr />
+<h2 id="5-what-clipping-does-to-the-gradient">5. What Clipping Does to the Gradient<a class="headerlink" href="#5-what-clipping-does-to-the-gradient" title="Permanent link">&para;</a></h2>
+<p>In PPO-Clip, the objective is:</p>
+<div class="arithmatex">\[L^{\text{CLIP}}(\theta) = \mathbb{E}_t\left[ \min\Big( r_t(\theta) \, \hat{A}_t, \;\; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \, \hat{A}_t \Big) \right]\]</div>
+<p>What happens to the gradient?</p>
+<p><strong>Inside the trust region</strong> (<span class="arithmatex">\(1-\epsilon \leq r_t \leq 1+\epsilon\)</span>): the clip is inactive, so the gradient is exactly as derived above:</p>
+<div class="arithmatex">\[\nabla_\theta L^{\text{CLIP}} = \mathbb{E}_t\left[ r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
+<p><strong>Outside the trust region</strong> (<span class="arithmatex">\(r_t &gt; 1+\epsilon\)</span> or <span class="arithmatex">\(r_t &lt; 1-\epsilon\)</span>): the clipped term becomes a constant times <span class="arithmatex">\(\hat{A}_t\)</span>, so its gradient with respect to <span class="arithmatex">\(\theta\)</span> is <strong>zero</strong>. The <span class="arithmatex">\(\min\)</span> selects this zero-gradient term, effectively <strong>killing the gradient</strong> for that sample.</p>
+<p>This is how clipping enforces the trust region: it doesn't add a penalty — it simply <strong>turns off the learning signal</strong> for actions where the policy has already changed too much. The optimizer receives zero gradient and stops moving in that direction.</p>
+<hr />
+<h2 id="6-the-gradient-flow-in-practice">6. The Gradient Flow in Practice<a class="headerlink" href="#6-the-gradient-flow-in-practice" title="Permanent link">&para;</a></h2>
+<p>In a modern deep learning framework (PyTorch, JAX), the entire process is:</p>
+<ol>
+<li><strong>Forward pass</strong>: compute <span class="arithmatex">\(r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\)</span> and the clipped objective <span class="arithmatex">\(L^{\text{CLIP}}\)</span></li>
+<li><strong>Backward pass</strong>: autograd computes <span class="arithmatex">\(\nabla_\theta L^{\text{CLIP}}\)</span> automatically via the chain rule through <span class="arithmatex">\(r_t(\theta)\)</span>, through <span class="arithmatex">\(\pi_\theta(a_t \mid s_t)\)</span>, through the neural network</li>
+<li><strong>Optimizer step</strong>: Adam updates <span class="arithmatex">\(\theta\)</span></li>
+</ol>
+<p>The programmer never writes <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span> explicitly. It emerges from autodiff applied to the ratio. This is why PPO code looks like a standard supervised learning loop — define a loss, call <code>loss.backward()</code>, call <code>optimizer.step()</code>.</p>
+<hr />
+<h2 id="7-summary">7. Summary<a class="headerlink" href="#7-summary" title="Permanent link">&para;</a></h2>
+<h3 id="the-answer-to-the-puzzle">The answer to the puzzle<a class="headerlink" href="#the-answer-to-the-puzzle" title="Permanent link">&para;</a></h3>
+<p>The policy gradient <span class="arithmatex">\(\nabla_\theta \log \pi_\theta(a_t \mid s_t)\)</span> is not missing from PPO — it is <strong>inside the ratio</strong> <span class="arithmatex">\(r_t(\theta)\)</span>, extracted automatically by the chain rule when you differentiate:</p>
+<div class="arithmatex">\[\nabla_\theta \, r_t(\theta) = r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t)\]</div>
+<h3 id="why-ppo-is-written-as-a-loss-not-a-gradient">Why PPO is written as a loss, not a gradient<a class="headerlink" href="#why-ppo-is-written-as-a-loss-not-a-gradient" title="Permanent link">&para;</a></h3>
+<p>Modern deep learning works by defining scalar objectives and letting autograd handle differentiation. PPO embraces this paradigm: define <span class="arithmatex">\(L^{\text{CLIP}}(\theta)\)</span>, let the framework compute <span class="arithmatex">\(\nabla_\theta L^{\text{CLIP}}\)</span>, and update with Adam.</p>
 <blockquote>
-<p><strong>Key idea:</strong> TRPO replaces the fixed learning rate with a <em>constraint on how much the policy is allowed to change</em>, measured by KL divergence in the space of action distributions.</p>
+<p><strong>Policy gradient algorithms are not defined by their gradient formulas — they are defined by the objective whose gradient they follow.</strong></p>
 </blockquote>
-<hr />
-<h2 id="3-notation-reference">3. Notation Reference<a class="headerlink" href="#3-notation-reference" title="Permanent link">&para;</a></h2>
-<p>Before diving into the algorithm, here is a summary of the notation used throughout:</p>
+<h3 id="the-progression">The progression<a class="headerlink" href="#the-progression" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Symbol</th>
-<th>Meaning</th>
+<th>Algorithm</th>
+<th>Objective</th>
+<th>Gradient</th>
+<th>Trust region</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><span class="arithmatex">\(s_t\)</span></td>
-<td>State at time step <span class="arithmatex">\(t\)</span></td>
+<td><strong>Vanilla PG</strong></td>
+<td><span class="arithmatex">\(\mathbb{E}[\log \pi_\theta \, \hat{A}_t]\)</span></td>
+<td>Explicit <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span></td>
+<td>None</td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(a_t\)</span></td>
-<td>Action taken at time step <span class="arithmatex">\(t\)</span></td>
+<td><strong>TRPO</strong></td>
+<td><span class="arithmatex">\(\mathbb{E}[r_t(\theta) \, \hat{A}_t]\)</span></td>
+<td>Hidden in <span class="arithmatex">\(r_t(\theta)\)</span></td>
+<td>KL constraint</td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(\pi_\theta(a \mid s)\)</span></td>
-<td>Policy: probability of taking action <span class="arithmatex">\(a\)</span> in state <span class="arithmatex">\(s\)</span>, parameterized by <span class="arithmatex">\(\theta\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\theta_k\)</span></td>
-<td>Policy parameters at iteration <span class="arithmatex">\(k\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(V_\phi(s)\)</span></td>
-<td>Value function (expected return from state <span class="arithmatex">\(s\)</span>), parameterized by <span class="arithmatex">\(\phi\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\hat{R}_t\)</span></td>
-<td><strong>Reward-to-go</strong>: the sum of (discounted) rewards from time <span class="arithmatex">\(t\)</span> onward, <span class="arithmatex">\(\hat{R}_t = \sum_{t'=t}^{T} \gamma^{t'-t} r_{t'}\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\hat{A}_t\)</span></td>
-<td><strong>Advantage estimate</strong>: how much better action <span class="arithmatex">\(a_t\)</span> is compared to the average action under the current policy, <span class="arithmatex">\(\hat{A}_t \approx Q(s_t, a_t) - V(s_t)\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\tau\)</span></td>
-<td>A trajectory (sequence of states, actions, rewards): <span class="arithmatex">\(\tau = (s_0, a_0, r_0, s_1, a_1, r_1, \ldots)\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\mathcal{D}_k\)</span></td>
-<td>Batch of trajectories collected at iteration <span class="arithmatex">\(k\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(D_{\mathrm{KL}}\)</span></td>
-<td>Kullback-Leibler divergence between two probability distributions</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\delta\)</span></td>
-<td>Maximum allowed KL divergence (trust region radius)</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\hat{H}_k\)</span></td>
-<td><strong>Fisher information matrix</strong> (equivalently, the Hessian of the KL divergence w.r.t. <span class="arithmatex">\(\theta\)</span>)</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\hat{g}_k\)</span></td>
-<td>Estimated policy gradient at iteration <span class="arithmatex">\(k\)</span></td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\alpha\)</span></td>
-<td>Backtracking coefficient (used in line search, typically <span class="arithmatex">\(\alpha \in (0, 1)\)</span>)</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(K\)</span></td>
-<td>Maximum number of backtracking steps</td>
+<td><strong>PPO</strong></td>
+<td><span class="arithmatex">\(\mathbb{E}[\min(r_t \hat{A}_t, \text{clip}(\ldots))]\)</span></td>
+<td>Hidden in <span class="arithmatex">\(r_t(\theta)\)</span>, killed by clip</td>
+<td>Soft (clipping)</td>
 </tr>
 </tbody>
 </table>
+<p>In all three cases, the same score function <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span> drives the update. The difference is how aggressively the update is constrained.</p>
 <hr />
-<h2 id="4-key-ideas-behind-trpo">4. Key Ideas Behind TRPO<a class="headerlink" href="#4-key-ideas-behind-trpo" title="Permanent link">&para;</a></h2>
-<p>TRPO rests on three interlocking ideas:</p>
-<h3 id="41-the-surrogate-objective">4.1 The surrogate objective<a class="headerlink" href="#41-the-surrogate-objective" title="Permanent link">&para;</a></h3>
-<p>Rather than directly optimizing expected return (which requires new on-policy samples for every candidate <span class="arithmatex">\(\theta\)</span>), TRPO optimizes a <strong>surrogate objective</strong> that can be evaluated using data collected under the <em>current</em> policy <span class="arithmatex">\(\pi_{\theta_k}\)</span>:</p>
-<div class="arithmatex">\[L(\theta) = \mathbb{E}_{s, a \sim \pi_{\theta_k}} \left[ \frac{\pi_\theta(a \mid s)}{\pi_{\theta_k}(a \mid s)} \hat{A}_t \right]\]</div>
-<p>The ratio <span class="arithmatex">\(\frac{\pi_\theta(a \mid s)}{\pi_{\theta_k}(a \mid s)}\)</span> is called the <strong>importance sampling ratio</strong>. It reweights the old data to account for the fact that we are evaluating a <em>different</em> policy <span class="arithmatex">\(\pi_\theta\)</span> than the one that collected the data <span class="arithmatex">\(\pi_{\theta_k}\)</span>.</p>
-<p><strong>Intuition:</strong> If the new policy assigns <em>higher</em> probability to actions that had <em>positive</em> advantage (i.e., were better than average), the surrogate objective increases — which is exactly what we want.</p>
-<h3 id="42-the-trust-region-constraint">4.2 The trust region constraint<a class="headerlink" href="#42-the-trust-region-constraint" title="Permanent link">&para;</a></h3>
-<p>The surrogate objective is only a good approximation to the true objective when <span class="arithmatex">\(\pi_\theta\)</span> is close to <span class="arithmatex">\(\pi_{\theta_k}\)</span>. TRPO enforces this by adding a <strong>constraint</strong>:</p>
-<div class="arithmatex">\[\max_\theta \; L(\theta) \quad \text{subject to} \quad \bar{D}_{\mathrm{KL}}(\pi_{\theta_k} \| \pi_\theta) \leq \delta\]</div>
-<p>where <span class="arithmatex">\(\bar{D}_{\mathrm{KL}}\)</span> is the <strong>average KL divergence</strong> over states visited under <span class="arithmatex">\(\pi_{\theta_k}\)</span>:</p>
-<div class="arithmatex">\[\bar{D}_{\mathrm{KL}}(\pi_{\theta_k} \| \pi_\theta) = \mathbb{E}_{s \sim \pi_{\theta_k}} \left[ D_{\mathrm{KL}}\big(\pi_{\theta_k}(\cdot \mid s) \;\|\; \pi_\theta(\cdot \mid s)\big) \right]\]</div>
-<p>The hyperparameter <span class="arithmatex">\(\delta\)</span> controls the <strong>radius of the trust region</strong> — how far the new policy is allowed to deviate from the old one. Typical values are <span class="arithmatex">\(\delta \in [0.001, 0.05]\)</span>.</p>
-<p><strong>Why KL divergence?</strong> KL divergence measures how different two probability distributions are. Unlike Euclidean distance in parameter space, it directly captures how differently the two policies <em>behave</em>. A small KL divergence guarantees that the surrogate objective remains a faithful approximation.</p>
-<h3 id="43-solving-the-constrained-problem-efficiently">4.3 Solving the constrained problem efficiently<a class="headerlink" href="#43-solving-the-constrained-problem-efficiently" title="Permanent link">&para;</a></h3>
-<p>Directly solving the constrained optimization above would require computing and inverting the Hessian matrix <span class="arithmatex">\(\hat{H}_k\)</span> of the KL divergence — an <span class="arithmatex">\(n \times n\)</span> matrix where <span class="arithmatex">\(n\)</span> is the number of policy parameters. For neural network policies with millions of parameters, this is infeasible.</p>
-<p>TRPO's practical contribution is a two-part trick:</p>
-<ol>
-<li>
-<p><strong>Conjugate gradient (CG) method</strong> — computes <span class="arithmatex">\(\hat{H}_k^{-1} \hat{g}_k\)</span> <em>without ever forming or storing</em> <span class="arithmatex">\(\hat{H}_k\)</span>. CG only needs <strong>Hessian-vector products</strong> <span class="arithmatex">\(\hat{H}_k v\)</span>, which can be computed efficiently via automatic differentiation.</p>
-</li>
-<li>
-<p><strong>Backtracking line search</strong> — after computing the search direction, TRPO tries progressively smaller steps until it finds one that (a) actually improves the surrogate objective and (b) satisfies the KL constraint.</p>
-</li>
-</ol>
-<hr />
-<h2 id="5-the-trpo-algorithm">5. The TRPO Algorithm<a class="headerlink" href="#5-the-trpo-algorithm" title="Permanent link">&para;</a></h2>
-<p>Here is the full algorithm, with each step explained:</p>
-<hr />
-<p><strong>Input:</strong> Initial policy parameters <span class="arithmatex">\(\theta_0\)</span>, initial value function parameters <span class="arithmatex">\(\phi_0\)</span></p>
-<p><strong>Hyperparameters:</strong> KL-divergence limit <span class="arithmatex">\(\delta\)</span>, backtracking coefficient <span class="arithmatex">\(\alpha\)</span>, maximum backtracking steps <span class="arithmatex">\(K\)</span></p>
-<p><strong>For</strong> <span class="arithmatex">\(k = 0, 1, 2, \ldots\)</span> <strong>do:</strong></p>
-<h3 id="step-1-collect-trajectories">Step 1 — Collect trajectories<a class="headerlink" href="#step-1-collect-trajectories" title="Permanent link">&para;</a></h3>
-<blockquote>
-<p>Run the current policy <span class="arithmatex">\(\pi_k = \pi(\theta_k)\)</span> in the environment to collect a batch of trajectories <span class="arithmatex">\(\mathcal{D}_k = \{\tau_i\}\)</span>.</p>
-</blockquote>
-<p>Each trajectory <span class="arithmatex">\(\tau_i = (s_0, a_0, r_0, s_1, a_1, r_1, \ldots, s_T)\)</span> is a complete episode (or a fixed-length rollout). This is the "on-policy" part: we use fresh data from the current policy at every iteration.</p>
-<h3 id="step-2-compute-rewards-to-go">Step 2 — Compute rewards-to-go<a class="headerlink" href="#step-2-compute-rewards-to-go" title="Permanent link">&para;</a></h3>
-<blockquote>
-<p>For each time step <span class="arithmatex">\(t\)</span> in each trajectory, compute <span class="arithmatex">\(\hat{R}_t = \sum_{t'=t}^{T} \gamma^{t'-t} r_{t'}\)</span>.</p>
-</blockquote>
-<p>The reward-to-go tells us the total (discounted) return the agent actually received from time <span class="arithmatex">\(t\)</span> onward. This serves as a target for fitting the value function.</p>
-<h3 id="step-3-compute-advantage-estimates">Step 3 — Compute advantage estimates<a class="headerlink" href="#step-3-compute-advantage-estimates" title="Permanent link">&para;</a></h3>
-<blockquote>
-<p>Compute advantage estimates <span class="arithmatex">\(\hat{A}_t\)</span> based on the current value function <span class="arithmatex">\(V_{\phi_k}\)</span>.</p>
-</blockquote>
-<p>The advantage <span class="arithmatex">\(\hat{A}_t \approx Q(s_t, a_t) - V(s_t)\)</span> measures how much better the action taken was compared to the average. Common methods include:</p>
-<ul>
-<li><strong>Simple:</strong> <span class="arithmatex">\(\hat{A}_t = \hat{R}_t - V_{\phi_k}(s_t)\)</span></li>
-<li><strong>GAE (Generalized Advantage Estimation):</strong> a weighted blend of multi-step advantage estimates that trades off bias and variance via a parameter <span class="arithmatex">\(\lambda\)</span>.</li>
-</ul>
-<h3 id="step-4-estimate-the-policy-gradient">Step 4 — Estimate the policy gradient<a class="headerlink" href="#step-4-estimate-the-policy-gradient" title="Permanent link">&para;</a></h3>
-<blockquote>
-<p>Compute:</p>
-<div class="arithmatex">\[\hat{g}_k = \frac{1}{|\mathcal{D}_k|} \sum_{\tau \in \mathcal{D}_k} \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t \mid s_t) \Big|_{\theta_k} \hat{A}_t\]</div>
-</blockquote>
-<p>This is the standard policy gradient (the "score function" estimator). Each term <span class="arithmatex">\(\nabla_\theta \log \pi_\theta(a_t \mid s_t)\)</span> points in the direction that increases the probability of action <span class="arithmatex">\(a_t\)</span>, and it is weighted by <span class="arithmatex">\(\hat{A}_t\)</span> so that <em>good</em> actions are reinforced and <em>bad</em> actions are suppressed.</p>
-<h3 id="step-5-compute-the-search-direction-via-conjugate-gradient">Step 5 — Compute the search direction via conjugate gradient<a class="headerlink" href="#step-5-compute-the-search-direction-via-conjugate-gradient" title="Permanent link">&para;</a></h3>
-<blockquote>
-<p>Approximately solve for <span class="arithmatex">\(\hat{x}_k\)</span>:</p>
-<div class="arithmatex">\[\hat{x}_k \approx \hat{H}_k^{-1} \hat{g}_k\]</div>
-<p>where <span class="arithmatex">\(\hat{H}_k\)</span> is the Hessian of the sample average KL divergence with respect to <span class="arithmatex">\(\theta\)</span>.</p>
-</blockquote>
-<p>This is the <strong>natural gradient</strong> direction. While the ordinary gradient <span class="arithmatex">\(\hat{g}_k\)</span> gives the steepest ascent direction in parameter space, the natural gradient <span class="arithmatex">\(\hat{H}_k^{-1} \hat{g}_k\)</span> gives the steepest ascent direction in <strong>policy distribution space</strong> — accounting for the geometry of the probability manifold.</p>
-<p>The conjugate gradient algorithm computes this in roughly 10–20 iterations, each requiring one Hessian-vector product (computed via automatic differentiation), without ever forming the full Hessian matrix.</p>
-<h3 id="step-6-update-the-policy-via-backtracking-line-search">Step 6 — Update the policy via backtracking line search<a class="headerlink" href="#step-6-update-the-policy-via-backtracking-line-search" title="Permanent link">&para;</a></h3>
-<blockquote>
-<p>Set:</p>
-<div class="arithmatex">\[\theta_{k+1} = \theta_k + \alpha^j \sqrt{\frac{2\delta}{\hat{x}_k^T \hat{H}_k \hat{x}_k}} \; \hat{x}_k\]</div>
-<p>where <span class="arithmatex">\(j \in \{0, 1, 2, \ldots, K\}\)</span> is the smallest value such that the update (a) improves the surrogate loss and (b) satisfies <span class="arithmatex">\(\bar{D}_{\mathrm{KL}}(\pi_{\theta_k} \| \pi_{\theta_{k+1}}) \leq \delta\)</span>.</p>
-</blockquote>
-<p><strong>Breaking this down:</strong></p>
-<ul>
-<li>The term <span class="arithmatex">\(\sqrt{\frac{2\delta}{\hat{x}_k^T \hat{H}_k \hat{x}_k}}\)</span> computes the <strong>maximum step size</strong> that would exactly hit the trust region boundary <span class="arithmatex">\(\delta\)</span>, assuming a local quadratic approximation to the KL divergence.</li>
-<li>The factor <span class="arithmatex">\(\alpha^j\)</span> (with <span class="arithmatex">\(\alpha &lt; 1\)</span>, e.g., <span class="arithmatex">\(\alpha = 0.5\)</span>) <strong>shrinks</strong> the step if the full step doesn't satisfy the constraints. The algorithm tries <span class="arithmatex">\(j = 0\)</span> (full step) first, then <span class="arithmatex">\(j = 1\)</span> (half step), then <span class="arithmatex">\(j = 2\)</span> (quarter step), etc.</li>
-<li>This ensures we take the <strong>largest safe step</strong> that genuinely improves the policy.</li>
-</ul>
-<h3 id="step-7-update-the-value-function">Step 7 — Update the value function<a class="headerlink" href="#step-7-update-the-value-function" title="Permanent link">&para;</a></h3>
-<blockquote>
-<p>Fit the value function by minimizing mean-squared error:</p>
-<div class="arithmatex">\[\phi_{k+1} = \arg\min_\phi \frac{1}{|\mathcal{D}_k| T} \sum_{\tau \in \mathcal{D}_k} \sum_{t=0}^{T} \left( V_\phi(s_t) - \hat{R}_t \right)^2\]</div>
-<p>typically via a few steps of gradient descent (e.g., Adam).</p>
-</blockquote>
-<p>The value function is used to compute advantage estimates in the next iteration. A better value function leads to lower-variance advantage estimates, which leads to more stable policy updates.</p>
-<hr />
-<h2 id="6-trpo-vs-vanilla-policy-gradient">6. TRPO vs. Vanilla Policy Gradient<a class="headerlink" href="#6-trpo-vs-vanilla-policy-gradient" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Aspect</th>
-<th>Vanilla Policy Gradient</th>
-<th>TRPO</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Update rule</strong></td>
-<td>Fixed learning rate: <span class="arithmatex">\(\theta + \alpha \hat{g}\)</span></td>
-<td>Constrained: maximize surrogate s.t. KL <span class="arithmatex">\(\leq \delta\)</span></td>
-</tr>
-<tr>
-<td><strong>Step size control</strong></td>
-<td>Manual tuning of <span class="arithmatex">\(\alpha\)</span></td>
-<td>Automatic via trust region</td>
-</tr>
-<tr>
-<td><strong>Gradient type</strong></td>
-<td>Euclidean gradient</td>
-<td>Natural gradient (<span class="arithmatex">\(H^{-1}g\)</span>)</td>
-</tr>
-<tr>
-<td><strong>Stability</strong></td>
-<td>Prone to catastrophic updates</td>
-<td>Monotonic improvement guarantee (in theory)</td>
-</tr>
-<tr>
-<td><strong>Computational cost</strong></td>
-<td>Cheap (one gradient)</td>
-<td>More expensive (CG + line search per update)</td>
-</tr>
-<tr>
-<td><strong>Sensitivity to hyperparameters</strong></td>
-<td>Very sensitive to <span class="arithmatex">\(\alpha\)</span></td>
-<td>Robust; <span class="arithmatex">\(\delta\)</span> is more interpretable</td>
-</tr>
-</tbody>
-</table>
-<h3 id="why-trpo-is-a-significant-improvement">Why TRPO is a significant improvement<a class="headerlink" href="#why-trpo-is-a-significant-improvement" title="Permanent link">&para;</a></h3>
-<ol>
-<li>
-<p><strong>Monotonic improvement guarantee.</strong> The theoretical foundation of TRPO (<a href="https://dl.acm.org/doi/10.5555/645531.656005">Kakade &amp; Langford, 2002</a>; <a href="https://arxiv.org/abs/1502.05477">Schulman et al., 2015</a>) shows that constraining the KL divergence provides a <strong>lower bound</strong> on the true policy improvement. Each update is guaranteed (in the exact case) to not make the policy worse.</p>
-</li>
-<li>
-<p><strong>Invariance to parameterization.</strong> The natural gradient is invariant to how the policy is parameterized. If you reparameterize the same policy (e.g., change the network architecture in a way that represents the same function), the natural gradient direction stays the same — whereas the vanilla gradient can change dramatically.</p>
-</li>
-<li>
-<p><strong>Adaptive effective step size.</strong> In regions where the policy is sensitive (small changes in <span class="arithmatex">\(\theta\)</span> cause large changes in behavior), TRPO automatically takes smaller steps. In flat regions, it takes larger steps. This is exactly the behavior we want.</p>
-</li>
-</ol>
-<hr />
-<h2 id="7-limitations-of-trpo">7. Limitations of TRPO<a class="headerlink" href="#7-limitations-of-trpo" title="Permanent link">&para;</a></h2>
-<p>Despite its theoretical elegance, TRPO has practical drawbacks that motivated the development of PPO:</p>
-<ul>
-<li><strong>Computational overhead.</strong> The conjugate gradient computation and line search add significant per-iteration cost compared to a simple gradient step.</li>
-<li><strong>Implementation complexity.</strong> Correctly implementing Hessian-vector products, conjugate gradient, and line search is non-trivial and error-prone.</li>
-<li><strong>Incompatibility with shared architectures.</strong> When the policy and value function share parameters (common in practice), the KL constraint applies only to the policy head, making the optimization awkward.</li>
-<li><strong>Sample efficiency.</strong> As an on-policy method, TRPO discards all collected data after each update. Off-policy methods (like SAC) can reuse old data.</li>
-</ul>
-<p>These limitations are precisely what PPO addresses — see the <a href="../PPO/">PPO tutorial</a> for details.</p>
-<hr />
-<h2 id="8-connection-to-actor-critic-methods">8. Connection to Actor-Critic Methods<a class="headerlink" href="#8-connection-to-actor-critic-methods" title="Permanent link">&para;</a></h2>
-<p>TRPO is naturally an <strong>actor-critic</strong> algorithm:</p>
-<ul>
-<li>The <strong>actor</strong> is the policy <span class="arithmatex">\(\pi_\theta\)</span>, updated via the constrained surrogate objective.</li>
-<li>The <strong>critic</strong> is the value function <span class="arithmatex">\(V_\phi\)</span>, updated via regression on rewards-to-go.</li>
-</ul>
-<p>The critic's role is to reduce variance in the policy gradient estimate by providing a baseline. Without a value function baseline, the policy gradient has high variance and learning is slow. The advantage estimate <span class="arithmatex">\(\hat{A}_t = Q(s_t, a_t) - V(s_t)\)</span> centers the gradient signal around zero, so that actions better than average get positive reinforcement and actions worse than average get negative reinforcement.</p>
-<blockquote>
-<p><em>A dedicated tutorial on the actor-critic framework and its variants is planned for this series.</em></p>
-</blockquote>
-<hr />
-<h2 id="9-summary">9. Summary<a class="headerlink" href="#9-summary" title="Permanent link">&para;</a></h2>
-<p>TRPO's contribution is a <strong>principled framework for stable policy optimization</strong>:</p>
-<ol>
-<li>It replaces the fragile fixed learning rate with a <strong>trust region constraint</strong> in policy space.</li>
-<li>It uses the <strong>natural gradient</strong> (via conjugate gradient) to account for the geometry of probability distributions.</li>
-<li>It provides <strong>theoretical monotonic improvement guarantees</strong> under the KL constraint.</li>
-<li>It introduces the <strong>surrogate objective</strong> with importance sampling, which PPO later simplifies.</li>
-</ol>
-<p>The key takeaway: <strong>don't limit how far you move in parameter space — limit how much the policy's behavior changes.</strong> This single insight underlies both TRPO and PPO, and is one of the most important ideas in modern deep RL.</p>
-<hr />
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>[Schulman et al., 2015]</strong> — <em>Trust Region Policy Optimization.</em> ICML 2015. <a href="https://arxiv.org/abs/1502.05477">arXiv:1502.05477</a></li>
-<li><strong>[Kakade &amp; Langford, 2002]</strong> — <em>Approximately Optimal Approximate Reinforcement Learning.</em> ICML 2002.</li>
-<li><strong>[Schulman et al., 2016]</strong> — <em>High-Dimensional Continuous Control Using Generalized Advantage Estimation.</em> ICLR 2016. <a href="https://arxiv.org/abs/1506.02438">arXiv:1506.02438</a></li>
-<li><strong>[OpenAI Spinning Up: TRPO]</strong> — <a href="https://spinningup.openai.com/en/latest/algorithms/trpo.html">spinningup.openai.com/en/latest/algorithms/trpo.html</a></li>
-</ul>
-<hr />
-<p><em>Next in this series: <a href="../PPO/">Proximal Policy Optimization (PPO)</a> — how to get TRPO-level stability with a simple clipped objective.</em></p>
+<p><em>Previous: <a href="../03_PPO/">Proximal Policy Optimization (PPO)</a></em> | <em>Next: <a href="../04_PPO_variants/">PPO Variants and Modern Descendants</a></em></p>
 
 
 

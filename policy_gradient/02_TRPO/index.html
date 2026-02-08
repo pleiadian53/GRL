@@ -1,0 +1,2684 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Physics-grounded reinforcement learning with particle-based belief representations">
+      
+      
+        <meta name="author" content="GRL Research Team">
+      
+      
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/policy_gradient/02_TRPO/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Trust Region Policy Optimization (TRPO) - Generalized Reinforcement Learning (GRL)</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#trust-region-policy-optimization-trpo" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Generalized Reinforcement Learning (GRL)" class="md-header__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Generalized Reinforcement Learning (GRL)
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Trust Region Policy Optimization (TRPO)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../GRL0/" class="md-tabs__link">
+          
+  
+  
+  GRL v0 (Tutorial Paper)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../ROADMAP/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Research Roadmap
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../notebooks/" class="md-tabs__link">
+          
+  
+  
+  Notebooks
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../CONTRIBUTING/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Generalized Reinforcement Learning (GRL)" class="md-nav__button md-logo" aria-label="Generalized Reinforcement Learning (GRL)" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Generalized Reinforcement Learning (GRL)
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/pleiadian53/GRL" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    pleiadian53/GRL
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GRL v0 (Tutorial Paper)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GRL v0 (Tutorial Paper)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Part I: Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Part I: Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/00-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 0: Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/01-core-concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 1: Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/02-rkhs-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 2: RKHS Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/03-energy-and-fitness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3: Energy and Fitness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/03a-least-action-principle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 3a: Least Action Principle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/04-reinforcement-field/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4: Reinforcement Field
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/04a-riesz-representer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 4a: Riesz Representer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/05-particle-memory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 5: Particle Memory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/06-memory-update/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6: MemoryUpdate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/06a-advanced-memory-dynamics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 6a: Advanced Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/07-rf-sarsa/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7: RF-SARSA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/tutorials/07a-continuous-policy-inference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Ch 7a: Continuous Policy Inference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quantum-Inspired Extensions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Quantum-Inspired Extensions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/01-rkhs-quantum-parallel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: RKHS-QM Parallel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/01a-wavefunction-interpretation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Wavefunction Interpretation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/02-rkhs-basis-and-amplitudes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Basis and Amplitudes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/03-complex-rkhs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Complex RKHS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/04-action-and-state-fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    04: Action and State Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/05-concept-projections-and-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    05: Concept Projections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/06-agent-state-and-belief-evolution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    06: Agent State and Belief
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/07-learning-the-field-beyond-gp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    07: Learning Beyond GP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    08: Memory Dynamics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/quantum_inspired/09-path-integrals-and-action-principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    09: Path Integrals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/implementation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../GRL0/recovering_classical_rl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Recovering Classical RL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Notebooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Notebooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Field Series
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Field Series
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Series Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/00_intro_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    00: Introduction to Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/01_classical_vector_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01: Classical Vector Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/01a_vector_fields_and_odes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    01a: Vector Fields and ODEs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/02_functional_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    02: Functional Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2_7" id="__nav_4_2_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reinforcement Fields
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/03_reinforcement_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03: Reinforcement Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/03a_particle_coverage_effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    03a: Particle Coverage Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notebooks/field_series/03_reinforcement_fields/particle_vs_gradient_fields/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Theory: Particle vs Gradient Fields
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../LICENSE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-motivation-why-not-just-use-vanilla-policy-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Motivation: Why Not Just Use Vanilla Policy Gradient?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Motivation: Why Not Just Use Vanilla Policy Gradient?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-vanilla-policy-gradient-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The vanilla policy gradient update
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-problem-sensitivity-to-step-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The problem: sensitivity to step size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-core-insight" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The core insight
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-notation-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Notation Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-key-ideas-behind-trpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Key Ideas Behind TRPO
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Key Ideas Behind TRPO">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-the-surrogate-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 The surrogate objective
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-the-trust-region-constraint" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 The trust region constraint
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-solving-the-constrained-problem-efficiently" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Solving the constrained problem efficiently
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-trpo-algorithm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The TRPO Algorithm
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. The TRPO Algorithm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-collect-trajectories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1 — Collect trajectories
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-compute-rewards-to-go" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2 — Compute rewards-to-go
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-compute-advantage-estimates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3 — Compute advantage estimates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-estimate-the-policy-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4 — Estimate the policy gradient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-compute-the-search-direction-via-conjugate-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5 — Compute the search direction via conjugate gradient
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-6-update-the-policy-via-backtracking-line-search" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6 — Update the policy via backtracking line search
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-7-update-the-value-function" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7 — Update the value function
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-trpo-vs-vanilla-policy-gradient" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. TRPO vs. Vanilla Policy Gradient
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. TRPO vs. Vanilla Policy Gradient">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-trpo-is-a-significant-improvement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why TRPO is a significant improvement
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-limitations-of-trpo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Limitations of TRPO
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-connection-to-actor-critic-methods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Connection to Actor-Critic Methods
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/policy_gradient/02_TRPO.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+
+
+<h1 id="trust-region-policy-optimization-trpo">Trust Region Policy Optimization (TRPO)<a class="headerlink" href="#trust-region-policy-optimization-trpo" title="Permanent link">&para;</a></h1>
+<p><strong>A tutorial on stable policy updates via constrained optimization</strong></p>
+<blockquote>
+<p><em>Prerequisites: Familiarity with basic reinforcement learning concepts (states, actions, rewards, policies). A companion tutorial on vanilla policy gradient and actor-critic foundations is forthcoming.</em></p>
+</blockquote>
+<hr />
+<h2 id="1-introduction">1. Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">&para;</a></h2>
+<p>Trust Region Policy Optimization (TRPO) was introduced by <a href="https://arxiv.org/abs/1502.05477">Schulman et al. (2015)</a> as a principled approach to a long-standing problem in policy gradient methods: <strong>how do you take the largest possible improvement step without accidentally destroying a good policy?</strong></p>
+<p>TRPO is an <strong>on-policy</strong> algorithm that works with both discrete and continuous action spaces. It serves as the direct predecessor to <a href="../03_PPO/">Proximal Policy Optimization (PPO)</a>, which simplifies TRPO's constrained optimization into a clipped objective — but understanding TRPO first makes PPO's design choices much clearer.</p>
+<hr />
+<h2 id="2-motivation-why-not-just-use-vanilla-policy-gradient">2. Motivation: Why Not Just Use Vanilla Policy Gradient?<a class="headerlink" href="#2-motivation-why-not-just-use-vanilla-policy-gradient" title="Permanent link">&para;</a></h2>
+<h3 id="the-vanilla-policy-gradient-update">The vanilla policy gradient update<a class="headerlink" href="#the-vanilla-policy-gradient-update" title="Permanent link">&para;</a></h3>
+<p>The simplest policy gradient method (REINFORCE) updates parameters by ascending the gradient of expected return:</p>
+<div class="arithmatex">\[\theta_{k+1} = \theta_k + \alpha \, \hat{g}_k\]</div>
+<p>where <span class="arithmatex">\(\hat{g}_k\)</span> is an estimate of <span class="arithmatex">\(\nabla_\theta J(\theta)\)</span>, the gradient of the expected cumulative reward with respect to the policy parameters, and <span class="arithmatex">\(\alpha\)</span> is a fixed learning rate.</p>
+<h3 id="the-problem-sensitivity-to-step-size">The problem: sensitivity to step size<a class="headerlink" href="#the-problem-sensitivity-to-step-size" title="Permanent link">&para;</a></h3>
+<p>This looks straightforward, but in practice it is <strong>extremely fragile</strong>:</p>
+<ul>
+<li><strong>Too large a step</strong> — the policy changes drastically, performance collapses, and the agent may never recover. In deep RL this is especially dangerous because the policy is a neural network: a small change in <span class="arithmatex">\(\theta\)</span> can produce a very different distribution over actions.</li>
+<li><strong>Too small a step</strong> — learning is painfully slow, and the agent wastes millions of environment interactions making negligible progress.</li>
+</ul>
+<p>Unlike supervised learning, where a bad gradient step just increases the loss temporarily, a bad policy gradient step <strong>changes the data distribution itself</strong> (because the policy determines which states the agent visits). This creates a vicious cycle: a bad update leads to bad data, which leads to worse updates.</p>
+<h3 id="the-core-insight">The core insight<a class="headerlink" href="#the-core-insight" title="Permanent link">&para;</a></h3>
+<p>What we really want is not to limit the step size in <strong>parameter space</strong> (<span class="arithmatex">\(\|\Delta\theta\|\)</span>), but in <strong>policy space</strong> — i.e., we want to ensure the new policy <span class="arithmatex">\(\pi_{\theta_{k+1}}\)</span> behaves similarly to the old policy <span class="arithmatex">\(\pi_{\theta_k}\)</span> in terms of the actions it actually produces. Two parameter vectors that are close in Euclidean distance can produce wildly different policies, and vice versa.</p>
+<blockquote>
+<p><strong>Key idea:</strong> TRPO replaces the fixed learning rate with a <em>constraint on how much the policy is allowed to change</em>, measured by KL divergence in the space of action distributions.</p>
+</blockquote>
+<hr />
+<h2 id="3-notation-reference">3. Notation Reference<a class="headerlink" href="#3-notation-reference" title="Permanent link">&para;</a></h2>
+<p>Before diving into the algorithm, here is a summary of the notation used throughout:</p>
+<table>
+<thead>
+<tr>
+<th>Symbol</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="arithmatex">\(s_t\)</span></td>
+<td>State at time step <span class="arithmatex">\(t\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(a_t\)</span></td>
+<td>Action taken at time step <span class="arithmatex">\(t\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\pi_\theta(a \mid s)\)</span></td>
+<td>Policy: probability of taking action <span class="arithmatex">\(a\)</span> in state <span class="arithmatex">\(s\)</span>, parameterized by <span class="arithmatex">\(\theta\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\theta_k\)</span></td>
+<td>Policy parameters at iteration <span class="arithmatex">\(k\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(V_\phi(s)\)</span></td>
+<td>Value function (expected return from state <span class="arithmatex">\(s\)</span>), parameterized by <span class="arithmatex">\(\phi\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\hat{R}_t\)</span></td>
+<td><strong>Reward-to-go</strong>: the sum of (discounted) rewards from time <span class="arithmatex">\(t\)</span> onward, <span class="arithmatex">\(\hat{R}_t = \sum_{t'=t}^{T} \gamma^{t'-t} r_{t'}\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\hat{A}_t\)</span></td>
+<td><strong>Advantage estimate</strong>: how much better action <span class="arithmatex">\(a_t\)</span> is compared to the average action under the current policy, <span class="arithmatex">\(\hat{A}_t \approx Q(s_t, a_t) - V(s_t)\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\tau\)</span></td>
+<td>A trajectory (sequence of states, actions, rewards): <span class="arithmatex">\(\tau = (s_0, a_0, r_0, s_1, a_1, r_1, \ldots)\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\mathcal{D}_k\)</span></td>
+<td>Batch of trajectories collected at iteration <span class="arithmatex">\(k\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(D_{\mathrm{KL}}\)</span></td>
+<td>Kullback-Leibler divergence between two probability distributions</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\delta\)</span></td>
+<td>Maximum allowed KL divergence (trust region radius)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\hat{H}_k\)</span></td>
+<td><strong>Fisher information matrix</strong> (equivalently, the Hessian of the KL divergence w.r.t. <span class="arithmatex">\(\theta\)</span>)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\hat{g}_k\)</span></td>
+<td>Estimated policy gradient at iteration <span class="arithmatex">\(k\)</span></td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\alpha\)</span></td>
+<td>Backtracking coefficient (used in line search, typically <span class="arithmatex">\(\alpha \in (0, 1)\)</span>)</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(K\)</span></td>
+<td>Maximum number of backtracking steps</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-key-ideas-behind-trpo">4. Key Ideas Behind TRPO<a class="headerlink" href="#4-key-ideas-behind-trpo" title="Permanent link">&para;</a></h2>
+<p>TRPO rests on three interlocking ideas:</p>
+<h3 id="41-the-surrogate-objective">4.1 The surrogate objective<a class="headerlink" href="#41-the-surrogate-objective" title="Permanent link">&para;</a></h3>
+<p>Rather than directly optimizing expected return (which requires new on-policy samples for every candidate <span class="arithmatex">\(\theta\)</span>), TRPO optimizes a <strong>surrogate objective</strong> that can be evaluated using data collected under the <em>current</em> policy <span class="arithmatex">\(\pi_{\theta_k}\)</span>:</p>
+<div class="arithmatex">\[L(\theta) = \mathbb{E}_{s, a \sim \pi_{\theta_k}} \left[ \frac{\pi_\theta(a \mid s)}{\pi_{\theta_k}(a \mid s)} \hat{A}_t \right]\]</div>
+<p>The ratio <span class="arithmatex">\(\frac{\pi_\theta(a \mid s)}{\pi_{\theta_k}(a \mid s)}\)</span> is called the <strong>importance sampling ratio</strong>. It reweights the old data to account for the fact that we are evaluating a <em>different</em> policy <span class="arithmatex">\(\pi_\theta\)</span> than the one that collected the data <span class="arithmatex">\(\pi_{\theta_k}\)</span>.</p>
+<p><strong>Intuition:</strong> If the new policy assigns <em>higher</em> probability to actions that had <em>positive</em> advantage (i.e., were better than average), the surrogate objective increases — which is exactly what we want.</p>
+<h3 id="42-the-trust-region-constraint">4.2 The trust region constraint<a class="headerlink" href="#42-the-trust-region-constraint" title="Permanent link">&para;</a></h3>
+<p>The surrogate objective is only a good approximation to the true objective when <span class="arithmatex">\(\pi_\theta\)</span> is close to <span class="arithmatex">\(\pi_{\theta_k}\)</span>. TRPO enforces this by adding a <strong>constraint</strong>:</p>
+<div class="arithmatex">\[\max_\theta \; L(\theta) \quad \text{subject to} \quad \bar{D}_{\mathrm{KL}}(\pi_{\theta_k} \| \pi_\theta) \leq \delta\]</div>
+<p>where <span class="arithmatex">\(\bar{D}_{\mathrm{KL}}\)</span> is the <strong>average KL divergence</strong> over states visited under <span class="arithmatex">\(\pi_{\theta_k}\)</span>:</p>
+<div class="arithmatex">\[\bar{D}_{\mathrm{KL}}(\pi_{\theta_k} \| \pi_\theta) = \mathbb{E}_{s \sim \pi_{\theta_k}} \left[ D_{\mathrm{KL}}\big(\pi_{\theta_k}(\cdot \mid s) \;\|\; \pi_\theta(\cdot \mid s)\big) \right]\]</div>
+<p>The hyperparameter <span class="arithmatex">\(\delta\)</span> controls the <strong>radius of the trust region</strong> — how far the new policy is allowed to deviate from the old one. Typical values are <span class="arithmatex">\(\delta \in [0.001, 0.05]\)</span>.</p>
+<p><strong>Why KL divergence?</strong> KL divergence measures how different two probability distributions are. Unlike Euclidean distance in parameter space, it directly captures how differently the two policies <em>behave</em>. A small KL divergence guarantees that the surrogate objective remains a faithful approximation.</p>
+<h3 id="43-solving-the-constrained-problem-efficiently">4.3 Solving the constrained problem efficiently<a class="headerlink" href="#43-solving-the-constrained-problem-efficiently" title="Permanent link">&para;</a></h3>
+<p>Directly solving the constrained optimization above would require computing and inverting the Hessian matrix <span class="arithmatex">\(\hat{H}_k\)</span> of the KL divergence — an <span class="arithmatex">\(n \times n\)</span> matrix where <span class="arithmatex">\(n\)</span> is the number of policy parameters. For neural network policies with millions of parameters, this is infeasible.</p>
+<p>TRPO's practical contribution is a two-part trick:</p>
+<ol>
+<li>
+<p><strong>Conjugate gradient (CG) method</strong> — computes <span class="arithmatex">\(\hat{H}_k^{-1} \hat{g}_k\)</span> <em>without ever forming or storing</em> <span class="arithmatex">\(\hat{H}_k\)</span>. CG only needs <strong>Hessian-vector products</strong> <span class="arithmatex">\(\hat{H}_k v\)</span>, which can be computed efficiently via automatic differentiation.</p>
+</li>
+<li>
+<p><strong>Backtracking line search</strong> — after computing the search direction, TRPO tries progressively smaller steps until it finds one that (a) actually improves the surrogate objective and (b) satisfies the KL constraint.</p>
+</li>
+</ol>
+<hr />
+<h2 id="5-the-trpo-algorithm">5. The TRPO Algorithm<a class="headerlink" href="#5-the-trpo-algorithm" title="Permanent link">&para;</a></h2>
+<p>Here is the full algorithm, with each step explained:</p>
+<hr />
+<p><strong>Input:</strong> Initial policy parameters <span class="arithmatex">\(\theta_0\)</span>, initial value function parameters <span class="arithmatex">\(\phi_0\)</span></p>
+<p><strong>Hyperparameters:</strong> KL-divergence limit <span class="arithmatex">\(\delta\)</span>, backtracking coefficient <span class="arithmatex">\(\alpha\)</span>, maximum backtracking steps <span class="arithmatex">\(K\)</span></p>
+<p><strong>For</strong> <span class="arithmatex">\(k = 0, 1, 2, \ldots\)</span> <strong>do:</strong></p>
+<h3 id="step-1-collect-trajectories">Step 1 — Collect trajectories<a class="headerlink" href="#step-1-collect-trajectories" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Run the current policy <span class="arithmatex">\(\pi_k = \pi(\theta_k)\)</span> in the environment to collect a batch of trajectories <span class="arithmatex">\(\mathcal{D}_k = \{\tau_i\}\)</span>.</p>
+</blockquote>
+<p>Each trajectory <span class="arithmatex">\(\tau_i = (s_0, a_0, r_0, s_1, a_1, r_1, \ldots, s_T)\)</span> is a complete episode (or a fixed-length rollout). This is the "on-policy" part: we use fresh data from the current policy at every iteration.</p>
+<h3 id="step-2-compute-rewards-to-go">Step 2 — Compute rewards-to-go<a class="headerlink" href="#step-2-compute-rewards-to-go" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>For each time step <span class="arithmatex">\(t\)</span> in each trajectory, compute <span class="arithmatex">\(\hat{R}_t = \sum_{t'=t}^{T} \gamma^{t'-t} r_{t'}\)</span>.</p>
+</blockquote>
+<p>The reward-to-go tells us the total (discounted) return the agent actually received from time <span class="arithmatex">\(t\)</span> onward. This serves as a target for fitting the value function.</p>
+<h3 id="step-3-compute-advantage-estimates">Step 3 — Compute advantage estimates<a class="headerlink" href="#step-3-compute-advantage-estimates" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Compute advantage estimates <span class="arithmatex">\(\hat{A}_t\)</span> based on the current value function <span class="arithmatex">\(V_{\phi_k}\)</span>.</p>
+</blockquote>
+<p>The advantage <span class="arithmatex">\(\hat{A}_t \approx Q(s_t, a_t) - V(s_t)\)</span> measures how much better the action taken was compared to the average. Common methods include:</p>
+<ul>
+<li><strong>Simple:</strong> <span class="arithmatex">\(\hat{A}_t = \hat{R}_t - V_{\phi_k}(s_t)\)</span></li>
+<li><strong>GAE (Generalized Advantage Estimation):</strong> a weighted blend of multi-step advantage estimates that trades off bias and variance via a parameter <span class="arithmatex">\(\lambda\)</span>.</li>
+</ul>
+<h3 id="step-4-estimate-the-policy-gradient">Step 4 — Estimate the policy gradient<a class="headerlink" href="#step-4-estimate-the-policy-gradient" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Compute:</p>
+<div class="arithmatex">\[\hat{g}_k = \frac{1}{|\mathcal{D}_k|} \sum_{\tau \in \mathcal{D}_k} \sum_{t=0}^{T} \nabla_\theta \log \pi_\theta(a_t \mid s_t) \Big|_{\theta_k} \hat{A}_t\]</div>
+</blockquote>
+<p>This is the standard policy gradient (the "score function" estimator). Each term <span class="arithmatex">\(\nabla_\theta \log \pi_\theta(a_t \mid s_t)\)</span> points in the direction that increases the probability of action <span class="arithmatex">\(a_t\)</span>, and it is weighted by <span class="arithmatex">\(\hat{A}_t\)</span> so that <em>good</em> actions are reinforced and <em>bad</em> actions are suppressed.</p>
+<h3 id="step-5-compute-the-search-direction-via-conjugate-gradient">Step 5 — Compute the search direction via conjugate gradient<a class="headerlink" href="#step-5-compute-the-search-direction-via-conjugate-gradient" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Approximately solve for <span class="arithmatex">\(\hat{x}_k\)</span>:</p>
+<div class="arithmatex">\[\hat{x}_k \approx \hat{H}_k^{-1} \hat{g}_k\]</div>
+<p>where <span class="arithmatex">\(\hat{H}_k\)</span> is the Hessian of the sample average KL divergence with respect to <span class="arithmatex">\(\theta\)</span>.</p>
+</blockquote>
+<p>This is the <strong>natural gradient</strong> direction. While the ordinary gradient <span class="arithmatex">\(\hat{g}_k\)</span> gives the steepest ascent direction in parameter space, the natural gradient <span class="arithmatex">\(\hat{H}_k^{-1} \hat{g}_k\)</span> gives the steepest ascent direction in <strong>policy distribution space</strong> — accounting for the geometry of the probability manifold.</p>
+<p>The conjugate gradient algorithm computes this in roughly 10–20 iterations, each requiring one Hessian-vector product (computed via automatic differentiation), without ever forming the full Hessian matrix.</p>
+<h3 id="step-6-update-the-policy-via-backtracking-line-search">Step 6 — Update the policy via backtracking line search<a class="headerlink" href="#step-6-update-the-policy-via-backtracking-line-search" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Set:</p>
+<div class="arithmatex">\[\theta_{k+1} = \theta_k + \alpha^j \sqrt{\frac{2\delta}{\hat{x}_k^T \hat{H}_k \hat{x}_k}} \; \hat{x}_k\]</div>
+<p>where <span class="arithmatex">\(j \in \{0, 1, 2, \ldots, K\}\)</span> is the smallest value such that the update (a) improves the surrogate loss and (b) satisfies <span class="arithmatex">\(\bar{D}_{\mathrm{KL}}(\pi_{\theta_k} \| \pi_{\theta_{k+1}}) \leq \delta\)</span>.</p>
+</blockquote>
+<p><strong>Breaking this down:</strong></p>
+<ul>
+<li>The term <span class="arithmatex">\(\sqrt{\frac{2\delta}{\hat{x}_k^T \hat{H}_k \hat{x}_k}}\)</span> computes the <strong>maximum step size</strong> that would exactly hit the trust region boundary <span class="arithmatex">\(\delta\)</span>, assuming a local quadratic approximation to the KL divergence.</li>
+<li>The factor <span class="arithmatex">\(\alpha^j\)</span> (with <span class="arithmatex">\(\alpha &lt; 1\)</span>, e.g., <span class="arithmatex">\(\alpha = 0.5\)</span>) <strong>shrinks</strong> the step if the full step doesn't satisfy the constraints. The algorithm tries <span class="arithmatex">\(j = 0\)</span> (full step) first, then <span class="arithmatex">\(j = 1\)</span> (half step), then <span class="arithmatex">\(j = 2\)</span> (quarter step), etc.</li>
+<li>This ensures we take the <strong>largest safe step</strong> that genuinely improves the policy.</li>
+</ul>
+<h3 id="step-7-update-the-value-function">Step 7 — Update the value function<a class="headerlink" href="#step-7-update-the-value-function" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>Fit the value function by minimizing mean-squared error:</p>
+<div class="arithmatex">\[\phi_{k+1} = \arg\min_\phi \frac{1}{|\mathcal{D}_k| T} \sum_{\tau \in \mathcal{D}_k} \sum_{t=0}^{T} \left( V_\phi(s_t) - \hat{R}_t \right)^2\]</div>
+<p>typically via a few steps of gradient descent (e.g., Adam).</p>
+</blockquote>
+<p>The value function is used to compute advantage estimates in the next iteration. A better value function leads to lower-variance advantage estimates, which leads to more stable policy updates.</p>
+<hr />
+<h2 id="6-trpo-vs-vanilla-policy-gradient">6. TRPO vs. Vanilla Policy Gradient<a class="headerlink" href="#6-trpo-vs-vanilla-policy-gradient" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Vanilla Policy Gradient</th>
+<th>TRPO</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Update rule</strong></td>
+<td>Fixed learning rate: <span class="arithmatex">\(\theta + \alpha \hat{g}\)</span></td>
+<td>Constrained: maximize surrogate s.t. KL <span class="arithmatex">\(\leq \delta\)</span></td>
+</tr>
+<tr>
+<td><strong>Step size control</strong></td>
+<td>Manual tuning of <span class="arithmatex">\(\alpha\)</span></td>
+<td>Automatic via trust region</td>
+</tr>
+<tr>
+<td><strong>Gradient type</strong></td>
+<td>Euclidean gradient</td>
+<td>Natural gradient (<span class="arithmatex">\(H^{-1}g\)</span>)</td>
+</tr>
+<tr>
+<td><strong>Stability</strong></td>
+<td>Prone to catastrophic updates</td>
+<td>Monotonic improvement guarantee (in theory)</td>
+</tr>
+<tr>
+<td><strong>Computational cost</strong></td>
+<td>Cheap (one gradient)</td>
+<td>More expensive (CG + line search per update)</td>
+</tr>
+<tr>
+<td><strong>Sensitivity to hyperparameters</strong></td>
+<td>Very sensitive to <span class="arithmatex">\(\alpha\)</span></td>
+<td>Robust; <span class="arithmatex">\(\delta\)</span> is more interpretable</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-trpo-is-a-significant-improvement">Why TRPO is a significant improvement<a class="headerlink" href="#why-trpo-is-a-significant-improvement" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p><strong>Monotonic improvement guarantee.</strong> The theoretical foundation of TRPO (<a href="https://dl.acm.org/doi/10.5555/645531.656005">Kakade &amp; Langford, 2002</a>; <a href="https://arxiv.org/abs/1502.05477">Schulman et al., 2015</a>) shows that constraining the KL divergence provides a <strong>lower bound</strong> on the true policy improvement. Each update is guaranteed (in the exact case) to not make the policy worse.</p>
+</li>
+<li>
+<p><strong>Invariance to parameterization.</strong> The natural gradient is invariant to how the policy is parameterized. If you reparameterize the same policy (e.g., change the network architecture in a way that represents the same function), the natural gradient direction stays the same — whereas the vanilla gradient can change dramatically.</p>
+</li>
+<li>
+<p><strong>Adaptive effective step size.</strong> In regions where the policy is sensitive (small changes in <span class="arithmatex">\(\theta\)</span> cause large changes in behavior), TRPO automatically takes smaller steps. In flat regions, it takes larger steps. This is exactly the behavior we want.</p>
+</li>
+</ol>
+<hr />
+<h2 id="7-limitations-of-trpo">7. Limitations of TRPO<a class="headerlink" href="#7-limitations-of-trpo" title="Permanent link">&para;</a></h2>
+<p>Despite its theoretical elegance, TRPO has practical drawbacks that motivated the development of PPO:</p>
+<ul>
+<li><strong>Computational overhead.</strong> The conjugate gradient computation and line search add significant per-iteration cost compared to a simple gradient step.</li>
+<li><strong>Implementation complexity.</strong> Correctly implementing Hessian-vector products, conjugate gradient, and line search is non-trivial and error-prone.</li>
+<li><strong>Incompatibility with shared architectures.</strong> When the policy and value function share parameters (common in practice), the KL constraint applies only to the policy head, making the optimization awkward.</li>
+<li><strong>Sample efficiency.</strong> As an on-policy method, TRPO discards all collected data after each update. Off-policy methods (like SAC) can reuse old data.</li>
+</ul>
+<p>These limitations are precisely what PPO addresses — see the <a href="../03_PPO/">PPO tutorial</a> for details.</p>
+<hr />
+<h2 id="8-connection-to-actor-critic-methods">8. Connection to Actor-Critic Methods<a class="headerlink" href="#8-connection-to-actor-critic-methods" title="Permanent link">&para;</a></h2>
+<p>TRPO is naturally an <strong>actor-critic</strong> algorithm:</p>
+<ul>
+<li>The <strong>actor</strong> is the policy <span class="arithmatex">\(\pi_\theta\)</span>, updated via the constrained surrogate objective.</li>
+<li>The <strong>critic</strong> is the value function <span class="arithmatex">\(V_\phi\)</span>, updated via regression on rewards-to-go.</li>
+</ul>
+<p>The critic's role is to reduce variance in the policy gradient estimate by providing a baseline. Without a value function baseline, the policy gradient has high variance and learning is slow. The advantage estimate <span class="arithmatex">\(\hat{A}_t = Q(s_t, a_t) - V(s_t)\)</span> centers the gradient signal around zero, so that actions better than average get positive reinforcement and actions worse than average get negative reinforcement.</p>
+<blockquote>
+<p><em>A dedicated tutorial on the actor-critic framework and its variants is planned for this series.</em></p>
+</blockquote>
+<hr />
+<h2 id="9-summary">9. Summary<a class="headerlink" href="#9-summary" title="Permanent link">&para;</a></h2>
+<p>TRPO's contribution is a <strong>principled framework for stable policy optimization</strong>:</p>
+<ol>
+<li>It replaces the fragile fixed learning rate with a <strong>trust region constraint</strong> in policy space.</li>
+<li>It uses the <strong>natural gradient</strong> (via conjugate gradient) to account for the geometry of probability distributions.</li>
+<li>It provides <strong>theoretical monotonic improvement guarantees</strong> under the KL constraint.</li>
+<li>It introduces the <strong>surrogate objective</strong> with importance sampling, which PPO later simplifies.</li>
+</ol>
+<p>The key takeaway: <strong>don't limit how far you move in parameter space — limit how much the policy's behavior changes.</strong> This single insight underlies both TRPO and PPO, and is one of the most important ideas in modern deep RL.</p>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>[Schulman et al., 2015]</strong> — <em>Trust Region Policy Optimization.</em> ICML 2015. <a href="https://arxiv.org/abs/1502.05477">arXiv:1502.05477</a></li>
+<li><strong>[Kakade &amp; Langford, 2002]</strong> — <em>Approximately Optimal Approximate Reinforcement Learning.</em> ICML 2002.</li>
+<li><strong>[Schulman et al., 2016]</strong> — <em>High-Dimensional Continuous Control Using Generalized Advantage Estimation.</em> ICLR 2016. <a href="https://arxiv.org/abs/1506.02438">arXiv:1506.02438</a></li>
+<li><strong>[OpenAI Spinning Up: TRPO]</strong> — <a href="https://spinningup.openai.com/en/latest/algorithms/trpo.html">spinningup.openai.com/en/latest/algorithms/trpo.html</a></li>
+</ul>
+<hr />
+<p><em>Previous: <a href="../01_PG/">Policy Gradient Fundamentals</a></em> | <em>Next: <a href="../03_PPO/">Proximal Policy Optimization (PPO)</a> — how to get TRPO-level stability with a simple clipped objective.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 GRL Research Team
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/pleiadian53/GRL" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.action.edit"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
