@@ -159,3 +159,9 @@ logs/
 
 # Dev notes (private development directory)
 dev/
+
+# Private Claude Code workspace (per-project instructions, not for git)
+.claude/
+
+# Obsidian vault (private — workspace state, plugin config, etc.)
+.obsidian/
