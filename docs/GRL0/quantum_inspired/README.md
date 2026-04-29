@@ -181,6 +181,24 @@ These extensions are **novel to mainstream machine learning** and represent pote
 
 ---
 
+### 11. [Leveraging Complex-Valued Kernels for GRL — Tutorial](10-complex-kernels-tutorial.md) ⭐ **New**
+
+**Topics:**
+
+- Minimum viable change from real to complex GRL (what's stored, what's computed)
+- Gradient derivation via Wirtinger calculus: $\nabla |\Psi|^2 = 2\,\mathrm{Re}\{\Psi^* \nabla \Psi\}$
+- Five leverage patterns: temporal phase, multi-task phase, directional phase, learned phase, nodes
+- Three policy readouts: ascend $|\Psi|^2$, Boltzmann, phase-projected
+- Complex MemoryUpdate loss options (Born-rule MSE, phase-aware, complex regression)
+- Context-switching gridworld walkthrough showing when complex kernels actually pay off
+- Pitfalls: phase drift, loss of monotonicity, gauge symmetry, when NOT to use complex
+
+**Key Insight:** Complex kernels are a structural prior that composes through phase. They pay off when your task has a natural cyclic or contextual structure — not as a default upgrade.
+
+**Companion to:** Chapter 03 (theory) — this chapter focuses on practical application.
+
+---
+
 ## Why This Matters for ML
 
 ### Novel Probability Formulation
@@ -226,10 +244,11 @@ GRL (quantum-inspired) uses **probability amplitudes**: $\langle \psi | \phi \ra
 7. **New:** Read [07-learning-the-field-beyond-gp.md](07-learning-the-field-beyond-gp.md) for learning mechanisms beyond GP—scalability, amplitude-based learning, mixture of experts
 8. **New:** Read [08-memory-dynamics-formation-consolidation-retrieval.md](08-memory-dynamics-formation-consolidation-retrieval.md) for principled memory dynamics—what to retain/forget, preventing agent drift
 
-**Advanced (Chapters 9-10):**
+**Advanced (Chapters 9-11):**
 
 9. **New:** Read [09-path-integrals-and-action-principles.md](09-path-integrals-and-action-principles.md) for Feynman path integrals, imaginary time QM, complex-valued GRL, and connection to Tutorial Chapter 03a
 10. Explore [03-complex-rkhs.md](03-complex-rkhs.md) for complex-valued extensions (interference, phase semantics)
+11. **New:** Work through [10-complex-kernels-tutorial.md](10-complex-kernels-tutorial.md) — the practical companion to Chapter 10 (theory). Five leverage patterns, policy readouts, loss options, and a context-switching gridworld walkthrough.
 
 ---
 
