@@ -12,7 +12,7 @@
         <meta name="author" content="GRL Research Team">
       
       
-        <link rel="canonical" href="https://pleiadian53.github.io/GRL/policy_gradient/03a_PG_in_PPO/">
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/action_operator/02-action-operator-formalization/">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Where Is the Policy Gradient in PPO? - Generalized Reinforcement Learning (GRL)</title>
+        <title>Part 2: Action Operator Formalization — Definitions, Families, and Implementation - Generalized Reinforcement Learning (GRL)</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#where-is-the-policy-gradient-in-ppo" class="md-skip">
+        <a href="#part-2-action-operator-formalization-definitions-families-and-implementation" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Where Is the Policy Gradient in PPO?
+              Part 2: Action Operator Formalization — Definitions, Families, and Implementation
             
           </span>
         </div>
@@ -2000,10 +2000,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-the-puzzle" class="md-nav__link">
+  <a href="#1-the-core-shift-from-selection-to-construction" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. The Puzzle
+        1. The Core Shift: From Selection to Construction
       
     </span>
   </a>
@@ -2011,22 +2011,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-two-equivalent-views-of-policy-gradient" class="md-nav__link">
+  <a href="#2-the-three-definitions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Two Equivalent Views of Policy Gradient
+        2. The Three Definitions
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Two Equivalent Views of Policy Gradient">
+    <nav class="md-nav" aria-label="2. The Three Definitions">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#view-a-gradient-first-textbook-reinforce" class="md-nav__link">
+  <a href="#definition-1-action-operator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        View A: Gradient-first (textbook REINFORCE)
+        Definition 1: Action Operator
       
     </span>
   </a>
@@ -2034,10 +2034,32 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#view-b-loss-first-modern-deep-learning-style" class="md-nav__link">
+  <a href="#definition-2-operator-generator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        View B: Loss-first (modern deep learning style)
+        Definition 2: Operator Generator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#definition-3-operator-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Definition 3: Operator Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-the-three-definitions-interlock" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the Three Definitions Interlock
       
     </span>
   </a>
@@ -2050,33 +2072,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-why-the-ratio-appears-importance-sampling" class="md-nav__link">
+  <a href="#3-operator-families-concrete-realizations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Why the Ratio Appears: Importance Sampling
+        3. Operator Families: Concrete Realizations
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-where-the-gradient-is-hiding-the-derivation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Where the Gradient Is Hiding: The Derivation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Where the Gradient Is Hiding: The Derivation">
+    <nav class="md-nav" aria-label="3. Operator Families: Concrete Realizations">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-1-move-the-gradient-inside-the-expectation" class="md-nav__link">
+  <a href="#31-affine-operators" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1: Move the gradient inside the expectation
+        3.1 Affine Operators
       
     </span>
   </a>
@@ -2084,10 +2095,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-2-differentiate-the-ratio" class="md-nav__link">
+  <a href="#32-field-operators" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2: Differentiate the ratio
+        3.2 Field Operators
       
     </span>
   </a>
@@ -2095,10 +2106,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-3-apply-the-log-derivative-trick" class="md-nav__link">
+  <a href="#33-potential-field-operators" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3: Apply the log-derivative trick
+        3.3 Potential Field Operators
       
     </span>
   </a>
@@ -2106,10 +2117,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-4-assemble-the-full-gradient" class="md-nav__link">
+  <a href="#34-kernelrbf-operators" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 4: Assemble the full gradient
+        3.4 Kernel/RBF Operators
       
     </span>
   </a>
@@ -2117,10 +2128,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-5-verify-consistency-with-vanilla-policy-gradient" class="md-nav__link">
+  <a href="#35-attention-based-kernel-operators" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 5: Verify consistency with vanilla policy gradient
+        3.5 Attention-Based Kernel Operators
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-hamiltonian-operators-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 Hamiltonian Operators (Planned)
       
     </span>
   </a>
@@ -2133,44 +2155,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-what-clipping-does-to-the-gradient" class="md-nav__link">
+  <a href="#4-algebraic-structure-why-it-matters" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. What Clipping Does to the Gradient
+        4. Algebraic Structure: Why It Matters
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-the-gradient-flow-in-practice" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. The Gradient Flow in Practice
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Summary
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="7. Summary">
+    <nav class="md-nav" aria-label="4. Algebraic Structure: Why It Matters">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#the-answer-to-the-puzzle" class="md-nav__link">
+  <a href="#41-composition-and-monoid-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The answer to the puzzle
+        4.1 Composition and Monoid Structure
       
     </span>
   </a>
@@ -2178,10 +2178,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#why-ppo-is-written-as-a-loss-not-a-gradient" class="md-nav__link">
+  <a href="#42-energy-of-composed-operators" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why PPO is written as a loss, not a gradient
+        4.2 Energy of Composed Operators
       
     </span>
   </a>
@@ -2189,10 +2189,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-progression" class="md-nav__link">
+  <a href="#43-invertibility-and-group-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The progression
+        4.3 Invertibility and Group Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-lie-group-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Lie Group Structure
       
     </span>
   </a>
@@ -2201,6 +2212,78 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-the-generalized-bellman-equation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. The Generalized Bellman Equation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-operator-generator-network-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The Operator Generator Network: Implementation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. The Operator Generator Network: Implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-parameter-prediction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Parameter Prediction
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-hypernetwork-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Hypernetwork Generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-connecting-back-to-grl0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Connecting Back to GRL0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Summary
+      
+    </span>
+  </a>
   
 </li>
       
@@ -2221,7 +2304,7 @@
 
 
   
-    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/policy_gradient/03a_PG_in_PPO.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/action_operator/02-action-operator-formalization.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
     </a>
@@ -2229,137 +2312,248 @@
   
 
 
-<h1 id="where-is-the-policy-gradient-in-ppo">Where Is the Policy Gradient in PPO?<a class="headerlink" href="#where-is-the-policy-gradient-in-ppo" title="Permanent link">&para;</a></h1>
-<p><strong>Unpacking the ratio form: why <span class="arithmatex">\(\nabla_\theta\)</span> seems to disappear</strong></p>
-<blockquote>
-<p><em>Prerequisites: <a href="../01_PG/">Policy Gradient Fundamentals</a>, <a href="../03_PPO/">PPO</a></em></p>
-</blockquote>
+<h1 id="part-2-action-operator-formalization-definitions-families-and-implementation">Part 2: Action Operator Formalization — Definitions, Families, and Implementation<a class="headerlink" href="#part-2-action-operator-formalization-definitions-families-and-implementation" title="Permanent link">&para;</a></h1>
+<p><strong>Series:</strong> Action Operators in Generalized Reinforcement Learning<br />
+<strong>Part:</strong> 2 of 3<br />
+<strong>Audience:</strong> Self-reference and interview prep<br />
+<strong>Prerequisites:</strong> Part 1 (The GRL0 Gap)</p>
 <hr />
-<h2 id="1-the-puzzle">1. The Puzzle<a class="headerlink" href="#1-the-puzzle" title="Permanent link">&para;</a></h2>
-<p>In <a href="../01_PG/">Chapter 01</a>, the policy gradient is written with an explicit gradient operator inside the expectation:</p>
-<div class="arithmatex">\[\nabla_\theta J(\theta) = \mathbb{E}_{s_t, a_t \sim \pi_\theta} \left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p>The gradient <span class="arithmatex">\(\nabla_\theta\)</span> is right there — loud and visible.</p>
-<p>But in <a href="../03_PPO/">Chapter 03</a>, PPO writes down an <strong>objective function</strong> with no gradient in sight:</p>
-<div class="arithmatex">\[L(\theta) = \mathbb{E}_t \left[ r_t(\theta) \, \hat{A}_t \right], \quad r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\]</div>
-<p>Where did the gradient go? If we're doing gradient ascent, there must be a <span class="arithmatex">\(\nabla_\theta\)</span> somewhere. Is the ratio form hiding something?</p>
-<p><strong>Yes — and this chapter shows exactly what it's hiding and why.</strong></p>
+<h2 id="1-the-core-shift-from-selection-to-construction">1. The Core Shift: From Selection to Construction<a class="headerlink" href="#1-the-core-shift-from-selection-to-construction" title="Permanent link">&para;</a></h2>
+<p>Part 1 identified the gap: GRL0 had a rich value landscape over parametric actions but no formal mechanism for translating parameters into state transformations. The solution is a conceptual shift in what "taking an action" means:</p>
+<ul>
+<li><strong>Classical RL:</strong> The agent <em>selects</em> from a predefined menu. The environment interprets the selection and produces the next state.</li>
+<li><strong>GRL (operator framework):</strong> The agent <em>constructs</em> a function that transforms the state. The environment's role is reduced to adding noise.</li>
+</ul>
+<p>This shift elevates the agent from a decision-maker to a <em>dynamics constructor</em>. The policy doesn't output "which action" but "how to transform the current state."</p>
 <hr />
-<h2 id="2-two-equivalent-views-of-policy-gradient">2. Two Equivalent Views of Policy Gradient<a class="headerlink" href="#2-two-equivalent-views-of-policy-gradient" title="Permanent link">&para;</a></h2>
-<p>The key insight is that there are two mathematically equivalent ways to describe the same algorithm.</p>
-<h3 id="view-a-gradient-first-textbook-reinforce">View A: Gradient-first (textbook REINFORCE)<a class="headerlink" href="#view-a-gradient-first-textbook-reinforce" title="Permanent link">&para;</a></h3>
-<p>Write the gradient formula directly:</p>
-<div class="arithmatex">\[\nabla_\theta J(\theta) = \mathbb{E}\left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p>You never define a scalar loss function. You just have a gradient expression, and you follow it.</p>
-<p>This is common in theory papers and early RL (Williams, 1992; Sutton et al., 2000).</p>
-<h3 id="view-b-loss-first-modern-deep-learning-style">View B: Loss-first (modern deep learning style)<a class="headerlink" href="#view-b-loss-first-modern-deep-learning-style" title="Permanent link">&para;</a></h3>
-<p>Define a scalar objective first:</p>
-<div class="arithmatex">\[L(\theta) = \mathbb{E}\left[ \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p>Then take its gradient:</p>
-<div class="arithmatex">\[\nabla_\theta L(\theta) = \mathbb{E}\left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p><strong>Same gradient. Different presentation.</strong> In View B, you hand the scalar loss <span class="arithmatex">\(L(\theta)\)</span> to an optimizer (Adam, SGD), and autograd computes <span class="arithmatex">\(\nabla_\theta L\)</span> for you. You never write the gradient formula explicitly.</p>
-<p>PPO and TRPO live entirely in <strong>View B</strong>. That's why the gradient seems to disappear — it's handled by the autodiff framework, not written in the math.</p>
-<hr />
-<h2 id="3-why-the-ratio-appears-importance-sampling">3. Why the Ratio Appears: Importance Sampling<a class="headerlink" href="#3-why-the-ratio-appears-importance-sampling" title="Permanent link">&para;</a></h2>
-<p>Now comes the subtle step that introduces the ratio.</p>
-<p>In View B, the on-policy loss is:</p>
-<div class="arithmatex">\[L^{\text{on-policy}}(\theta) = \mathbb{E}_{a_t \sim \pi_\theta}\left[ \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p>But there's a problem: <strong>we collected data using the old policy</strong> <span class="arithmatex">\(\pi_{\theta_k}\)</span>, not the current policy <span class="arithmatex">\(\pi_\theta\)</span>. The expectation is over the wrong distribution.</p>
-<p><strong>Importance sampling</strong> fixes this mismatch. For any function <span class="arithmatex">\(f\)</span>:</p>
-<div class="arithmatex">\[\mathbb{E}_{a \sim \pi_\theta}[f(a)] = \mathbb{E}_{a \sim \pi_{\theta_k}}\left[ \frac{\pi_\theta(a \mid s)}{\pi_{\theta_k}(a \mid s)} \, f(a) \right]\]</div>
-<p>The fraction <span class="arithmatex">\(\frac{\pi_\theta}{\pi_{\theta_k}}\)</span> reweights samples from the old distribution to be valid under the new distribution. This fraction is exactly the <strong>probability ratio</strong> <span class="arithmatex">\(r_t(\theta)\)</span>.</p>
-<p>Applying this to the policy objective gives the <strong>surrogate objective</strong>:</p>
-<div class="arithmatex">\[L(\theta) = \mathbb{E}_{a_t \sim \pi_{\theta_k}}\left[ \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)} \; \hat{A}_t \right] = \mathbb{E}_t\left[ r_t(\theta) \; \hat{A}_t \right]\]</div>
-<p>This is the objective that TRPO and PPO optimize. It looks gradient-free, but it isn't — the gradient is hiding inside <span class="arithmatex">\(r_t(\theta)\)</span>.</p>
-<hr />
-<h2 id="4-where-the-gradient-is-hiding-the-derivation">4. Where the Gradient Is Hiding: The Derivation<a class="headerlink" href="#4-where-the-gradient-is-hiding-the-derivation" title="Permanent link">&para;</a></h2>
-<p>Let's take <span class="arithmatex">\(\nabla_\theta\)</span> of the surrogate objective step by step.</p>
-<h3 id="step-1-move-the-gradient-inside-the-expectation">Step 1: Move the gradient inside the expectation<a class="headerlink" href="#step-1-move-the-gradient-inside-the-expectation" title="Permanent link">&para;</a></h3>
-<p>Since the expectation is over data from <span class="arithmatex">\(\pi_{\theta_k}\)</span> (which is <strong>fixed</strong> — it doesn't depend on <span class="arithmatex">\(\theta\)</span>), we can move the gradient inside:</p>
-<div class="arithmatex">\[\nabla_\theta L(\theta) = \nabla_\theta \, \mathbb{E}_t\left[ r_t(\theta) \, \hat{A}_t \right] = \mathbb{E}_t\left[ \nabla_\theta \, r_t(\theta) \; \hat{A}_t \right]\]</div>
-<p>Note: this step would <strong>not</strong> be valid if the expectation were over <span class="arithmatex">\(\pi_\theta\)</span> (because then the distribution itself depends on <span class="arithmatex">\(\theta\)</span>). The importance sampling rewrite is what makes this legal.</p>
-<h3 id="step-2-differentiate-the-ratio">Step 2: Differentiate the ratio<a class="headerlink" href="#step-2-differentiate-the-ratio" title="Permanent link">&para;</a></h3>
-<p>Now we need <span class="arithmatex">\(\nabla_\theta \, r_t(\theta)\)</span>. Recall:</p>
-<div class="arithmatex">\[r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\]</div>
-<p>The denominator <span class="arithmatex">\(\pi_{\theta_k}(a_t \mid s_t)\)</span> is a <strong>constant</strong> (it was computed using the old parameters <span class="arithmatex">\(\theta_k\)</span>, which are frozen). So:</p>
-<div class="arithmatex">\[\nabla_\theta \, r_t(\theta) = \frac{\nabla_\theta \, \pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\]</div>
-<h3 id="step-3-apply-the-log-derivative-trick">Step 3: Apply the log-derivative trick<a class="headerlink" href="#step-3-apply-the-log-derivative-trick" title="Permanent link">&para;</a></h3>
-<p>The standard identity <span class="arithmatex">\(\nabla_\theta \, \pi_\theta = \pi_\theta \, \nabla_\theta \log \pi_\theta\)</span> (the same "log trick" used to derive the original policy gradient) gives:</p>
-<div class="arithmatex">\[\nabla_\theta \, \pi_\theta(a_t \mid s_t) = \pi_\theta(a_t \mid s_t) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t)\]</div>
-<p>Substituting:</p>
-<div class="arithmatex">\[\nabla_\theta \, r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)} \; \nabla_\theta \log \pi_\theta(a_t \mid s_t) = r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t)\]</div>
-<h3 id="step-4-assemble-the-full-gradient">Step 4: Assemble the full gradient<a class="headerlink" href="#step-4-assemble-the-full-gradient" title="Permanent link">&para;</a></h3>
-<p>Plugging back into the expectation:</p>
-<div class="arithmatex">\[\boxed{\nabla_\theta L(\theta) = \mathbb{E}_t\left[ r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]}\]</div>
-<p><strong>There it is.</strong> The score function <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span> was hiding inside the ratio all along.</p>
-<h3 id="step-5-verify-consistency-with-vanilla-policy-gradient">Step 5: Verify consistency with vanilla policy gradient<a class="headerlink" href="#step-5-verify-consistency-with-vanilla-policy-gradient" title="Permanent link">&para;</a></h3>
-<p>At <span class="arithmatex">\(\theta = \theta_k\)</span> (the beginning of each PPO iteration), the ratio equals 1:</p>
-<div class="arithmatex">\[r_t(\theta_k) = \frac{\pi_{\theta_k}(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)} = 1\]</div>
-<p>So the gradient reduces to:</p>
-<div class="arithmatex">\[\nabla_\theta L(\theta)\Big|_{\theta = \theta_k} = \mathbb{E}_t\left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p>This is <strong>exactly the vanilla policy gradient</strong>. The surrogate objective and the true objective have the same gradient at the current policy — they are first-order equivalent.</p>
-<p>As <span class="arithmatex">\(\theta\)</span> moves away from <span class="arithmatex">\(\theta_k\)</span>, the ratio <span class="arithmatex">\(r_t(\theta)\)</span> deviates from 1 and <strong>reweights</strong> the gradient: actions that became more likely under the new policy get amplified, and actions that became less likely get dampened. This is the importance sampling correction at work.</p>
-<hr />
-<h2 id="5-what-clipping-does-to-the-gradient">5. What Clipping Does to the Gradient<a class="headerlink" href="#5-what-clipping-does-to-the-gradient" title="Permanent link">&para;</a></h2>
-<p>In PPO-Clip, the objective is:</p>
-<div class="arithmatex">\[L^{\text{CLIP}}(\theta) = \mathbb{E}_t\left[ \min\Big( r_t(\theta) \, \hat{A}_t, \;\; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \, \hat{A}_t \Big) \right]\]</div>
-<p>What happens to the gradient?</p>
-<p><strong>Inside the trust region</strong> (<span class="arithmatex">\(1-\epsilon \leq r_t \leq 1+\epsilon\)</span>): the clip is inactive, so the gradient is exactly as derived above:</p>
-<div class="arithmatex">\[\nabla_\theta L^{\text{CLIP}} = \mathbb{E}_t\left[ r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p><strong>Outside the trust region</strong> (<span class="arithmatex">\(r_t &gt; 1+\epsilon\)</span> or <span class="arithmatex">\(r_t &lt; 1-\epsilon\)</span>): the clipped term becomes a constant times <span class="arithmatex">\(\hat{A}_t\)</span>, so its gradient with respect to <span class="arithmatex">\(\theta\)</span> is <strong>zero</strong>. The <span class="arithmatex">\(\min\)</span> selects this zero-gradient term, effectively <strong>killing the gradient</strong> for that sample.</p>
-<p>This is how clipping enforces the trust region: it doesn't add a penalty — it simply <strong>turns off the learning signal</strong> for actions where the policy has already changed too much. The optimizer receives zero gradient and stops moving in that direction.</p>
-<hr />
-<h2 id="6-the-gradient-flow-in-practice">6. The Gradient Flow in Practice<a class="headerlink" href="#6-the-gradient-flow-in-practice" title="Permanent link">&para;</a></h2>
-<p>In a modern deep learning framework (PyTorch, JAX), the entire process is:</p>
+<h2 id="2-the-three-definitions">2. The Three Definitions<a class="headerlink" href="#2-the-three-definitions" title="Permanent link">&para;</a></h2>
+<p>The operator framework rests on three interlocking definitions that together close the gap identified in Part 1.</p>
+<h3 id="definition-1-action-operator">Definition 1: Action Operator<a class="headerlink" href="#definition-1-action-operator" title="Permanent link">&para;</a></h3>
+<p>An <strong>action operator</strong> is a measurable mapping <span class="arithmatex">\(\hat{O}: \mathcal{S} \to \mathcal{S}\)</span> that transforms states directly.</p>
+<div class="arithmatex">\[\mathcal{O} = \{\hat{O}: \mathcal{S} \to \mathcal{S} \mid \hat{O} \text{ is measurable}\}\]</div>
+<p>In practice, we restrict to smooth or Lipschitz operators for well-behaved dynamics. Each operator carries an <strong>energy functional</strong> <span class="arithmatex">\(E(\hat{O}) \geq 0\)</span> that measures transformation magnitude, enabling least-action regularization.</p>
+<p><strong>What this means:</strong> An action is no longer a symbol or a parameter vector. It is a <em>function</em> — a complete specification of how every state in <span class="arithmatex">\(\mathcal{S}\)</span> would be transformed. The agent doesn't say "apply force 2.5 to joint 3"; it says "here is a function that maps every possible state to its successor."</p>
+<p><strong>The transition rule</strong> becomes:</p>
+<div class="arithmatex">\[s' = \hat{O}(s) + \xi, \quad \xi \sim \mathcal{N}(0, \sigma^2 I)\]</div>
+<p>The operator directly produces the next state. The environment contributes only stochastic perturbation <span class="arithmatex">\(\xi\)</span> representing unmodeled dynamics or noise. In the deterministic limit (<span class="arithmatex">\(\sigma \to 0\)</span>), the agent has <em>full control</em> over the transition.</p>
+<h3 id="definition-2-operator-generator">Definition 2: Operator Generator<a class="headerlink" href="#definition-2-operator-generator" title="Permanent link">&para;</a></h3>
+<p>An <strong>operator generator</strong> is a mapping:</p>
+<div class="arithmatex">\[\Phi: \Theta \times \mathcal{S} \to \mathcal{S}\]</div>
+<p>where <span class="arithmatex">\(\Theta \subseteq \mathbb{R}^d\)</span> is the parameter space. For fixed <span class="arithmatex">\(\theta \in \Theta\)</span>:</p>
+<div class="arithmatex">\[\hat{O}_\theta(s) := \Phi(\theta, s)\]</div>
+<p>The set <span class="arithmatex">\(\{\hat{O}_\theta : \theta \in \Theta\}\)</span> defines a <strong>parametric operator manifold</strong> — a smooth surface embedded in the (generally infinite-dimensional) operator space <span class="arithmatex">\(\mathcal{O}\)</span>.</p>
+<p><strong>What this means:</strong> This is the missing bridge from Part 1. GRL0 had continuous parameters <span class="arithmatex">\(\theta\)</span> but no formal way to convert them into state transformations. The generator <span class="arithmatex">\(\Phi\)</span> does exactly this: given any <span class="arithmatex">\(\theta\)</span>, it produces a concrete operator that can be applied to any state.</p>
+<p>Different choices of <span class="arithmatex">\(\Phi\)</span> yield different <strong>operator families</strong> (see Section 3 below). The generator is the design choice that determines what class of transformations the agent can express.</p>
+<p><strong>In neural implementations</strong>, <span class="arithmatex">\(\Phi\)</span> is typically a neural network that takes <span class="arithmatex">\((\theta, s)\)</span> as input and outputs <span class="arithmatex">\(s'\)</span>. The parameters <span class="arithmatex">\(\theta\)</span> may themselves be generated by a policy network.</p>
+<h3 id="definition-3-operator-policy">Definition 3: Operator Policy<a class="headerlink" href="#definition-3-operator-policy" title="Permanent link">&para;</a></h3>
+<p>An <strong>operator policy</strong> is a mapping:</p>
+<div class="arithmatex">\[\pi: \mathcal{S} \to \Delta(\Theta)\]</div>
+<p>that assigns to each state a distribution over operator parameters. For deterministic policies: <span class="arithmatex">\(\pi: \mathcal{S} \to \Theta\)</span>.</p>
+<p><strong>The full chain:</strong></p>
+<div class="arithmatex">\[s \xrightarrow{\pi_\psi} \theta \xrightarrow{\Phi} \hat{O}_\theta \xrightarrow{\text{apply}} s' = \hat{O}_\theta(s) + \xi\]</div>
+<p><strong>What this means:</strong> The policy is a <em>meta-function</em> — it outputs not a primitive value but a specification for a state transformation. The architecture has two components:</p>
 <ol>
-<li><strong>Forward pass</strong>: compute <span class="arithmatex">\(r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\)</span> and the clipped objective <span class="arithmatex">\(L^{\text{CLIP}}\)</span></li>
-<li><strong>Backward pass</strong>: autograd computes <span class="arithmatex">\(\nabla_\theta L^{\text{CLIP}}\)</span> automatically via the chain rule through <span class="arithmatex">\(r_t(\theta)\)</span>, through <span class="arithmatex">\(\pi_\theta(a_t \mid s_t)\)</span>, through the neural network</li>
-<li><strong>Optimizer step</strong>: Adam updates <span class="arithmatex">\(\theta\)</span></li>
+<li><strong>Policy network</strong> <span class="arithmatex">\(\pi_\psi\)</span>: maps states to operator parameters</li>
+<li><strong>Operator generator</strong> <span class="arithmatex">\(\Phi\)</span>: maps parameters and states to transformed states</li>
 </ol>
-<p>The programmer never writes <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span> explicitly. It emerges from autodiff applied to the ratio. This is why PPO code looks like a standard supervised learning loop — define a loss, call <code>loss.backward()</code>, call <code>optimizer.step()</code>.</p>
+<p>This separation is powerful. The policy network can be a standard MLP or transformer. The operator generator encodes the <em>structure</em> of allowable transformations. Different tasks might share the same generator family (e.g., field operators) with different learned policies.</p>
+<h3 id="how-the-three-definitions-interlock">How the Three Definitions Interlock<a class="headerlink" href="#how-the-three-definitions-interlock" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>                    ┌─────────────────┐
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                    │  Operator Space  │
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>                    │    O: S → S      │     Definition 1: what actions ARE
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                    └────────▲────────┘
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                             │
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>                    ┌────────┴────────┐
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>                    │    Generator     │
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>                    │  Φ(θ, s) → s&#39;   │     Definition 2: how params become operators
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>                    └────────▲────────┘
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>                             │
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>                    ┌────────┴────────┐
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>                    │  Operator Policy │
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>                    │  π: S → Δ(Θ)    │     Definition 3: how states produce params
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>                    └─────────────────┘
+</span></code></pre></div>
+<p>Definition 1 says what an action <em>is</em>. Definition 2 says how to <em>construct</em> one from parameters. Definition 3 says how to <em>choose</em> parameters given the current state. Together, they provide a complete, differentiable pipeline from state to next state — no discretization required.</p>
 <hr />
-<h2 id="7-summary">7. Summary<a class="headerlink" href="#7-summary" title="Permanent link">&para;</a></h2>
-<h3 id="the-answer-to-the-puzzle">The answer to the puzzle<a class="headerlink" href="#the-answer-to-the-puzzle" title="Permanent link">&para;</a></h3>
-<p>The policy gradient <span class="arithmatex">\(\nabla_\theta \log \pi_\theta(a_t \mid s_t)\)</span> is not missing from PPO — it is <strong>inside the ratio</strong> <span class="arithmatex">\(r_t(\theta)\)</span>, extracted automatically by the chain rule when you differentiate:</p>
-<div class="arithmatex">\[\nabla_\theta \, r_t(\theta) = r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t)\]</div>
-<h3 id="why-ppo-is-written-as-a-loss-not-a-gradient">Why PPO is written as a loss, not a gradient<a class="headerlink" href="#why-ppo-is-written-as-a-loss-not-a-gradient" title="Permanent link">&para;</a></h3>
-<p>Modern deep learning works by defining scalar objectives and letting autograd handle differentiation. PPO embraces this paradigm: define <span class="arithmatex">\(L^{\text{CLIP}}(\theta)\)</span>, let the framework compute <span class="arithmatex">\(\nabla_\theta L^{\text{CLIP}}\)</span>, and update with Adam.</p>
-<blockquote>
-<p><strong>Policy gradient algorithms are not defined by their gradient formulas — they are defined by the objective whose gradient they follow.</strong></p>
-</blockquote>
-<h3 id="the-progression">The progression<a class="headerlink" href="#the-progression" title="Permanent link">&para;</a></h3>
+<h2 id="3-operator-families-concrete-realizations">3. Operator Families: Concrete Realizations<a class="headerlink" href="#3-operator-families-concrete-realizations" title="Permanent link">&para;</a></h2>
+<p>Each operator family is defined by a specific form of the generator <span class="arithmatex">\(\Phi(\theta, s)\)</span>. The choice of family encodes structural assumptions about what kinds of transformations are relevant for the task.</p>
+<h3 id="31-affine-operators">3.1 Affine Operators<a class="headerlink" href="#31-affine-operators" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\hat{O}(s) = As + b\]</div>
+<p><strong>Parameters:</strong> <span class="arithmatex">\(\theta = (\text{vec}(A), b) \in \mathbb{R}^{n^2 + n}\)</span></p>
+<p><strong>Generator:</strong> <span class="arithmatex">\(\Phi(\theta, s) = A_\theta s + b_\theta\)</span></p>
+<p><strong>Energy:</strong> <span class="arithmatex">\(E(\hat{O}) = \|A - I\|_F^2 + \|b\|_2^2\)</span></p>
+<p><strong>Why it matters:</strong> This is the bridge to classical RL. When <span class="arithmatex">\(A = I\)</span>, the operator reduces to <span class="arithmatex">\(\hat{O}(s) = s + b\)</span>, which is exactly the displacement model in standard continuous RL — the "action" is a vector added to the state. Affine operators generalize this by allowing the transformation to depend on the current state through the matrix <span class="arithmatex">\(A\)</span>.</p>
+<p><strong>When to use:</strong> Linear control problems, systems where the dynamics are approximately linear near the operating point, or as a baseline to validate the framework.</p>
+<p><strong>Recovery of classical RL:</strong> Setting <span class="arithmatex">\(\mathcal{O} = \{s \mapsto s + b_1, \ldots, s \mapsto s + b_k\}\)</span> for a finite set of displacements recovers a discrete-action MDP. This is the formal proof that standard RL is a special case of GRL.</p>
+<h3 id="32-field-operators">3.2 Field Operators<a class="headerlink" href="#32-field-operators" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\hat{O}(s) = s + F_\theta(s)\]</div>
+<p><strong>Parameters:</strong> <span class="arithmatex">\(\theta\)</span> = weights of a neural network <span class="arithmatex">\(F_\theta: \mathcal{S} \to \mathcal{S}\)</span></p>
+<p><strong>Generator:</strong> <span class="arithmatex">\(\Phi(\theta, s) = s + F_\theta(s)\)</span></p>
+<p><strong>Energy:</strong> <span class="arithmatex">\(E(\hat{O}) = \mathbb{E}_s[\|F_\theta(s)\|^2]\)</span></p>
+<p><strong>Why it matters:</strong> This is the operator family most directly connected to GRL0's reinforcement field concept. In GRL0, the reinforcement field <span class="arithmatex">\(\nabla E\)</span> was the value gradient — it pointed toward better configurations. In the operator framework, the field <em>is</em> the action: the agent generates a vector field <span class="arithmatex">\(F_\theta\)</span> that specifies the displacement at every state.</p>
+<p>The key difference: in GRL0, the field emerged from the value function and was used to <em>select</em> action parameters. Here, the field <em>is</em> the operator itself — it directly defines the state transition.</p>
+<p><strong>Connection to neural ODEs:</strong> The field operator <span class="arithmatex">\(\hat{O}(s) = s + \Delta t \cdot F_\theta(s)\)</span> is an Euler step of the ODE <span class="arithmatex">\(\dot{s} = F_\theta(s)\)</span>. For small <span class="arithmatex">\(\Delta t\)</span>, this approximates the flow of a dynamical system. The agent is learning an infinitesimal generator of dynamics.</p>
+<p><strong>When to use:</strong> Navigation, flow control, systems where smooth continuous dynamics are natural.</p>
+<h3 id="33-potential-field-operators">3.3 Potential Field Operators<a class="headerlink" href="#33-potential-field-operators" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\hat{O}(s) = s - \eta \nabla_s \phi_\theta(s)\]</div>
+<p><strong>Parameters:</strong> <span class="arithmatex">\(\theta\)</span> = weights of a scalar potential network <span class="arithmatex">\(\phi_\theta: \mathcal{S} \to \mathbb{R}\)</span></p>
+<p><strong>Generator:</strong> <span class="arithmatex">\(\Phi(\theta, s) = s - \eta \nabla_s \phi_\theta(s)\)</span></p>
+<p><strong>Energy:</strong> <span class="arithmatex">\(E(\hat{O}) = \mathbb{E}_s[\|\nabla \phi(s)\|^2]\)</span></p>
+<p><strong>Why it matters:</strong> This is a <em>conservative</em> field operator — the displacement is always the gradient of a scalar potential, so the induced dynamics are curl-free. The agent learns a potential landscape, and the action is gradient descent on that landscape.</p>
+<p><strong>Connection to physics:</strong> This is exactly how conservative forces work in classical mechanics. The potential <span class="arithmatex">\(\phi\)</span> plays the role of a learned energy landscape, and the operator moves the state downhill on that landscape.</p>
+<p><strong>Implementation note:</strong> The gradient <span class="arithmatex">\(\nabla_s \phi\)</span> is computed via <code>torch.autograd.grad</code>, making this fully differentiable. The potential network outputs a scalar, and the gradient gives the displacement vector — the operator never explicitly constructs the vector field.</p>
+<p><strong>When to use:</strong> Systems with conservative dynamics (gravity, electrostatics), or when you want the operator to have provably convergent dynamics (gradient flows always decrease the potential).</p>
+<h3 id="34-kernelrbf-operators">3.4 Kernel/RBF Operators<a class="headerlink" href="#34-kernelrbf-operators" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\hat{O}(s) = s + \sum_{i=1}^{M} w_i \exp\left(-\frac{\|s - c_i\|^2}{2\sigma^2}\right) d_i\]</div>
+<p><strong>Parameters:</strong> <span class="arithmatex">\(\theta = (c_1, \ldots, c_M, d_1, \ldots, d_M, w_1, \ldots, w_M)\)</span></p>
+<p><strong>Generator:</strong> Localized displacement effects centered at learned locations <span class="arithmatex">\(c_i\)</span> with directions <span class="arithmatex">\(d_i\)</span> and weights <span class="arithmatex">\(w_i\)</span>.</p>
+<p><strong>Energy:</strong> <span class="arithmatex">\(E(\hat{O}) = \sum_i \|d_i\|^2\)</span> (magnitude of displacement directions)</p>
+<p><strong>Why it matters:</strong> This creates <em>localized</em> operator effects — attractors and repellers at specific locations in state space. It directly bridges to GRL0's particle concept: in GRL0, particles defined the value function; here, particles define the operator.</p>
+<p><strong>Connection to GRL0:</strong> In GRL0, particles <span class="arithmatex">\((x_i, w_i)\)</span> stored experience and shaped the energy landscape <span class="arithmatex">\(Q^+ = \sum w_i k(x, x_i)\)</span>. In the RBF operator, learned centers <span class="arithmatex">\((c_i, d_i)\)</span> shape the <em>action field</em>. The mathematical form is identical — the interpretation shifts from "evidence about value" to "specification of transformation."</p>
+<p><strong>When to use:</strong> Navigation with obstacles (centers as repellers), multi-modal control (different centers for different behavioral modes), spatially varying dynamics.</p>
+<h3 id="35-attention-based-kernel-operators">3.5 Attention-Based Kernel Operators<a class="headerlink" href="#35-attention-based-kernel-operators" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\hat{O}(s) = \sum_{i=1}^{M} \alpha_i(s) \, T_i(s)\]</div>
+<p>where <span class="arithmatex">\(\alpha_i(s) = \text{softmax}(f_\text{attn}(s))_i\)</span> and <span class="arithmatex">\(T_i\)</span> are basis transformations.</p>
+<p><strong>Parameters:</strong> <span class="arithmatex">\(\theta\)</span> = attention network weights + basis transform parameters</p>
+<p><strong>Generator:</strong> State-dependent weighted mixture of basis operators.</p>
+<p><strong>Energy:</strong> Entropy of attention weights (encourages committing to specific transformations).</p>
+<p><strong>Why it matters:</strong> This is the most expressive implemented family. The operator adapts its behavior based on the current state — in one region of state space it might apply transformation <span class="arithmatex">\(T_1\)</span>, in another it might blend <span class="arithmatex">\(T_2\)</span> and <span class="arithmatex">\(T_3\)</span>. This is a kernel operator in the generalized sense: the "kernel" is the attention function that determines which basis transformations are active.</p>
+<p><strong>When to use:</strong> Complex tasks with multiple behavioral modes, tool-use scenarios, tasks requiring different strategies in different regions of state space.</p>
+<h3 id="36-hamiltonian-operators-planned">3.6 Hamiltonian Operators (Planned)<a class="headerlink" href="#36-hamiltonian-operators-planned" title="Permanent link">&para;</a></h3>
+<div class="arithmatex">\[\hat{O} = \exp(\tau J \nabla H)\]</div>
+<p>where <span class="arithmatex">\(J\)</span> is the symplectic matrix and <span class="arithmatex">\(H\)</span> is the Hamiltonian.</p>
+<p><strong>Why it matters:</strong> Always invertible, energy-conserving, preserves symplectic structure. Natural for physical systems where energy conservation is a hard constraint. The symplectic group <span class="arithmatex">\(Sp(2n)\)</span> provides a Lie group structure for the operator space.</p>
+<hr />
+<h2 id="4-algebraic-structure-why-it-matters">4. Algebraic Structure: Why It Matters<a class="headerlink" href="#4-algebraic-structure-why-it-matters" title="Permanent link">&para;</a></h2>
+<p>Operators aren't just individual objects — they compose, and the algebraic structure of composition has deep implications for how GRL works.</p>
+<h3 id="41-composition-and-monoid-structure">4.1 Composition and Monoid Structure<a class="headerlink" href="#41-composition-and-monoid-structure" title="Permanent link">&para;</a></h3>
+<p>Operators compose naturally: <span class="arithmatex">\((\hat{O}_2 \circ \hat{O}_1)(s) = \hat{O}_2(\hat{O}_1(s))\)</span>. With the identity operator <span class="arithmatex">\(I(s) = s\)</span>, the triple <span class="arithmatex">\((\mathcal{O}, \circ, I)\)</span> forms a <strong>monoid</strong> — closure, associativity, identity.</p>
+<p><strong>Why it matters for RL:</strong> Sequential application of operators is just composition. A trajectory of <span class="arithmatex">\(K\)</span> timesteps is the composition <span class="arithmatex">\(\hat{O}_K \circ \cdots \circ \hat{O}_1\)</span>. This means a <strong>skill</strong> is a fixed composition of operators, and <strong>hierarchical RL</strong> is meta-policy over operator compositions.</p>
+<h3 id="42-energy-of-composed-operators">4.2 Energy of Composed Operators<a class="headerlink" href="#42-energy-of-composed-operators" title="Permanent link">&para;</a></h3>
+<p>Composition energy is subadditive:</p>
+<div class="arithmatex">\[E(\hat{O}_2 \circ \hat{O}_1) \leq E(\hat{O}_2) + E(\hat{O}_1) + E(\hat{O}_2) \cdot E(\hat{O}_1)\]</div>
+<p>This bounds the complexity of composed operators and connects to the least-action principle: the cheapest way to achieve a goal is a sequence of individually cheap operators.</p>
+<h3 id="43-invertibility-and-group-structure">4.3 Invertibility and Group Structure<a class="headerlink" href="#43-invertibility-and-group-structure" title="Permanent link">&para;</a></h3>
+<p>For invertible operator families (affine with <span class="arithmatex">\(\det(A) \neq 0\)</span>, Hamiltonian always), we get a <strong>group</strong> structure — operators can be undone. This enables:</p>
+<ul>
+<li>Reversible dynamics (undo the last action)</li>
+<li>Time-reversal symmetry</li>
+<li>Cycle consistency as a regularizer</li>
+</ul>
+<h3 id="44-lie-group-structure">4.4 Lie Group Structure<a class="headerlink" href="#44-lie-group-structure" title="Permanent link">&para;</a></h3>
+<p>When the operator group is also a smooth manifold, we get a <strong>Lie group</strong>. The Lie algebra <span class="arithmatex">\(\mathfrak{g} = T_I \mathcal{G}\)</span> (tangent space at identity) provides a <em>linear</em> parameterization of a <em>nonlinear</em> operator space:</p>
+<div class="arithmatex">\[\hat{O}_t = \exp(t \cdot X), \quad X \in \mathfrak{g}\]</div>
+<p><strong>Architectural implication:</strong> The policy network can output a Lie algebra element <span class="arithmatex">\(X\)</span> (which lives in a vector space — easy to parameterize), and exponentiation produces the operator (which lives in the nonlinear group). This is exactly how rotations work: output an angle (Lie algebra <span class="arithmatex">\(\mathfrak{so}(2) = \mathbb{R}\)</span>), exponentiate to get a rotation matrix (Lie group <span class="arithmatex">\(SO(2)\)</span>).</p>
+<hr />
+<h2 id="5-the-generalized-bellman-equation">5. The Generalized Bellman Equation<a class="headerlink" href="#5-the-generalized-bellman-equation" title="Permanent link">&para;</a></h2>
+<p>With operators formalized, the Bellman equation generalizes naturally. The action-value function is now defined over operator parameters:</p>
+<div class="arithmatex">\[Q(s, \theta) = R(s, \hat{O}_\theta(s)) - \lambda E(\hat{O}_\theta) + \gamma \mathbb{E}_{\xi}[V(\hat{O}_\theta(s) + \xi)]\]</div>
+<p>where:
+- <span class="arithmatex">\(R(s, s')\)</span> is the reward for transitioning from <span class="arithmatex">\(s\)</span> to <span class="arithmatex">\(s'\)</span>
+- <span class="arithmatex">\(E(\hat{O}_\theta)\)</span> is the operator energy (least-action penalty)
+- <span class="arithmatex">\(\gamma\)</span> is the discount factor
+- <span class="arithmatex">\(V(s') = \max_\theta Q(s', \theta)\)</span> is the state value</p>
+<p><strong>Recovery of classical Bellman:</strong> When <span class="arithmatex">\(\mathcal{O}\)</span> is restricted to a finite set <span class="arithmatex">\(\{\hat{O}_{a_1}, \ldots, \hat{O}_{a_k}\}\)</span> and <span class="arithmatex">\(\lambda = 0\)</span> (no energy regularization), this reduces to:</p>
+<div class="arithmatex">\[Q(s, a) = R(s, a) + \gamma \mathbb{E}[V(s')]\]</div>
+<p>which is the standard Bellman equation. GRL strictly generalizes classical RL.</p>
+<p><strong>The energy term</strong> is what makes GRL distinct from just "continuous-action RL." The penalty <span class="arithmatex">\(-\lambda E(\hat{O}_\theta)\)</span> in the effective reward creates a <em>preference for simple operators</em>. Among operators that achieve the same reward, the agent prefers the one with minimal energy — the one that transforms the state as little as necessary. This is the RL analogue of the principle of least action in physics.</p>
+<hr />
+<h2 id="6-the-operator-generator-network-implementation">6. The Operator Generator Network: Implementation<a class="headerlink" href="#6-the-operator-generator-network-implementation" title="Permanent link">&para;</a></h2>
+<p>In practice, the policy doesn't directly output an operator (which is a function — infinite-dimensional). Instead, it outputs parameters <span class="arithmatex">\(\theta\)</span> that are fed to a generator. Two architectures have been implemented:</p>
+<h3 id="61-parameter-prediction">6.1 Parameter Prediction<a class="headerlink" href="#61-parameter-prediction" title="Permanent link">&para;</a></h3>
+<p>The <code>OperatorGenerator</code> class uses a standard architecture:</p>
+<ol>
+<li><strong>Encoder:</strong> MLP maps state <span class="arithmatex">\(s\)</span> to hidden representation <span class="arithmatex">\(h\)</span></li>
+<li><strong>Parameter head:</strong> Linear layer maps <span class="arithmatex">\(h\)</span> to flat parameter vector <span class="arithmatex">\(\theta\)</span></li>
+<li><strong>Operator instantiation:</strong> <span class="arithmatex">\(\theta\)</span> is reshaped and loaded into the target operator class</li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>s → [Encoder MLP] → h → [Param Head] → θ → [Reshape into Ô_θ] → Ô_θ(s) = s&#39;
+</span></code></pre></div>
+<p><strong>Initialization:</strong> The parameter head is initialized to zeros, so the initial operator is near-identity. This ensures stable early training and aligns with least-action regularization.</p>
+<h3 id="62-hypernetwork-generation">6.2 Hypernetwork Generation<a class="headerlink" href="#62-hypernetwork-generation" title="Permanent link">&para;</a></h3>
+<p>The <code>HypernetworkGenerator</code> is more expressive. Instead of predicting parameters for a fixed operator class, a hypernetwork generates the <em>weights</em> of a target operator network directly:</p>
+<ol>
+<li><strong>Hypernetwork:</strong> Maps state <span class="arithmatex">\(s\)</span> to a flat vector of target network weights</li>
+<li><strong>Target network:</strong> Uses generated weights to compute <span class="arithmatex">\(F(s)\)</span> (the displacement field)</li>
+<li><strong>Residual:</strong> <span class="arithmatex">\(s' = s + F(s)\)</span></li>
+</ol>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>s → [Hypernetwork] → weights_of_F → [F with generated weights](s) → F(s) → s&#39; = s + F(s)
+</span></code></pre></div>
+<p><strong>Per-sample operators:</strong> The hypernetwork naturally produces per-sample operators via batched matrix multiplication. Each state in a batch gets its own operator network — different states generate different transformations. This is a key advantage over the parameter prediction approach, which averages over the batch.</p>
+<hr />
+<h2 id="7-connecting-back-to-grl0">7. Connecting Back to GRL0<a class="headerlink" href="#7-connecting-back-to-grl0" title="Permanent link">&para;</a></h2>
+<p>The operator framework doesn't invalidate GRL0 — it completes it. Here's how the original concepts map to the new formalism:</p>
 <table>
 <thead>
 <tr>
-<th>Algorithm</th>
-<th>Objective</th>
-<th>Gradient</th>
-<th>Trust region</th>
+<th>GRL0 Concept</th>
+<th>Operator Framework</th>
+<th>Relationship</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Vanilla PG</strong></td>
-<td><span class="arithmatex">\(\mathbb{E}[\log \pi_\theta \, \hat{A}_t]\)</span></td>
-<td>Explicit <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span></td>
-<td>None</td>
+<td>Parametric action <span class="arithmatex">\(\theta\)</span></td>
+<td>Operator parameter <span class="arithmatex">\(\theta\)</span></td>
+<td>Same object, now with formal semantics</td>
 </tr>
 <tr>
-<td><strong>TRPO</strong></td>
-<td><span class="arithmatex">\(\mathbb{E}[r_t(\theta) \, \hat{A}_t]\)</span></td>
-<td>Hidden in <span class="arithmatex">\(r_t(\theta)\)</span></td>
-<td>KL constraint</td>
+<td>Fitness/energy <span class="arithmatex">\(E(s, \theta)\)</span></td>
+<td>Operator energy <span class="arithmatex">\(E(\hat{O}_\theta)\)</span></td>
+<td>Value-side → structure-side</td>
 </tr>
 <tr>
-<td><strong>PPO</strong></td>
-<td><span class="arithmatex">\(\mathbb{E}[\min(r_t \hat{A}_t, \text{clip}(\ldots))]\)</span></td>
-<td>Hidden in <span class="arithmatex">\(r_t(\theta)\)</span>, killed by clip</td>
-<td>Soft (clipping)</td>
+<td>Reinforcement field <span class="arithmatex">\(\nabla E\)</span></td>
+<td>Operator gradient flow</td>
+<td>Field guides optimization over <span class="arithmatex">\(\theta\)</span></td>
+</tr>
+<tr>
+<td>GP value function</td>
+<td>Neural operator value</td>
+<td>Same role, different function class</td>
+</tr>
+<tr>
+<td>Augmented space <span class="arithmatex">\((s, \theta)\)</span></td>
+<td>Operator manifold <span class="arithmatex">\(\{\hat{O}_\theta\}\)</span></td>
+<td>Geometric interpretation preserved</td>
+</tr>
+<tr>
+<td>Experience particles</td>
+<td>Operator evaluations</td>
+<td>Same sampling philosophy</td>
+</tr>
+<tr>
+<td>Discretized <span class="arithmatex">\(\Theta\)</span></td>
+<td><strong>Continuous</strong> <span class="arithmatex">\(\Theta\)</span> via <span class="arithmatex">\(\Phi\)</span></td>
+<td><strong>Gap closed</strong></td>
 </tr>
 </tbody>
 </table>
-<p>In all three cases, the same score function <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span> drives the update. The difference is how aggressively the update is constrained.</p>
+<p>The key difference: in GRL0, <span class="arithmatex">\(\theta\)</span> parameterized the value landscape but not the dynamics. In the operator framework, <span class="arithmatex">\(\theta\)</span> parameterizes the transformation itself via the generator <span class="arithmatex">\(\Phi\)</span>. The reinforcement field can still guide the search over <span class="arithmatex">\(\theta\)</span>, but now executing <span class="arithmatex">\(\theta\)</span> is well-defined at every point — not just at discretized bins.</p>
 <hr />
-<p><em>Previous: <a href="../03_PPO/">Proximal Policy Optimization (PPO)</a></em> | <em>Next: <a href="../04_PPO_variants/">PPO Variants and Modern Descendants</a></em></p>
+<h2 id="8-summary">8. Summary<a class="headerlink" href="#8-summary" title="Permanent link">&para;</a></h2>
+<p>The action operator formalization provides three things that were missing from GRL0:</p>
+<ol>
+<li>
+<p><strong>A formal answer to "what is an action?"</strong> — It's a measurable function <span class="arithmatex">\(\hat{O}: \mathcal{S} \to \mathcal{S}\)</span>, not a symbol or parameter.</p>
+</li>
+<li>
+<p><strong>A formal bridge from parameters to transformations</strong> — The operator generator <span class="arithmatex">\(\Phi(\theta, s)\)</span> converts continuous parameters into executable state transformations, eliminating the need for discretization.</p>
+</li>
+<li>
+<p><strong>Rich algebraic structure</strong> — Composition, invertibility, Lie group structure, and energy functionals provide a mathematical framework for reasoning about action sequences, hierarchical control, and regularization.</p>
+</li>
+</ol>
+<p>Together, these enable a fully continuous, differentiable pipeline from state observation to state transformation — the original promise of GRL0, now realized.</p>
+<hr />
+<p><strong>Next:</strong> <a href="../03-from-fixed-to-learned-kernels/">Part 3: From Fixed Kernels to Learned Kernels</a> — extending the RKHS machinery via Mercer's theorem, the metric learning interpretation, and learned feature maps.</p>
+<hr />
+<p><strong>Related documents:</strong>
+- Operator base class: <code>Projects/GRL/src/grl/operators/base.py</code>
+- Operator families: <code>Projects/GRL/src/grl/operators/{affine,field,kernel}.py</code>
+- Operator generator: <code>Projects/GRL/src/grl/policies/generator.py</code>
+- Paper A formal definitions: <code>Projects/GRL/dev/papers/paper-a-theory/paper-a-formal-definitions.md</code>
+- Paper A operator algebra: <code>Projects/GRL/dev/papers/paper-a-theory/paper-a-operator-algebra.md</code></p>
 
 
 

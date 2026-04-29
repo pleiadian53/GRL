@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -1165,6 +1165,17 @@
     <span class="md-ellipsis">
       
         10. Complex-Valued RKHS and Interference Effects
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#11-leveraging-complex-valued-kernels-for-grl-tutorial-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Leveraging Complex-Valued Kernels for GRL — Tutorial ⭐ New
       
     </span>
   </a>
@@ -2426,6 +2437,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#11-leveraging-complex-valued-kernels-for-grl-tutorial-new" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Leveraging Complex-Valued Kernels for GRL — Tutorial ⭐ New
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2688,6 +2710,20 @@
 </ul>
 <p><strong>Key Insight:</strong> Complex-valued RKHS enables richer dynamics and multi-modal representations through interference effects.</p>
 <hr />
+<h3 id="11-leveraging-complex-valued-kernels-for-grl-tutorial-new">11. <a href="10-complex-kernels-tutorial/">Leveraging Complex-Valued Kernels for GRL — Tutorial</a> ⭐ <strong>New</strong><a class="headerlink" href="#11-leveraging-complex-valued-kernels-for-grl-tutorial-new" title="Permanent link">&para;</a></h3>
+<p><strong>Topics:</strong></p>
+<ul>
+<li>Minimum viable change from real to complex GRL (what's stored, what's computed)</li>
+<li>Gradient derivation via Wirtinger calculus: <span class="arithmatex">\(\nabla |\Psi|^2 = 2\,\mathrm{Re}\{\Psi^* \nabla \Psi\}\)</span></li>
+<li>Five leverage patterns: temporal phase, multi-task phase, directional phase, learned phase, nodes</li>
+<li>Three policy readouts: ascend <span class="arithmatex">\(|\Psi|^2\)</span>, Boltzmann, phase-projected</li>
+<li>Complex MemoryUpdate loss options (Born-rule MSE, phase-aware, complex regression)</li>
+<li>Context-switching gridworld walkthrough showing when complex kernels actually pay off</li>
+<li>Pitfalls: phase drift, loss of monotonicity, gauge symmetry, when NOT to use complex</li>
+</ul>
+<p><strong>Key Insight:</strong> Complex kernels are a structural prior that composes through phase. They pay off when your task has a natural cyclic or contextual structure — not as a default upgrade.</p>
+<p><strong>Companion to:</strong> Chapter 03 (theory) — this chapter focuses on practical application.</p>
+<hr />
 <h2 id="why-this-matters-for-ml">Why This Matters for ML<a class="headerlink" href="#why-this-matters-for-ml" title="Permanent link">&para;</a></h2>
 <h3 id="novel-probability-formulation">Novel Probability Formulation<a class="headerlink" href="#novel-probability-formulation" title="Permanent link">&para;</a></h3>
 <p>Traditional ML uses <strong>direct probabilities</strong>: <span class="arithmatex">\(p(x)\)</span></p>
@@ -2750,10 +2786,11 @@
 <li><strong>New:</strong> Read <a href="07-learning-the-field-beyond-gp/">07-learning-the-field-beyond-gp.md</a> for learning mechanisms beyond GP—scalability, amplitude-based learning, mixture of experts</li>
 <li><strong>New:</strong> Read <a href="08-memory-dynamics-formation-consolidation-retrieval/">08-memory-dynamics-formation-consolidation-retrieval.md</a> for principled memory dynamics—what to retain/forget, preventing agent drift</li>
 </ol>
-<p><strong>Advanced (Chapters 9-10):</strong></p>
+<p><strong>Advanced (Chapters 9-11):</strong></p>
 <ol>
 <li><strong>New:</strong> Read <a href="09-path-integrals-and-action-principles/">09-path-integrals-and-action-principles.md</a> for Feynman path integrals, imaginary time QM, complex-valued GRL, and connection to Tutorial Chapter 03a</li>
 <li>Explore <a href="03-complex-rkhs/">03-complex-rkhs.md</a> for complex-valued extensions (interference, phase semantics)</li>
+<li><strong>New:</strong> Work through <a href="10-complex-kernels-tutorial/">10-complex-kernels-tutorial.md</a> — the practical companion to Chapter 10 (theory). Five leverage patterns, policy readouts, loss options, and a context-switching gridworld walkthrough.</li>
 </ol>
 <hr />
 <h2 id="connection-to-tutorial-paper">Connection to Tutorial Paper<a class="headerlink" href="#connection-to-tutorial-paper" title="Permanent link">&para;</a></h2>

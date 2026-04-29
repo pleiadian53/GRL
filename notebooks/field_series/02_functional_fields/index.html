@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -3765,7 +3765,7 @@ print("Functions behave like vectors: we can add them and scale them!")</div>
 <span class="nb">print</span><span class="p">(</span><span class="s2">"Large overlap → large inner product. Little overlap → small inner product."</span><span class="p">)</span>
 </pre></div>
 <div class="clipboard-copy-txt" id="cell-3"># Example 1.2: Inner Products on Functions
-# Inner product: <f, g=""> = ∫ f(x) g(x) dx
+# Inner product: &lt;f, g&gt; = ∫ f(x) g(x) dx
 
 def inner_product(f, g, x):
     """Approximate inner product via numerical integration"""
@@ -3780,9 +3780,9 @@ g2 = np.exp(-(x-2)**2)       # Gaussian at 2 (some overlap)
 g3 = np.exp(-(x-5)**2)       # Gaussian at 5 (little overlap)
 
 # Compute inner products
-ip_11 = inner_product(g1, g1, x)  # <g1, g1=""> = ||g1||²
-ip_12 = inner_product(g1, g2, x)  # <g1, g2=""> — some overlap
-ip_13 = inner_product(g1, g3, x)  # <g1, g3=""> — little overlap
+ip_11 = inner_product(g1, g1, x)  # &lt;g1, g1&gt; = ||g1||²
+ip_12 = inner_product(g1, g2, x)  # &lt;g1, g2&gt; — some overlap
+ip_13 = inner_product(g1, g3, x)  # &lt;g1, g3&gt; — little overlap
 
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
@@ -3811,8 +3811,8 @@ ax2.set_title(r'Inner Product Matrix $\langle g_i, g_j \rangle$')
 plt.colorbar(im, ax=ax2)
 
 plt.tight_layout(); plt.show()
-print(f"Inner products: <g1,g1>={ip_11:.2f}, <g1,g2>={ip_12:.2f}, <g1,g3>={ip_13:.4f}")
-print("Large overlap → large inner product. Little overlap → small inner product.")</g1,g3></g1,g2></g1,g1></g1,></g1,></g1,></f,></div>
+print(f"Inner products: &lt;g1,g1&gt;={ip_11:.2f}, &lt;g1,g2&gt;={ip_12:.2f}, &lt;g1,g3&gt;={ip_13:.4f}")
+print("Large overlap → large inner product. Little overlap → small inner product.")</div>
 </div>
 </div>
 </div>

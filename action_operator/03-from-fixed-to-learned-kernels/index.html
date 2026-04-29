@@ -12,7 +12,7 @@
         <meta name="author" content="GRL Research Team">
       
       
-        <link rel="canonical" href="https://pleiadian53.github.io/GRL/policy_gradient/03a_PG_in_PPO/">
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/action_operator/03-from-fixed-to-learned-kernels/">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Where Is the Policy Gradient in PPO? - Generalized Reinforcement Learning (GRL)</title>
+        <title>Part 3: From Fixed Kernels to Learned Kernels — The Feature Map Extension - Generalized Reinforcement Learning (GRL)</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#where-is-the-policy-gradient-in-ppo" class="md-skip">
+        <a href="#part-3-from-fixed-kernels-to-learned-kernels-the-feature-map-extension" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Where Is the Policy Gradient in PPO?
+              Part 3: From Fixed Kernels to Learned Kernels — The Feature Map Extension
             
           </span>
         </div>
@@ -2000,10 +2000,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-the-puzzle" class="md-nav__link">
+  <a href="#1-recap-the-kernels-role-in-grl0" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. The Puzzle
+        1. Recap: The Kernel's Role in GRL0
       
     </span>
   </a>
@@ -2011,22 +2011,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-two-equivalent-views-of-policy-gradient" class="md-nav__link">
+  <a href="#2-mercers-theorem-the-feature-map-interpretation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Two Equivalent Views of Policy Gradient
+        2. Mercer's Theorem: The Feature Map Interpretation
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. Two Equivalent Views of Policy Gradient">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-metric-learning-analogy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Metric Learning Analogy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. The Metric Learning Analogy">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#view-a-gradient-first-textbook-reinforce" class="md-nav__link">
+  <a href="#31-what-metric-learning-does" class="md-nav__link">
     <span class="md-ellipsis">
       
-        View A: Gradient-first (textbook REINFORCE)
+        3.1 What Metric Learning Does
       
     </span>
   </a>
@@ -2034,10 +2045,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#view-b-loss-first-modern-deep-learning-style" class="md-nav__link">
+  <a href="#32-grl0-as-frozen-metric-learning" class="md-nav__link">
     <span class="md-ellipsis">
       
-        View B: Loss-first (modern deep learning style)
+        3.2 GRL0 as Frozen Metric Learning
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-the-limitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 The Limitation
       
     </span>
   </a>
@@ -2050,33 +2072,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-why-the-ratio-appears-importance-sampling" class="md-nav__link">
+  <a href="#4-gp-based-spectral-clustering-grl0s-post-hoc-feature-discovery" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Why the Ratio Appears: Importance Sampling
+        4. GP-Based Spectral Clustering: GRL0's Post-Hoc Feature Discovery
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-where-the-gradient-is-hiding-the-derivation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Where the Gradient Is Hiding: The Derivation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Where the Gradient Is Hiding: The Derivation">
+    <nav class="md-nav" aria-label="4. GP-Based Spectral Clustering: GRL0&#39;s Post-Hoc Feature Discovery">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#step-1-move-the-gradient-inside-the-expectation" class="md-nav__link">
+  <a href="#41-the-mechanism" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 1: Move the gradient inside the expectation
+        4.1 The Mechanism
       
     </span>
   </a>
@@ -2084,10 +2095,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-2-differentiate-the-ratio" class="md-nav__link">
+  <a href="#42-connection-to-feature-maps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 2: Differentiate the ratio
+        4.2 Connection to Feature Maps
       
     </span>
   </a>
@@ -2095,32 +2106,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#step-3-apply-the-log-derivative-trick" class="md-nav__link">
+  <a href="#43-what-this-achieves-and-what-it-doesnt" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Step 3: Apply the log-derivative trick
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-4-assemble-the-full-gradient" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 4: Assemble the full gradient
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#step-5-verify-consistency-with-vanilla-policy-gradient" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Step 5: Verify consistency with vanilla policy gradient
+        4.3 What This Achieves and What It Doesn't
       
     </span>
   </a>
@@ -2133,44 +2122,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-what-clipping-does-to-the-gradient" class="md-nav__link">
+  <a href="#5-learned-kernels-replacing-varphi-with-varphi_psi" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. What Clipping Does to the Gradient
+        5. Learned Kernels: Replacing \(\varphi\) with \(\varphi_\psi\)
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-the-gradient-flow-in-practice" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. The Gradient Flow in Practice
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Summary
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="7. Summary">
+    <nav class="md-nav" aria-label="5. Learned Kernels: Replacing \(\varphi\) with \(\varphi_\psi\)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#the-answer-to-the-puzzle" class="md-nav__link">
+  <a href="#51-what-this-preserves" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The answer to the puzzle
+        5.1 What This Preserves
       
     </span>
   </a>
@@ -2178,10 +2145,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#why-ppo-is-written-as-a-loss-not-a-gradient" class="md-nav__link">
+  <a href="#52-what-this-relaxes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why PPO is written as a loss, not a gradient
+        5.2 What This Relaxes
       
     </span>
   </a>
@@ -2189,10 +2156,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#the-progression" class="md-nav__link">
+  <a href="#53-training-objectives-for-varphi_psi" class="md-nav__link">
     <span class="md-ellipsis">
       
-        The progression
+        5.3 Training Objectives for \(\varphi_\psi\)
       
     </span>
   </a>
@@ -2201,6 +2168,161 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-the-deep-kernel-learning-connection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. The Deep Kernel Learning Connection
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-operator-algebra-in-feature-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Operator Algebra in Feature Space
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Operator Algebra in Feature Space">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-the-equivariance-condition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 The Equivariance Condition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-why-this-matters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Why This Matters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-training-for-equivariance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Training for Equivariance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-connection-to-koopman-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Connection to Koopman Theory
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-the-hybrid-architecture-putting-it-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. The Hybrid Architecture: Putting It Together
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-open-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Open Questions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Open Questions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#particle-memory-under-representation-drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Particle Memory Under Representation Drift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uncertainty-under-learned-kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Uncertainty Under Learned Kernels
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spectral-clustering-with-learned-kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spectral Clustering with Learned Kernels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-summary-the-full-arc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Summary: The Full Arc
+      
+    </span>
+  </a>
   
 </li>
       
@@ -2221,7 +2343,7 @@
 
 
   
-    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/policy_gradient/03a_PG_in_PPO.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/action_operator/03-from-fixed-to-learned-kernels.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
     </a>
@@ -2229,137 +2351,272 @@
   
 
 
-<h1 id="where-is-the-policy-gradient-in-ppo">Where Is the Policy Gradient in PPO?<a class="headerlink" href="#where-is-the-policy-gradient-in-ppo" title="Permanent link">&para;</a></h1>
-<p><strong>Unpacking the ratio form: why <span class="arithmatex">\(\nabla_\theta\)</span> seems to disappear</strong></p>
-<blockquote>
-<p><em>Prerequisites: <a href="../01_PG/">Policy Gradient Fundamentals</a>, <a href="../03_PPO/">PPO</a></em></p>
-</blockquote>
+<h1 id="part-3-from-fixed-kernels-to-learned-kernels-the-feature-map-extension">Part 3: From Fixed Kernels to Learned Kernels — The Feature Map Extension<a class="headerlink" href="#part-3-from-fixed-kernels-to-learned-kernels-the-feature-map-extension" title="Permanent link">&para;</a></h1>
+<p><strong>Series:</strong> Action Operators in Generalized Reinforcement Learning<br />
+<strong>Part:</strong> 3 of 3<br />
+<strong>Audience:</strong> Self-reference and interview prep<br />
+<strong>Prerequisites:</strong> Parts 1-2, basic kernel methods, familiarity with deep metric learning</p>
 <hr />
-<h2 id="1-the-puzzle">1. The Puzzle<a class="headerlink" href="#1-the-puzzle" title="Permanent link">&para;</a></h2>
-<p>In <a href="../01_PG/">Chapter 01</a>, the policy gradient is written with an explicit gradient operator inside the expectation:</p>
-<div class="arithmatex">\[\nabla_\theta J(\theta) = \mathbb{E}_{s_t, a_t \sim \pi_\theta} \left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p>The gradient <span class="arithmatex">\(\nabla_\theta\)</span> is right there — loud and visible.</p>
-<p>But in <a href="../03_PPO/">Chapter 03</a>, PPO writes down an <strong>objective function</strong> with no gradient in sight:</p>
-<div class="arithmatex">\[L(\theta) = \mathbb{E}_t \left[ r_t(\theta) \, \hat{A}_t \right], \quad r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\]</div>
-<p>Where did the gradient go? If we're doing gradient ascent, there must be a <span class="arithmatex">\(\nabla_\theta\)</span> somewhere. Is the ratio form hiding something?</p>
-<p><strong>Yes — and this chapter shows exactly what it's hiding and why.</strong></p>
+<h2 id="1-recap-the-kernels-role-in-grl0">1. Recap: The Kernel's Role in GRL0<a class="headerlink" href="#1-recap-the-kernels-role-in-grl0" title="Permanent link">&para;</a></h2>
+<p>In GRL0, the kernel function <span class="arithmatex">\(k(x, x')\)</span> is the foundational object. It defines:</p>
+<ul>
+<li><strong>The value function:</strong> <span class="arithmatex">\(Q^+(x) = \sum_i w_i k(x, x_i)\)</span> — kernel superposition of particles</li>
+<li><strong>The reinforcement field:</strong> <span class="arithmatex">\(\nabla_x Q^+(x) = \sum_i w_i \nabla_x k(x, x_i)\)</span> — gradient of the superposition</li>
+<li><strong>The similarity structure:</strong> <span class="arithmatex">\(k(x, x')\)</span> determines which configurations are "neighbors" in augmented space</li>
+<li><strong>The RKHS geometry:</strong> The inner product <span class="arithmatex">\(\langle k(x, \cdot), k(x', \cdot) \rangle_{\mathcal{H}_k} = k(x, x')\)</span> defines the native workspace</li>
+</ul>
+<p>The kernel is simultaneously: a similarity measure, a basis function generator, and the definition of the agent's geometric universe. Everything flows from it.</p>
+<p>But in GRL0, the kernel was <em>chosen a priori</em> — typically RBF with manually set lengthscale — and never updated during learning. This section traces why that's limiting and how to move beyond it.</p>
 <hr />
-<h2 id="2-two-equivalent-views-of-policy-gradient">2. Two Equivalent Views of Policy Gradient<a class="headerlink" href="#2-two-equivalent-views-of-policy-gradient" title="Permanent link">&para;</a></h2>
-<p>The key insight is that there are two mathematically equivalent ways to describe the same algorithm.</p>
-<h3 id="view-a-gradient-first-textbook-reinforce">View A: Gradient-first (textbook REINFORCE)<a class="headerlink" href="#view-a-gradient-first-textbook-reinforce" title="Permanent link">&para;</a></h3>
-<p>Write the gradient formula directly:</p>
-<div class="arithmatex">\[\nabla_\theta J(\theta) = \mathbb{E}\left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p>You never define a scalar loss function. You just have a gradient expression, and you follow it.</p>
-<p>This is common in theory papers and early RL (Williams, 1992; Sutton et al., 2000).</p>
-<h3 id="view-b-loss-first-modern-deep-learning-style">View B: Loss-first (modern deep learning style)<a class="headerlink" href="#view-b-loss-first-modern-deep-learning-style" title="Permanent link">&para;</a></h3>
-<p>Define a scalar objective first:</p>
-<div class="arithmatex">\[L(\theta) = \mathbb{E}\left[ \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p>Then take its gradient:</p>
-<div class="arithmatex">\[\nabla_\theta L(\theta) = \mathbb{E}\left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p><strong>Same gradient. Different presentation.</strong> In View B, you hand the scalar loss <span class="arithmatex">\(L(\theta)\)</span> to an optimizer (Adam, SGD), and autograd computes <span class="arithmatex">\(\nabla_\theta L\)</span> for you. You never write the gradient formula explicitly.</p>
-<p>PPO and TRPO live entirely in <strong>View B</strong>. That's why the gradient seems to disappear — it's handled by the autodiff framework, not written in the math.</p>
-<hr />
-<h2 id="3-why-the-ratio-appears-importance-sampling">3. Why the Ratio Appears: Importance Sampling<a class="headerlink" href="#3-why-the-ratio-appears-importance-sampling" title="Permanent link">&para;</a></h2>
-<p>Now comes the subtle step that introduces the ratio.</p>
-<p>In View B, the on-policy loss is:</p>
-<div class="arithmatex">\[L^{\text{on-policy}}(\theta) = \mathbb{E}_{a_t \sim \pi_\theta}\left[ \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p>But there's a problem: <strong>we collected data using the old policy</strong> <span class="arithmatex">\(\pi_{\theta_k}\)</span>, not the current policy <span class="arithmatex">\(\pi_\theta\)</span>. The expectation is over the wrong distribution.</p>
-<p><strong>Importance sampling</strong> fixes this mismatch. For any function <span class="arithmatex">\(f\)</span>:</p>
-<div class="arithmatex">\[\mathbb{E}_{a \sim \pi_\theta}[f(a)] = \mathbb{E}_{a \sim \pi_{\theta_k}}\left[ \frac{\pi_\theta(a \mid s)}{\pi_{\theta_k}(a \mid s)} \, f(a) \right]\]</div>
-<p>The fraction <span class="arithmatex">\(\frac{\pi_\theta}{\pi_{\theta_k}}\)</span> reweights samples from the old distribution to be valid under the new distribution. This fraction is exactly the <strong>probability ratio</strong> <span class="arithmatex">\(r_t(\theta)\)</span>.</p>
-<p>Applying this to the policy objective gives the <strong>surrogate objective</strong>:</p>
-<div class="arithmatex">\[L(\theta) = \mathbb{E}_{a_t \sim \pi_{\theta_k}}\left[ \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)} \; \hat{A}_t \right] = \mathbb{E}_t\left[ r_t(\theta) \; \hat{A}_t \right]\]</div>
-<p>This is the objective that TRPO and PPO optimize. It looks gradient-free, but it isn't — the gradient is hiding inside <span class="arithmatex">\(r_t(\theta)\)</span>.</p>
-<hr />
-<h2 id="4-where-the-gradient-is-hiding-the-derivation">4. Where the Gradient Is Hiding: The Derivation<a class="headerlink" href="#4-where-the-gradient-is-hiding-the-derivation" title="Permanent link">&para;</a></h2>
-<p>Let's take <span class="arithmatex">\(\nabla_\theta\)</span> of the surrogate objective step by step.</p>
-<h3 id="step-1-move-the-gradient-inside-the-expectation">Step 1: Move the gradient inside the expectation<a class="headerlink" href="#step-1-move-the-gradient-inside-the-expectation" title="Permanent link">&para;</a></h3>
-<p>Since the expectation is over data from <span class="arithmatex">\(\pi_{\theta_k}\)</span> (which is <strong>fixed</strong> — it doesn't depend on <span class="arithmatex">\(\theta\)</span>), we can move the gradient inside:</p>
-<div class="arithmatex">\[\nabla_\theta L(\theta) = \nabla_\theta \, \mathbb{E}_t\left[ r_t(\theta) \, \hat{A}_t \right] = \mathbb{E}_t\left[ \nabla_\theta \, r_t(\theta) \; \hat{A}_t \right]\]</div>
-<p>Note: this step would <strong>not</strong> be valid if the expectation were over <span class="arithmatex">\(\pi_\theta\)</span> (because then the distribution itself depends on <span class="arithmatex">\(\theta\)</span>). The importance sampling rewrite is what makes this legal.</p>
-<h3 id="step-2-differentiate-the-ratio">Step 2: Differentiate the ratio<a class="headerlink" href="#step-2-differentiate-the-ratio" title="Permanent link">&para;</a></h3>
-<p>Now we need <span class="arithmatex">\(\nabla_\theta \, r_t(\theta)\)</span>. Recall:</p>
-<div class="arithmatex">\[r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\]</div>
-<p>The denominator <span class="arithmatex">\(\pi_{\theta_k}(a_t \mid s_t)\)</span> is a <strong>constant</strong> (it was computed using the old parameters <span class="arithmatex">\(\theta_k\)</span>, which are frozen). So:</p>
-<div class="arithmatex">\[\nabla_\theta \, r_t(\theta) = \frac{\nabla_\theta \, \pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\]</div>
-<h3 id="step-3-apply-the-log-derivative-trick">Step 3: Apply the log-derivative trick<a class="headerlink" href="#step-3-apply-the-log-derivative-trick" title="Permanent link">&para;</a></h3>
-<p>The standard identity <span class="arithmatex">\(\nabla_\theta \, \pi_\theta = \pi_\theta \, \nabla_\theta \log \pi_\theta\)</span> (the same "log trick" used to derive the original policy gradient) gives:</p>
-<div class="arithmatex">\[\nabla_\theta \, \pi_\theta(a_t \mid s_t) = \pi_\theta(a_t \mid s_t) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t)\]</div>
-<p>Substituting:</p>
-<div class="arithmatex">\[\nabla_\theta \, r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)} \; \nabla_\theta \log \pi_\theta(a_t \mid s_t) = r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t)\]</div>
-<h3 id="step-4-assemble-the-full-gradient">Step 4: Assemble the full gradient<a class="headerlink" href="#step-4-assemble-the-full-gradient" title="Permanent link">&para;</a></h3>
-<p>Plugging back into the expectation:</p>
-<div class="arithmatex">\[\boxed{\nabla_\theta L(\theta) = \mathbb{E}_t\left[ r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]}\]</div>
-<p><strong>There it is.</strong> The score function <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span> was hiding inside the ratio all along.</p>
-<h3 id="step-5-verify-consistency-with-vanilla-policy-gradient">Step 5: Verify consistency with vanilla policy gradient<a class="headerlink" href="#step-5-verify-consistency-with-vanilla-policy-gradient" title="Permanent link">&para;</a></h3>
-<p>At <span class="arithmatex">\(\theta = \theta_k\)</span> (the beginning of each PPO iteration), the ratio equals 1:</p>
-<div class="arithmatex">\[r_t(\theta_k) = \frac{\pi_{\theta_k}(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)} = 1\]</div>
-<p>So the gradient reduces to:</p>
-<div class="arithmatex">\[\nabla_\theta L(\theta)\Big|_{\theta = \theta_k} = \mathbb{E}_t\left[ \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p>This is <strong>exactly the vanilla policy gradient</strong>. The surrogate objective and the true objective have the same gradient at the current policy — they are first-order equivalent.</p>
-<p>As <span class="arithmatex">\(\theta\)</span> moves away from <span class="arithmatex">\(\theta_k\)</span>, the ratio <span class="arithmatex">\(r_t(\theta)\)</span> deviates from 1 and <strong>reweights</strong> the gradient: actions that became more likely under the new policy get amplified, and actions that became less likely get dampened. This is the importance sampling correction at work.</p>
-<hr />
-<h2 id="5-what-clipping-does-to-the-gradient">5. What Clipping Does to the Gradient<a class="headerlink" href="#5-what-clipping-does-to-the-gradient" title="Permanent link">&para;</a></h2>
-<p>In PPO-Clip, the objective is:</p>
-<div class="arithmatex">\[L^{\text{CLIP}}(\theta) = \mathbb{E}_t\left[ \min\Big( r_t(\theta) \, \hat{A}_t, \;\; \text{clip}(r_t(\theta), 1-\epsilon, 1+\epsilon) \, \hat{A}_t \Big) \right]\]</div>
-<p>What happens to the gradient?</p>
-<p><strong>Inside the trust region</strong> (<span class="arithmatex">\(1-\epsilon \leq r_t \leq 1+\epsilon\)</span>): the clip is inactive, so the gradient is exactly as derived above:</p>
-<div class="arithmatex">\[\nabla_\theta L^{\text{CLIP}} = \mathbb{E}_t\left[ r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t) \; \hat{A}_t \right]\]</div>
-<p><strong>Outside the trust region</strong> (<span class="arithmatex">\(r_t &gt; 1+\epsilon\)</span> or <span class="arithmatex">\(r_t &lt; 1-\epsilon\)</span>): the clipped term becomes a constant times <span class="arithmatex">\(\hat{A}_t\)</span>, so its gradient with respect to <span class="arithmatex">\(\theta\)</span> is <strong>zero</strong>. The <span class="arithmatex">\(\min\)</span> selects this zero-gradient term, effectively <strong>killing the gradient</strong> for that sample.</p>
-<p>This is how clipping enforces the trust region: it doesn't add a penalty — it simply <strong>turns off the learning signal</strong> for actions where the policy has already changed too much. The optimizer receives zero gradient and stops moving in that direction.</p>
-<hr />
-<h2 id="6-the-gradient-flow-in-practice">6. The Gradient Flow in Practice<a class="headerlink" href="#6-the-gradient-flow-in-practice" title="Permanent link">&para;</a></h2>
-<p>In a modern deep learning framework (PyTorch, JAX), the entire process is:</p>
+<h2 id="2-mercers-theorem-the-feature-map-interpretation">2. Mercer's Theorem: The Feature Map Interpretation<a class="headerlink" href="#2-mercers-theorem-the-feature-map-interpretation" title="Permanent link">&para;</a></h2>
+<p>The equation</p>
+<div class="arithmatex">\[k(x, x') = \langle \varphi(x), \varphi(x') \rangle_{\mathcal{F}}\]</div>
+<p>is Mercer's theorem: any positive-definite kernel factorizes through some feature map <span class="arithmatex">\(\varphi: \mathcal{X} \to \mathcal{F}\)</span> into a (potentially infinite-dimensional) feature space <span class="arithmatex">\(\mathcal{F}\)</span>.</p>
+<p>For the RBF kernel, this feature map is infinite-dimensional — it maps inputs to a Hilbert space of Gaussian functions. For polynomial kernels, the feature map is finite and corresponds to all monomials up to a given degree.</p>
+<p>The key insight is that <strong>the kernel is doing implicit feature extraction</strong>. When we compute <span class="arithmatex">\(k(x, x')\)</span>, we are:</p>
 <ol>
-<li><strong>Forward pass</strong>: compute <span class="arithmatex">\(r_t(\theta) = \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}\)</span> and the clipped objective <span class="arithmatex">\(L^{\text{CLIP}}\)</span></li>
-<li><strong>Backward pass</strong>: autograd computes <span class="arithmatex">\(\nabla_\theta L^{\text{CLIP}}\)</span> automatically via the chain rule through <span class="arithmatex">\(r_t(\theta)\)</span>, through <span class="arithmatex">\(\pi_\theta(a_t \mid s_t)\)</span>, through the neural network</li>
-<li><strong>Optimizer step</strong>: Adam updates <span class="arithmatex">\(\theta\)</span></li>
+<li>Mapping both inputs through the feature map <span class="arithmatex">\(\varphi\)</span></li>
+<li>Computing their inner product (dot product) in feature space</li>
+<li>Returning the result as a scalar similarity</li>
 </ol>
-<p>The programmer never writes <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span> explicitly. It emerges from autodiff applied to the ratio. This is why PPO code looks like a standard supervised learning loop — define a loss, call <code>loss.backward()</code>, call <code>optimizer.step()</code>.</p>
+<p>The feature map is <em>fixed</em> once the kernel is chosen. An RBF kernel with lengthscale <span class="arithmatex">\(\ell\)</span> imposes a specific notion of similarity: two augmented states are similar if and only if they are close in Euclidean distance, scaled by <span class="arithmatex">\(\ell\)</span>. This is a strong assumption about the structure of the value function.</p>
 <hr />
-<h2 id="7-summary">7. Summary<a class="headerlink" href="#7-summary" title="Permanent link">&para;</a></h2>
-<h3 id="the-answer-to-the-puzzle">The answer to the puzzle<a class="headerlink" href="#the-answer-to-the-puzzle" title="Permanent link">&para;</a></h3>
-<p>The policy gradient <span class="arithmatex">\(\nabla_\theta \log \pi_\theta(a_t \mid s_t)\)</span> is not missing from PPO — it is <strong>inside the ratio</strong> <span class="arithmatex">\(r_t(\theta)\)</span>, extracted automatically by the chain rule when you differentiate:</p>
-<div class="arithmatex">\[\nabla_\theta \, r_t(\theta) = r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t)\]</div>
-<h3 id="why-ppo-is-written-as-a-loss-not-a-gradient">Why PPO is written as a loss, not a gradient<a class="headerlink" href="#why-ppo-is-written-as-a-loss-not-a-gradient" title="Permanent link">&para;</a></h3>
-<p>Modern deep learning works by defining scalar objectives and letting autograd handle differentiation. PPO embraces this paradigm: define <span class="arithmatex">\(L^{\text{CLIP}}(\theta)\)</span>, let the framework compute <span class="arithmatex">\(\nabla_\theta L^{\text{CLIP}}\)</span>, and update with Adam.</p>
-<blockquote>
-<p><strong>Policy gradient algorithms are not defined by their gradient formulas — they are defined by the objective whose gradient they follow.</strong></p>
-</blockquote>
-<h3 id="the-progression">The progression<a class="headerlink" href="#the-progression" title="Permanent link">&para;</a></h3>
+<h2 id="3-the-metric-learning-analogy">3. The Metric Learning Analogy<a class="headerlink" href="#3-the-metric-learning-analogy" title="Permanent link">&para;</a></h2>
+<p>This feature-map view reveals that GRL0's kernel is doing <strong>metric learning with a frozen metric</strong>. Let's make this precise.</p>
+<h3 id="31-what-metric-learning-does">3.1 What Metric Learning Does<a class="headerlink" href="#31-what-metric-learning-does" title="Permanent link">&para;</a></h3>
+<p>In metric learning, we learn a distance function <span class="arithmatex">\(d(x, x')\)</span> (or equivalently, a similarity function) such that:</p>
+<ul>
+<li><strong>Semantically similar</strong> inputs are mapped close together</li>
+<li><strong>Semantically dissimilar</strong> inputs are mapped far apart</li>
+</ul>
+<p>The standard approach: learn a feature map <span class="arithmatex">\(\varphi_\psi\)</span> (parameterized by <span class="arithmatex">\(\psi\)</span>) such that</p>
+<div class="arithmatex">\[d_\psi(x, x') = \|\varphi_\psi(x) - \varphi_\psi(x')\|^2\]</div>
+<p>is small for similar inputs and large for dissimilar ones. The similarity <span class="arithmatex">\(k_\psi(x, x') = \langle \varphi_\psi(x), \varphi_\psi(x') \rangle\)</span> is the dual view.</p>
+<h3 id="32-grl0-as-frozen-metric-learning">3.2 GRL0 as Frozen Metric Learning<a class="headerlink" href="#32-grl0-as-frozen-metric-learning" title="Permanent link">&para;</a></h3>
+<p>In GRL0, the kernel <span class="arithmatex">\(k(x, x')\)</span> defines exactly this kind of similarity — but the metric is <strong>frozen</strong> at initialization:</p>
+<ul>
+<li>Two augmented states <span class="arithmatex">\(x = (s, \theta)\)</span> and <span class="arithmatex">\(x' = (s', \theta')\)</span> are "similar" iff <span class="arithmatex">\(k(x, x') \approx 1\)</span></li>
+<li>This similarity determines how evidence propagates: if <span class="arithmatex">\(k(x, x') \approx 1\)</span>, then the value observed at <span class="arithmatex">\(x'\)</span> strongly influences the predicted value at <span class="arithmatex">\(x\)</span></li>
+</ul>
+<p>The Gram matrix <span class="arithmatex">\(K_{ij} = k(x_i, x_j)\)</span> over accumulated particles acts as a <strong>neighborhood graph induced by the kernel</strong>. If <span class="arithmatex">\(k(x_i, x_j)\)</span> is large, the two particles are neighbors — their values should be consistent. The GP optimization finds weights <span class="arithmatex">\(w_i\)</span> that respect this neighborhood structure: the posterior mean <span class="arithmatex">\(Q^+(x) = \sum_i w_i k(x, x_i)\)</span> is the smoothest function (in the RKHS norm sense) that fits the observed values.</p>
+<p><strong>This is the core property:</strong> if <span class="arithmatex">\(k(x, x')\)</span> indicates high similarity, then the values <span class="arithmatex">\(Q^+(x)\)</span> and <span class="arithmatex">\(Q^+(x')\)</span> will be close, because the RKHS norm penalizes functions that vary rapidly between similar inputs. The kernel defines what "rapidly varying" means.</p>
+<h3 id="33-the-limitation">3.3 The Limitation<a class="headerlink" href="#33-the-limitation" title="Permanent link">&para;</a></h3>
+<p>The frozen metric works well when the kernel's notion of similarity aligns with the true value structure. For RBF:</p>
+<div class="arithmatex">\[k_{\text{RBF}}(x, x') = \exp\left(-\frac{\|x - x'\|^2}{2\ell^2}\right)\]</div>
+<p>this means: two configurations are similar iff they are <em>Euclidean-close</em> in augmented space.</p>
+<p><strong>When this breaks:</strong></p>
+<ul>
+<li>
+<p><strong>Non-smooth value functions:</strong> If the optimal policy has sharp decision boundaries (e.g., "go left if <span class="arithmatex">\(x &lt; 0\)</span>, go right if <span class="arithmatex">\(x &gt; 0\)</span>"), the RBF kernel smooths them out. Points near the boundary with very different optimal actions get treated as similar.</p>
+</li>
+<li>
+<p><strong>Irrelevant dimensions:</strong> If some state dimensions don't affect the value (e.g., color of walls in a navigation task), the RBF kernel still uses them for similarity, wasting capacity.</p>
+</li>
+<li>
+<p><strong>Nonlinear feature interactions:</strong> If value depends on interactions between state and action features (e.g., "action <span class="arithmatex">\(\theta_1\)</span> is good when state is in region A, bad in region B"), Euclidean distance in <span class="arithmatex">\((s, \theta)\)</span> misses this structure.</p>
+</li>
+<li>
+<p><strong>High-dimensional states:</strong> For pixel inputs, token embeddings, or graph features, Euclidean distance is nearly meaningless. All high-dimensional points are approximately equidistant (curse of dimensionality).</p>
+</li>
+</ul>
+<p>ARD (Automatic Relevance Determination) kernels — where each dimension gets its own lengthscale — partially address the irrelevant-dimensions problem but not the others.</p>
+<hr />
+<h2 id="4-gp-based-spectral-clustering-grl0s-post-hoc-feature-discovery">4. GP-Based Spectral Clustering: GRL0's Post-Hoc Feature Discovery<a class="headerlink" href="#4-gp-based-spectral-clustering-grl0s-post-hoc-feature-discovery" title="Permanent link">&para;</a></h2>
+<p>GRL0 had an elegant partial solution to the fixed-kernel problem: <strong>spectral clustering on the Gram matrix</strong>.</p>
+<h3 id="41-the-mechanism">4.1 The Mechanism<a class="headerlink" href="#41-the-mechanism" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Fix kernel <span class="arithmatex">\(k\)</span>, accumulate particles, fit GP posterior <span class="arithmatex">\(Q^+\)</span></li>
+<li>Compute the Gram matrix <span class="arithmatex">\(K_{ij} = k(x_i, x_j)\)</span> over particles</li>
+<li>Eigendecompose: <span class="arithmatex">\(K = U \Lambda U^T\)</span></li>
+<li>Top eigenvectors <span class="arithmatex">\(u_1, \ldots, u_p\)</span> define <strong>functional subspaces</strong> in RKHS</li>
+</ol>
+<p>The Gram matrix is a weighted adjacency matrix of the particle graph. Its eigenvectors reveal clusters — groups of particles that are mutually similar under <span class="arithmatex">\(k\)</span> and dissimilar from other groups. These clusters correspond to <em>behavioral modes</em>: configurations where the agent should act similarly.</p>
+<h3 id="42-connection-to-feature-maps">4.2 Connection to Feature Maps<a class="headerlink" href="#42-connection-to-feature-maps" title="Permanent link">&para;</a></h3>
+<p>The eigendecomposition of <span class="arithmatex">\(K\)</span> is directly related to the feature map. Since <span class="arithmatex">\(K_{ij} = \langle \varphi(x_i), \varphi(x_j) \rangle\)</span>, the eigendecomposition of <span class="arithmatex">\(K\)</span> is equivalent to <strong>PCA in feature space</strong> (this is exactly kernel PCA).</p>
+<p>The top eigenvectors <span class="arithmatex">\(u_k\)</span> define the principal axes of variation in feature space. They are the directions along which the particle configurations vary most, as measured by the kernel.</p>
+<h3 id="43-what-this-achieves-and-what-it-doesnt">4.3 What This Achieves and What It Doesn't<a class="headerlink" href="#43-what-this-achieves-and-what-it-doesnt" title="Permanent link">&para;</a></h3>
+<p><strong>Achieves:</strong>
+- Discovers latent structure in the value landscape
+- Finds behavioral modes (clusters of similarly-valued configurations)
+- Provides a low-dimensional representation of the particle ensemble
+- Connects kernel methods to spectral graph theory</p>
+<p><strong>Doesn't achieve:</strong>
+- The kernel <span class="arithmatex">\(k\)</span> is still fixed — eigendecomposition discovers structure <em>within</em> the geometry that <span class="arithmatex">\(k\)</span> defines, but can't discover structure that <span class="arithmatex">\(k\)</span> is blind to
+- Post-hoc: features are discovered after learning, not during it
+- Computational cost: eigendecomposition is <span class="arithmatex">\(O(N^3)\)</span> in the number of particles</p>
+<p>This is <em>posterior-side</em> feature discovery: use a fixed prior (the kernel), fit the model, then analyze what the model learned. The alternative — <em>prior-side</em> feature discovery — is to learn the kernel itself.</p>
+<hr />
+<h2 id="5-learned-kernels-replacing-varphi-with-varphi_psi">5. Learned Kernels: Replacing <span class="arithmatex">\(\varphi\)</span> with <span class="arithmatex">\(\varphi_\psi\)</span><a class="headerlink" href="#5-learned-kernels-replacing-varphi-with-varphi_psi" title="Permanent link">&para;</a></h2>
+<p>The natural extension: replace the fixed feature map with a <strong>learned</strong> one.</p>
+<div class="arithmatex">\[k_\psi(x, x') = \langle \varphi_\psi(x), \varphi_\psi(x') \rangle\]</div>
+<p>where <span class="arithmatex">\(\varphi_\psi: \mathcal{X} \to \mathbb{R}^D\)</span> is a neural network with parameters <span class="arithmatex">\(\psi\)</span>.</p>
+<h3 id="51-what-this-preserves">5.1 What This Preserves<a class="headerlink" href="#51-what-this-preserves" title="Permanent link">&para;</a></h3>
+<p>The inner-product form guarantees that <span class="arithmatex">\(k_\psi\)</span> is a valid positive-definite kernel for any <span class="arithmatex">\(\psi\)</span>. This means:</p>
+<ul>
+<li><strong>Particle memory survives:</strong> <span class="arithmatex">\(Q^+(x) = \sum_i w_i k_\psi(x, x_i)\)</span> remains well-defined</li>
+<li><strong>RKHS structure survives:</strong> conditional on frozen <span class="arithmatex">\(\psi\)</span>, all the RKHS machinery applies</li>
+<li><strong>Reinforcement field survives:</strong> <span class="arithmatex">\(\nabla_x Q^+\)</span> is still computable via the chain rule through <span class="arithmatex">\(\varphi_\psi\)</span></li>
+<li><strong>Energy-landscape policy survives:</strong> <span class="arithmatex">\(\theta \leftarrow \theta + \eta \nabla_\theta Q^+(s, \theta)\)</span> still works</li>
+</ul>
+<p>The particle-based, field-driven character of GRL is preserved. What changes is the <em>geometry</em> of the field — the learned kernel warps the space so that "similar" configurations are those that <em>should have similar values</em>, not those that happen to be Euclidean-close.</p>
+<h3 id="52-what-this-relaxes">5.2 What This Relaxes<a class="headerlink" href="#52-what-this-relaxes" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><strong>Representer theorem:</strong> Holds only conditional on frozen <span class="arithmatex">\(\psi\)</span>. When <span class="arithmatex">\(\psi\)</span> changes, the optimal weights <span class="arithmatex">\(w_i\)</span> must be recomputed. Training becomes alternating: (i) fit weights with <span class="arithmatex">\(\psi\)</span> frozen, (ii) update <span class="arithmatex">\(\psi\)</span> with weights frozen.</p>
+</li>
+<li>
+<p><strong>Stationarity:</strong> As <span class="arithmatex">\(\psi\)</span> evolves, <span class="arithmatex">\(Q^+(x)\)</span> changes at <em>all</em> particles, not just the newly added one. Old experience gets reinterpreted under the new metric. This breaks GRL0's "store and forget" semantics.</p>
+</li>
+<li>
+<p><strong>Uncertainty calibration:</strong> A fixed RBF kernel gives clean uncertainty: sparse particles → low kernel mass → low confidence. A learned kernel can map novel inputs to arbitrary locations in feature space, potentially creating false confidence.</p>
+</li>
+</ul>
+<h3 id="53-training-objectives-for-varphi_psi">5.3 Training Objectives for <span class="arithmatex">\(\varphi_\psi\)</span><a class="headerlink" href="#53-training-objectives-for-varphi_psi" title="Permanent link">&para;</a></h3>
+<p>Several approaches, each with different trade-offs:</p>
+<p><strong>Value-aware (successor-feature-like):</strong> Train <span class="arithmatex">\(\varphi_\psi\)</span> so that <span class="arithmatex">\(Q^+\)</span> becomes approximately linear in features:</p>
+<div class="arithmatex">\[Q^+(x) \approx \mathbf{w}^T \varphi_\psi(x)\]</div>
+<p>This directly shapes the metric to be value-relevant. If two configurations have similar features, they <em>should</em> have similar values — by construction. Connection to successor features (Barreto 2017): <span class="arithmatex">\(\varphi_\psi\)</span> is learned to predict cumulative discounted features, making <span class="arithmatex">\(Q^+\)</span> linear in the reward weights.</p>
+<p><strong>Contrastive:</strong> Treat transitions with similar returns as positive pairs:</p>
+<div class="arithmatex">\[\mathcal{L}_\text{contrastive} = -\log \frac{\exp(\varphi_\psi(x)^T \varphi_\psi(x^+) / \tau)}{\sum_j \exp(\varphi_\psi(x)^T \varphi_\psi(x_j^-) / \tau)}\]</div>
+<p>This pushes configurations with similar values together and different values apart in feature space. Standard SimCLR/MoCo machinery applies.</p>
+<p><strong>Bellman-consistent:</strong> TD loss on <span class="arithmatex">\(Q^+\)</span> propagates through <span class="arithmatex">\(\varphi_\psi\)</span>:</p>
+<div class="arithmatex">\[\mathcal{L}_\text{TD} = \left[Q^+_\psi(x_t) - (r_t + \gamma \max_{\theta'} Q^+_\psi(s_{t+1}, \theta'))\right]^2\]</div>
+<p>where <span class="arithmatex">\(Q^+_\psi(x) = \sum_i w_i \langle \varphi_\psi(x), \varphi_\psi(x_i) \rangle\)</span>. Gradients flow through <span class="arithmatex">\(\varphi_\psi\)</span>, shaping the metric to minimize TD error. This is closest to standard deep RL — the kernel adapts to make the value function easier to represent.</p>
+<p><strong>Anti-collapse regularization:</strong> All learned metric approaches risk representation collapse — <span class="arithmatex">\(\varphi_\psi\)</span> mapping everything to the same point minimizes many losses trivially. Regularizers: VICReg (variance + invariance + covariance), spectral normalization, or the observation that particles with opposite-sign weights provide a natural anti-collapse signal (if <span class="arithmatex">\(w_i &gt; 0\)</span> and <span class="arithmatex">\(w_j &lt; 0\)</span>, mapping <span class="arithmatex">\(x_i\)</span> and <span class="arithmatex">\(x_j\)</span> to the same feature would make <span class="arithmatex">\(Q^+\)</span> trivially zero).</p>
+<hr />
+<h2 id="6-the-deep-kernel-learning-connection">6. The Deep Kernel Learning Connection<a class="headerlink" href="#6-the-deep-kernel-learning-connection" title="Permanent link">&para;</a></h2>
+<p>The approach described above is a specific instance of <strong>Deep Kernel Learning</strong> (Wilson, Hinton, Salakhutdinov 2016): use a neural network as a feature extractor, and place a GP on top of the learned features.</p>
+<div class="arithmatex">\[k_\psi(x, x') = k_\text{base}(\varphi_\psi(x), \varphi_\psi(x'))\]</div>
+<p>where <span class="arithmatex">\(k_\text{base}\)</span> is a standard kernel (e.g., RBF) applied in the learned feature space. This is slightly more general than the pure inner-product form — it allows a non-trivial base kernel on top of the features.</p>
+<p>In the GRL context:</p>
+<div class="arithmatex">\[Q^+(x) = \sum_i w_i \, k_\text{base}(\varphi_\psi(x), \varphi_\psi(x_i))\]</div>
+<p>The neural network handles the representation learning (mapping raw state-action pairs to meaningful features), and the kernel handles the field construction (superposition, interpolation, uncertainty). Each component does what it's best at.</p>
+<hr />
+<h2 id="7-operator-algebra-in-feature-space">7. Operator Algebra in Feature Space<a class="headerlink" href="#7-operator-algebra-in-feature-space" title="Permanent link">&para;</a></h2>
+<p>This is where the learned kernel story connects back to the action operator formalization from Part 2.</p>
+<h3 id="71-the-equivariance-condition">7.1 The Equivariance Condition<a class="headerlink" href="#71-the-equivariance-condition" title="Permanent link">&para;</a></h3>
+<p>If we have an action operator <span class="arithmatex">\(\hat{O}_\theta: \mathcal{S} \to \mathcal{S}\)</span>, and a learned feature map <span class="arithmatex">\(\varphi_\psi\)</span>, we can ask: <strong>how does the operator act in feature space?</strong></p>
+<p>If we can find a function <span class="arithmatex">\(f_\theta\)</span> such that:</p>
+<div class="arithmatex">\[\varphi_\psi(\hat{O}_\theta(s)) \approx f_\theta(\varphi_\psi(s))\]</div>
+<p>then <span class="arithmatex">\(f_\theta\)</span> is the <strong>feature-space representation</strong> of the operator. The operator acts on states in <span class="arithmatex">\(\mathcal{S}\)</span>; <span class="arithmatex">\(f_\theta\)</span> acts on features in <span class="arithmatex">\(\mathbb{R}^D\)</span>.</p>
+<h3 id="72-why-this-matters">7.2 Why This Matters<a class="headerlink" href="#72-why-this-matters" title="Permanent link">&para;</a></h3>
+<p>If <span class="arithmatex">\(f_\theta\)</span> is <em>simple</em> (e.g., linear: <span class="arithmatex">\(f_\theta(z) = A_\theta z + b_\theta\)</span>), then the operator has a clean algebraic structure in feature space, even if it's nonlinear in state space. This means:</p>
+<ul>
+<li><strong>Composition is easy:</strong> <span class="arithmatex">\(f_{\theta_2} \circ f_{\theta_1}\)</span> is just matrix multiplication (for linear <span class="arithmatex">\(f\)</span>)</li>
+<li><strong>Value prediction is easy:</strong> if <span class="arithmatex">\(Q^+\)</span> is linear in features and <span class="arithmatex">\(f\)</span> is linear, then <span class="arithmatex">\(Q^+(s') = Q^+(\hat{O}_\theta(s)) \approx \mathbf{w}^T A_\theta \varphi_\psi(s) + \mathbf{w}^T b_\theta\)</span></li>
+<li><strong>Planning is easy:</strong> multi-step rollouts in feature space are iterated linear maps</li>
+</ul>
+<h3 id="73-training-for-equivariance">7.3 Training for Equivariance<a class="headerlink" href="#73-training-for-equivariance" title="Permanent link">&para;</a></h3>
+<p>We can add an equivariance loss to the training objective:</p>
+<div class="arithmatex">\[\mathcal{L}_\text{equiv} = \|\varphi_\psi(\hat{O}_\theta(s)) - f_\theta(\varphi_\psi(s))\|^2\]</div>
+<p>This encourages the feature map to "linearize" the operator. The learned representation makes the nonlinear dynamics <em>appear</em> linear — a learned analogue of Koopman theory, where a nonlinear dynamical system is represented as a linear operator on a lifted function space.</p>
+<h3 id="74-connection-to-koopman-theory">7.4 Connection to Koopman Theory<a class="headerlink" href="#74-connection-to-koopman-theory" title="Permanent link">&para;</a></h3>
+<p>The Koopman operator is an infinite-dimensional linear operator that acts on <em>observables</em> (functions of state) rather than states:</p>
+<div class="arithmatex">\[\mathcal{K} g = g \circ \hat{O}\]</div>
+<p>for any observable <span class="arithmatex">\(g: \mathcal{S} \to \mathbb{R}\)</span>. The feature map <span class="arithmatex">\(\varphi_\psi\)</span> can be viewed as a finite-dimensional approximation to the Koopman eigenfunctions. If <span class="arithmatex">\(\varphi_\psi\)</span> is chosen such that the equivariance condition holds with linear <span class="arithmatex">\(f_\theta\)</span>, then <span class="arithmatex">\(\varphi_\psi\)</span> spans a Koopman-invariant subspace.</p>
+<p>This provides a principled bridge: <strong>GRL0's RKHS ↔ learned features ↔ Koopman theory ↔ operator algebra</strong>.</p>
+<hr />
+<h2 id="8-the-hybrid-architecture-putting-it-together">8. The Hybrid Architecture: Putting It Together<a class="headerlink" href="#8-the-hybrid-architecture-putting-it-together" title="Permanent link">&para;</a></h2>
+<p>Combining Parts 1-3, the complete architecture looks like:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>State s
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  │
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  ├── Operator policy π_ψ(s) → θ           [Definition 3 from Part 2]
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>  │
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>  ├── Operator generator Φ(θ, s) → Ô_θ     [Definition 2 from Part 2]
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  │
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>  ├── State transition: s&#39; = Ô_θ(s) + ξ    [Definition 1 from Part 2]
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>  │
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>  ├── Feature extraction: φ_ψ(s, θ) → z     [Learned kernel from Part 3]
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>  │
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>  ├── Value field: Q⁺(s,θ) = Σ wᵢ k(z, zᵢ) [GRL0 particle memory]
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>  │
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  └── Reinforcement field: ∇_θ Q⁺          [GRL0 gradient field]
+</span></code></pre></div>
+<p><strong>What comes from GRL0:</strong> Particle memory, kernel superposition, reinforcement field as gradient, energy landscape interpretation.</p>
+<p><strong>What comes from Paper A (Part 2):</strong> Action operators, operator generator, operator policy, algebraic structure, energy regularization.</p>
+<p><strong>What comes from learned kernels (Part 3):</strong> Adaptive similarity metric, task-specific feature extraction, equivariant representations, Koopman connection.</p>
+<p>The three tracks are complementary:</p>
+<ul>
+<li>GRL0 provides the <em>philosophy</em>: RL as field theory, experience as particles, policy as geometry</li>
+<li>The operator framework provides the <em>execution</em>: formal action definition, differentiable pipeline, algebraic structure</li>
+<li>Learned kernels provide the <em>representation</em>: adaptive similarity, scalable features, deep learning integration</li>
+</ul>
+<hr />
+<h2 id="9-open-questions">9. Open Questions<a class="headerlink" href="#9-open-questions" title="Permanent link">&para;</a></h2>
+<h3 id="convergence">Convergence<a class="headerlink" href="#convergence" title="Permanent link">&para;</a></h3>
+<p>Alternating between <span class="arithmatex">\(\psi\)</span> (feature map) and <span class="arithmatex">\(w\)</span> (particle weights) isn't guaranteed to converge. The optimization landscape changes every time <span class="arithmatex">\(\psi\)</span> updates, potentially destabilizing previously well-fitted particles. EMA targets (à la DQN/BYOL) or anchor losses on old particles may help.</p>
+<h3 id="particle-memory-under-representation-drift">Particle Memory Under Representation Drift<a class="headerlink" href="#particle-memory-under-representation-drift" title="Permanent link">&para;</a></h3>
+<p>When <span class="arithmatex">\(\varphi_\psi\)</span> changes, the similarity between <em>all</em> particle pairs changes. A particle that was once a close neighbor of the query might become distant, or vice versa. Options:</p>
+<ul>
+<li><strong>Re-embed at query time:</strong> Store raw <span class="arithmatex">\((s_i, \theta_i)\)</span>, compute <span class="arithmatex">\(\varphi_\psi(x_i)\)</span> fresh each time. Correct but expensive.</li>
+<li><strong>Periodic re-embedding:</strong> Update cached features every <span class="arithmatex">\(N\)</span> steps.</li>
+<li><strong>Anchor regularization:</strong> Penalize <span class="arithmatex">\(\|\varphi_\psi(x_i) - \varphi_{\psi_\text{old}}(x_i)\|\)</span> on stored particles.</li>
+</ul>
+<h3 id="uncertainty-under-learned-kernels">Uncertainty Under Learned Kernels<a class="headerlink" href="#uncertainty-under-learned-kernels" title="Permanent link">&para;</a></h3>
+<p>Fixed RBF gives clean uncertainty: novel inputs are far from all particles in feature space, so the GP posterior variance is high. A learned kernel can map novel inputs to <em>any</em> location in feature space — potentially right next to existing particles — creating false confidence.</p>
+<p>Solutions: GP head on learned features (exactly Wilson 2016), deep ensembles of <span class="arithmatex">\(\varphi_\psi\)</span>, density estimation in feature space.</p>
+<h3 id="spectral-clustering-with-learned-kernels">Spectral Clustering with Learned Kernels<a class="headerlink" href="#spectral-clustering-with-learned-kernels" title="Permanent link">&para;</a></h3>
+<p>GRL0's spectral clustering on the Gram matrix <span class="arithmatex">\(K\)</span> can be applied to the <em>learned</em> Gram matrix <span class="arithmatex">\(K_\psi\)</span>. The eigenstructure would then reflect learned similarity rather than Euclidean proximity. This could provide much richer behavioral modes — but the eigendecomposition would need to be recomputed as <span class="arithmatex">\(\psi\)</span> evolves.</p>
+<p>A natural bridge: use spectral eigenvectors from a fixed kernel as <em>initialization</em> for <span class="arithmatex">\(\varphi_\psi\)</span>, then fine-tune. This starts with GRL0's prior and relaxes it.</p>
+<hr />
+<h2 id="10-summary-the-full-arc">10. Summary: The Full Arc<a class="headerlink" href="#10-summary-the-full-arc" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Algorithm</th>
-<th>Objective</th>
-<th>Gradient</th>
-<th>Trust region</th>
+<th>Stage</th>
+<th>Representation</th>
+<th>Feature Map</th>
+<th>Limitation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Vanilla PG</strong></td>
-<td><span class="arithmatex">\(\mathbb{E}[\log \pi_\theta \, \hat{A}_t]\)</span></td>
-<td>Explicit <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span></td>
+<td>Classical RL</td>
+<td><span class="arithmatex">\(Q(s, a)\)</span>, discrete <span class="arithmatex">\(a\)</span></td>
 <td>None</td>
+<td>No action structure</td>
 </tr>
 <tr>
-<td><strong>TRPO</strong></td>
-<td><span class="arithmatex">\(\mathbb{E}[r_t(\theta) \, \hat{A}_t]\)</span></td>
-<td>Hidden in <span class="arithmatex">\(r_t(\theta)\)</span></td>
-<td>KL constraint</td>
+<td>GRL0</td>
+<td><span class="arithmatex">\(Q^+(s, \theta)\)</span>, GP + fixed kernel</td>
+<td><span class="arithmatex">\(\varphi\)</span> fixed by kernel choice</td>
+<td>Discretization of <span class="arithmatex">\(\Theta\)</span>; frozen metric</td>
 </tr>
 <tr>
-<td><strong>PPO</strong></td>
-<td><span class="arithmatex">\(\mathbb{E}[\min(r_t \hat{A}_t, \text{clip}(\ldots))]\)</span></td>
-<td>Hidden in <span class="arithmatex">\(r_t(\theta)\)</span>, killed by clip</td>
-<td>Soft (clipping)</td>
+<td>GRL + operators</td>
+<td><span class="arithmatex">\(Q(s, \theta)\)</span>, neural + operator <span class="arithmatex">\(\Phi(\theta, s)\)</span></td>
+<td>Not applicable (no kernel)</td>
+<td>Loses particle/field semantics</td>
+</tr>
+<tr>
+<td>GRL + learned kernel</td>
+<td><span class="arithmatex">\(Q^+(s, \theta) = \sum w_i k_\psi(x, x_i)\)</span></td>
+<td><span class="arithmatex">\(\varphi_\psi\)</span> learned</td>
+<td>Non-stationarity; collapse risk</td>
+</tr>
+<tr>
+<td>Full hybrid</td>
+<td>Operators + learned particle field</td>
+<td><span class="arithmatex">\(\varphi_\psi\)</span> with equivariance</td>
+<td>Open research</td>
 </tr>
 </tbody>
 </table>
-<p>In all three cases, the same score function <span class="arithmatex">\(\nabla_\theta \log \pi_\theta\)</span> drives the update. The difference is how aggressively the update is constrained.</p>
+<p>The progression is:</p>
+<ol>
+<li><strong>GRL0:</strong> Right philosophy (parametric actions, energy fields, particles), wrong execution mechanism (discretization)</li>
+<li><strong>Paper A:</strong> Right execution mechanism (action operators), different value representation (neural, not particle-based)</li>
+<li><strong>Learned kernels:</strong> Bridges the two — keeps GRL0's particle/field semantics while enabling the operator framework and adaptive representations</li>
+</ol>
+<p>The full hybrid — operator-based actions with learned-kernel particle memory and equivariant feature maps — is the research frontier. The scoping document at <code>dev/GRL_extensions/learned_kernels/00-scope.md</code> outlines the minimum viable experiment.</p>
 <hr />
-<p><em>Previous: <a href="../03_PPO/">Proximal Policy Optimization (PPO)</a></em> | <em>Next: <a href="../04_PPO_variants/">PPO Variants and Modern Descendants</a></em></p>
+<p><strong>Related documents:</strong>
+- Part 1: <a href="../01-the-grl0-gap/">The GRL0 Gap</a>
+- Part 2: <a href="../02-action-operator-formalization/">Action Operator Formalization</a>
+- Learned kernels scope: <code>Projects/GRL/dev/GRL_extensions/learned_kernels/00-scope.md</code>
+- Beyond GP: <code>Projects/GRL/docs/GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md</code>
+- RKHS and probability: <code>Projects/GRL/dev/GRL0/archive/03-RKHS-and-probability.md</code>
+- Functional fields notebook: <code>Projects/GRL/notebooks/field_series/02_functional_fields.ipynb</code></p>
 
 
 
