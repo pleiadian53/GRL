@@ -24,9 +24,9 @@ The parametric action view opened up several innovations that were genuinely ahe
 
 **1. Augmented State Space.** By forming $x = (s, \theta) \in \mathcal{X} = \mathcal{S} \times \Theta$, GRL0 treated state-action pairs as points in a joint continuous space. This enabled geometric reasoning about RL — actions weren't isolated choices but coordinates in a landscape.
 
-**2. Energy Function.** The value function became a scalar field $E(x) = E(s, \theta)$ over augmented space, interpretable as an energy landscape. High-value configurations form basins of attraction; low-value regions form barriers.
+**2. Energy Function.** The value field $Q^+(x) = Q^+(s, \theta)$ over augmented space could be re-read as an *energy landscape* via $E(x) = -Q^+(x)$ — the energy-based-model (EBM) convention in which **low energy = good**. Low-energy configurations (equivalently, high value) form basins of attraction; high-energy regions form barriers. The probabilistic reading $p(x) \propto e^{-E(x)}$ makes the intuition precise: low-energy states are plausible/certain, high-energy states implausible/uncertain.
 
-**3. Reinforcement Field.** The gradient $\nabla_x E(x)$ defined a vector field — the *reinforcement field* — over augmented space. Policy improvement became gradient ascent: follow the field toward better configurations. This collapsed value estimation, policy improvement, and exploration into a single geometric object.
+**3. Reinforcement Field.** The negative gradient $-\nabla_x E(x)$ defined a vector field — the *reinforcement field* (a force field) — over augmented space. Policy improvement became gradient descent on energy: follow the field downhill toward lower-energy (higher-value) configurations. This collapsed value estimation, policy improvement, and exploration into a single geometric object.
 
 **4. Experience Particles.** Transitions were stored as particles $(x_i, w_i)$ in augmented space, with the value function reconstructed via kernel superposition:
 $$Q^+(x) = \sum_i w_i \, k(x, x_i)$$
@@ -75,7 +75,7 @@ The agent had no say in *how* $\theta$ transforms $s$. The environment remained 
 The root cause was architectural. GRL0 had two powerful components that didn't connect:
 
 ```
-Value side:         E(s, θ) → ∇E → reinforcement field → "which θ is good"
+Value side:         E(s, θ) = −Q⁺(s, θ) → −∇E → reinforcement field → "which θ is good"
 Execution side:     θ → ??? → s'  (undefined / environment-dependent)
 ```
 
@@ -182,6 +182,6 @@ The first two gaps are closed by the action operator formalization (Part 2). The
 
 **Related documents:**
 - GRL0 baseline concepts: `Projects/GRL/dev/GRL0/01-grl-baseline-concepts.md`
-- Paper A formal definitions: `Projects/GRL/dev/papers/paper-a-theory/paper-a-formal-definitions.md`
+- Paper A formal definitions: `Projects/GRL/dev/papers/paper-a-theory/02-paper-a-formal-definitions.md`
 - Reinforcement field (Section III): `Projects/GRL/dev/GRL0/reinforcement_field/01-RF-section-3.md`
 - Learned kernels scope: `Projects/GRL/dev/GRL_extensions/learned_kernels/00-scope.md`

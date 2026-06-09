@@ -328,5 +328,5 @@ Together, these enable a fully continuous, differentiable pipeline from state ob
 - Operator base class: `Projects/GRL/src/grl/operators/base.py`
 - Operator families: `Projects/GRL/src/grl/operators/{affine,field,kernel}.py`
 - Operator generator: `Projects/GRL/src/grl/policies/generator.py`
-- Paper A formal definitions: `Projects/GRL/dev/papers/paper-a-theory/paper-a-formal-definitions.md`
-- Paper A operator algebra: `Projects/GRL/dev/papers/paper-a-theory/paper-a-operator-algebra.md`
+- Paper A formal definitions: `Projects/GRL/dev/papers/paper-a-theory/02-paper-a-formal-definitions.md`
+- Paper A operator algebra: `Projects/GRL/dev/papers/paper-a-theory/03-paper-a-operator-algebra.md`
