@@ -2210,8 +2210,8 @@
 </table>
 <p>The parametric action view opened up several innovations that were genuinely ahead of their time:</p>
 <p><strong>1. Augmented State Space.</strong> By forming <span class="arithmatex">\(x = (s, \theta) \in \mathcal{X} = \mathcal{S} \times \Theta\)</span>, GRL0 treated state-action pairs as points in a joint continuous space. This enabled geometric reasoning about RL — actions weren't isolated choices but coordinates in a landscape.</p>
-<p><strong>2. Energy Function.</strong> The value function became a scalar field <span class="arithmatex">\(E(x) = E(s, \theta)\)</span> over augmented space, interpretable as an energy landscape. High-value configurations form basins of attraction; low-value regions form barriers.</p>
-<p><strong>3. Reinforcement Field.</strong> The gradient <span class="arithmatex">\(\nabla_x E(x)\)</span> defined a vector field — the <em>reinforcement field</em> — over augmented space. Policy improvement became gradient ascent: follow the field toward better configurations. This collapsed value estimation, policy improvement, and exploration into a single geometric object.</p>
+<p><strong>2. Energy Function.</strong> The value field <span class="arithmatex">\(Q^+(x) = Q^+(s, \theta)\)</span> over augmented space could be re-read as an <em>energy landscape</em> via <span class="arithmatex">\(E(x) = -Q^+(x)\)</span> — the energy-based-model (EBM) convention in which <strong>low energy = good</strong>. Low-energy configurations (equivalently, high value) form basins of attraction; high-energy regions form barriers. The probabilistic reading <span class="arithmatex">\(p(x) \propto e^{-E(x)}\)</span> makes the intuition precise: low-energy states are plausible/certain, high-energy states implausible/uncertain.</p>
+<p><strong>3. Reinforcement Field.</strong> The negative gradient <span class="arithmatex">\(-\nabla_x E(x)\)</span> defined a vector field — the <em>reinforcement field</em> (a force field) — over augmented space. Policy improvement became gradient descent on energy: follow the field downhill toward lower-energy (higher-value) configurations. This collapsed value estimation, policy improvement, and exploration into a single geometric object.</p>
 <p><strong>4. Experience Particles.</strong> Transitions were stored as particles <span class="arithmatex">\((x_i, w_i)\)</span> in augmented space, with the value function reconstructed via kernel superposition:
 $<span class="arithmatex">\(Q^+(x) = \sum_i w_i \, k(x, x_i)\)</span>$</p>
 <p><strong>5. RKHS as Native Workspace.</strong> Everything lived in a reproducing kernel Hilbert space. The GP posterior mean was guaranteed to be in RKHS. Functional gradients, inner products, and Riesz representers all applied rigorously.</p>
@@ -2240,7 +2240,7 @@ $<span class="arithmatex">\(Q^+(x) = \sum_i w_i \, k(x, x_i)\)</span>$</p>
 <p>The agent had no say in <em>how</em> <span class="arithmatex">\(\theta\)</span> transforms <span class="arithmatex">\(s\)</span>. The environment remained a black box that consumed action parameters and produced next states. The agent's role was still restricted to <em>selecting</em> parameters, not <em>constructing</em> transformations.</p>
 <h3 id="the-structural-problem">The Structural Problem<a class="headerlink" href="#the-structural-problem" title="Permanent link">&para;</a></h3>
 <p>The root cause was architectural. GRL0 had two powerful components that didn't connect:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Value side:         E(s, θ) → ∇E → reinforcement field → &quot;which θ is good&quot;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Value side:         E(s, θ) = −Q⁺(s, θ) → −∇E → reinforcement field → &quot;which θ is good&quot;
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Execution side:     θ → ??? → s&#39;  (undefined / environment-dependent)
 </span></code></pre></div>
 <p>The value function knew which <span class="arithmatex">\(\theta\)</span> values were desirable at each state. But there was no formal mechanism to translate <span class="arithmatex">\(\theta\)</span> into a state transformation. The gap between "knowing what's good" and "doing what's good" was bridged only by heuristic discretization.</p>
@@ -2327,7 +2327,7 @@ $<span class="arithmatex">\(Q^+(x) = \sum_i w_i \, k(x, x_i)\)</span>$</p>
 <hr />
 <p><strong>Related documents:</strong>
 - GRL0 baseline concepts: <code>Projects/GRL/dev/GRL0/01-grl-baseline-concepts.md</code>
-- Paper A formal definitions: <code>Projects/GRL/dev/papers/paper-a-theory/paper-a-formal-definitions.md</code>
+- Paper A formal definitions: <code>Projects/GRL/dev/papers/paper-a-theory/02-paper-a-formal-definitions.md</code>
 - Reinforcement field (Section III): <code>Projects/GRL/dev/GRL0/reinforcement_field/01-RF-section-3.md</code>
 - Learned kernels scope: <code>Projects/GRL/dev/GRL_extensions/learned_kernels/00-scope.md</code></p>
 
