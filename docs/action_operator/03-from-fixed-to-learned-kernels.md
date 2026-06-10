@@ -261,7 +261,7 @@ State s
 
 **What comes from GRL0:** Particle memory, kernel superposition, reinforcement field as gradient, energy landscape interpretation.
 
-**What comes from Paper A (Part 2):** Action operators, operator generator, operator policy, algebraic structure, energy regularization.
+**What comes from Part 2:** Action operators, operator generator, operator policy, algebraic structure, energy regularization.
 
 **What comes from learned kernels (Part 3):** Adaptive similarity metric, task-specific feature extraction, equivariant representations, Koopman connection.
 
@@ -314,17 +314,15 @@ A natural bridge: use spectral eigenvectors from a fixed kernel as *initializati
 The progression is:
 
 1. **GRL0:** Right philosophy (parametric actions, energy fields, particles), wrong execution mechanism (discretization)
-2. **Paper A:** Right execution mechanism (action operators), different value representation (neural, not particle-based)
+2. **Part 2 (operator framework):** Right execution mechanism (action operators), different value representation (neural, not particle-based)
 3. **Learned kernels:** Bridges the two — keeps GRL0's particle/field semantics while enabling the operator framework and adaptive representations
 
-The full hybrid — operator-based actions with learned-kernel particle memory and equivariant feature maps — is the research frontier. The scoping document at `dev/GRL_extensions/learned_kernels/00-scope.md` outlines the minimum viable experiment.
+The full hybrid — operator-based actions with learned-kernel particle memory and equivariant feature maps — is the research frontier, with a minimum viable experiment still being scoped.
 
 ---
 
 **Related documents:**
 - Part 1: [The GRL0 Gap](./01-the-grl0-gap.md)
 - Part 2: [Action Operator Formalization](./02-action-operator-formalization.md)
-- Learned kernels scope: `Projects/GRL/dev/GRL_extensions/learned_kernels/00-scope.md`
-- Beyond GP: `Projects/GRL/docs/GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md`
-- RKHS and probability: `Projects/GRL/dev/GRL0/archive/03-RKHS-and-probability.md`
-- Functional fields notebook: `Projects/GRL/notebooks/field_series/02_functional_fields.ipynb`
+- [GRL0: Learning the Field Beyond GP](../GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md)
+- Functional fields notebook: `notebooks/field_series/02_functional_fields.ipynb`

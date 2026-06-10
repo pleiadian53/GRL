@@ -39,13 +39,13 @@ These ideas anticipated energy-based models, score-based methods, neural fields,
 
 ## 2. Where GRL0 Hit a Wall
 
-Despite the rich continuous machinery, GRL0 had to make a critical compromise at the point of *action execution*. The parametric action $\theta$ told the agent *where in parameter space* a good action lived, but not *what the action does to the state*.
+Despite the rich continuous machinery, GRL0 made a critical compromise at the point of *action execution*. The parametric action $\theta$ told the agent *where in parameter space* a good action lived, and GRL0 even sketched how a parameter becomes a state transformation (Section III.A of the paper) — but it never made that transformation the *general, executable* engine of the framework.
 
 The gap can be stated precisely:
 
-> **GRL0 defined the value landscape $E(s, \theta)$ over parametric actions, but never formalized the mapping $\theta \mapsto s'$ — how action parameters transform the state.**
+> **GRL0 introduced the action operator and a parameter-to-operator map — but only in nascent form, never developed into a *general, differentiable, algebraically-structured* formalism. In practice the learning algorithm still ran on a *discretized* parameter space.**
 
-Without this mapping, GRL0 couldn't close the loop. The reinforcement field could point toward a region of $\Theta$ with high value, but executing an action still required the environment to interpret $\theta$. In practice, this forced two compromises:
+The reinforcement field could point toward a region of $\Theta$ with high value, but turning a chosen $\theta$ into a next state was handled by a hand-specified per-domain transform, while the learning algorithm itself fell back on discretizing $\Theta$. (GRL0's worked examples *did* specify $\theta \mapsto s'$ concretely — see [What GRL0 Already Had](01a-what-grl0-already-had.md) — a priori and per domain, exactly as standard RL fixes its action semantics as a modeling choice.) In practice, this forced two compromises:
 
 ### Compromise 1: Discretization of $\Theta$
 
@@ -72,14 +72,14 @@ The agent had no say in *how* $\theta$ transforms $s$. The environment remained 
 
 ### The Structural Problem
 
-The root cause was architectural. GRL0 had two powerful components that didn't connect:
+The root cause was architectural. GRL0 had two powerful sides that were never unified into a single, general mechanism:
 
 ```
-Value side:         E(s, θ) = −Q⁺(s, θ) → −∇E → reinforcement field → "which θ is good"
-Execution side:     θ → ??? → s'  (undefined / environment-dependent)
+Value side:      E(s, θ) = −Q⁺(s, θ) → −∇E → reinforcement field → "which θ is good"
+Execution side:  θ → Ô_θ → s'         (prescribed per domain; not a general, learned mechanism)
 ```
 
-The value function knew which $\theta$ values were desirable at each state. But there was no formal mechanism to translate $\theta$ into a state transformation. The gap between "knowing what's good" and "doing what's good" was bridged only by heuristic discretization.
+The value function knew which $\theta$ values were desirable at each state, and each domain supplied a mapping from $\theta$ to a state transformation — prescribed manually, as part of the model, exactly as standard RL fixes its action set and effects as a modeling choice. What was missing was a *general* mechanism: one that produces the transformation for any $\theta$ across domains, is differentiable end to end, and lets the value and execution sides drive each other without discretizing $\Theta$. That general, reusable, learnable bridge — the operator generator $\Phi$ — is what Part 2 introduces.
 
 ---
 
@@ -87,9 +87,11 @@ The value function knew which $\theta$ values were desirable at each state. But 
 
 Looking back, three things needed to be formalized to close the gap:
 
+Two of the three were already *present in nascent form* in GRL0 — it defined an action as a function $a(\mathbf{x}_a): s \mapsto s'$ and a higher-order "generative function" mapping parameters to such operators (a proto-generator). Read the pieces below as the clean targets Part 2 *formalizes and makes executable*, not as concepts wholly absent from GRL0 (see [01a](01a-what-grl0-already-had.md)). The genuinely new piece is the third.
+
 ### Piece 1: Action as Transformation (Not Parameter)
 
-GRL0 parameterized actions but didn't define what an action *is* functionally. The key insight: an action should be a **function on state space**:
+GRL0 parameterized actions and, in Section III.A, *did* take the step of treating an action as a function $a(\mathbf{x}_a): s \mapsto s'$. Part 2 makes this the foundation rather than an aside — an action **is** a **function on state space**:
 
 $$\hat{O}: \mathcal{S} \to \mathcal{S}$$
 
@@ -105,7 +107,7 @@ Once we define actions as operators, we need a formal bridge from parameters to 
 
 $$\Phi: \Theta \times \mathcal{S} \to \mathcal{S}$$
 
-For fixed $\theta$, this gives a specific operator $\hat{O}_\theta(s) = \Phi(\theta, s)$. This is the missing link — the **operator generator** — that converts GRL0's parametric actions into executable state transformations.
+For fixed $\theta$, this gives a specific operator $\hat{O}_\theta(s) = \Phi(\theta, s)$. GRL0 already sketched this as a higher-order "generative function" $f_\theta: \mathbf{x}_a \mapsto a(\mathbf{x}_a)$; Part 2 turns it into a single, reusable, differentiable **operator generator** $\Phi$ that converts parameters into executable state transformations across families.
 
 Different choices of $\Phi$ yield different operator families:
 - $\Phi(\theta, s) = A_\theta s + b_\theta$ → affine operators
@@ -124,19 +126,21 @@ No discretization needed. Gradients flow from the reward signal through the tran
 
 ## 4. The Proto-Operator in GRL0
 
-It's worth noting that GRL0 *almost* had the operator concept. The original paper briefly mentioned "action operator" in the context of a matrix parameterization:
+GRL0 had more of the operator concept than "proto-" suggests. "Action operator" is in the paper's *title* and has its own section (III.A), where an action is defined as a function that "operates" on an input state and produces an output state. It was made concrete in three ways: the 2D navigation operator (Figs 1, 3), an explicit matrix / linear-operator form
 
 $$s' = A_\theta \cdot s$$
 
-where $A_\theta$ is a matrix determined by action parameters. This is exactly the affine operator family (with $b = 0$). But it was introduced as an aside rather than developed as the central formalism. The paper didn't:
+(the affine family with $b = 0$, written out as Eq. 11 of the paper), and a higher-order *generative function* $f_\theta: \mathbf{x}_a \mapsto a(\mathbf{x}_a)$ mapping parameters to operators — a clear precursor of the generator $\Phi$. The paper even anticipates general nonlinear operators and "a family of action operators."
+
+What GRL0 did *not* do was build this into the central formalism. The paper didn't:
 
 - Define a general operator space $\mathcal{O}$
 - Establish algebraic structure (composition, identity, energy)
-- Show how different operator families arise from different choices of $\Phi$
-- Connect the operator formalism to the reinforcement field
+- Show how different operator families arise systematically from different choices of $\Phi$
+- Connect the operator formalism to the reinforcement field as the execution engine
 - Prove that classical RL is a special case
 
-The matrix multiplication was a specific instantiation, not a general framework. The leap from "actions can be parameterized as matrices" to "actions *are* operators on state space, and here is the full mathematical structure" is what Paper A accomplishes.
+The concept was named, written out, and demonstrated case by case — but it stayed conceptual: the learning algorithm (RF-SARSA) still ran on a discretized $\Theta$, with no differentiable, algebraically-structured pipeline. The leap from "actions can be parameterized as operators, domain by domain" to "actions *are* operators on state space, with a full and executable mathematical structure" is what Part 2 accomplishes. See [What GRL0 Already Had](01a-what-grl0-already-had.md).
 
 ---
 
@@ -166,7 +170,7 @@ This sets up the transition to Part 3, where we replace the fixed $\varphi$ with
 
 ## 6. Summary: The Three Gaps and Their Solutions
 
-| Gap in GRL0 | Consequence | Solution (Paper A) |
+| Gap in GRL0 | Consequence | Solution (Part 2) |
 |-------------|-------------|---------------------|
 | No formal $\theta \mapsto s'$ mapping | Had to discretize $\Theta$ | **Operator Generator** $\Phi(\theta, s)$ |
 | Actions interpreted by environment | Agent can't construct transitions | **Action Operators** $\hat{O}: \mathcal{S} \to \mathcal{S}$ |
@@ -181,7 +185,5 @@ The first two gaps are closed by the action operator formalization (Part 2). The
 ---
 
 **Related documents:**
-- GRL0 baseline concepts: `Projects/GRL/dev/GRL0/01-grl-baseline-concepts.md`
-- Paper A formal definitions: `Projects/GRL/dev/papers/paper-a-theory/02-paper-a-formal-definitions.md`
-- Reinforcement field (Section III): `Projects/GRL/dev/GRL0/reinforcement_field/01-RF-section-3.md`
-- Learned kernels scope: `Projects/GRL/dev/GRL_extensions/learned_kernels/00-scope.md`
+- [GRL0: Core Concepts](../GRL0/tutorials/01-core-concepts.md)
+- [GRL0: Reinforcement Field](../GRL0/tutorials/04-reinforcement-field.md)
