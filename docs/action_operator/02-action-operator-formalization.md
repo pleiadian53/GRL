@@ -77,21 +77,24 @@ This separation is powerful. The policy network can be a standard MLP or transfo
 
 ### How the Three Definitions Interlock
 
-```
-                    ┌─────────────────┐
-                    │  Operator Space  │
-                    │    O: S → S      │     Definition 1: what actions ARE
-                    └────────▲────────┘
-                             │
-                    ┌────────┴────────┐
-                    │    Generator     │
-                    │  Φ(θ, s) → s'   │     Definition 2: how params become operators
-                    └────────▲────────┘
-                             │
-                    ┌────────┴────────┐
-                    │  Operator Policy │
-                    │  π: S → Δ(Θ)    │     Definition 3: how states produce params
-                    └─────────────────┘
+```mermaid
+flowchart TB
+    S(["<b>State</b><br/>s ∈ 𝒮"])
+    D3["<b>Definition 3 · Operator Policy</b><br/>π<sub>ψ</sub> : 𝒮 → Δ(Θ)<br/><i>how a state chooses parameters</i>"]
+    D2["<b>Definition 2 · Operator Generator</b><br/>Φ : Θ × 𝒮 → 𝒮<br/><i>how parameters become an operator</i>"]
+    D1["<b>Definition 1 · Action Operator</b><br/>Ô<sub>θ</sub> : 𝒮 → 𝒮<br/><i>what an action IS</i>"]
+    SP(["<b>Next State</b><br/>s′ = Ô<sub>θ</sub>(s) + ξ"])
+
+    S --> D3
+    D3 -- "θ ∈ Θ" --> D2
+    D2 -- "Ôθ = Φ(θ, ·)" --> D1
+    D1 -- "apply to s, + noise ξ" --> SP
+
+    style S  fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
+    style D3 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#000
+    style D2 fill:#fff59d,stroke:#fbc02d,stroke-width:3px,color:#000
+    style D1 fill:#ffcc80,stroke:#f57c00,stroke-width:3px,color:#000
+    style SP fill:#c8e6c9,stroke:#388e3c,stroke-width:3px,color:#000
 ```
 
 Definition 1 says what an action *is*. Definition 2 says how to *construct* one from parameters. Definition 3 says how to *choose* parameters given the current state. Together, they provide a complete, differentiable pipeline from state to next state — no discretization required.
