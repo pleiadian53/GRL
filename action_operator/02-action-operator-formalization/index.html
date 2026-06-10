@@ -2358,21 +2358,23 @@
 </ol>
 <p>This separation is powerful. The policy network can be a standard MLP or transformer. The operator generator encodes the <em>structure</em> of allowable transformations. Different tasks might share the same generator family (e.g., field operators) with different learned policies.</p>
 <h3 id="how-the-three-definitions-interlock">How the Three Definitions Interlock<a class="headerlink" href="#how-the-three-definitions-interlock" title="Permanent link">&para;</a></h3>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>                    ┌─────────────────┐
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>                    │  Operator Space  │
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>                    │    O: S → S      │     Definition 1: what actions ARE
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>                    └────────▲────────┘
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>                             │
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>                    ┌────────┴────────┐
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>                    │    Generator     │
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>                    │  Φ(θ, s) → s&#39;   │     Definition 2: how params become operators
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>                    └────────▲────────┘
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>                             │
-</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>                    ┌────────┴────────┐
-</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>                    │  Operator Policy │
-</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>                    │  π: S → Δ(Θ)    │     Definition 3: how states produce params
-</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>                    └─────────────────┘
-</span></code></pre></div>
+<pre class="mermaid"><code>flowchart TB
+    S(["&lt;b&gt;State&lt;/b&gt;&lt;br/&gt;s ∈ 𝒮"])
+    D3["&lt;b&gt;Definition 3 · Operator Policy&lt;/b&gt;&lt;br/&gt;π&lt;sub&gt;ψ&lt;/sub&gt; : 𝒮 → Δ(Θ)&lt;br/&gt;&lt;i&gt;how a state chooses parameters&lt;/i&gt;"]
+    D2["&lt;b&gt;Definition 2 · Operator Generator&lt;/b&gt;&lt;br/&gt;Φ : Θ × 𝒮 → 𝒮&lt;br/&gt;&lt;i&gt;how parameters become an operator&lt;/i&gt;"]
+    D1["&lt;b&gt;Definition 1 · Action Operator&lt;/b&gt;&lt;br/&gt;Ô&lt;sub&gt;θ&lt;/sub&gt; : 𝒮 → 𝒮&lt;br/&gt;&lt;i&gt;what an action IS&lt;/i&gt;"]
+    SP(["&lt;b&gt;Next State&lt;/b&gt;&lt;br/&gt;s′ = Ô&lt;sub&gt;θ&lt;/sub&gt;(s) + ξ"])
+
+    S --&gt; D3
+    D3 -- "θ ∈ Θ" --&gt; D2
+    D2 -- "Ôθ = Φ(θ, ·)" --&gt; D1
+    D1 -- "apply to s, + noise ξ" --&gt; SP
+
+    style S  fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
+    style D3 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#000
+    style D2 fill:#fff59d,stroke:#fbc02d,stroke-width:3px,color:#000
+    style D1 fill:#ffcc80,stroke:#f57c00,stroke-width:3px,color:#000
+    style SP fill:#c8e6c9,stroke:#388e3c,stroke-width:3px,color:#000</code></pre>
 <p>Definition 1 says what an action <em>is</em>. Definition 2 says how to <em>construct</em> one from parameters. Definition 3 says how to <em>choose</em> parameters given the current state. Together, they provide a complete, differentiable pipeline from state to next state — no discretization required.</p>
 <hr />
 <h2 id="3-operator-families-concrete-realizations">3. Operator Families: Concrete Realizations<a class="headerlink" href="#3-operator-families-concrete-realizations" title="Permanent link">&para;</a></h2>
@@ -2467,7 +2469,7 @@
 <li><strong>Parameter head:</strong> Linear layer maps <span class="arithmatex">\(h\)</span> to flat parameter vector <span class="arithmatex">\(\theta\)</span></li>
 <li><strong>Operator instantiation:</strong> <span class="arithmatex">\(\theta\)</span> is reshaped and loaded into the target operator class</li>
 </ol>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>s → [Encoder MLP] → h → [Param Head] → θ → [Reshape into Ô_θ] → Ô_θ(s) = s&#39;
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>s → [Encoder MLP] → h → [Param Head] → θ → [Reshape into Ô_θ] → Ô_θ(s) = s&#39;
 </span></code></pre></div>
 <p><strong>Initialization:</strong> The parameter head is initialized to zeros, so the initial operator is near-identity. This ensures stable early training and aligns with least-action regularization.</p>
 <h3 id="62-hypernetwork-generation">6.2 Hypernetwork Generation<a class="headerlink" href="#62-hypernetwork-generation" title="Permanent link">&para;</a></h3>
@@ -2477,7 +2479,7 @@
 <li><strong>Target network:</strong> Uses generated weights to compute <span class="arithmatex">\(F(s)\)</span> (the displacement field)</li>
 <li><strong>Residual:</strong> <span class="arithmatex">\(s' = s + F(s)\)</span></li>
 </ol>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>s → [Hypernetwork] → weights_of_F → [F with generated weights](s) → F(s) → s&#39; = s + F(s)
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>s → [Hypernetwork] → weights_of_F → [F with generated weights](s) → F(s) → s&#39; = s + F(s)
 </span></code></pre></div>
 <p><strong>Per-sample operators:</strong> The hypernetwork naturally produces per-sample operators via batched matrix multiplication. Each state in a batch gets its own operator network — different states generate different transformations. This is a key advantage over the parameter prediction approach, which averages over the batch.</p>
 <hr />
