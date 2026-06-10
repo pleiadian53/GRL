@@ -2218,12 +2218,12 @@ $<span class="arithmatex">\(Q^+(x) = \sum_i w_i \, k(x, x_i)\)</span>$</p>
 <p>These ideas anticipated energy-based models, score-based methods, neural fields, and diffusion-based policies by years.</p>
 <hr />
 <h2 id="2-where-grl0-hit-a-wall">2. Where GRL0 Hit a Wall<a class="headerlink" href="#2-where-grl0-hit-a-wall" title="Permanent link">&para;</a></h2>
-<p>Despite the rich continuous machinery, GRL0 had to make a critical compromise at the point of <em>action execution</em>. The parametric action <span class="arithmatex">\(\theta\)</span> told the agent <em>where in parameter space</em> a good action lived, but not <em>what the action does to the state</em>.</p>
+<p>Despite the rich continuous machinery, GRL0 made a critical compromise at the point of <em>action execution</em>. The parametric action <span class="arithmatex">\(\theta\)</span> told the agent <em>where in parameter space</em> a good action lived, and GRL0 even sketched how a parameter becomes a state transformation (Section III.A of the paper) — but it never made that transformation the <em>general, executable</em> engine of the framework.</p>
 <p>The gap can be stated precisely:</p>
 <blockquote>
-<p><strong>GRL0 defined the value landscape <span class="arithmatex">\(E(s, \theta)\)</span> over parametric actions, but never formalized the mapping <span class="arithmatex">\(\theta \mapsto s'\)</span> — how action parameters transform the state.</strong></p>
+<p><strong>GRL0 introduced the action operator and a parameter-to-operator map — but only in nascent form, never developed into a <em>general, differentiable, algebraically-structured</em> formalism. In practice the learning algorithm still ran on a <em>discretized</em> parameter space.</strong></p>
 </blockquote>
-<p>Without this mapping, GRL0 couldn't close the loop. The reinforcement field could point toward a region of <span class="arithmatex">\(\Theta\)</span> with high value, but executing an action still required the environment to interpret <span class="arithmatex">\(\theta\)</span>. In practice, this forced two compromises:</p>
+<p>The reinforcement field could point toward a region of <span class="arithmatex">\(\Theta\)</span> with high value, but turning a chosen <span class="arithmatex">\(\theta\)</span> into a next state was handled by a hand-specified per-domain transform, while the learning algorithm itself fell back on discretizing <span class="arithmatex">\(\Theta\)</span>. (GRL0's worked examples <em>did</em> specify <span class="arithmatex">\(\theta \mapsto s'\)</span> concretely — see <a href="../01a-what-grl0-already-had/">What GRL0 Already Had</a> — a priori and per domain, exactly as standard RL fixes its action semantics as a modeling choice.) In practice, this forced two compromises:</p>
 <h3 id="compromise-1-discretization-of-theta">Compromise 1: Discretization of <span class="arithmatex">\(\Theta\)</span><a class="headerlink" href="#compromise-1-discretization-of-theta" title="Permanent link">&para;</a></h3>
 <p>To make the problem tractable with existing RL algorithms (SARSA, Q-learning), the continuous parameter space <span class="arithmatex">\(\Theta\)</span> had to be partitioned into bins:</p>
 <div class="arithmatex">\[\Theta \approx \{\theta_1, \theta_2, \ldots, \theta_m\}\]</div>
@@ -2239,16 +2239,17 @@ $<span class="arithmatex">\(Q^+(x) = \sum_i w_i \, k(x, x_i)\)</span>$</p>
 <div class="arithmatex">\[s' = T(s, \theta) \quad \text{(environment-defined)}\]</div>
 <p>The agent had no say in <em>how</em> <span class="arithmatex">\(\theta\)</span> transforms <span class="arithmatex">\(s\)</span>. The environment remained a black box that consumed action parameters and produced next states. The agent's role was still restricted to <em>selecting</em> parameters, not <em>constructing</em> transformations.</p>
 <h3 id="the-structural-problem">The Structural Problem<a class="headerlink" href="#the-structural-problem" title="Permanent link">&para;</a></h3>
-<p>The root cause was architectural. GRL0 had two powerful components that didn't connect:</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Value side:         E(s, θ) = −Q⁺(s, θ) → −∇E → reinforcement field → &quot;which θ is good&quot;
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Execution side:     θ → ??? → s&#39;  (undefined / environment-dependent)
+<p>The root cause was architectural. GRL0 had two powerful sides that were never unified into a single, general mechanism:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Value side:      E(s, θ) = −Q⁺(s, θ) → −∇E → reinforcement field → &quot;which θ is good&quot;
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Execution side:  θ → Ô_θ → s&#39;         (prescribed per domain; not a general, learned mechanism)
 </span></code></pre></div>
-<p>The value function knew which <span class="arithmatex">\(\theta\)</span> values were desirable at each state. But there was no formal mechanism to translate <span class="arithmatex">\(\theta\)</span> into a state transformation. The gap between "knowing what's good" and "doing what's good" was bridged only by heuristic discretization.</p>
+<p>The value function knew which <span class="arithmatex">\(\theta\)</span> values were desirable at each state, and each domain supplied a mapping from <span class="arithmatex">\(\theta\)</span> to a state transformation — prescribed manually, as part of the model, exactly as standard RL fixes its action set and effects as a modeling choice. What was missing was a <em>general</em> mechanism: one that produces the transformation for any <span class="arithmatex">\(\theta\)</span> across domains, is differentiable end to end, and lets the value and execution sides drive each other without discretizing <span class="arithmatex">\(\Theta\)</span>. That general, reusable, learnable bridge — the operator generator <span class="arithmatex">\(\Phi\)</span> — is what Part 2 introduces.</p>
 <hr />
 <h2 id="3-what-was-missing-three-conceptual-pieces">3. What Was Missing: Three Conceptual Pieces<a class="headerlink" href="#3-what-was-missing-three-conceptual-pieces" title="Permanent link">&para;</a></h2>
 <p>Looking back, three things needed to be formalized to close the gap:</p>
+<p>Two of the three were already <em>present in nascent form</em> in GRL0 — it defined an action as a function <span class="arithmatex">\(a(\mathbf{x}_a): s \mapsto s'\)</span> and a higher-order "generative function" mapping parameters to such operators (a proto-generator). Read the pieces below as the clean targets Part 2 <em>formalizes and makes executable</em>, not as concepts wholly absent from GRL0 (see <a href="../01a-what-grl0-already-had/">01a</a>). The genuinely new piece is the third.</p>
 <h3 id="piece-1-action-as-transformation-not-parameter">Piece 1: Action as Transformation (Not Parameter)<a class="headerlink" href="#piece-1-action-as-transformation-not-parameter" title="Permanent link">&para;</a></h3>
-<p>GRL0 parameterized actions but didn't define what an action <em>is</em> functionally. The key insight: an action should be a <strong>function on state space</strong>:</p>
+<p>GRL0 parameterized actions and, in Section III.A, <em>did</em> take the step of treating an action as a function <span class="arithmatex">\(a(\mathbf{x}_a): s \mapsto s'\)</span>. Part 2 makes this the foundation rather than an aside — an action <strong>is</strong> a <strong>function on state space</strong>:</p>
 <div class="arithmatex">\[\hat{O}: \mathcal{S} \to \mathcal{S}\]</div>
 <p>Not a parameter that the environment interprets, but a transformation that the agent constructs and applies. The transition becomes:</p>
 <div class="arithmatex">\[s' = \hat{O}(s) + \xi\]</div>
@@ -2256,7 +2257,7 @@ $<span class="arithmatex">\(Q^+(x) = \sum_i w_i \, k(x, x_i)\)</span>$</p>
 <h3 id="piece-2-parameter-to-operator-mapping-the-generator">Piece 2: Parameter-to-Operator Mapping (The Generator)<a class="headerlink" href="#piece-2-parameter-to-operator-mapping-the-generator" title="Permanent link">&para;</a></h3>
 <p>Once we define actions as operators, we need a formal bridge from parameters to operators:</p>
 <div class="arithmatex">\[\Phi: \Theta \times \mathcal{S} \to \mathcal{S}\]</div>
-<p>For fixed <span class="arithmatex">\(\theta\)</span>, this gives a specific operator <span class="arithmatex">\(\hat{O}_\theta(s) = \Phi(\theta, s)\)</span>. This is the missing link — the <strong>operator generator</strong> — that converts GRL0's parametric actions into executable state transformations.</p>
+<p>For fixed <span class="arithmatex">\(\theta\)</span>, this gives a specific operator <span class="arithmatex">\(\hat{O}_\theta(s) = \Phi(\theta, s)\)</span>. GRL0 already sketched this as a higher-order "generative function" <span class="arithmatex">\(f_\theta: \mathbf{x}_a \mapsto a(\mathbf{x}_a)\)</span>; Part 2 turns it into a single, reusable, differentiable <strong>operator generator</strong> <span class="arithmatex">\(\Phi\)</span> that converts parameters into executable state transformations across families.</p>
 <p>Different choices of <span class="arithmatex">\(\Phi\)</span> yield different operator families:
 - <span class="arithmatex">\(\Phi(\theta, s) = A_\theta s + b_\theta\)</span> → affine operators
 - <span class="arithmatex">\(\Phi(\theta, s) = s + F_\theta(s)\)</span> → field operators
@@ -2267,17 +2268,18 @@ $<span class="arithmatex">\(Q^+(x) = \sum_i w_i \, k(x, x_i)\)</span>$</p>
 <p>No discretization needed. Gradients flow from the reward signal through the transition, through the operator generator, back to the policy parameters <span class="arithmatex">\(\psi\)</span>. The reinforcement field and the execution mechanism are unified.</p>
 <hr />
 <h2 id="4-the-proto-operator-in-grl0">4. The Proto-Operator in GRL0<a class="headerlink" href="#4-the-proto-operator-in-grl0" title="Permanent link">&para;</a></h2>
-<p>It's worth noting that GRL0 <em>almost</em> had the operator concept. The original paper briefly mentioned "action operator" in the context of a matrix parameterization:</p>
+<p>GRL0 had more of the operator concept than "proto-" suggests. "Action operator" is in the paper's <em>title</em> and has its own section (III.A), where an action is defined as a function that "operates" on an input state and produces an output state. It was made concrete in three ways: the 2D navigation operator (Figs 1, 3), an explicit matrix / linear-operator form</p>
 <div class="arithmatex">\[s' = A_\theta \cdot s\]</div>
-<p>where <span class="arithmatex">\(A_\theta\)</span> is a matrix determined by action parameters. This is exactly the affine operator family (with <span class="arithmatex">\(b = 0\)</span>). But it was introduced as an aside rather than developed as the central formalism. The paper didn't:</p>
+<p>(the affine family with <span class="arithmatex">\(b = 0\)</span>, written out as Eq. 11 of the paper), and a higher-order <em>generative function</em> <span class="arithmatex">\(f_\theta: \mathbf{x}_a \mapsto a(\mathbf{x}_a)\)</span> mapping parameters to operators — a clear precursor of the generator <span class="arithmatex">\(\Phi\)</span>. The paper even anticipates general nonlinear operators and "a family of action operators."</p>
+<p>What GRL0 did <em>not</em> do was build this into the central formalism. The paper didn't:</p>
 <ul>
 <li>Define a general operator space <span class="arithmatex">\(\mathcal{O}\)</span></li>
 <li>Establish algebraic structure (composition, identity, energy)</li>
-<li>Show how different operator families arise from different choices of <span class="arithmatex">\(\Phi\)</span></li>
-<li>Connect the operator formalism to the reinforcement field</li>
+<li>Show how different operator families arise systematically from different choices of <span class="arithmatex">\(\Phi\)</span></li>
+<li>Connect the operator formalism to the reinforcement field as the execution engine</li>
 <li>Prove that classical RL is a special case</li>
 </ul>
-<p>The matrix multiplication was a specific instantiation, not a general framework. The leap from "actions can be parameterized as matrices" to "actions <em>are</em> operators on state space, and here is the full mathematical structure" is what Paper A accomplishes.</p>
+<p>The concept was named, written out, and demonstrated case by case — but it stayed conceptual: the learning algorithm (RF-SARSA) still ran on a discretized <span class="arithmatex">\(\Theta\)</span>, with no differentiable, algebraically-structured pipeline. The leap from "actions can be parameterized as operators, domain by domain" to "actions <em>are</em> operators on state space, with a full and executable mathematical structure" is what Part 2 accomplishes. See <a href="../01a-what-grl0-already-had/">What GRL0 Already Had</a>.</p>
 <hr />
 <h2 id="5-the-gp-based-spectral-clustering-connection">5. The GP-Based Spectral Clustering Connection<a class="headerlink" href="#5-the-gp-based-spectral-clustering-connection" title="Permanent link">&para;</a></h2>
 <p>One of GRL0's underappreciated contributions was using GP-based spectral clustering to discover structure in the augmented space. The mechanism:</p>
@@ -2300,7 +2302,7 @@ $<span class="arithmatex">\(Q^+(x) = \sum_i w_i \, k(x, x_i)\)</span>$</p>
 <tr>
 <th>Gap in GRL0</th>
 <th>Consequence</th>
-<th>Solution (Paper A)</th>
+<th>Solution (Part 2)</th>
 </tr>
 </thead>
 <tbody>
@@ -2326,10 +2328,8 @@ $<span class="arithmatex">\(Q^+(x) = \sum_i w_i \, k(x, x_i)\)</span>$</p>
 <p><strong>Next:</strong> <a href="../02-action-operator-formalization/">Part 2: Action Operator Formalization</a> — the three definitions, concrete operator families, algebraic structure, and how they close the gap.</p>
 <hr />
 <p><strong>Related documents:</strong>
-- GRL0 baseline concepts: <code>Projects/GRL/dev/GRL0/01-grl-baseline-concepts.md</code>
-- Paper A formal definitions: <code>Projects/GRL/dev/papers/paper-a-theory/02-paper-a-formal-definitions.md</code>
-- Reinforcement field (Section III): <code>Projects/GRL/dev/GRL0/reinforcement_field/01-RF-section-3.md</code>
-- Learned kernels scope: <code>Projects/GRL/dev/GRL_extensions/learned_kernels/00-scope.md</code></p>
+- <a href="../../GRL0/tutorials/01-core-concepts/">GRL0: Core Concepts</a>
+- <a href="../../GRL0/tutorials/04-reinforcement-field/">GRL0: Reinforcement Field</a></p>
 
 
 

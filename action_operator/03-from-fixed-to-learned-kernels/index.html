@@ -2533,7 +2533,7 @@
 </span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>  └── Reinforcement field: ∇_θ Q⁺          [GRL0 gradient field]
 </span></code></pre></div>
 <p><strong>What comes from GRL0:</strong> Particle memory, kernel superposition, reinforcement field as gradient, energy landscape interpretation.</p>
-<p><strong>What comes from Paper A (Part 2):</strong> Action operators, operator generator, operator policy, algebraic structure, energy regularization.</p>
+<p><strong>What comes from Part 2:</strong> Action operators, operator generator, operator policy, algebraic structure, energy regularization.</p>
 <p><strong>What comes from learned kernels (Part 3):</strong> Adaptive similarity metric, task-specific feature extraction, equivariant representations, Koopman connection.</p>
 <p>The three tracks are complementary:</p>
 <ul>
@@ -2605,18 +2605,16 @@
 <p>The progression is:</p>
 <ol>
 <li><strong>GRL0:</strong> Right philosophy (parametric actions, energy fields, particles), wrong execution mechanism (discretization)</li>
-<li><strong>Paper A:</strong> Right execution mechanism (action operators), different value representation (neural, not particle-based)</li>
+<li><strong>Part 2 (operator framework):</strong> Right execution mechanism (action operators), different value representation (neural, not particle-based)</li>
 <li><strong>Learned kernels:</strong> Bridges the two — keeps GRL0's particle/field semantics while enabling the operator framework and adaptive representations</li>
 </ol>
-<p>The full hybrid — operator-based actions with learned-kernel particle memory and equivariant feature maps — is the research frontier. The scoping document at <code>dev/GRL_extensions/learned_kernels/00-scope.md</code> outlines the minimum viable experiment.</p>
+<p>The full hybrid — operator-based actions with learned-kernel particle memory and equivariant feature maps — is the research frontier, with a minimum viable experiment still being scoped.</p>
 <hr />
 <p><strong>Related documents:</strong>
 - Part 1: <a href="../01-the-grl0-gap/">The GRL0 Gap</a>
 - Part 2: <a href="../02-action-operator-formalization/">Action Operator Formalization</a>
-- Learned kernels scope: <code>Projects/GRL/dev/GRL_extensions/learned_kernels/00-scope.md</code>
-- Beyond GP: <code>Projects/GRL/docs/GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md</code>
-- RKHS and probability: <code>Projects/GRL/dev/GRL0/archive/03-RKHS-and-probability.md</code>
-- Functional fields notebook: <code>Projects/GRL/notebooks/field_series/02_functional_fields.ipynb</code></p>
+- <a href="../../GRL0/quantum_inspired/07-learning-the-field-beyond-gp/">GRL0: Learning the Field Beyond GP</a>
+- Functional fields notebook: <code>notebooks/field_series/02_functional_fields.ipynb</code></p>
 
 
 

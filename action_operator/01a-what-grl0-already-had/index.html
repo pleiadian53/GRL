@@ -12,7 +12,7 @@
         <meta name="author" content="GRL Research Team">
       
       
-        <link rel="canonical" href="https://pleiadian53.github.io/GRL/action_operator/02-action-operator-formalization/">
+        <link rel="canonical" href="https://pleiadian53.github.io/GRL/action_operator/01a-what-grl0-already-had/">
       
       
       
@@ -25,7 +25,7 @@
     
     
       
-        <title>Part 2: Action Operator Formalization — Definitions, Families, and Implementation - Generalized Reinforcement Learning (GRL)</title>
+        <title>Part 1a: The Action Operator in GRL0 - Generalized Reinforcement Learning (GRL)</title>
       
     
     
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#part-2-action-operator-formalization-definitions-families-and-implementation" class="md-skip">
+        <a href="#part-1a-the-action-operator-in-grl0" class="md-skip">
           Skip to content
         </a>
       
@@ -118,7 +118,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Part 2: Action Operator Formalization — Definitions, Families, and Implementation
+              Part 1a: The Action Operator in GRL0
             
           </span>
         </div>
@@ -2000,10 +2000,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-the-core-shift-from-selection-to-construction" class="md-nav__link">
+  <a href="#1-the-2d-navigation-operator-figs-1-3-4" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. The Core Shift: From Selection to Construction
+        1. The 2D navigation operator (Figs 1, 3, 4)
       
     </span>
   </a>
@@ -2011,215 +2011,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-the-three-definitions" class="md-nav__link">
+  <a href="#2-a-named-first-class-concept" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. The Three Definitions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. The Three Definitions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#definition-1-action-operator" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Definition 1: Action Operator
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#definition-2-operator-generator" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Definition 2: Operator Generator
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#definition-3-operator-policy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Definition 3: Operator Policy
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#how-the-three-definitions-interlock" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How the Three Definitions Interlock
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-operator-families-concrete-realizations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Operator Families: Concrete Realizations
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. Operator Families: Concrete Realizations">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-affine-operators" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.1 Affine Operators
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-field-operators" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.2 Field Operators
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-potential-field-operators" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.3 Potential Field Operators
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#34-kernelrbf-operators" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.4 Kernel/RBF Operators
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#35-attention-based-kernel-operators" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.5 Attention-Based Kernel Operators
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#36-hamiltonian-operators-planned" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.6 Hamiltonian Operators (Planned)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-algebraic-structure-why-it-matters" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Algebraic Structure: Why It Matters
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Algebraic Structure: Why It Matters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#41-composition-and-monoid-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.1 Composition and Monoid Structure
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#42-energy-of-composed-operators" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.2 Energy of Composed Operators
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#43-invertibility-and-group-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.3 Invertibility and Group Structure
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#44-lie-group-structure" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.4 Lie Group Structure
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-the-generalized-bellman-equation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. The Generalized Bellman Equation
+        2. A named, first-class concept
       
     </span>
   </a>
@@ -2227,49 +2022,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-the-operator-generator-network-implementation" class="md-nav__link">
+  <a href="#3-the-matrix-linear-operator-form-eq-11" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. The Operator Generator Network: Implementation
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="6. The Operator Generator Network: Implementation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-parameter-prediction" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.1 Parameter Prediction
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#62-hypernetwork-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.2 Hypernetwork Generation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-connecting-back-to-grl0" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Connecting Back to GRL0
+        3. The matrix / linear-operator form (Eq. 11)
       
     </span>
   </a>
@@ -2277,10 +2033,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#8-summary" class="md-nav__link">
+  <a href="#4-the-generator-in-nascent-form" class="md-nav__link">
     <span class="md-ellipsis">
       
-        8. Summary
+        4. The generator, in nascent form
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-operators-given-a-priori-as-in-standard-rl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Operators given a priori — as in standard RL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-from-grl0s-sketch-to-the-full-formalism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. From GRL0's sketch to the full formalism
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Summary
       
     </span>
   </a>
@@ -2304,7 +2093,7 @@
 
 
   
-    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/action_operator/02-action-operator-formalization.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/pleiadian53/GRL/edit/main/docs/action_operator/01a-what-grl0-already-had.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
     </a>
@@ -2312,248 +2101,93 @@
   
 
 
-<h1 id="part-2-action-operator-formalization-definitions-families-and-implementation">Part 2: Action Operator Formalization — Definitions, Families, and Implementation<a class="headerlink" href="#part-2-action-operator-formalization-definitions-families-and-implementation" title="Permanent link">&para;</a></h1>
-<p><strong>Series:</strong> Action Operators in Generalized Reinforcement Learning<br />
-<strong>Part:</strong> 2 of 3<br />
-<strong>Audience:</strong> Self-reference and interview prep<br />
-<strong>Prerequisites:</strong> Part 1 (The GRL0 Gap)</p>
+<h1 id="part-1a-the-action-operator-in-grl0">Part 1a: The Action Operator in GRL0<a class="headerlink" href="#part-1a-the-action-operator-in-grl0" title="Permanent link">&para;</a></h1>
+<p><strong>Series:</strong> Action Operators in Generalized Reinforcement Learning
+<strong>Part:</strong> 1a of 3 (supplement to <a href="../01-the-grl0-gap/">Part 1: The GRL0 Gap</a>)
+<strong>Audience:</strong> Readers who want to see how far GRL0 already took the action-operator idea.</p>
+<p>GRL0 introduced the action operator as a first-class concept and demonstrated it concretely. This note collects what the original paper contains — the worked example, the named definition, the matrix form, and an early version of the generator — so the relationship to the fully developed formalism in <a href="../02-action-operator-formalization/">Part 2</a> is clear.</p>
 <hr />
-<h2 id="1-the-core-shift-from-selection-to-construction">1. The Core Shift: From Selection to Construction<a class="headerlink" href="#1-the-core-shift-from-selection-to-construction" title="Permanent link">&para;</a></h2>
-<p>Part 1 identified the gap: GRL0 had a rich value landscape over parametric actions but no formal mechanism for translating parameters into state transformations. The solution is a conceptual shift in what "taking an action" means:</p>
+<h2 id="1-the-2d-navigation-operator-figs-1-3-4">1. The 2D navigation operator (Figs 1, 3, 4)<a class="headerlink" href="#1-the-2d-navigation-operator-figs-1-3-4" title="Permanent link">&para;</a></h2>
+<p>The paper's running example is a 2D navigation domain (Fig 1). Each action is a parameter vector <span class="arithmatex">\(\mathbf{x}_a = (\Delta r, \Delta\theta)\)</span> — a radius and an angle increment — indexed by the 12 clock directions (<span class="arithmatex">\(a^{(i)}\)</span>, <span class="arithmatex">\(i = 1 \ldots 12\)</span>).</p>
+<p>The state-update mapping is written out explicitly: from position <span class="arithmatex">\((u, v)\)</span>, an action moves the agent to</p>
+<div class="arithmatex">\[(u + \Delta r \cos\Delta\theta,\; v + \Delta r \sin\Delta\theta).\]</div>
+<p>This is a concrete action operator. The same domain carries the rest of the paper's intuition: Fig 3 illustrates policy inference where the local control policies are known a priori (query points A/B/C favor the 2-, 10-, and 6-o'clock moves), and Fig 4 is the navigation path-finding task (start → flag) used in the empirical study.</p>
+<hr />
+<h2 id="2-a-named-first-class-concept">2. A named, first-class concept<a class="headerlink" href="#2-a-named-first-class-concept" title="Permanent link">&para;</a></h2>
+<p>The action operator is central, not incidental: the term appears in the paper's <strong>title</strong> and is the subject of <strong>Section III.A</strong>, where an action is defined as a construct that</p>
+<blockquote>
+<p>"specifies how an action <em>operates</em> on its input state, alters its configuration stochastically, and then produces an output state,"</p>
+</blockquote>
+<p>and the navigation case is called "an application of such action operator."</p>
+<hr />
+<h2 id="3-the-matrix-linear-operator-form-eq-11">3. The matrix / linear-operator form (Eq. 11)<a class="headerlink" href="#3-the-matrix-linear-operator-form-eq-11" title="Permanent link">&para;</a></h2>
+<p>The navigation update is also expressed as a matrix acting on the state — a linear operator:</p>
+<div class="arithmatex">\[s' = A_\theta \cdot s, \qquad \Delta x = \Delta r \cos\Delta\theta,\ \ \Delta y = \Delta r \sin\Delta\theta,\]</div>
+<p>"a linear operator that takes an input state <span class="arithmatex">\((x, y)\)</span> and produces the next state <span class="arithmatex">\((x + \Delta x, y + \Delta y)\)</span>." This is the <em>affine</em> operator family (the <span class="arithmatex">\(b = 0\)</span> case) — one of the structured families introduced in <a href="../02-action-operator-formalization/">Part 2</a> §3.1.</p>
+<hr />
+<h2 id="4-the-generator-in-nascent-form">4. The generator, in nascent form<a class="headerlink" href="#4-the-generator-in-nascent-form" title="Permanent link">&para;</a></h2>
+<p>GRL0 also describes the <em>map from parameters to operators</em> — a higher-order function whose outputs are themselves functions:</p>
+<blockquote>
+<p>"an action operator [is] a <strong>higher-order generative function</strong> <span class="arithmatex">\(f_\theta : \mathbf{x}_a \mapsto a(\mathbf{x}_a)\)</span> that maps the action parameter <span class="arithmatex">\(\mathbf{x}_a \in A_\theta\)</span> to another function <span class="arithmatex">\(a(\mathbf{x}_a): s \mapsto s'\)</span> that acts on an input state <span class="arithmatex">\(s\)</span> and produces an output state <span class="arithmatex">\(s'\)</span> … <span class="arithmatex">\(f\)</span> is a higher-order function because its codomain again consists of functions; it is also <strong>generative</strong> in the sense that, depending on the action parameters, <span class="arithmatex">\(f\)</span> produces different actions, as functions."</p>
+</blockquote>
+<p>This is the same idea later formalized as the <strong>operator generator</strong> <span class="arithmatex">\(\Phi: \Theta \times \mathcal{S} \to \mathcal{S}\)</span>, with <span class="arithmatex">\(\hat{O}_\theta(s) = \Phi(\theta, s)\)</span>. The paper also anticipates the general case — operators that "allow any arbitrary mappings including non-linear operations" — and refers to "a family of action operators."</p>
+<hr />
+<h2 id="5-operators-given-a-priori-as-in-standard-rl">5. Operators given a priori — as in standard RL<a class="headerlink" href="#5-operators-given-a-priori-as-in-standard-rl" title="Permanent link">&para;</a></h2>
+<p>In GRL0's examples the operator is specified a priori, as part of the model. This is the same status that action semantics have in standard RL: in a classical MDP, the transition <span class="arithmatex">\(T(s, a)\)</span> and the meaning of each action are part of the problem specification — a modeling choice made by the designer, not something the framework derives or the agent learns. Giving the navigation operator a priori is the normal way action effects enter an RL problem.</p>
+<hr />
+<h2 id="6-from-grl0s-sketch-to-the-full-formalism">6. From GRL0's sketch to the full formalism<a class="headerlink" href="#6-from-grl0s-sketch-to-the-full-formalism" title="Permanent link">&para;</a></h2>
+<p>GRL0 named and demonstrated the action operator and an early generator. <a href="../02-action-operator-formalization/">Part 2</a> develops these into a general, executable structure:</p>
 <ul>
-<li><strong>Classical RL:</strong> The agent <em>selects</em> from a predefined menu. The environment interprets the selection and produces the next state.</li>
-<li><strong>GRL (operator framework):</strong> The agent <em>constructs</em> a function that transforms the state. The environment's role is reduced to adding noise.</li>
+<li>a general operator space <span class="arithmatex">\(\mathcal{O}\)</span> with concrete <strong>families</strong> derived from choices of <span class="arithmatex">\(\Phi\)</span> (affine, field, potential, kernel, …);</li>
+<li><strong>algebraic structure</strong> — composition, identity, monoid/group/Lie — so that skills and hierarchies are operator products;</li>
+<li>an <strong>energy functional</strong> <span class="arithmatex">\(E(\hat{O})\)</span> enabling least-action regularization;</li>
+<li>a <strong>differentiable end-to-end pipeline</strong> <span class="arithmatex">\(\pi_\psi \to \theta \to \Phi \to \hat{O}_\theta \to s'\)</span> trained by gradients.</li>
 </ul>
-<p>This shift elevates the agent from a decision-maker to a <em>dynamics constructor</em>. The policy doesn't output "which action" but "how to transform the current state."</p>
 <hr />
-<h2 id="2-the-three-definitions">2. The Three Definitions<a class="headerlink" href="#2-the-three-definitions" title="Permanent link">&para;</a></h2>
-<p>The operator framework rests on three interlocking definitions that together close the gap identified in Part 1.</p>
-<h3 id="definition-1-action-operator">Definition 1: Action Operator<a class="headerlink" href="#definition-1-action-operator" title="Permanent link">&para;</a></h3>
-<p>An <strong>action operator</strong> is a measurable mapping <span class="arithmatex">\(\hat{O}: \mathcal{S} \to \mathcal{S}\)</span> that transforms states directly.</p>
-<div class="arithmatex">\[\mathcal{O} = \{\hat{O}: \mathcal{S} \to \mathcal{S} \mid \hat{O} \text{ is measurable}\}\]</div>
-<p>In practice, we restrict to smooth or Lipschitz operators for well-behaved dynamics. Each operator carries an <strong>energy functional</strong> <span class="arithmatex">\(E(\hat{O}) \geq 0\)</span> that measures transformation magnitude, enabling least-action regularization.</p>
-<p><strong>What this means:</strong> An action is no longer a symbol or a parameter vector. It is a <em>function</em> — a complete specification of how every state in <span class="arithmatex">\(\mathcal{S}\)</span> would be transformed. The agent doesn't say "apply force 2.5 to joint 3"; it says "here is a function that maps every possible state to its successor."</p>
-<p><strong>The transition rule</strong> becomes:</p>
-<div class="arithmatex">\[s' = \hat{O}(s) + \xi, \quad \xi \sim \mathcal{N}(0, \sigma^2 I)\]</div>
-<p>The operator directly produces the next state. The environment contributes only stochastic perturbation <span class="arithmatex">\(\xi\)</span> representing unmodeled dynamics or noise. In the deterministic limit (<span class="arithmatex">\(\sigma \to 0\)</span>), the agent has <em>full control</em> over the transition.</p>
-<h3 id="definition-2-operator-generator">Definition 2: Operator Generator<a class="headerlink" href="#definition-2-operator-generator" title="Permanent link">&para;</a></h3>
-<p>An <strong>operator generator</strong> is a mapping:</p>
-<div class="arithmatex">\[\Phi: \Theta \times \mathcal{S} \to \mathcal{S}\]</div>
-<p>where <span class="arithmatex">\(\Theta \subseteq \mathbb{R}^d\)</span> is the parameter space. For fixed <span class="arithmatex">\(\theta \in \Theta\)</span>:</p>
-<div class="arithmatex">\[\hat{O}_\theta(s) := \Phi(\theta, s)\]</div>
-<p>The set <span class="arithmatex">\(\{\hat{O}_\theta : \theta \in \Theta\}\)</span> defines a <strong>parametric operator manifold</strong> — a smooth surface embedded in the (generally infinite-dimensional) operator space <span class="arithmatex">\(\mathcal{O}\)</span>.</p>
-<p><strong>What this means:</strong> This is the missing bridge from Part 1. GRL0 had continuous parameters <span class="arithmatex">\(\theta\)</span> but no formal way to convert them into state transformations. The generator <span class="arithmatex">\(\Phi\)</span> does exactly this: given any <span class="arithmatex">\(\theta\)</span>, it produces a concrete operator that can be applied to any state.</p>
-<p>Different choices of <span class="arithmatex">\(\Phi\)</span> yield different <strong>operator families</strong> (see Section 3 below). The generator is the design choice that determines what class of transformations the agent can express.</p>
-<p><strong>In neural implementations</strong>, <span class="arithmatex">\(\Phi\)</span> is typically a neural network that takes <span class="arithmatex">\((\theta, s)\)</span> as input and outputs <span class="arithmatex">\(s'\)</span>. The parameters <span class="arithmatex">\(\theta\)</span> may themselves be generated by a policy network.</p>
-<h3 id="definition-3-operator-policy">Definition 3: Operator Policy<a class="headerlink" href="#definition-3-operator-policy" title="Permanent link">&para;</a></h3>
-<p>An <strong>operator policy</strong> is a mapping:</p>
-<div class="arithmatex">\[\pi: \mathcal{S} \to \Delta(\Theta)\]</div>
-<p>that assigns to each state a distribution over operator parameters. For deterministic policies: <span class="arithmatex">\(\pi: \mathcal{S} \to \Theta\)</span>.</p>
-<p><strong>The full chain:</strong></p>
-<div class="arithmatex">\[s \xrightarrow{\pi_\psi} \theta \xrightarrow{\Phi} \hat{O}_\theta \xrightarrow{\text{apply}} s' = \hat{O}_\theta(s) + \xi\]</div>
-<p><strong>What this means:</strong> The policy is a <em>meta-function</em> — it outputs not a primitive value but a specification for a state transformation. The architecture has two components:</p>
-<ol>
-<li><strong>Policy network</strong> <span class="arithmatex">\(\pi_\psi\)</span>: maps states to operator parameters</li>
-<li><strong>Operator generator</strong> <span class="arithmatex">\(\Phi\)</span>: maps parameters and states to transformed states</li>
-</ol>
-<p>This separation is powerful. The policy network can be a standard MLP or transformer. The operator generator encodes the <em>structure</em> of allowable transformations. Different tasks might share the same generator family (e.g., field operators) with different learned policies.</p>
-<h3 id="how-the-three-definitions-interlock">How the Three Definitions Interlock<a class="headerlink" href="#how-the-three-definitions-interlock" title="Permanent link">&para;</a></h3>
-<pre class="mermaid"><code>flowchart TB
-    S(["&lt;b&gt;State&lt;/b&gt;&lt;br/&gt;s ∈ 𝒮"])
-    D3["&lt;b&gt;Definition 3 · Operator Policy&lt;/b&gt;&lt;br/&gt;π&lt;sub&gt;ψ&lt;/sub&gt; : 𝒮 → Δ(Θ)&lt;br/&gt;&lt;i&gt;how a state chooses parameters&lt;/i&gt;"]
-    D2["&lt;b&gt;Definition 2 · Operator Generator&lt;/b&gt;&lt;br/&gt;Φ : Θ × 𝒮 → 𝒮&lt;br/&gt;&lt;i&gt;how parameters become an operator&lt;/i&gt;"]
-    D1["&lt;b&gt;Definition 1 · Action Operator&lt;/b&gt;&lt;br/&gt;Ô&lt;sub&gt;θ&lt;/sub&gt; : 𝒮 → 𝒮&lt;br/&gt;&lt;i&gt;what an action IS&lt;/i&gt;"]
-    SP(["&lt;b&gt;Next State&lt;/b&gt;&lt;br/&gt;s′ = Ô&lt;sub&gt;θ&lt;/sub&gt;(s) + ξ"])
-
-    S --&gt; D3
-    D3 -- "θ ∈ Θ" --&gt; D2
-    D2 -- "Ôθ = Φ(θ, ·)" --&gt; D1
-    D1 -- "apply to s, + noise ξ" --&gt; SP
-
-    style S  fill:#e3f2fd,stroke:#1976d2,stroke-width:3px,color:#000
-    style D3 fill:#f3e5f5,stroke:#7b1fa2,stroke-width:3px,color:#000
-    style D2 fill:#fff59d,stroke:#fbc02d,stroke-width:3px,color:#000
-    style D1 fill:#ffcc80,stroke:#f57c00,stroke-width:3px,color:#000
-    style SP fill:#c8e6c9,stroke:#388e3c,stroke-width:3px,color:#000</code></pre>
-<p>Definition 1 says what an action <em>is</em>. Definition 2 says how to <em>construct</em> one from parameters. Definition 3 says how to <em>choose</em> parameters given the current state. Together, they provide a complete, differentiable pipeline from state to next state — no discretization required.</p>
-<hr />
-<h2 id="3-operator-families-concrete-realizations">3. Operator Families: Concrete Realizations<a class="headerlink" href="#3-operator-families-concrete-realizations" title="Permanent link">&para;</a></h2>
-<p>Each operator family is defined by a specific form of the generator <span class="arithmatex">\(\Phi(\theta, s)\)</span>. The choice of family encodes structural assumptions about what kinds of transformations are relevant for the task.</p>
-<h3 id="31-affine-operators">3.1 Affine Operators<a class="headerlink" href="#31-affine-operators" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\hat{O}(s) = As + b\]</div>
-<p><strong>Parameters:</strong> <span class="arithmatex">\(\theta = (\text{vec}(A), b) \in \mathbb{R}^{n^2 + n}\)</span></p>
-<p><strong>Generator:</strong> <span class="arithmatex">\(\Phi(\theta, s) = A_\theta s + b_\theta\)</span></p>
-<p><strong>Energy:</strong> <span class="arithmatex">\(E(\hat{O}) = \|A - I\|_F^2 + \|b\|_2^2\)</span></p>
-<p><strong>Why it matters:</strong> This is the bridge to classical RL. When <span class="arithmatex">\(A = I\)</span>, the operator reduces to <span class="arithmatex">\(\hat{O}(s) = s + b\)</span>, which is exactly the displacement model in standard continuous RL — the "action" is a vector added to the state. Affine operators generalize this by allowing the transformation to depend on the current state through the matrix <span class="arithmatex">\(A\)</span>.</p>
-<p><strong>When to use:</strong> Linear control problems, systems where the dynamics are approximately linear near the operating point, or as a baseline to validate the framework.</p>
-<p><strong>Recovery of classical RL:</strong> Setting <span class="arithmatex">\(\mathcal{O} = \{s \mapsto s + b_1, \ldots, s \mapsto s + b_k\}\)</span> for a finite set of displacements recovers a discrete-action MDP. This is the formal proof that standard RL is a special case of GRL.</p>
-<h3 id="32-field-operators">3.2 Field Operators<a class="headerlink" href="#32-field-operators" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\hat{O}(s) = s + F_\theta(s)\]</div>
-<p><strong>Parameters:</strong> <span class="arithmatex">\(\theta\)</span> = weights of a neural network <span class="arithmatex">\(F_\theta: \mathcal{S} \to \mathcal{S}\)</span></p>
-<p><strong>Generator:</strong> <span class="arithmatex">\(\Phi(\theta, s) = s + F_\theta(s)\)</span></p>
-<p><strong>Energy:</strong> <span class="arithmatex">\(E(\hat{O}) = \mathbb{E}_s[\|F_\theta(s)\|^2]\)</span></p>
-<p><strong>Why it matters:</strong> This is the operator family most directly connected to GRL0's reinforcement field concept. In GRL0, the reinforcement field <span class="arithmatex">\(\nabla E\)</span> was the value gradient — it pointed toward better configurations. In the operator framework, the field <em>is</em> the action: the agent generates a vector field <span class="arithmatex">\(F_\theta\)</span> that specifies the displacement at every state.</p>
-<p>The key difference: in GRL0, the field emerged from the value function and was used to <em>select</em> action parameters. Here, the field <em>is</em> the operator itself — it directly defines the state transition.</p>
-<p><strong>Connection to neural ODEs:</strong> The field operator <span class="arithmatex">\(\hat{O}(s) = s + \Delta t \cdot F_\theta(s)\)</span> is an Euler step of the ODE <span class="arithmatex">\(\dot{s} = F_\theta(s)\)</span>. For small <span class="arithmatex">\(\Delta t\)</span>, this approximates the flow of a dynamical system. The agent is learning an infinitesimal generator of dynamics.</p>
-<p><strong>When to use:</strong> Navigation, flow control, systems where smooth continuous dynamics are natural.</p>
-<h3 id="33-potential-field-operators">3.3 Potential Field Operators<a class="headerlink" href="#33-potential-field-operators" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\hat{O}(s) = s - \eta \nabla_s \phi_\theta(s)\]</div>
-<p><strong>Parameters:</strong> <span class="arithmatex">\(\theta\)</span> = weights of a scalar potential network <span class="arithmatex">\(\phi_\theta: \mathcal{S} \to \mathbb{R}\)</span></p>
-<p><strong>Generator:</strong> <span class="arithmatex">\(\Phi(\theta, s) = s - \eta \nabla_s \phi_\theta(s)\)</span></p>
-<p><strong>Energy:</strong> <span class="arithmatex">\(E(\hat{O}) = \mathbb{E}_s[\|\nabla \phi(s)\|^2]\)</span></p>
-<p><strong>Why it matters:</strong> This is a <em>conservative</em> field operator — the displacement is always the gradient of a scalar potential, so the induced dynamics are curl-free. The agent learns a potential landscape, and the action is gradient descent on that landscape.</p>
-<p><strong>Connection to physics:</strong> This is exactly how conservative forces work in classical mechanics. The potential <span class="arithmatex">\(\phi\)</span> plays the role of a learned energy landscape, and the operator moves the state downhill on that landscape.</p>
-<p><strong>Implementation note:</strong> The gradient <span class="arithmatex">\(\nabla_s \phi\)</span> is computed via <code>torch.autograd.grad</code>, making this fully differentiable. The potential network outputs a scalar, and the gradient gives the displacement vector — the operator never explicitly constructs the vector field.</p>
-<p><strong>When to use:</strong> Systems with conservative dynamics (gravity, electrostatics), or when you want the operator to have provably convergent dynamics (gradient flows always decrease the potential).</p>
-<h3 id="34-kernelrbf-operators">3.4 Kernel/RBF Operators<a class="headerlink" href="#34-kernelrbf-operators" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\hat{O}(s) = s + \sum_{i=1}^{M} w_i \exp\left(-\frac{\|s - c_i\|^2}{2\sigma^2}\right) d_i\]</div>
-<p><strong>Parameters:</strong> <span class="arithmatex">\(\theta = (c_1, \ldots, c_M, d_1, \ldots, d_M, w_1, \ldots, w_M)\)</span></p>
-<p><strong>Generator:</strong> Localized displacement effects centered at learned locations <span class="arithmatex">\(c_i\)</span> with directions <span class="arithmatex">\(d_i\)</span> and weights <span class="arithmatex">\(w_i\)</span>.</p>
-<p><strong>Energy:</strong> <span class="arithmatex">\(E(\hat{O}) = \sum_i \|d_i\|^2\)</span> (magnitude of displacement directions)</p>
-<p><strong>Why it matters:</strong> This creates <em>localized</em> operator effects — attractors and repellers at specific locations in state space. It directly bridges to GRL0's particle concept: in GRL0, particles defined the value function; here, particles define the operator.</p>
-<p><strong>Connection to GRL0:</strong> In GRL0, particles <span class="arithmatex">\((x_i, w_i)\)</span> stored experience and shaped the energy landscape <span class="arithmatex">\(Q^+ = \sum w_i k(x, x_i)\)</span>. In the RBF operator, learned centers <span class="arithmatex">\((c_i, d_i)\)</span> shape the <em>action field</em>. The mathematical form is identical — the interpretation shifts from "evidence about value" to "specification of transformation."</p>
-<p><strong>When to use:</strong> Navigation with obstacles (centers as repellers), multi-modal control (different centers for different behavioral modes), spatially varying dynamics.</p>
-<h3 id="35-attention-based-kernel-operators">3.5 Attention-Based Kernel Operators<a class="headerlink" href="#35-attention-based-kernel-operators" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\hat{O}(s) = \sum_{i=1}^{M} \alpha_i(s) \, T_i(s)\]</div>
-<p>where <span class="arithmatex">\(\alpha_i(s) = \text{softmax}(f_\text{attn}(s))_i\)</span> and <span class="arithmatex">\(T_i\)</span> are basis transformations.</p>
-<p><strong>Parameters:</strong> <span class="arithmatex">\(\theta\)</span> = attention network weights + basis transform parameters</p>
-<p><strong>Generator:</strong> State-dependent weighted mixture of basis operators.</p>
-<p><strong>Energy:</strong> Entropy of attention weights (encourages committing to specific transformations).</p>
-<p><strong>Why it matters:</strong> This is the most expressive implemented family. The operator adapts its behavior based on the current state — in one region of state space it might apply transformation <span class="arithmatex">\(T_1\)</span>, in another it might blend <span class="arithmatex">\(T_2\)</span> and <span class="arithmatex">\(T_3\)</span>. This is a kernel operator in the generalized sense: the "kernel" is the attention function that determines which basis transformations are active.</p>
-<p><strong>When to use:</strong> Complex tasks with multiple behavioral modes, tool-use scenarios, tasks requiring different strategies in different regions of state space.</p>
-<h3 id="36-hamiltonian-operators-planned">3.6 Hamiltonian Operators (Planned)<a class="headerlink" href="#36-hamiltonian-operators-planned" title="Permanent link">&para;</a></h3>
-<div class="arithmatex">\[\hat{O} = \exp(\tau J \nabla H)\]</div>
-<p>where <span class="arithmatex">\(J\)</span> is the symplectic matrix and <span class="arithmatex">\(H\)</span> is the Hamiltonian.</p>
-<p><strong>Why it matters:</strong> Always invertible, energy-conserving, preserves symplectic structure. Natural for physical systems where energy conservation is a hard constraint. The symplectic group <span class="arithmatex">\(Sp(2n)\)</span> provides a Lie group structure for the operator space.</p>
-<hr />
-<h2 id="4-algebraic-structure-why-it-matters">4. Algebraic Structure: Why It Matters<a class="headerlink" href="#4-algebraic-structure-why-it-matters" title="Permanent link">&para;</a></h2>
-<p>Operators aren't just individual objects — they compose, and the algebraic structure of composition has deep implications for how GRL works.</p>
-<h3 id="41-composition-and-monoid-structure">4.1 Composition and Monoid Structure<a class="headerlink" href="#41-composition-and-monoid-structure" title="Permanent link">&para;</a></h3>
-<p>Operators compose naturally: <span class="arithmatex">\((\hat{O}_2 \circ \hat{O}_1)(s) = \hat{O}_2(\hat{O}_1(s))\)</span>. With the identity operator <span class="arithmatex">\(I(s) = s\)</span>, the triple <span class="arithmatex">\((\mathcal{O}, \circ, I)\)</span> forms a <strong>monoid</strong> — closure, associativity, identity.</p>
-<p><strong>Why it matters for RL:</strong> Sequential application of operators is just composition. A trajectory of <span class="arithmatex">\(K\)</span> timesteps is the composition <span class="arithmatex">\(\hat{O}_K \circ \cdots \circ \hat{O}_1\)</span>. This means a <strong>skill</strong> is a fixed composition of operators, and <strong>hierarchical RL</strong> is meta-policy over operator compositions.</p>
-<h3 id="42-energy-of-composed-operators">4.2 Energy of Composed Operators<a class="headerlink" href="#42-energy-of-composed-operators" title="Permanent link">&para;</a></h3>
-<p>Composition energy is subadditive:</p>
-<div class="arithmatex">\[E(\hat{O}_2 \circ \hat{O}_1) \leq E(\hat{O}_2) + E(\hat{O}_1) + E(\hat{O}_2) \cdot E(\hat{O}_1)\]</div>
-<p>This bounds the complexity of composed operators and connects to the least-action principle: the cheapest way to achieve a goal is a sequence of individually cheap operators.</p>
-<h3 id="43-invertibility-and-group-structure">4.3 Invertibility and Group Structure<a class="headerlink" href="#43-invertibility-and-group-structure" title="Permanent link">&para;</a></h3>
-<p>For invertible operator families (affine with <span class="arithmatex">\(\det(A) \neq 0\)</span>, Hamiltonian always), we get a <strong>group</strong> structure — operators can be undone. This enables:</p>
-<ul>
-<li>Reversible dynamics (undo the last action)</li>
-<li>Time-reversal symmetry</li>
-<li>Cycle consistency as a regularizer</li>
-</ul>
-<h3 id="44-lie-group-structure">4.4 Lie Group Structure<a class="headerlink" href="#44-lie-group-structure" title="Permanent link">&para;</a></h3>
-<p>When the operator group is also a smooth manifold, we get a <strong>Lie group</strong>. The Lie algebra <span class="arithmatex">\(\mathfrak{g} = T_I \mathcal{G}\)</span> (tangent space at identity) provides a <em>linear</em> parameterization of a <em>nonlinear</em> operator space:</p>
-<div class="arithmatex">\[\hat{O}_t = \exp(t \cdot X), \quad X \in \mathfrak{g}\]</div>
-<p><strong>Architectural implication:</strong> The policy network can output a Lie algebra element <span class="arithmatex">\(X\)</span> (which lives in a vector space — easy to parameterize), and exponentiation produces the operator (which lives in the nonlinear group). This is exactly how rotations work: output an angle (Lie algebra <span class="arithmatex">\(\mathfrak{so}(2) = \mathbb{R}\)</span>), exponentiate to get a rotation matrix (Lie group <span class="arithmatex">\(SO(2)\)</span>).</p>
-<hr />
-<h2 id="5-the-generalized-bellman-equation">5. The Generalized Bellman Equation<a class="headerlink" href="#5-the-generalized-bellman-equation" title="Permanent link">&para;</a></h2>
-<p>With operators formalized, the Bellman equation generalizes naturally. The action-value function is now defined over operator parameters:</p>
-<div class="arithmatex">\[Q(s, \theta) = R(s, \hat{O}_\theta(s)) - \lambda E(\hat{O}_\theta) + \gamma \mathbb{E}_{\xi}[V(\hat{O}_\theta(s) + \xi)]\]</div>
-<p>where:
-- <span class="arithmatex">\(R(s, s')\)</span> is the reward for transitioning from <span class="arithmatex">\(s\)</span> to <span class="arithmatex">\(s'\)</span>
-- <span class="arithmatex">\(E(\hat{O}_\theta)\)</span> is the operator energy (least-action penalty)
-- <span class="arithmatex">\(\gamma\)</span> is the discount factor
-- <span class="arithmatex">\(V(s') = \max_\theta Q(s', \theta)\)</span> is the state value</p>
-<p><strong>Recovery of classical Bellman:</strong> When <span class="arithmatex">\(\mathcal{O}\)</span> is restricted to a finite set <span class="arithmatex">\(\{\hat{O}_{a_1}, \ldots, \hat{O}_{a_k}\}\)</span> and <span class="arithmatex">\(\lambda = 0\)</span> (no energy regularization), this reduces to:</p>
-<div class="arithmatex">\[Q(s, a) = R(s, a) + \gamma \mathbb{E}[V(s')]\]</div>
-<p>which is the standard Bellman equation. GRL strictly generalizes classical RL.</p>
-<p><strong>The energy term</strong> is what makes GRL distinct from just "continuous-action RL." The penalty <span class="arithmatex">\(-\lambda E(\hat{O}_\theta)\)</span> in the effective reward creates a <em>preference for simple operators</em>. Among operators that achieve the same reward, the agent prefers the one with minimal energy — the one that transforms the state as little as necessary. This is the RL analogue of the principle of least action in physics.</p>
-<hr />
-<h2 id="6-the-operator-generator-network-implementation">6. The Operator Generator Network: Implementation<a class="headerlink" href="#6-the-operator-generator-network-implementation" title="Permanent link">&para;</a></h2>
-<p>In practice, the policy doesn't directly output an operator (which is a function — infinite-dimensional). Instead, it outputs parameters <span class="arithmatex">\(\theta\)</span> that are fed to a generator. Two architectures have been implemented:</p>
-<h3 id="61-parameter-prediction">6.1 Parameter Prediction<a class="headerlink" href="#61-parameter-prediction" title="Permanent link">&para;</a></h3>
-<p>The <code>OperatorGenerator</code> class uses a standard architecture:</p>
-<ol>
-<li><strong>Encoder:</strong> MLP maps state <span class="arithmatex">\(s\)</span> to hidden representation <span class="arithmatex">\(h\)</span></li>
-<li><strong>Parameter head:</strong> Linear layer maps <span class="arithmatex">\(h\)</span> to flat parameter vector <span class="arithmatex">\(\theta\)</span></li>
-<li><strong>Operator instantiation:</strong> <span class="arithmatex">\(\theta\)</span> is reshaped and loaded into the target operator class</li>
-</ol>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>s → [Encoder MLP] → h → [Param Head] → θ → [Reshape into Ô_θ] → Ô_θ(s) = s&#39;
-</span></code></pre></div>
-<p><strong>Initialization:</strong> The parameter head is initialized to zeros, so the initial operator is near-identity. This ensures stable early training and aligns with least-action regularization.</p>
-<h3 id="62-hypernetwork-generation">6.2 Hypernetwork Generation<a class="headerlink" href="#62-hypernetwork-generation" title="Permanent link">&para;</a></h3>
-<p>The <code>HypernetworkGenerator</code> is more expressive. Instead of predicting parameters for a fixed operator class, a hypernetwork generates the <em>weights</em> of a target operator network directly:</p>
-<ol>
-<li><strong>Hypernetwork:</strong> Maps state <span class="arithmatex">\(s\)</span> to a flat vector of target network weights</li>
-<li><strong>Target network:</strong> Uses generated weights to compute <span class="arithmatex">\(F(s)\)</span> (the displacement field)</li>
-<li><strong>Residual:</strong> <span class="arithmatex">\(s' = s + F(s)\)</span></li>
-</ol>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>s → [Hypernetwork] → weights_of_F → [F with generated weights](s) → F(s) → s&#39; = s + F(s)
-</span></code></pre></div>
-<p><strong>Per-sample operators:</strong> The hypernetwork naturally produces per-sample operators via batched matrix multiplication. Each state in a batch gets its own operator network — different states generate different transformations. This is a key advantage over the parameter prediction approach, which averages over the batch.</p>
-<hr />
-<h2 id="7-connecting-back-to-grl0">7. Connecting Back to GRL0<a class="headerlink" href="#7-connecting-back-to-grl0" title="Permanent link">&para;</a></h2>
-<p>The operator framework doesn't invalidate GRL0 — it completes it. Here's how the original concepts map to the new formalism:</p>
+<h2 id="7-summary">7. Summary<a class="headerlink" href="#7-summary" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>GRL0 Concept</th>
-<th>Operator Framework</th>
-<th>Relationship</th>
+<th></th>
+<th>GRL0</th>
+<th>Full formalism (Part 2)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Parametric action <span class="arithmatex">\(\theta\)</span></td>
-<td>Operator parameter <span class="arithmatex">\(\theta\)</span></td>
-<td>Same object, now with formal semantics</td>
+<td>Action as a function <span class="arithmatex">\(s \mapsto s'\)</span></td>
+<td>Yes — Section III.A, <span class="arithmatex">\(a(\mathbf{x}_a)\)</span></td>
+<td>The foundation</td>
 </tr>
 <tr>
-<td>Fitness/energy <span class="arithmatex">\(E(s, \theta)\)</span></td>
-<td>Operator energy <span class="arithmatex">\(E(\hat{O}_\theta)\)</span></td>
-<td>Value-side → structure-side</td>
+<td>Concrete mapping <span class="arithmatex">\(\theta \mapsto s'\)</span></td>
+<td>Yes — navigation <span class="arithmatex">\((u + \Delta r\cos\Delta\theta, \ldots)\)</span>; matrix Eq. 11</td>
+<td>Multiple structured families</td>
 </tr>
 <tr>
-<td>Reinforcement field <span class="arithmatex">\(\nabla E\)</span></td>
-<td>Operator gradient flow</td>
-<td>Field guides optimization over <span class="arithmatex">\(\theta\)</span></td>
+<td>Parameter → operator map (generator)</td>
+<td>Yes, in nascent form — <span class="arithmatex">\(f_\theta\)</span></td>
+<td>Formal, reusable, differentiable <span class="arithmatex">\(\Phi\)</span></td>
 </tr>
 <tr>
-<td>GP value function</td>
-<td>Neural operator value</td>
-<td>Same role, different function class</td>
+<td>General nonlinear operators / families</td>
+<td>Anticipated</td>
+<td>Defined and instantiated</td>
 </tr>
 <tr>
-<td>Augmented space <span class="arithmatex">\((s, \theta)\)</span></td>
-<td>Operator manifold <span class="arithmatex">\(\{\hat{O}_\theta\}\)</span></td>
-<td>Geometric interpretation preserved</td>
+<td>Operator space, algebra, energy</td>
+<td>—</td>
+<td>Monoid/group/Lie, <span class="arithmatex">\(E(\hat{O})\)</span></td>
 </tr>
 <tr>
-<td>Experience particles</td>
-<td>Operator evaluations</td>
-<td>Same sampling philosophy</td>
-</tr>
-<tr>
-<td>Discretized <span class="arithmatex">\(\Theta\)</span></td>
-<td><strong>Continuous</strong> <span class="arithmatex">\(\Theta\)</span> via <span class="arithmatex">\(\Phi\)</span></td>
-<td><strong>Gap closed</strong></td>
+<td>Differentiable end-to-end pipeline</td>
+<td>—</td>
+<td>Yes</td>
 </tr>
 </tbody>
 </table>
-<p>The key difference: in GRL0, <span class="arithmatex">\(\theta\)</span> parameterized the value landscape but not the dynamics. In the operator framework, <span class="arithmatex">\(\theta\)</span> parameterizes the transformation itself via the generator <span class="arithmatex">\(\Phi\)</span>. The reinforcement field can still guide the search over <span class="arithmatex">\(\theta\)</span>, but now executing <span class="arithmatex">\(\theta\)</span> is well-defined at every point — not just at discretized bins.</p>
 <hr />
-<h2 id="8-summary">8. Summary<a class="headerlink" href="#8-summary" title="Permanent link">&para;</a></h2>
-<p>The action operator formalization provides three things that were missing from GRL0:</p>
-<ol>
-<li>
-<p><strong>A formal answer to "what is an action?"</strong> — It's a measurable function <span class="arithmatex">\(\hat{O}: \mathcal{S} \to \mathcal{S}\)</span>, not a symbol or parameter.</p>
-</li>
-<li>
-<p><strong>A formal bridge from parameters to transformations</strong> — The operator generator <span class="arithmatex">\(\Phi(\theta, s)\)</span> converts continuous parameters into executable state transformations, eliminating the need for discretization.</p>
-</li>
-<li>
-<p><strong>Rich algebraic structure</strong> — Composition, invertibility, Lie group structure, and energy functionals provide a mathematical framework for reasoning about action sequences, hierarchical control, and regularization.</p>
-</li>
-</ol>
-<p>Together, these enable a fully continuous, differentiable pipeline from state observation to state transformation — the original promise of GRL0, now realized.</p>
-<hr />
-<p><strong>Next:</strong> <a href="../03-from-fixed-to-learned-kernels/">Part 3: From Fixed Kernels to Learned Kernels</a> — extending the RKHS machinery via Mercer's theorem, the metric learning interpretation, and learned feature maps.</p>
-<hr />
-<p><strong>Related documents:</strong>
-- Operator base class: <code>src/grl/operators/base.py</code>
-- Operator families: <code>src/grl/operators/{affine,field,kernel}.py</code>
-- Operator generator: <code>src/grl/policies/generator.py</code></p>
+<p><strong>Back to:</strong> <a href="../01-the-grl0-gap/">Part 1: The GRL0 Gap</a> · <strong>Next:</strong> <a href="../02-action-operator-formalization/">Part 2: Action Operator Formalization</a></p>
 
 
 
