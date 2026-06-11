@@ -95,9 +95,10 @@ markdown_extensions:
   - pymdownx.tilde
 
 # Extra JavaScript for MathJax
+# (polyfill.io removed — that domain was compromised in 2024 and served malware;
+#  MathJax 3 needs no polyfill on modern browsers, so math still renders as before.)
 extra_javascript:
   - javascripts/mathjax.js
-  - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 
 # Extra CSS

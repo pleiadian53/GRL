@@ -122,6 +122,8 @@ $$s \xrightarrow{\pi_\psi} \theta \xrightarrow{\Phi} \hat{O}_\theta \xrightarrow
 
 No discretization needed. Gradients flow from the reward signal through the transition, through the operator generator, back to the policy parameters $\psi$. The reinforcement field and the execution mechanism are unified.
 
+The full learning mechanism this enables — the actor–critic loop, the supporting deep-RL components, and exactly how this gradient is computed — is developed in the [Learning with Action Operators](../learning_with_action_operator/00-overview.md) series.
+
 ---
 
 ## 4. The Proto-Operator in GRL0
