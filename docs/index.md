@@ -56,7 +56,7 @@ This formulation, inspired by the **least-action principle** in physics, leads t
 
 ### Part I: Reinforcement Fields — Particle-Based Learning
 
-**Status:** 🔄 In progress (9/10 chapters complete)
+**Status:** 🔄 In progress — see the [Research Roadmap](ROADMAP.md) for current chapter status
 
 Particle-based belief representation, energy landscapes, and functional learning over augmented state-action space.
 
@@ -66,8 +66,8 @@ Particle-based belief representation, energy landscapes, and functional learning
 |---------|----------|--------|
 | **Foundations** | [0](GRL0/tutorials/00-overview.md), [1](GRL0/tutorials/01-core-concepts.md), [2](GRL0/tutorials/02-rkhs-foundations.md), [3](GRL0/tutorials/03-energy-and-fitness.md) | Augmented space, particles, RKHS, energy |
 | **Field & Memory** | [4](GRL0/tutorials/04-reinforcement-field.md), [4a](GRL0/tutorials/04a-riesz-representer.md), [5](GRL0/tutorials/05-particle-memory.md), [6](GRL0/tutorials/06-memory-update.md), [6a](GRL0/tutorials/06a-advanced-memory-dynamics.md) | Functional fields, Riesz theorem, belief states, MemoryUpdate, advanced memory |
-| **Algorithms** | 7 | RF-SARSA (next) |
-| **Interpretation** | 8-10 | Soft transitions, POMDP, synthesis |
+| **Algorithms** | [7](GRL0/tutorials/07-rf-sarsa.md), [7a](GRL0/tutorials/07a-continuous-policy-inference.md), [7b](GRL0/tutorials/07b-rf-q-learning-and-convergence.md), [7c](GRL0/tutorials/07c-experience-replay-and-particle-memory.md) | RF-SARSA, continuous policy inference, RF-Q-learning, experience replay |
+| **Interpretation** | 8-10 | Soft transitions, POMDP, synthesis (planned) |
 
 ---
 
@@ -91,7 +91,7 @@ Spectral discovery of hierarchical concepts through functional clustering in RKH
 
 ### Quantum-Inspired Extensions
 
-**Status:** 🔬 Advanced topics (9 chapters complete)
+**Status:** 🔬 Advanced topics — see the [Research Roadmap](ROADMAP.md)
 
 Mathematical connections to quantum mechanics and novel probability formulations for ML.
 
@@ -103,6 +103,7 @@ Mathematical connections to quantum mechanics and novel probability formulations
 | **Complex RKHS** | [03](GRL0/quantum_inspired/03-complex-rkhs.md) | Complex-valued kernels, interference, phase semantics |
 | **Projections** | [04](GRL0/quantum_inspired/04-action-and-state-fields.md), [05](GRL0/quantum_inspired/05-concept-projections-and-measurements.md), [06](GRL0/quantum_inspired/06-agent-state-and-belief-evolution.md) | Action/state fields, concept subspaces, belief dynamics |
 | **Learning & Memory** | [07](GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md), [08](GRL0/quantum_inspired/08-memory-dynamics-formation-consolidation-retrieval.md) | Beyond GP, memory dynamics, principled consolidation |
+| **Paths & Kernels** | [09](GRL0/quantum_inspired/09-path-integrals-and-action-principles.md), [10](GRL0/quantum_inspired/10-complex-kernels-tutorial.md) | Path integrals and action principles, complex-kernel patterns |
 
 **Novel Contributions:**
 
@@ -168,13 +169,13 @@ pip install -e .
 python scripts/verify_installation.py
 ```
 
-Installation instructions coming soon.
+See **[INSTALL.md](https://github.com/pleiadian53/GRL/blob/main/INSTALL.md)** for detailed setup, troubleshooting, and GPU notes.
 
 ### First Steps
 
 1. **Read the tutorial**: Start with [Chapter 0: Overview](GRL0/tutorials/00-overview.md)
 2. **Explore concepts**: Work through [Chapter 1: Core Concepts](GRL0/tutorials/01-core-concepts.md)
-3. **Understand algorithms**: See the algorithm chapters (coming soon)
+3. **Understand algorithms**: Work through [Chapter 7: RF-SARSA](GRL0/tutorials/07-rf-sarsa.md) and its supplements on [continuous policy inference](GRL0/tutorials/07a-continuous-policy-inference.md) and [RF-Q-learning](GRL0/tutorials/07b-rf-q-learning-and-convergence.md)
 4. **Implement**: Follow the [implementation guide](GRL0/implementation/README.md)
 
 ---
@@ -190,7 +191,7 @@ GRL/
 │   └── visualization/          # Plotting tools
 ├── docs/                       # 📚 Public documentation
 │   └── GRL0/                   # Tutorial paper (Reinforcement Fields)
-│       ├── tutorials/          # Tutorial chapters (6/10 complete)
+│       ├── tutorials/          # Tutorial chapters
 │       ├── paper/              # Paper-ready sections
 │       └── implementation/     # Implementation specs
 ├── notebooks/                  # Jupyter notebooks
@@ -207,7 +208,7 @@ GRL/
 
 ### Tutorial Papers: Reinforcement Fields (Two Parts)
 
-**Part I: Particle-Based Learning** (6/10 chapters complete)
+**Part I: Particle-Based Learning**
 
 - **[Start Here](GRL0/tutorials/00-overview.md)** — Overview
 - **[Tutorials](GRL0/tutorials/README.md)** — Chapter-by-chapter learning
@@ -217,8 +218,10 @@ GRL/
 
 ### Additional Resources
 
+- **[Installation Guide](https://github.com/pleiadian53/GRL/blob/main/INSTALL.md)** — Detailed setup instructions
 - **[Implementation Guide](GRL0/implementation/README.md)** — Technical specifications
-- **[Research Roadmap](ROADMAP.md)** — Future directions
+- **[Research Roadmap](ROADMAP.md)** — Future directions. **The single source of truth for status**
+- **[Interactive Notebooks](notebooks/README.md)** — Jupyter demos with visualizations
 
 ---
 
@@ -246,7 +249,7 @@ The foundational work introducing particle-based belief states, reinforcement fi
 - MemoryUpdate and RF-SARSA algorithms
 - Emergent soft state transitions, POMDP interpretation
 
-**Status:** 🔄 Tutorial in progress (6/10 chapters complete)
+**Status:** 🔄 Tutorial in progress — see the [Research Roadmap](ROADMAP.md)
 
 **Part II: Emergent Structure & Spectral Abstraction**
 
@@ -434,6 +437,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Core Idea**: Actions as parametric operators that transform state space, with operator algebra providing compositional structure.
 
 **Key Innovation**: Operator manifolds replace fixed action spaces, enabling compositional behaviors and physical interpretability.
+
+**Four-Part Series:** [Part 1](action_operator/01-the-grl0-gap.md) (the GRL0 gap) · [Part 2](action_operator/02-action-operator-formalization.md) (formalization) · [Part 3](action_operator/03-from-fixed-to-learned-kernels.md) (learned kernels) · [Part 4](action_operator/04-the-minimum-viable-experiment.md) (the experiment)
+
+Parts 1-3 are theory. [Part 4](action_operator/04-the-minimum-viable-experiment.md) reports the first experiment, running in the sibling **[ssl-lab](https://github.com/pleiadian53/ssl-lab)** project on the Norman 2019 cell-perturbation dataset, a domain where an action genuinely is an operator and where held-out gene combinations test operator *composition* against measured biology. The headline result is **negative and reported as one**: the operator ties the flow it was meant to improve on, and a ceiling analysis shows the stage it occupies had only 0.031 of headroom to move the metric.
 
 ---
 
