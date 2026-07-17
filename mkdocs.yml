@@ -11,6 +11,13 @@ edit_uri: edit/main/docs/
 # Copyright
 copyright: Copyright &copy; 2026 GRL Research Team
 
+# docs/README.md is the landing page when browsing the docs/ directory on
+# GitHub; index.md is the landing page for the built site. They collide, so
+# exclude the former from the build. The leading slash scopes this to the docs
+# root — nested READMEs (GRL0/, notebooks/, ...) stay in the nav.
+exclude_docs: |
+  /README.md
+
 # Theme configuration
 theme:
   name: material
@@ -154,6 +161,16 @@ nav:
           - '09: Path Integrals': GRL0/quantum_inspired/09-path-integrals-and-action-principles.md
       - 'Implementation Guide': GRL0/implementation/README.md
       - 'Recovering Classical RL': GRL0/recovering_classical_rl.md
+  - 'Action Operators':
+      - 'Part 1: The GRL0 Gap': action_operator/01-the-grl0-gap.md
+      - 'Part 1a: The Action Operator in GRL0': action_operator/01a-what-grl0-already-had.md
+      - 'Part 2: Action Operator Formalization': action_operator/02-action-operator-formalization.md
+      - 'Part 3: From Fixed to Learned Kernels': action_operator/03-from-fixed-to-learned-kernels.md
+      - 'Part 4: The Minimum Viable Experiment': action_operator/04-the-minimum-viable-experiment.md
+      - 'Learning with Action Operators':
+          - 'Overview': learning_with_action_operator/00-overview.md
+          - '01: Actor-Critic and Components': learning_with_action_operator/01-actor-critic-and-components.md
+          - '02: How Gradients Flow': learning_with_action_operator/02-how-gradients-flow.md
   - 'Research Roadmap': ROADMAP.md
   - 'Notebooks':
       - 'Overview': notebooks/README.md
