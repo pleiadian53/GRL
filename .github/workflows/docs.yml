@@ -40,8 +40,13 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements-docs.txt
       
-      - name: Build documentation
-        run: mkdocs build
-      
+      # --strict turns doc warnings into failures, so broken links cannot reach
+      # the published site. This gate exists because six links differing from
+      # their targets only by case (03a_pg_in_ppo vs 03a_PG_in_PPO) resolved on
+      # a case-insensitive dev machine and 404'd on Pages, which serves from
+      # case-sensitive Linux. Local testing cannot catch that class; CI can.
+      - name: Build documentation (strict)
+        run: mkdocs build --strict
+
       - name: Deploy to GitHub Pages
         run: mkdocs gh-deploy --force
