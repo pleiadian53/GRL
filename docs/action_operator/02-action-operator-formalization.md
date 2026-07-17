@@ -1,7 +1,7 @@
 # Part 2: Action Operator Formalization — Definitions, Families, and Implementation
 
 **Series:** Action Operators in Generalized Reinforcement Learning  
-**Part:** 2 of 3  
+**Part:** 2 of 4  
 **Audience:** Self-reference and interview prep  
 **Prerequisites:** Part 1 (The GRL0 Gap)
 

@@ -1,7 +1,7 @@
 # Part 1: The GRL0 Gap — From Parametric Actions to the Operator Imperative
 
 **Series:** Action Operators in Generalized Reinforcement Learning  
-**Part:** 1 of 3  
+**Part:** 1 of 4  
 **Audience:** Self-reference and interview prep  
 **Prerequisites:** Familiarity with standard RL (MDP, Q-learning), basic functional analysis
 

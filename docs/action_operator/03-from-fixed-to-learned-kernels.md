@@ -1,7 +1,7 @@
 # Part 3: From Fixed Kernels to Learned Kernels — The Feature Map Extension
 
 **Series:** Action Operators in Generalized Reinforcement Learning  
-**Part:** 3 of 3  
+**Part:** 3 of 4  
 **Audience:** Self-reference and interview prep  
 **Prerequisites:** Parts 1-2, basic kernel methods, familiarity with deep metric learning
 
@@ -317,12 +317,15 @@ The progression is:
 2. **Part 2 (operator framework):** Right execution mechanism (action operators), different value representation (neural, not particle-based)
 3. **Learned kernels:** Bridges the two — keeps GRL0's particle/field semantics while enabling the operator framework and adaptive representations
 
-The full hybrid — operator-based actions with learned-kernel particle memory and equivariant feature maps — is the research frontier, with a minimum viable experiment still being scoped.
+The full hybrid — operator-based actions with learned-kernel particle memory and equivariant feature maps — is the research frontier.
+
+That frontier is where [Part 4](./04-the-minimum-viable-experiment.md) picks up. The minimum viable experiment is now running, on real cell-perturbation data in the sibling ssl-lab project, and it has produced the first working instance of §4.4's exponential map along with a result that constrains the theory rather than confirming it.
 
 ---
 
 **Related documents:**
 - Part 1: [The GRL0 Gap](./01-the-grl0-gap.md)
 - Part 2: [Action Operator Formalization](./02-action-operator-formalization.md)
+- Part 4: [The Minimum Viable Experiment](./04-the-minimum-viable-experiment.md)
 - [GRL0: Learning the Field Beyond GP](../GRL0/quantum_inspired/07-learning-the-field-beyond-gp.md)
 - Functional fields notebook: `notebooks/field_series/02_functional_fields.ipynb`

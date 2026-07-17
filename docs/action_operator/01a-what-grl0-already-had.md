@@ -1,7 +1,7 @@
 # Part 1a: The Action Operator in GRL0
 
 **Series:** Action Operators in Generalized Reinforcement Learning
-**Part:** 1a of 3 (supplement to [Part 1: The GRL0 Gap](./01-the-grl0-gap.md))
+**Part:** 1a of 4 (supplement to [Part 1: The GRL0 Gap](./01-the-grl0-gap.md))
 **Audience:** Readers who want to see how far GRL0 already took the action-operator idea.
 
 GRL0 introduced the action operator as a first-class concept and demonstrated it concretely. This note collects what the original paper contains — the worked example, the named definition, the matrix form, and an early version of the generator — so the relationship to the fully developed formalism in [Part 2](./02-action-operator-formalization.md) is clear.
