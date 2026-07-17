@@ -12,7 +12,9 @@
 
 ### Part I: Particle-Based Learning
 
-**Status:** ✅ 7/10 chapters complete
+**Status:** ✅ 8/10 chapters complete (00-07 written; 08-10 remain)
+
+> **This file is the single source of truth for status.** `README.md`, `docs/index.md`, and `docs/README.md` link here rather than asserting progress themselves. They previously carried four different counts for this one series (6, 7, 8, and 9 of 10, with `README.md` claiming both 9 and 6). Do not reintroduce a count elsewhere.
 
 | Chapter | Title | Status |
 |---------|-------|--------|
@@ -20,16 +22,21 @@
 | 01 | Core Concepts | ✅ Complete |
 | 02 | RKHS Foundations | ✅ Complete |
 | 03 | Energy and Fitness | ✅ Complete |
+| 03a | Least Action Principle | ✅ Complete |
 | 04 | Reinforcement Field | ✅ Complete |
 | 04a | Riesz Representer | ✅ Complete |
 | 05 | Particle Memory | ✅ Complete |
 | 06 | MemoryUpdate Algorithm | ✅ Complete |
-| **07** | **RF-SARSA Algorithm** | ⏳ Next |
-| **08** | **Soft State Transitions** | ⏳ Planned |
+| 06a | Advanced Memory Dynamics | ✅ Complete |
+| 07 | RF-SARSA Algorithm | ✅ Complete |
+| 07a | Continuous Policy Inference | ✅ Complete |
+| 07b | RF-Q-Learning and Convergence | ✅ Complete |
+| 07c | Experience Replay and Particle Memory | ✅ Complete |
+| **08** | **Soft State Transitions** | ⏳ Next |
 | **09** | **POMDP Interpretation** | ⏳ Planned |
 | **10** | **Practical Implementation** | ⏳ Planned |
 
-**Priority:** Complete Chapters 07-10 by February 2026
+**Priority:** Complete Chapters 08-10. The February 2026 target for 07-10 was met for 07 (with three supplements beyond plan) and missed for 08-10; a re-plan is due.
 
 ---
 
@@ -60,7 +67,7 @@
 
 ## Quantum-Inspired Extensions
 
-**Status:** 🔬 Advanced topics — 9 chapters complete  
+**Status:** 🔬 Advanced topics — 11 chapters complete  
 **Goal:** Explore mathematical connections to QM and novel probability formulations
 
 ### Completed Chapters
@@ -76,6 +83,8 @@
 | 06 | Agent State & Belief Evolution | What "the state" is in GRL |
 | 07 | Learning Beyond GP | Alternative learning mechanisms |
 | 08 | Memory Dynamics | Formation, consolidation, retrieval |
+| 09 | Path Integrals and Action Principles | Path-integral formulation and genuine quantum interference |
+| 10 | Complex Kernels Tutorial | Worked patterns for complex-valued kernels |
 
 ### Future Directions from These Chapters
 
@@ -170,7 +179,7 @@
 ### Paper A: Theoretical Foundations (Operator Framework)
 
 **Status:** 🟢 Draft Complete (~6,500 words), Figures in Progress  
-**Progress:** 70% — Theory done, figures 43%, proofs 40%, experiments 0%
+**Progress:** 70% — Theory done, figures 43%, proofs 40%, experiments underway in ssl-lab
 
 **Core Contribution:**
 
@@ -188,13 +197,28 @@
 - Proof outlines
 - Figure generation framework
 
+🔬 **Validation experiments — in progress, in the sibling project:**
+
+The minimum viable experiment is running in **[ssl-lab](https://github.com/pleiadian53/ssl-lab)** on the Norman 2019 cell-perturbation dataset, and is written up as [Part 4: The Minimum Viable Experiment](action_operator/04-the-minimum-viable-experiment.md). The domain was chosen because activating a gene genuinely transforms a cell's whole expression state, because held-out two-gene combinations test operator *composition* directly, and because biology independently measures the departure from additivity (genetic interaction), giving the commutator an external referent.
+
+What it has established:
+
+- **The exponential map is buildable.** §4.4's $A_\theta = \exp(M_\theta)$ now exists in working code. It does not exist in this repository, where the Lie-algebra parameterization is theory only and `matrix_exp` appears nowhere.
+- **The bracket has two readings**, and this is the interface between the projects: $[M_A, M_B]$ measures **epistasis** under simultaneous actions (only the swap-even part is identifiable) and **path-dependence** under sequential ones (the odd part becomes observable). ssl-lab validates the first; Paper A's contribution is the second.
+- **A negative headline, reported as one.** The operator ties the flow baseline ($\Delta r$ 0.645 vs 0.648, not significant) and both lose to a conditional NB-VAE (0.766). A ceiling analysis shows the transition stage had at most **0.031** of headroom, so the domain could not have distinguished a good operator from a bad one. The tie is not evidence for the linear/Koopman premise, and Paper A should not cite it as such.
+- **The compositional claim is refuted in the even half.** Round 4 tested whether $\lVert [M_A, M_B] \rVert_F$ predicts measured epistasis. It does not: four tests across both splits over all 111 pairs, the endpoint at $-0.070$ in-sample ($p = 0.75$) and $-0.262$ held-out ($p = 0.87$), and two post-hoc rescues that also failed, which strengthens the negative. The diagnosed cause is **identifiability**, not biology: each generator carries 65,536 parameters constrained only to match one marginal, so the bracket is free wherever the loss is silent. ssl-lab's operator thread is closed.
+- **The near-identity prior is a claim about a coordinate system, and it did not survive the encoder.** Fitting the response wants $\lVert M_g \rVert_F \approx 12$ ($\Delta r$ 0.629); a bracket inside the regime where the theorem applies wants $\approx 1$ ($\Delta r$ 0.497). The operator cannot do both and pays 0.13 to buy validity. "Effects are small shifts on a large baseline" is true of expression coordinates and false in latent ones. **This lands directly on Paper A**: §4.4's exponential map and §4.2's least-action energy both assume near-identity without saying near-identity of *what space*. Measure it, do not assume it. The $\lVert M \rVert$ gate that caught this is the round's most portable artifact; it nearly reported a fake refutation without it.
+- **Still untested: the odd half**, i.e. the raw bracket as path-dependence under sequential actions. That is Paper A's own claim, cell perturbation structurally cannot reach it ($T = 1$, no clock), and no experiment anywhere has tried it. See Part 4 §5.4 for which of the failure causes travel to a sequential domain and which do not.
+
 ⏳ **Remaining Work:**
 
 - 4 additional figures (energy landscapes, composition, convergence, policy viz)
 - Expand proofs (Appendices A)
 - Operator catalog (Appendix B)
 - Related work section
-- Validation experiments
+- Decide how Paper A reports the refuted even-half result. It is a genuine finding and belongs in the paper; the question is whether it lands here or in Paper B/C (see the tension noted above about whose job experiments are)
+- If the bracket returns as a training signal, it needs a parameterization that constrains it (a shared low-rank basis confining brackets to $\mathrm{span}([B_i, B_j])$), pre-registered as a new experiment rather than bolted on as a rescue
+- A sequential-action experiment, where the odd part of the bracket is observable — this is Paper A's own claim to test, and ssl-lab's $T = 1$ setting cannot reach it
 
 **Timeline:**
 
@@ -202,7 +226,9 @@
 - **March 2026:** Run experiments, related work, final polish
 - **April 2026:** Submit to NeurIPS/ICML 2026
 
-**Location:** `dev/papers/paper-a-theory/`
+**Timeline note (2026-07-16):** the dates above have slipped and are retained as the original plan of record. The experimental track moved to ssl-lab, which is where the operator work has actually progressed. A re-plan is due.
+
+**Location:** `dev/papers/paper-a-theory/` · refactor plan: `dev/planning/action_operator/grl-4-ssl-lab-refactor-plan.md`
 
 ---
 
