@@ -445,7 +445,7 @@ In **Chapter 6: MemoryUpdate Algorithm**, we'll explore:
 
 ---
 
-**Related**: [Chapter 4: Reinforcement Field](04-reinforcement-field.md), [Chapter 6: MemoryUpdate](06-algorithm-memory-update.md)
+**Related**: [Chapter 4: Reinforcement Field](04-reinforcement-field.md), [Chapter 6: MemoryUpdate](06-memory-update.md)
 
 ---
 

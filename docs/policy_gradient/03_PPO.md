@@ -262,6 +262,6 @@ $$L(\theta, \phi) = L^{\text{CLIP}}(\theta) - c_1 \, L^{\text{VF}}(\phi) + c_2 \
 
 *Previous: [Trust Region Policy Optimization (TRPO)](02_TRPO.md)* | *Next: [PPO Variants and Modern Descendants](04_PPO_variants.md)*
 
-*Supplement: [Where Is the Policy Gradient in PPO?](03a_pg_in_ppo.md) — why $\nabla_\theta$ seems to disappear in the ratio form*
+*Supplement: [Where Is the Policy Gradient in PPO?](03a_PG_in_PPO.md) — why $\nabla_\theta$ seems to disappear in the ratio form*
 
 [ppo-paper]: https://arxiv.org/abs/1707.06347

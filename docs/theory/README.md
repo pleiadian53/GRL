@@ -72,6 +72,9 @@ Here $a$ is the classical action vector, and the operator simply translates the 
 
 ## Next Steps
 
-- [Operator Families](operator_families.md): Explore different operator architectures
-- [Generalized Bellman](bellman.md): Value iteration with operators
-- [Least-Action](least_action.md): Physics-inspired regularization
+This page is the short version. The full treatment lives in the **Action Operators** series:
+
+- [Operator Families](../action_operator/02-action-operator-formalization.md#3-operator-families-concrete-realizations): affine, field, potential, kernel, and attention-based architectures
+- [The Generalized Bellman Equation](../action_operator/02-action-operator-formalization.md#5-the-generalized-bellman-equation): value iteration with operators, and the recovery of classical Bellman
+- [Least-Action Principle](../GRL0/tutorials/03a-least-action-principle.md): physics-inspired regularization
+- [The Minimum Viable Experiment](../action_operator/04-the-minimum-viable-experiment.md): the formalism tested against real data

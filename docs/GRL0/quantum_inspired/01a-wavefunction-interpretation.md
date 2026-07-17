@@ -844,7 +844,8 @@ This is not analogy—it is **mathematical identity**.
 ### Within This Tutorial
 
 - **Previous**: [RKHS and Quantum Mechanics: A Structural Parallel](01-rkhs-quantum-parallel.md)
-- **Next**: [Complex-Valued RKHS](02-complex-rkhs.md)
+- **Next**: [RKHS Basis and Amplitudes](02-rkhs-basis-and-amplitudes.md)
+- **Chapter 3**: [Complex-Valued RKHS](03-complex-rkhs.md)
 - **Part II** (forthcoming): Spectral methods and concept discovery
 
 ### Quantum Mechanics Foundations

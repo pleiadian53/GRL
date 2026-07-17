@@ -141,6 +141,13 @@ grl-visualize --checkpoint checkpoints/final_checkpoint.pt
 
 ## Next Steps
 
-- [Field Navigation Tutorial](field_navigation.md): Deep dive into the navigation environment
-- [Custom Operators](custom_operators.md): Define your own operator types
-- [Comparing with Baselines](../algorithms/baselines.md): SAC/PPO comparison
+Available now:
+
+- [Action Operator Formalization](../action_operator/02-action-operator-formalization.md): the operator families, and what defining a new one requires
+- [Theory Overview](../theory/README.md): the GRL tuple and the least-action principle in brief
+
+Planned, not yet written:
+
+- **Field Navigation Tutorial**: deep dive into the navigation environment
+- **Custom Operators**: a worked walkthrough of defining your own operator type
+- **Comparing with Baselines**: SAC/PPO comparison

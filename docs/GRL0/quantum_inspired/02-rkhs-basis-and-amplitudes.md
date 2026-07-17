@@ -345,7 +345,7 @@ If you extend RKHS to **complex values**, you get:
 - Born rule: $p(z) = |\psi(z)|^2$
 - **Interference effects** from phase!
 
-**This is exactly what you explore in** `02-complex-rkhs.md`!
+**This is exactly what you explore in** `03-complex-rkhs.md`!
 
 ---
 

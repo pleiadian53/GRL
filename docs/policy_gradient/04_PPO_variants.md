@@ -2,7 +2,7 @@
 
 **Where PPO breaks, why GRPO exists, and what "state of the art" means in 2026**
 
-> *Prerequisites: [PPO](03_PPO.md), [Where Is the Policy Gradient in PPO?](03a_pg_in_ppo.md)*
+> *Prerequisites: [PPO](03_PPO.md), [Where Is the Policy Gradient in PPO?](03a_PG_in_PPO.md)*
 
 ---
 
@@ -31,7 +31,7 @@ For an LLM generating a response of $T$ tokens, the full-sequence ratio is a **p
 
 $$r(\theta) = \prod_{t=1}^T \frac{\pi_\theta(a_t \mid s_t)}{\pi_{\theta_k}(a_t \mid s_t)}$$
 
-Products of many terms near 1.0 can still produce extreme values. If each per-token ratio deviates by $\pm 5\%$, the full-sequence ratio after 100 tokens can range from $0.006$ to $170$. Clipping helps, but it also **kills the gradient** for many samples (see [Chapter 03a, Section 5](03a_pg_in_ppo.md)), reducing sample efficiency.
+Products of many terms near 1.0 can still produce extreme values. If each per-token ratio deviates by $\pm 5\%$, the full-sequence ratio after 100 tokens can range from $0.006$ to $170$. Clipping helps, but it also **kills the gradient** for many samples (see [Chapter 03a, Section 5](03a_PG_in_PPO.md)), reducing sample efficiency.
 
 ### 1.3 Advantage Estimation Difficulty
 
@@ -261,7 +261,7 @@ For frontier LLM training (GPT-4, Claude, Gemini, DeepSeek), the trend is toward
 
 ## 6. Where PPO's Ratio Still Hides the Gradient
 
-A unifying observation across all these variants (except pure DPO/KTO): the **probability ratio** $r_t(\theta) = \pi_\theta / \pi_{\theta_k}$ remains the core mechanism. As shown in [Chapter 03a](03a_pg_in_ppo.md), differentiating this ratio recovers the score function:
+A unifying observation across all these variants (except pure DPO/KTO): the **probability ratio** $r_t(\theta) = \pi_\theta / \pi_{\theta_k}$ remains the core mechanism. As shown in [Chapter 03a](03a_PG_in_PPO.md), differentiating this ratio recovers the score function:
 
 $$\nabla_\theta \, r_t(\theta) = r_t(\theta) \; \nabla_\theta \log \pi_\theta(a_t \mid s_t)$$
 

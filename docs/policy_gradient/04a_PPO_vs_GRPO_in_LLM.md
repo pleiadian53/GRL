@@ -163,4 +163,4 @@ Both methods use the same PPO-style clipped objective and the same score functio
 
 ---
 
-*Previous: [PPO Variants and Modern Descendants](04_PPO_variants.md)* | *See also: [Where Is the Policy Gradient in PPO?](03a_pg_in_ppo.md)*
+*Previous: [PPO Variants and Modern Descendants](04_PPO_variants.md)* | *See also: [Where Is the Policy Gradient in PPO?](03a_PG_in_PPO.md)*

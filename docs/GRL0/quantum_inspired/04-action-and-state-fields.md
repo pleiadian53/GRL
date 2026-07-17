@@ -629,7 +629,8 @@ $$\pi(a|s) = \frac{\exp(\beta \, \psi_s(a))}{\int_{\Theta} \exp(\beta \, \psi_s(
 
 - **[Chapter 1a](01a-wavefunction-interpretation.md):** State Vector vs. Wavefunction
 - **[Chapter 2](02-rkhs-basis-and-amplitudes.md):** RKHS Basis and Amplitudes
-- **[Chapter 5 (future)](05-operators-and-dynamics.md):** Operators on the Reinforcement Field
+- **[Chapter 5](05-concept-projections-and-measurements.md):** Concept Projections and Measurements
+- **Operators on the Reinforcement Field:** the operator treatment landed in the [Action Operators](../../action_operator/02-action-operator-formalization.md) series rather than in this chapter slot
 
 ### GRL Tutorials
 

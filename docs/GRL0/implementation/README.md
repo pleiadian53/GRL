@@ -53,7 +53,7 @@ GRL-v0 is organized into **four layers** spanning both Part I (Reinforcement Fie
 
 **Part II (Layer 4)**: Emergent structure discovery, spectral concept formation, hierarchical control
 
-*Based on:* [Section V of the original paper](../../references/GRL-v0.pdf) (Chiu & Huber, 2022)
+*Based on:* Section V of the original paper, [arXiv:2208.04822](https://arxiv.org/abs/2208.04822) (Chiu & Huber, 2022)
 
 ---
 

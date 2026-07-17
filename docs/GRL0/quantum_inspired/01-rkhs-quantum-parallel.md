@@ -175,7 +175,7 @@ This is why Part II (Emergent Structure & Spectral Abstraction) uses spectral me
 
 ### 3. Richer Dynamics
 
-With complex-valued RKHS (see [next document](02-complex-rkhs.md)):
+With complex-valued RKHS (see [Chapter 3](03-complex-rkhs.md)):
 
 - **Interference effects** can guide learning
 - **Phase evolution** provides temporal dynamics
@@ -233,7 +233,8 @@ The quantum-inspired view explains *why* spectral methods work for concept disco
 
 - **Part I, Chapter 2**: [RKHS Foundations](../tutorials/02-rkhs-foundations.md)
 - **Part I, Chapter 4**: [Reinforcement Field](../tutorials/04-reinforcement-field.md)
-- **Next**: [Complex-Valued RKHS](02-complex-rkhs.md)
+- **Next**: [State Vector vs. Wavefunction](01a-wavefunction-interpretation.md)
+- **Chapter 3**: [Complex-Valued RKHS](03-complex-rkhs.md)
 
 ### External References
 

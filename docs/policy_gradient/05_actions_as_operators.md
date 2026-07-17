@@ -290,7 +290,7 @@ Combining them — policy gradient over operator parameters, with a reinforcemen
 | [01a](01a_parameterizing_policy.md) | Parameterizing the policy | Concrete distribution families |
 | [02](02_TRPO.md) | TRPO | KL-constrained trust regions |
 | [03](03_PPO.md) | PPO | Clipped ratio for stability |
-| [03a](03a_pg_in_ppo.md) | PG in PPO | Where $\nabla_\theta$ hides in the ratio |
+| [03a](03a_PG_in_PPO.md) | PG in PPO | Where $\nabla_\theta$ hides in the ratio |
 | [04](04_PPO_variants.md) | PPO variants | GRPO, DPO, critic-free methods |
 | **05** | **Actions as operators** | **From flat vectors to structured control; bridge to GRL** |
 

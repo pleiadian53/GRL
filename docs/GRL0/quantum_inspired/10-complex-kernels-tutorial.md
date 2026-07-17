@@ -235,7 +235,7 @@ $k_{\mathbb{C}}(z, z') = k_{\mathrm{RBF}}(z, z') \exp\!\bigl(i[\phi_\psi(z) - \p
 **What you get:** A data-adaptive phase structure that discovers whatever
 interference pattern actually helps on your task. Combines with the
 learned-kernel direction from
-[`dev/GRL_extensions/learned_kernels/00-scope.md`](../../../dev/GRL_extensions/learned_kernels/00-scope.md).
+`dev/GRL_extensions/learned_kernels/00-scope.md` (private development notes, not part of the published docs).
 
 **When it helps:** When none of Patterns 1–3 obviously applies but the task
 seems to have latent temporal or contextual structure.
@@ -500,9 +500,10 @@ that phase addresses.
 - [Chapter 09](09-path-integrals-and-action-principles.md) — path-integral
   formulation and genuine quantum interference; the Boltzmann readout
   (Choice 2 in §5) is the link.
-- [`dev/GRL_extensions/learned_kernels/`](../../../dev/GRL_extensions/learned_kernels/)
+- [Action Operators, Part 3](../../action_operator/03-from-fixed-to-learned-kernels.md)
   — learned feature maps; Pattern 4 (learned phase) is the complex-valued
-  analogue.
+  analogue. Scoping notes live in the private
+  `dev/GRL_extensions/learned_kernels/`.
 
 ---
 
